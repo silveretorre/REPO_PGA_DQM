@@ -553,7 +553,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" label="physical_person" name="physical_person">
+    <metadata comment="" connector="FLOW" label="physical_person" name="physical_person">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -606,7 +606,7 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
-    <metadata comment="" label="physical_person_address" name="physical_person_address">
+    <metadata comment="" connector="FLOW" label="physical_person_address" name="physical_person_address">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -700,7 +700,7 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
-    <metadata comment="" label="physical_person_email" name="physical_person_email">
+    <metadata comment="" connector="FLOW" label="physical_person_email" name="physical_person_email">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -738,7 +738,7 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
-    <metadata comment="" label="physical_person_phone" name="physical_person_phone_fixe">
+    <metadata comment="" connector="FLOW" label="physical_person_phone" name="physical_person_phone_fixe">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -827,7 +827,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="meta_brand_source" expression="&quot;MULTI&quot;" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="&quot;AUTOSPHERE_FR&quot;" type="id_String"/>
@@ -2179,14 +2179,14 @@
   <node componentName="tPostgresqlCommit" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlCommit_1" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tPostgresqlConnection_1"/>
-    <elementParameter field="CHECK" name="CLOSE" value="true"/>
+    <elementParameter field="CHECK" name="CLOSE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlCommit_1"/>
   </node>
   <node componentName="tPostgresqlRollback" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_1" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tPostgresqlConnection_1"/>
-    <elementParameter field="CHECK" name="CLOSE" value="true"/>
+    <elementParameter field="CHECK" name="CLOSE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlRollback_1"/>
   </node>
@@ -2201,6 +2201,11 @@
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
+  <node componentName="tPostgresqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="960">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlClose_2" show="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tPostgresqlConnection_1"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostgresqlConnection_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlConnection_1" target="tMysqlConnection_1">
@@ -2222,25 +2227,28 @@
   <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tPostgresqlRollback_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="physical_person_phone_portable" lineStyle="0" metaname="physical_person_phone_portable" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_5">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_phone_portable" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="physical_person" lineStyle="0" metaname="physical_person" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_1">
+  <connection connectorName="FLOW" label="physical_person" lineStyle="0" metaname="physical_person" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="physical_person_phone_fixe" lineStyle="0" metaname="physical_person_phone_fixe" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tPostgresqlOutput_4">
+  <connection connectorName="FLOW" label="physical_person_address" lineStyle="0" metaname="physical_person_address" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_phone_fixe" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_address" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="physical_person_email" lineStyle="0" metaname="physical_person_email" offsetLabelX="0" offsetLabelY="0" outputId="4" source="tMap_1" target="tPostgresqlOutput_3">
+  <connection connectorName="FLOW" label="physical_person_email" lineStyle="0" metaname="physical_person_email" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tPostgresqlOutput_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_email" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="physical_person_address" lineStyle="0" metaname="physical_person_address" offsetLabelX="0" offsetLabelY="0" outputId="5" source="tMap_1" target="tPostgresqlOutput_2">
+  <connection connectorName="FLOW" label="physical_person_phone_fixe" lineStyle="0" metaname="physical_person_phone_fixe" offsetLabelX="0" offsetLabelY="0" outputId="4" source="tMap_1" target="tPostgresqlOutput_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_address" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_phone_fixe" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="physical_person_phone_portable" lineStyle="0" metaname="physical_person_phone_portable" offsetLabelX="0" offsetLabelY="0" outputId="5" source="tMap_1" target="tPostgresqlOutput_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="physical_person_phone_portable" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tMysqlClose_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlClose_1" target="tPostgresqlClose_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk5" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostjob_1" offsetLabelX="0" offsetLabelY="0" source="tPostjob_1" target="tMysqlClose_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
@@ -2302,5 +2310,10 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlClose_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
 </talendfile:ProcessType>
