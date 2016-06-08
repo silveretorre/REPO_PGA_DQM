@@ -553,7 +553,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="physical_person" name="physical_person">
+    <metadata comment="" label="physical_person" name="physical_person">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -605,14 +605,16 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="define_missing_id_autosphere_fr" expression="null != prospect.idpropsect ? prospect.idpropsect.toString() : &quot;AFR_&quot; + Numeric.sequence(&quot;s1&quot;,1,1).toString() " type="id_String"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="physical_person" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person">
         <mapperTableEntries name="meta_brand_source" expression="&quot;MULTI&quot;" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="&quot;AUTOSPHERE_FR&quot;" type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="TalendDate.getCurrentDate() " type="id_Date"/>
         <mapperTableEntries name="meta_update_date" expression="TalendDate.getCurrentDate()" type="id_Date"/>
         <mapperTableEntries name="meta_consumed" expression="false" type="id_Boolean"/>
-        <mapperTableEntries name="meta_id_source" expression="prospect.idpropsect " type="id_String"/>
+        <mapperTableEntries name="meta_id_source" expression="Var.define_missing_id_autosphere_fr " type="id_String"/>
         <mapperTableEntries name="gender" expression="prospect.civil " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="prospect.prenom " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="prospect.nom " type="id_String" nullable="true"/>
