@@ -282,6 +282,7 @@
       <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -305,6 +306,7 @@
         <mapperTableEntries name="line_type" expression="phone.line_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number" expression="Var.phone_number " type="id_String" nullable="true"/>
         <mapperTableEntries name="country_code_ISO2" expression="country.country_code_ISO2 " type="id_String" nullable="true"/>
+        <mapperTableEntries name="hasCorrectCountryCode" expression="country.country_code_ISO2 != null ? true : false " type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String" nullable="true"/>
@@ -515,14 +517,15 @@
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="id_physical_person" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="id_organization_user" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="phone_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="phone_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="255" name="StandardizedPhoneNumber" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="IsValidPhoneNumber" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="IsPossiblePhoneNumber" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -582,6 +585,7 @@
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -604,11 +608,12 @@
         <mapperTableEntries name="original_number" expression="row3.original_number " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number_norm" expression="row3.StandardizedPhoneNumber " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number_std" expression="row3.StandardizedPhoneNumber " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="row3.PhoneNumberType " type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="row3.phone_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="row3.is_reachable_by_sms " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="row3.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="hasCorrectCountryCode" expression="row3.hasCorrectCountryCode " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_valid" expression="row3.IsValidPhoneNumber " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" expression="row3.line_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="row3.PhoneNumberType" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -619,14 +624,15 @@
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="id_physical_person" type="id_String" nullable="true"/>
         <mapperTableEntries name="id_organization_user" type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_number" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_code_ISO2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_valid" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_code_ISO2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="hasCorrectCountryCode" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="StandardizedPhoneNumber" type="id_String" nullable="true"/>
         <mapperTableEntries name="IsValidPhoneNumber" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="IsPossiblePhoneNumber" type="id_Boolean" nullable="true"/>
@@ -678,6 +684,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_phone"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="hasCorrectCountryCode"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_valid"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="line_type"/>
@@ -726,6 +734,7 @@
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -871,6 +880,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="is_reachable_by_sms"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="hasCorrectCountryCode"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="toStandardizePhone" show="false"/>
@@ -935,6 +947,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="phone_number_std"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="hasCorrectCountryCode"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
