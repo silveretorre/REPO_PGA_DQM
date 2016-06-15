@@ -1,0 +1,126 @@
+package routines;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/*
+ * user specification: the function's comment should contain keys as follows: 1. write about the function's comment.but
+ * it must be before the "{talendTypes}" key.
+ * 
+ * 2. {talendTypes} 's value must be talend Type, it is required . its value should be one of: String, char | Character,
+ * long | Long, int | Integer, boolean | Boolean, byte | Byte, Date, double | Double, float | Float, Object, short |
+ * Short
+ * 
+ * 3. {Category} define a category for the Function. it is required. its value is user-defined .
+ * 
+ * 4. {param} 's format is: {param} <type>[(<default value or closed list values>)] <name>[ : <comment>]
+ * 
+ * <type> 's value should be one of: string, int, list, double, object, boolean, long, char, date. <name>'s value is the
+ * Function's parameter name. the {param} is optional. so if you the Function without the parameters. the {param} don't
+ * added. you can have many parameters for the Function.
+ * 
+ * 5. {example} gives a example for the Function. it is optional.
+ */
+public class Synaltic_DQ_Name {
+
+    /**
+     * helloExample: not return value, only print "hello" + message.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} SDQ_Normalization
+     * 
+     * {param} string("world") input: The string need to be printed.
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+    public static String normalizeFirstName(String firstname) {
+        String normalizedFirstName = null;
+        if(firstname != null && !"".equals(firstname)) {
+        	String cleanUpFirstName = firstname.toUpperCase().trim();
+        	String incorrectValues = incorrectValues_FirstName(cleanUpFirstName);
+        	String removeSpecialValues = removeSpecialValues_FirstName(incorrectValues);
+        	normalizedFirstName = DQTechnical.removeTitle(org.apache.commons.lang.WordUtils.capitalizeFully(removeSpecialValues),1);
+        }
+        return normalizedFirstName;
+    }
+    
+    /**
+     * removeSpecialValues_FirstName: List of specific values (depends on the project) to remove from Firstname
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("world") input: The string need to be printed.
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+    private static String removeSpecialValues_FirstName(String firstname) {
+    	String result = null;
+    	if (firstname != null) {
+    		result = firstname.replaceAll("-", " ").replaceAll("\\.","");
+    	}
+    	return result;
+    }
+    
+    
+    /**
+     * incorrectValues_FirstName: List of specific values (depends on the project) that are incorrect and needs to be null
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("world") input: The string need to be printed.
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+    private static String incorrectValues_FirstName(String firstname) {
+    	if("NC".equals(firstname) || "--".equals(firstname) || ".".equals(firstname) ) {
+    		firstname = null;
+    	}
+    	return firstname;
+    }
+    
+    /**
+     * removeTitle: Returns the string without the title
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} Data Quality
+     * 
+     * {param} string("Mrs. Marty Smith") inStr: the string to be processed
+     * 
+     * {param} int(1) trimSpaces: 0 or 1 to trim spaces or not
+     * 
+     * {example} removeTitle(" Mrs. Marty Smith ", 1) # returns "Mrs."
+     */
+
+    public static String removeTitle(String inStr, int trimSpaces) {
+        if (inStr == null) {
+            return null;
+        }
+        Boolean debuget = false;
+        String outStr = inStr;
+
+        Pattern p = Pattern
+                .compile("^\\s?((Mr|Mrs|Ms|Miss|Dr|Herr|Monsieur|Hr|Frau|A V M|Admiraal|Admiral|Air Cdre|Air Commodore|Air Marshal|Air Vice Marshal|Alderman|Alhaji|Ambassador|Baron|Barones|Brig|Brig Gen|Brig General|Brigadier|Brigadier General|Brother|Canon|Capt|Captain|Cardinal|Cdr|Chief|Cik|Cmdr|Col|Col Dr|Colonel|Commandant|Commander|Commissioner|Commodore|Comte|Comtessa|Congressman|Conseiller|Consul|Conte|Contessa|Corporal|Councillor|Count|Countess|Crown Prince|Crown Princess|Dame|Datin|Dato|Datuk|Datuk Seri|Deacon|Deaconess|Dean|Dhr|Dipl Ing|Doctor|Dott|Dott sa|Dr|Dr Ing|Dra|Drs|Embajador|Embajadora|En|Encik|Eng|Eur Ing|Exma|Sra|Exmo Sr|F|O|Father|First Lieutient|First Officer|Flt Lieut|Flying Officer|Fr|Frau|Fraulein|Fru|Gen|Generaal|General|Governor|Graaf|Gravin|Group Captain|Grp Capt|H E Dr|H H|H M|H R H|Hajah|Haji|Hajim|Her Highness|Her Majesty|Herr|High Chief|His Highness|His Holiness|His Majesty|Hon|Hr|Hra|Ing|Ir|Jonkheer|Judge|Justice|Khun Ying|Kolonel|Lady|Lcda|Lic|Lieut|Lieut Cdr|Lieut Col|Lieut Gen|Lord|M|M L|M R|Madame|Mademoiselle|Maj Gen|Major|Master|Mevrouw|Miss|Mlle|Mme|Monsieur|Monsignor|Mr|Mrs|Ms|Mstr|Nti|Pastor|President|Prince|Princess|Princesse|Prinses|Prof|Prof Dr|Prof Sir|Professor|Puan|Puan Sri|Rabbi|Rear Admiral|Rev|Rev Canon|Rev Dr|Rev Mother|Reverend|Rva|Senator|Sergeant|Sheikh|Sheikha|Sig|Sig na|Sig ra|Sir|Sister|Sqn Ldr|Sr|Sr D|Sra|Srta|Sultan|Tan Sri|Tan Sri Dato|Tengku|Teuku|Than Puying|The Hon Dr|The Hon Justice|The Hon Miss|The Hon Mr|The Hon Mrs|The Hon Ms|The Hon Sir|The Very Rev|Toh Puan|Tun|Vice Admiral|Viscount|Viscountess|Wg Cdr)\\.?\\s)(.*)$");
+        Matcher m = p.matcher(inStr);
+
+        if (m.find()) {
+            outStr = m.group(3);
+            if (trimSpaces == 1) {
+                TalendString.talendTrim(outStr, ' ', 0);
+            }
+            if (debuget) {
+                System.err.println("name with title removed: \"" + outStr + "\"");
+            }
+        }
+
+        return outStr;
+    }
+}
