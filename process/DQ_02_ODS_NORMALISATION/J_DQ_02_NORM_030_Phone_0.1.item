@@ -286,7 +286,7 @@
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="country_short" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
@@ -309,8 +309,8 @@
         <mapperTableEntries name="is_reachable_by_phone" expression="phone.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="phone.line_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number" expression="Var.phone_number " type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_code_ISO2" expression="country.country_code_ISO2 " type="id_String" nullable="true"/>
-        <mapperTableEntries name="hasCorrectCountryCode" expression="country.country_code_ISO2 != null ? true : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="country_short" expression="address.country_short" type="id_String" nullable="true"/>
+        <mapperTableEntries name="hasCorrectCountryCode" expression="address.country_short != null ? true : false " type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -335,13 +335,9 @@
         <mapperTableEntries name="id_physical_person" expression="phone.id_physical_person " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="country_short" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="country" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="country_code" expression="address.country_short " type="id_String" nullable="true" operator="="/>
-        <mapperTableEntries name="country_code_ISO2" type="id_String" nullable="true"/>
-      </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="448">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -477,37 +473,10 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="448">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
-    <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
-    <elementParameter field="RADIO" name="USE_SINGLEMODE" value="false"/>
-    <elementParameter field="TABLE" name="VALUES" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="country_code"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="country_code_ISO2"/>
-      <elementValue elementRef="VALUE" value=""/>
-    </elementParameter>
-    <elementParameter field="RADIO" name="USE_INTABLE" value="true"/>
-    <elementParameter field="TABLE" name="INTABLE">
-      <elementValue elementRef="country_code" value="&quot;1&quot;"/>
-      <elementValue elementRef="country_code_ISO2" value="&quot;FR&quot;"/>
-      <elementValue elementRef="country_code" value="&quot;2&quot;"/>
-      <elementValue elementRef="country_code_ISO2" value="&quot;BE&quot;"/>
-    </elementParameter>
-    <elementParameter field="RADIO" name="USE_INLINECONTENT" value="false"/>
-    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;" show="false"/>
-    <elementParameter field="MEMO" name="INLINECONTENT" value="" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tFixedFlowInput_1">
-      <column comment="" key="false" length="-1" name="country_code" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tStandardizePhoneNumber" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tStandardizePhoneNumber_2" show="false"/>
     <elementParameter field="PREV_COLUMN_LIST" name="PHONE_NUMBER" value="phone_number"/>
-    <elementParameter field="PREV_COLUMN_LIST" name="COUNTRY_CODE" value="country_code_ISO2"/>
+    <elementParameter field="PREV_COLUMN_LIST" name="COUNTRY_CODE" value="country_short"/>
     <elementParameter field="CHECK" name="COUNTRY_CUSTOME" value="false"/>
     <elementParameter field="TEXT" name="COUNTRY_CODE_CUSTOME" value="&quot;FR&quot;" show="false"/>
     <elementParameter field="CLOSED_LIST" name="PHONE_NUMBER_FORMAT" value="E164"/>
@@ -528,7 +497,7 @@
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="country_code_ISO2" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="country_short" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="255" name="StandardizedPhoneNumber" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="IsValidPhoneNumber" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -636,7 +605,7 @@
         <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_code_ISO2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_short" type="id_String" nullable="true"/>
         <mapperTableEntries name="hasCorrectCountryCode" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="StandardizedPhoneNumber" type="id_String" nullable="true"/>
         <mapperTableEntries name="IsValidPhoneNumber" type="id_Boolean" nullable="true"/>
@@ -1025,10 +994,6 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="address" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="country" lineStyle="8" metaname="tFixedFlowInput_1" offsetLabelX="33" offsetLabelY="0" source="tFixedFlowInput_1" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="country" show="false"/>
-  </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tStandardizePhoneNumber_2" offsetLabelX="0" offsetLabelY="0" source="tStandardizePhoneNumber_2" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
@@ -1102,7 +1067,7 @@
   <note opaque="true" posX="480" posY="32" sizeHeight="97" sizeWidth="321" text="Normalization of Physical Person phone&#xA;&#xA;v0.1 (14/10/16) - CRO : first version">
     <elementParameter field="CHECK" name="FONT_BOLD" value="true"/>
   </note>
-  <note opaque="true" posX="288" posY="160" sizeHeight="97" sizeWidth="705" text="a améliorer :&#xA;&#xA;- Voir pour définir une règle de gestion selon les sources concernant les &quot;codes pays&quot;, si en vue de supprimer&#xA; le tFixedFlow&#xA;- Optimisation du temps de traitement">
+  <note opaque="true" posX="288" posY="160" sizeHeight="97" sizeWidth="705" text="a améliorer :&#xA;&#xA;- Optimisation du temps de traitement">
     <elementParameter field="COLOR" name="NOTE_COLOR" value="227;164;156"/>
     <elementParameter field="RADIO" name="NOTETXT_LEFT" value="true"/>
     <elementParameter field="RADIO" name="NOTETXT_CENTER" value="false"/>
