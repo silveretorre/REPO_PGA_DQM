@@ -23,7 +23,7 @@ public class SynalticDQ {
 	/**
 	 * @author Geoffrey Mathé
 	 * 
-	 * Cette fonction permet de normaliser les villes (suppression des accents, rajout de tirets pour séparer les noms de ville composé et mise en majuscule)
+	 * Cette fonction permet de normaliser les villes (suppression des accents,mise en majuscule, traitement du cas particulier des villes ayant l'acronyme "ST" pour "SAINT")
 	 * 
 	 */
 	
@@ -32,7 +32,8 @@ public class SynalticDQ {
 		
     	if(city != null && !"".equals(city)){
     	
-    		newCity = java.text.Normalizer.normalize(city, java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]","").toUpperCase();
+    		newCity = java.text.Normalizer.normalize(city, java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]","").toUpperCase().replaceAll("^ST", "SAINT").replaceAll(" ST ", " SAINT ");
+    		
     		
     	}
 		
