@@ -369,46 +369,45 @@ public class Synaltic_DQ {
 		
 		if (originalEmail != null && !("".equals(originalEmail.trim()))) { 
 			
-			emailStandardized = originalEmail.trim();
-			emailStandardized = emailStandardized.toLowerCase();
-			emailStandardized = emailStandardized.replaceAll(",", ".");
-			emailStandardized = emailStandardized.replaceAll("à", "@");
-			
-			if (!("nc".equals(emailStandardized.trim()))) {
+			if (!("nc".equalsIgnoreCase(emailStandardized.trim()))) {
 				
-				return emailStandardized;
-				
-			} else {
-			
-				return null;
+				if (!(originalEmail.toLowerCase().contains("inconnu"))) {
+					
+					emailStandardized = originalEmail.trim();
+					emailStandardized = emailStandardized.toLowerCase();
+					emailStandardized = emailStandardized.replaceAll(",", ".");
+					emailStandardized = emailStandardized.replaceAll("à", "@");					
+				}
 			}
 		}
+
+		return emailStandardized;
 	}    
 
-/**
- * validateEmail: Validate email
- * 
- * 
- * {talendTypes} String
- * 
- * {Category} DQ_Normalization_Mail
- * 
- * {param} string() 
- * 
- * {example} validateEmail("example@gmail.com") return true # 
- */
-public static boolean validateEmail(String mail) {
-    String email = mail;
-    
-    
-
-    EmailValidator emailvalidator = EmailValidator.getInstance();
-
-    if(emailvalidator.isValid(email)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+	/**
+	 * validateEmail: Validate email
+	 * 
+	 * 
+	 * {talendTypes} String
+	 * 
+	 * {Category} DQ_Normalization_Mail
+	 * 
+	 * {param} string() 
+	 * 
+	 * {example} validateEmail("example@gmail.com") return true # 
+	 */
+	public static boolean validateEmail(String mail) {
+	    String email = mail;
+	    
+	    
+	
+	    EmailValidator emailvalidator = EmailValidator.getInstance();
+	
+	    if(emailvalidator.isValid(email)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
 
 }
