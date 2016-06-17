@@ -134,6 +134,7 @@
     <routinesParameter id="_RCEvIC1eEeaLyJhW7Qb09g" name="TalendString"/>
     <routinesParameter id="_UadFUDLyEeaEEL-tk_jd4A" name="SynalticDQ"/>
     <routinesParameter id="_UzsH4DL2EeaBr8oXM7Hmnw" name="Synaltic_DQ_Name"/>
+    <routinesParameter id="_UadFUDLyEeaEEL-tk_jd4A" name="Synaltic_DQ"/>
   </parameters>
   <node componentName="Connection_OpenClose_DB_ODS" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="128" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Connection_OpenClose_DB_ODS_1"/>
@@ -288,9 +289,9 @@
       <column comment="" key="false" length="-1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="phone_number" expression="SynalticDQ.standardizePhone(phone.original_number)&#xA;&#xA;/*&#xA;(phone.original_number != null &amp;&amp; !(&quot;&quot;.equals(phone.original_number))) ? &#xA;&#x9;phone.original_number.replaceAll(&quot;,&quot;, &quot;.&quot;)&#xA;&#x9;: &#xA;&#x9;null&#xA;*/ " type="id_String"/>
+        <mapperTableEntries name="phone_number" expression="Synaltic_DQ.standardizePhone(phone.original_number)&#xA;&#xA;/*&#xA;(phone.original_number != null &amp;&amp; !(&quot;&quot;.equals(phone.original_number))) ? &#xA;&#x9;phone.original_number.replaceAll(&quot;,&quot;, &quot;.&quot;)&#xA;&#x9;: &#xA;&#x9;null&#xA;*/ " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="toStandardizePhone" expressionFilter="Var.phone_number != null" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="phone.meta_brand_source " type="id_String"/>
@@ -571,7 +572,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="toNormalizedPhoneTable" activateCondensedTool="true" id="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_phone">
         <mapperTableEntries name="meta_brand_source" expression="row3.meta_brand_source " type="id_String"/>
@@ -1045,13 +1046,13 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="phone" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tPostgresqlRollback_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
-  </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tPostgresqlCommit_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tPostgresqlRollback_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="toStandardizePhone" lineStyle="0" metaname="toStandardizePhone" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tStandardizePhoneNumber_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
