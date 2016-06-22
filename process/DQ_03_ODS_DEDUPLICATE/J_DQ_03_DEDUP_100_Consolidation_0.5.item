@@ -1114,14 +1114,12 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - dedup_physical_person_consolidation" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dedup_physical_person_consolidation&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;,&#xA;&#x9;COUNT(\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;) as grp_size&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;&#xA;GROUP BY \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1134,11 +1132,16 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="dedup_physical_person_consolidation" name="tPostgresqlInput_7">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -1153,30 +1156,22 @@
       <column comment="" key="false" length="255" name="gid_member" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
     </metadata>
   </node>
-  <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="1376">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_1" show="false"/>
-    <elementParameter field="CHECK" name="TSTATCATCHER_STATS" value="true"/>
-    <elementParameter field="TABLE" name="GROUPBYS">
-      <elementValue elementRef="OUTPUT_COLUMN" value="master_gid"/>
-      <elementValue elementRef="INPUT_COLUMN" value="master_gid"/>
-    </elementParameter>
-    <elementParameter field="TABLE" name="OPERATIONS">
-      <elementValue elementRef="OUTPUT_COLUMN" value="grp_size"/>
-      <elementValue elementRef="FUNCTION" value="count"/>
-      <elementValue elementRef="INPUT_COLUMN" value="master_gid"/>
-      <elementValue elementRef="IGNORE_NULL" value="false"/>
-    </elementParameter>
-    <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
-    <elementParameter field="CHECK" name="USE_FINANCIAL_PRECISION" value="true"/>
-    <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
-    <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="640" posY="1376">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
+    <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_Ao6HIDSXEeaG-dFiprH7ew-tMap_3-PREVIEW.bmp"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
+    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tAggregateRow_1">
+    <elementParameter field="CHECK" name="INFORMATION" value="true"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Add key to master_gid field for UPDATE action"/>
+    <metadata connector="FLOW" name="update_grp_size">
       <column comment="" key="true" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1184,6 +1179,18 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
+    <nodeData xsi:type="MapperData">
+      <uiProperties shellMaximized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="update_grp_size">
+        <mapperTableEntries name="master_gid" expression="row3.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="grp_size" expression="row3.grp_size" type="id_Integer" nullable="true"/>
+      </outputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
+      </inputTables>
+    </nodeData>
   </node>
   <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="1376">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
@@ -1516,7 +1523,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="deduplicate" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tAggregateRow_1">
+  <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tMap_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
@@ -1526,9 +1533,9 @@
   <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tPostgresqlRollback_3">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError3" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tAggregateRow_1" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_1" target="tPostgresqlOutput_3">
+  <connection connectorName="FLOW" label="update_grp_size" lineStyle="0" metaname="update_grp_size" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tPostgresqlOutput_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="update_grp_size" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlCommit_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlCommit_3" target="tPostgresqlInput_6">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5" show="false"/>
@@ -1579,7 +1586,7 @@
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
-  <note opaque="true" posX="192" posY="0" sizeHeight="225" sizeWidth="1281" text="Consolidation of Deduplication Rules&#xA;&#xA;v0.1 (06/17/16) - SVA : first version&#xA;v0.2 (06/21/16) - SMA : Improvements of first version&#xA;v0.3 (06/21/16) - SVA : Retrieve person with missing data from normalization that were not deduplicate. Add group size&#xA;v0.4 (06/22/16) - SVA : Add flow monitoring / Add deletion and creation of indexes">
+  <note opaque="true" posX="192" posY="0" sizeHeight="225" sizeWidth="1281" text="Consolidation of Deduplication Rules&#xA;&#xA;v0.1 (06/17/16) - SVA : first version&#xA;v0.2 (06/21/16) - SMA : Improvements of first version&#xA;v0.3 (06/21/16) - SVA : Retrieve person with missing data from normalization that were not deduplicate. Add group size&#xA;v0.4 (06/22/16) - SVA : Add flow monitoring / Add deletion and creation of indexes&#xA;v0.5 (06/22/16) - SVA : Replace group size calculation by SQL query instead of Talend component">
     <elementParameter field="CHECK" name="FONT_BOLD" value="true"/>
   </note>
   <subjob>
