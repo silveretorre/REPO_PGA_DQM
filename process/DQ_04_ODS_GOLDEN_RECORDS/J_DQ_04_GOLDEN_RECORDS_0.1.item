@@ -187,7 +187,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select d.*,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm,&#xD;&#xA;n.lastname_norm&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;join norm_physical_person_name n using (meta_brand_source, meta_application_name, meta_id_source) &#xD;&#xA;join ref_meta_application_name r using (meta_application_name) &#xD;&#xA;order by d.master_gid, r.golden_record_priority&#xD;&#xA;&quot;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select d.master_gid, d.grp_size, n.gender_norm ,n.firstname_norm, n.lastname_norm &#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;join norm_physical_person_name n using (meta_brand_source, meta_application_name, meta_id_source) &#xD;&#xA;join ref_meta_application_name r using (meta_application_name)&#xD;&#xA;order by d.master_gid, r.golden_record_priority;&#xD;&#xA;&quot;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -200,23 +200,23 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="firstname_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="lastname_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
-      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlInput_1">
-      <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="master_gid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="gender_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="firstname_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="lastname_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="256" posY="256">
@@ -249,10 +249,10 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
-        <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
