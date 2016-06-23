@@ -428,10 +428,16 @@
       <column comment="" key="false" length="255" name="language_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="gender_norm" expression="(civility.refValue != null) ?&#xD;&#xA;&#x9;&#x9;civility.refValue&#xD;&#xA;:&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;(physical.gender == null || &quot;&quot;.equals(physical.gender)) ?&#xD;&#xA;&#x9;&#x9;null&#xD;&#xA;&#x9;:&#xD;&#xA;&#x9;&#x9;&quot;N/A&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_std" expression="(civility.refValue != null) ?&#xD;&#xA;&#x9;&#x9;civility.refValue&#xD;&#xA;:&#xD;&#xA;&#x9;null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_norm" expression="Synaltic_DQ.normalizeLastName(physical.lastname) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_std" expression="Synaltic_DQ.standardizeLastName(physical.lastname) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_norm" expression="Synaltic_DQ.normalizeLastName(physical.birth_name) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_std" expression="Synaltic_DQ.standardizeLastName(physical.birth_name) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="final_lastname_norm" expression="(Var.lastname_norm != null) ? &#xA;&#x9;Var.lastname_norm&#xA;: &#xA;&#x9;Var.birth_name_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="final_lastname_std" expression="(Var.lastname_std != null) ? &#xA;&#x9;Var.lastname_std&#xA;: &#xA;&#x9;Var.birth_name_std " type="id_String" nullable="true"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="norm_physical_person_name" activateCondensedTool="true">
         <mapperTableEntries name="meta_brand_source" expression="physical.meta_brand_source " type="id_String"/>
@@ -447,11 +453,11 @@
         <mapperTableEntries name="firstname_norm" expression="Synaltic_DQ.normalizeFirstName(physical.firstname) " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_std" expression="Synaltic_DQ.standardizeFirstName(physical.firstname) " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="physical.lastname " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname_norm" expression="Synaltic_DQ.normalizeLastName(physical.lastname) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname_std" expression="Synaltic_DQ.standardizeLastName(physical.lastname) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_norm" expression="Var.final_lastname_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_std" expression="Var.final_lastname_std " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="physical.birth_name " type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name_norm" expression="Synaltic_DQ.normalizeLastName(physical.birth_name) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name_std" expression="Synaltic_DQ.standardizeLastName(physical.birth_name) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_norm" expression="Var.birth_name_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_std" expression="Var.birth_name_std " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="physical.birth_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="license_number" expression="physical.license_number " type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" expression="physical.country_license " type="id_String" nullable="true"/>
@@ -1069,7 +1075,7 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlRow_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlRow_3" target="tWarn_4">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk8" show="false"/>
   </connection>
-  <note opaque="true" posX="288" posY="32" sizeHeight="225" sizeWidth="705" text="Normalization of Physical Person data (firstname, lastname...)&#xA;&#xA;v0.1 (06/09/16) - SVA : first version&#xA;v0.2 (06/15/16) - SVA : Use routine Synaltic_DQ and update table schema (deceased field)&#xA;v0.3 (06/22/16) - SVA : Add flow monitoring / Add deletion and creation of indexes&#xA;">
+  <note opaque="true" posX="288" posY="32" sizeHeight="225" sizeWidth="705" text="Normalization of Physical Person data (firstname, lastname...)&#xA;&#xA;v0.1 (06/09/16) - SVA : first version&#xA;v0.2 (06/15/16) - SVA : Use routine Synaltic_DQ and update table schema (deceased field)&#xA;v0.3 (06/22/16) - SVA : Add flow monitoring / Add deletion and creation of indexes&#xA;v0.3 (06/23/16) - SVA : If no lastname take birth name&#xA;">
     <elementParameter field="CHECK" name="FONT_BOLD" value="true"/>
   </note>
   <note opaque="true" posX="384" posY="288" sizeHeight="64" sizeWidth="545" text="Replace tFixedFlowInput components by table">
