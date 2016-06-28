@@ -44,7 +44,7 @@
   </context>
   <parameters>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="256" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="288" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -189,7 +189,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select &#xD;&#xA;d.master_gid,&#xD;&#xA;d.grp_size, &#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date &#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join norm_physical_person_name n using (meta_brand_source, meta_application_name, meta_id_source) &#xD;&#xA;inner join ref_meta_application_name r using (meta_application_name)&#xD;&#xA;order by d.master_gid, r.golden_record_priority&#xD;&#xA;&quot;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xA;d.master_gid,&#xA;d.grp_size, &#xA;n.gender_norm ,&#xA;n.firstname_norm, &#xA;n.lastname_norm, &#xA;n.birth_date &#xA;from dedup_physical_person_consolidation d &#xA;inner join&#xA;(select name.meta_brand_source, name.meta_application_name, name.meta_id_source, name.gender_norm, name.firstname_norm, name.lastname_norm, name.birth_date&#xA;from public.norm_physical_person_name name&#xA;group by 1,2,3, 4, 5, 6, 7&#xA;) n on (d.meta_brand_source = n.meta_brand_source and d.meta_application_name = n.meta_application_name and d.meta_id_source = n.meta_id_source)&#xA;order by d.master_gid&#xD;&#xA;&quot;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -873,7 +873,7 @@
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
-  <note opaque="true" posX="224" posY="32" sizeHeight="129" sizeWidth="705" text="Normalization of Physical Person data (firstname, lastname...)&#xA;&#xA;v0.1 (06/21/16) - GMA : first version&#xA;v0.2 (06/23/16) - GMA : Add flow monitoring / Add deletion and creation of indexes&#xA;">
+  <note opaque="true" posX="224" posY="32" sizeHeight="129" sizeWidth="705" text="Normalization of Physical Person data (firstname, lastname...)&#xA;&#xA;v0.1 (06/21/16) - GMA : first version&#xA;v0.2 (06/23/16) - GMA : Add flow monitoring / Add deletion and creation of indexes&#xA;v0.3 (06/28/16) - SVA  : Change SQL Query to avoid duplicates from name norm table&#xA;">
     <elementParameter field="RADIO" name="NOTETXT_LEFT" value="true"/>
     <elementParameter field="RADIO" name="NOTETXT_CENTER" value="false"/>
     <elementParameter field="RADIO" name="NOTELABEL_CENTER" value="false"/>
