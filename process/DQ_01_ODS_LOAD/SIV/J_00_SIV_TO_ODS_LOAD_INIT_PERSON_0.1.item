@@ -990,15 +990,15 @@
         <mapperTableEntries name="meta_update_date" expression="TalendDate.getCurrentDate() " type="id_Date"/>
         <mapperTableEntries name="meta_consumed" expression="false" type="id_Boolean"/>
         <mapperTableEntries name="meta_id_source" expression="new Integer(siv.id_technique).toString() " type="id_String"/>
-        <mapperTableEntries name="no_physical_person_tit" expression="( ( !(null == siv.b1_tit_siren) &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_siren)) ) || ( (null == siv.b1_tit_prenom) || &quot;&quot;.equals(siv.b1_tit_prenom) ) ) ? true : false " type="id_Boolean"/>
-        <mapperTableEntries name="no_physical_person_loc" expression="( ( !(null == siv.b1_loc_siren) &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_siren)) ) || ( (null == siv.b1_loc_prenom) || &quot;&quot;.equals(siv.b1_loc_prenom) ) ) ? true : false " type="id_Boolean"/>
+        <mapperTableEntries name="is_physical_person_tit" expression="( ( !(null == siv.b1_tit_siren) &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_siren)) ) || ( (null == siv.b1_tit_prenom) || &quot;&quot;.equals(siv.b1_tit_prenom) ) ) ? false : true " type="id_Boolean"/>
+        <mapperTableEntries name="is_physical_person_loc" expression="( ( !(null == siv.b1_loc_siren) &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_siren)) ) || ( (null == siv.b1_loc_prenom) || &quot;&quot;.equals(siv.b1_loc_prenom) ) ) ? false : true " type="id_Boolean"/>
         <mapperTableEntries name="creation_date" expression="( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) ? TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv) : null " type="id_Date"/>
         <mapperTableEntries name="update_date" expression="( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) ? TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv) : null " type="id_Date"/>
         <mapperTableEntries name="date2007plus" expression="TalendDate.compareDate( &#xD;&#xA;TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)&#xD;&#xA;, &#xD;&#xA;TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,&quot;31/12/2006&quot;) ) == 1 " type="id_Boolean"/>
         <mapperTableEntries name="hasNameTit" expression="siv.b1_tit_nom_rso != null &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_rso))" type="id_Boolean"/>
         <mapperTableEntries name="hasNameLoc" expression="siv.b1_loc_nom_rso != null &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_nom_rso))" type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="physical_person_tit" minimized="true" expressionFilter="( Var.no_physical_person_tit == false ) &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person">
+      <outputTables sizeState="INTERMEDIATE" name="physical_person_tit" minimized="true" expressionFilter="Var.is_physical_person_tit &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
@@ -1018,7 +1018,7 @@
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="language_code" expression="" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="physical_person_loc" minimized="true" expressionFilter="( Var.no_physical_person_loc == false ) &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person">
+      <outputTables sizeState="INTERMEDIATE" name="physical_person_loc" minimized="true" expressionFilter="Var.is_physical_person_loc &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
@@ -1038,7 +1038,7 @@
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="language_code" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="physical_person_address_tit" minimized="true" expressionFilter="(Var.no_physical_person_tit == false) &amp;&amp; ( ( siv.b2_tit_adr_commune != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune )) ) || ( siv.b2_tit_adr_code_postal != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_code_postal)) ) ) &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person_address">
+      <outputTables sizeState="INTERMEDIATE" name="physical_person_address_tit" minimized="true" expressionFilter="Var.is_physical_person_tit &amp;&amp; ( ( siv.b2_tit_adr_commune != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune )) ) || ( siv.b2_tit_adr_code_postal != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_code_postal)) ) ) &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person_address">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
@@ -1071,7 +1071,7 @@
         <mapperTableEntries name="creation_date" expression="Var.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="physical_person_address_loc" minimized="true" expressionFilter="(Var.no_physical_person_loc == false) &amp;&amp; ( ( siv.b2_loc_adr_commune != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_commune )) ) || ( siv.b2_loc_adr_code_postal != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_code_postal)) ) ) &amp;&amp; ( Var.no_physical_person_loc == false ) &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person_address">
+      <outputTables sizeState="INTERMEDIATE" name="physical_person_address_loc" minimized="true" expressionFilter="Var.is_physical_person_loc &amp;&amp; ( ( siv.b2_loc_adr_commune != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_commune )) ) || ( siv.b2_loc_adr_code_postal != null &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_code_postal)) ) ) &amp;&amp; ( Var.is_physical_person_loc == false ) &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - physical_person_address">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
@@ -1104,7 +1104,7 @@
         <mapperTableEntries name="creation_date" expression="Var.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link_tit" minimized="true" expressionFilter="( Var.no_physical_person_tit == false ) &amp;&amp; ( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - vehicle_person_link">
+      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link_tit" minimized="true" expressionFilter="Var.is_physical_person_tit &amp;&amp; ( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) &amp;&amp; Var.hasNameTit &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - vehicle_person_link">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
@@ -1121,7 +1121,7 @@
         <mapperTableEntries name="creation_date" expression="Var.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link_loc" minimized="true" expressionFilter="( Var.no_physical_person_loc == false ) &amp;&amp; ( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) &amp;&amp; ( Var.no_physical_person_loc == false ) &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - vehicle_person_link">
+      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link_loc" minimized="true" expressionFilter="Var.is_physical_person_loc &amp;&amp; ( !(null==siv.b4_date_immat_siv) &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; (StringHandling.LEN(siv.b4_date_immat_siv)==10 ) ) &amp;&amp; ( Var.is_physical_person_loc == false ) &amp;&amp; Var.hasNameLoc &amp;&amp; Var.date2007plus" activateExpressionFilter="true" id="_MFPQcC1YEeaKmoVyeBW_yg - vehicle_person_link">
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="Var.meta_creation_date " type="id_Date"/>
