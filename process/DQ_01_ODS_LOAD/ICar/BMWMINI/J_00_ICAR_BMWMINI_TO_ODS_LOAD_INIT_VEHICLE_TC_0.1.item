@@ -622,7 +622,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  `TCVEH`.`NUMINTERNO`, &#xD;&#xA;  `TCVEH`.`CATEGORIA`, &#xD;&#xA;  `TCVEH`.`MARCA`, &#xD;&#xA;  `TCVEH`.`MODELO`, &#xD;&#xA;  `TCVEH`.`VERSION`, &#xD;&#xA;  `TCVEH`.`COLOR`, &#xD;&#xA;  `TCVEH`.`TAPIZ`, &#xD;&#xA;  `TCVEH`.`MATRIC`, &#xD;&#xA;  `TCVEH`.`CHASIS`, &#xD;&#xA;  `TCVEH`.`COMBUSTIBLE`, &#xD;&#xA;  `TCVEH`.`FECMATRICPRIMERA`, &#xD;&#xA;  `TCVEH`.`FECMATRICULTIMA`, &#xD;&#xA;  `TCVEH`.`BAJA`, &#xD;&#xA;  `TCVEH`.`BAJAFEC`, &#xD;&#xA;  `TCVEH`.`BAJAMOT`, &#xD;&#xA;  `TCVEH`.`FECVENTA`&#xD;&#xA;FROM `TCVEH`&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  `TCVEH`.`NUMINTERNO`, &#xD;&#xA;  `TCVEH`.`ESVO`, &#xD;&#xA;  `TCVEH`.`CATEGORIA`, &#xD;&#xA;  `TCVEH`.`MARCA`, &#xD;&#xA;  `TCVEH`.`MODELO`, &#xD;&#xA;  `TCVEH`.`VERSION`, &#xD;&#xA;  `TCVEH`.`COLOR`, &#xD;&#xA;  `TCVEH`.`TAPIZ`, &#xD;&#xA;  `TCVEH`.`MATRIC`, &#xD;&#xA;  `TCVEH`.`CHASIS`, &#xD;&#xA;  `TCVEH`.`COMBUSTIBLE`, &#xD;&#xA;  `TCVEH`.`FECMATRICPRIMERA`, &#xD;&#xA;  `TCVEH`.`FECMATRICULTIMA`, &#xD;&#xA;  `TCVEH`.`BAJA`, &#xD;&#xA;  `TCVEH`.`BAJAFEC`, &#xD;&#xA;  `TCVEH`.`BAJAMOT`, &#xD;&#xA;  `TCVEH`.`FECVENTA`&#xD;&#xA;FROM `TCVEH`&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -634,6 +634,8 @@
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTERNO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ESVO"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="CATEGORIA"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -670,6 +672,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tMysqlInput_3">
       <column comment="" defaultValue="" key="false" length="10" name="NUMINTERNO" nullable="false" pattern="" precision="0" sourceType="FLOAT" type="id_Float" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="5" name="ESVO" nullable="true" pattern="" precision="0" sourceType="FLOAT" type="id_Float" usefulColumn="true"/>
       <column comment="" key="false" length="3" name="CATEGORIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="MARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="MODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -868,7 +871,7 @@
         <mapperTableEntries name="equipements_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="equipements_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="equipements_external_identifier" type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_optional" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_optional" expression="tcVeh.ESVO " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="creation_date" expression="Var.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="Var.update_date " type="id_Date" nullable="true"/>
       </outputTables>
@@ -889,6 +892,7 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="tcVeh" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="NUMINTERNO" expression="tgVeh.VEHICULOMAESTRO " type="id_Float" operator="="/>
+        <mapperTableEntries name="ESVO" type="id_Float" nullable="true"/>
         <mapperTableEntries name="CATEGORIA" type="id_String" nullable="true"/>
         <mapperTableEntries name="MARCA" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="MODELO" type="id_String" nullable="true"/>
