@@ -133,7 +133,7 @@
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRowGenerator_1">
-      <column comment="" defaultValue="" key="false" length="-1" name="StreetNumber" nullable="true" pattern="" precision="-1" sourceType="" type="id_Float" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="StreetNumber" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="Road" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -155,10 +155,10 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="logrow">
-        <mapperTableEntries name="Address" expression="( null != row1.StreetNumber &amp;&amp; row1.StreetNumber != 0.0 ? String.valueOf(Math.round(row1.StreetNumber))+&quot; &quot; : &quot;&quot; ) + ( row1.Road ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Address" expression="( null != row1.StreetNumber &amp;&amp; !(&quot;&quot;.equals(row1.StreetNumber)) ? String.valueOf(Math.round(row1.StreetNumber))+&quot; &quot; : &quot;&quot; ) + ( row1.Road ) " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="StreetNumber" type="id_Float" nullable="true"/>
+        <mapperTableEntries name="StreetNumber" type="id_String" nullable="true"/>
         <mapperTableEntries name="Road" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
