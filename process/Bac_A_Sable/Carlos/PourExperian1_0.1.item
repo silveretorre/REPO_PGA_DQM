@@ -212,14 +212,14 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="tester">
-        <mapperTableEntries name="ID" type="id_String"/>
+        <mapperTableEntries name="ID" expression="conso.master_gid " type="id_String"/>
         <mapperTableEntries name="Nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="Adresse" type="id_String" nullable="true"/>
         <mapperTableEntries name="CodePostal" type="id_String" nullable="true"/>
         <mapperTableEntries name="Ville" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Email" type="id_String" nullable="true"/>
-        <mapperTableEntries name="TelFixe" type="id_String" nullable="true"/>
-        <mapperTableEntries name="TelPortable" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Email" expression="email.email_std " type="id_String" nullable="true"/>
+        <mapperTableEntries name="TelFixe" expression="&quot;FIXED_LINE&quot;.equals(phone.phone_type) ? phone.phone_number_std : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="TelPortable" expression="&quot;MOBILE&quot;.equals(phone.phone_type) ? phone.phone_number_std : null " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="conso" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -227,28 +227,28 @@
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="name" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="name" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="conso.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="conso.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="conso.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="gender_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_std" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="phone" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="conso.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="conso.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="conso.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="phone_number_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="email" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="email" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="conso.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="conso.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="conso.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="email_std" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="address" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="address" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -374,8 +374,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_name" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_name&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -504,8 +502,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_phone" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_phone&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -607,8 +603,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_email" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_email&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -701,8 +695,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_address" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_address&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
