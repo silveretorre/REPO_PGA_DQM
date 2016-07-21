@@ -1277,7 +1277,7 @@
         <mapperTableEntries name="meta_id_source" expression="Var.meta_id_source " type="id_String"/>
         <mapperTableEntries name="id_physical_person" expression="Var.meta_id_source " type="id_String" nullable="true"/>
         <mapperTableEntries name="id_organization_user" type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number_short" expression="String.valueOf(tgCliente.DIRPORTAL)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number_short" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(Math.round(tgCliente.DIRPORTAL)) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number_long" type="id_String" nullable="true"/>
         <mapperTableEntries name="routes_hort" expression="( &#xD;&#xA;( null != tgVia.DESCRIPLARGO &amp;&amp; !(&quot;&quot;.equals(tgVia.DESCRIPLARGO)) ? tgVia.DESCRIPLARGO+&quot; &quot; : &quot;&quot; ) + &#xD;&#xA;( null != tgCliente.DIRCALLE  &amp;&amp; !(&quot;&quot;.equals(tgCliente.DIRCALLE )) ? tgCliente.DIRCALLE +&quot; &quot; : &quot;&quot; )&#xD;&#xA;).trim() " type="id_String" nullable="true"/>
         <mapperTableEntries name="route_long" type="id_String" nullable="true"/>
@@ -7230,13 +7230,13 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgCliente" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tPostgresqlCommit_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
-  </connection>
   <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tPostgresqlRollback_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tPostgresqlCommit_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="physical_person" lineStyle="0" metaname="physical_person" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
