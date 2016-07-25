@@ -419,14 +419,14 @@
       <column comment="" key="false" length="255" name="ContactPublicFax" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="ContactPublicMail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="ContactIsActive" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="20" name="ContactUpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="CodeLaCentrale" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="IsActive" nullable="true" pattern="" precision="-1" sourceType="BIT" type="id_Boolean" originalLength="1" usefulColumn="true"/>
-      <column comment="" key="false" length="20" name="UpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="refCE" expressionFilter="!&quot;aaaa&quot;.equals(ceAfr.X_INITIALE)" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="refCE" expressionFilter="!(&quot;aaaa&quot;.equals(ceAfr.X_INITIALE))" activateExpressionFilter="true">
         <mapperTableEntries name="CodePVO" expression="ceAfr.X_INITIALE " type="id_String"/>
         <mapperTableEntries name="NomPGA" expression="ceAfr.nom " type="id_String" nullable="true"/>
         <mapperTableEntries name="NomPublic" expression="ceTelRouge.CE_Nom " type="id_String" nullable="true"/>
@@ -446,9 +446,9 @@
         <mapperTableEntries name="ContactPublicFax" expression="ceContact.TelephoneFixe " type="id_String" nullable="true"/>
         <mapperTableEntries name="ContactPublicMail" expression="ceContact.Email " type="id_String" nullable="true"/>
         <mapperTableEntries name="ContactIsActive" expression="ceContact.IsActive " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="ContactUpdateDate" expression="( null != ceContact.DateModification &amp;&amp; !(&quot;&quot;.equals(ceContact.DateModification)) ) ? ceContact.DateModification : null " type="id_Date" nullable="true"/>
         <mapperTableEntries name="CodeLaCentrale" expression="ceAfr.code_lacentrale " type="id_String" nullable="true"/>
         <mapperTableEntries name="IsActive" expression="ceAfr.publication_pdv " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="UpdateDate" expression="ceContact.DateModification  " type="id_Date" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ceAfr" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="X_INITIALE" type="id_String"/>
@@ -636,17 +636,17 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ContactUpdateDate"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="CodeLaCentrale"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="IsActive"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="UpdateDate"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -680,9 +680,9 @@
       <column comment="" key="false" length="255" name="ContactPublicFax" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="ContactPublicMail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="ContactIsActive" nullable="true" pattern="" precision="-1" sourceType="BIT" type="id_Boolean" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="20" name="ContactUpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="CodeLaCentrale" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="IsActive" nullable="true" pattern="" precision="-1" sourceType="BIT" type="id_Boolean" originalLength="1" usefulColumn="true"/>
-      <column comment="" key="false" length="20" name="UpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="siv_add" name="REJECT">
       <column comment="" key="true" length="255" name="CodePVO" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -704,9 +704,9 @@
       <column comment="" key="false" length="255" name="ContactPublicFax" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="ContactPublicMail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="ContactIsActive" nullable="true" pattern="" precision="-1" sourceType="BIT" type="id_Boolean" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="20" name="ContactUpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="CodeLaCentrale" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="IsActive" nullable="true" pattern="" precision="-1" sourceType="BIT" type="id_Boolean" originalLength="1" usefulColumn="true"/>
-      <column comment="" key="false" length="20" name="UpdateDate" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="DATETIME" type="id_Date" originalLength="20" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
