@@ -415,5 +415,124 @@ public class Synaltic_DQ {
 	    return EmailValidator.getInstance().isValid(mail);
 
 	}
+	
+	/**
+	 * validateEmail: Validate and Normalize registration number
+	 * 
+	 * 
+	 * {talendTypes} String
+	 * 
+	 * {Category} DQ_Normalization_RegistrationNumber
+	 * 
+	 * {param} string() 
+	 * 
+	 * {example} validateEmail("example@gmail.com") return true # 
+	 */
+	public static String normalizeRegistrationNumber(String RN) {
+        String normalizedRN = null;
+        String normalizeFinal = null;
+        
+        if(RN != null && !"".equals(RN)) {
+        	normalizedRN =RN.replaceAll("-", "").replaceAll(" ", "").replaceAll(".", "").replaceAll(";", "");
+        	
+         	if(IsNewRegistration(normalizedRN) == true){
+         		
+         		normalizeFinal = FormatNewRN(normalizedRN);
+         	}
+         	if(IsOldRegistration(normalizedRN)== true){
+         		
+         		normalizeFinal = FormatOldRN(normalizedRN);
+         		
+         	}
+        }
+        
+        return normalizeFinal;
+    }  
+    
+	/**
+	 * validateEmail: Validate email
+	 * 
+	 * 
+	 * {talendTypes} String
+	 * 
+	 * {Category} DQ_Normalization_Mail
+	 * 
+	 * {param} string() 
+	 * 
+	 * {example} validateEmail("example@gmail.com") return true # 
+	 */
+	
+public static String FormatNewRN(String RN){
+	
+	if (RN.length() == 7){
+	String RNformated = null;
+	String FirstBlock = null;
+	String SecondBlock = null;
+	String ThirdBlock = null;
+	
+	FirstBlock = RN.substring(0,2);
+	SecondBlock = RN.substring(2,5);
+	ThirdBlock = RN.substring(5,7);
+
+	RNformated = FirstBlock + "-" + SecondBlock + "-" + ThirdBlock;
+	return RNformated;
+			}
+	return RN;
+}
+
+public static String FormatOldRN(String RN){
+	
+	if (RN.length() == 8){
+	String RNformated = null;
+	String FirstBlock = null;
+	String SecondBlock = null;
+	String ThirdBlock = null;
+	
+	FirstBlock = RN.substring(0,3);
+	SecondBlock = RN.substring(3,6);
+	ThirdBlock = RN.substring(6,8);
+
+	RNformated = FirstBlock + "-" + SecondBlock + "-" + ThirdBlock;
+	return RNformated;
+			}
+	return RN;
+}
+    
+
+public static Boolean IsNewRegistration (String RN){
+	
+	if(RN != null && !"".equals(RN)){
+		
+		Pattern RNPattern = Pattern.compile("^([A-Z]{1,2}{0,1})[0-9]{1,3}([A-Z]{0,2}{0,1})$");
+		Matcher RNMatcher = RNPattern.matcher(RN);
+		if (RNMatcher.find()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	return false;
+}
+
+public static Boolean IsOldRegistration (String RN){
+	
+	if(RN != null && !"".equals(RN)){
+		
+		Pattern RNPattern = Pattern.compile("^([0-9]{1,4}{0,1})([A-Z]{1,3})({0,1}[0-9]{1,2}[A-Z0-9]{0,1})$");
+		Matcher RNMatcher = RNPattern.matcher(RN);
+		if (RNMatcher.find()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	return false;
+}
 
 }
+
+
+
+
