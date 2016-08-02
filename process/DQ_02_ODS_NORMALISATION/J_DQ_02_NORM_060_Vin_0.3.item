@@ -709,7 +709,9 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="isValidVin" expression="Synaltic_DQ.isValidVin(row1.vin) " type="id_Boolean"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out">
         <mapperTableEntries name="meta_brand_source" expression="row1.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row1.meta_application_name" type="id_String"/>
@@ -722,8 +724,8 @@
         <mapperTableEntries name="version" expression="row1.version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="row1.kind" type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="row1.vin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin_norm" expression="row1.vin != null ? row1.vin.replaceAll(&quot;o&quot;,&quot;0&quot;).replaceAll(&quot;O&quot;,&quot;0&quot;):row1.vin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin_std" expression="row1.vin != null ? row1.vin.replaceAll(&quot;o&quot;,&quot;0&quot;).replaceAll(&quot;O&quot;,&quot;0&quot;):row1.vin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin_norm" expression="Var.isValidVin == true ? row1.vin : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin_std" expression="Var.isValidVin == true ? row1.vin : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="row1.energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="row1.color" type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="row1.national_identification_type" type="id_String" nullable="true"/>
