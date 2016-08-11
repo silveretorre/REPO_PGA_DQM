@@ -1454,6 +1454,12 @@
       <column comment="" key="false" length="255" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="id_profil" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="id_organization_user_1" nullable="true" originalDbColumnName="id_organization_user" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="is_valid_1" nullable="true" originalDbColumnName="is_valid" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="is_reachable_1" nullable="true" originalDbColumnName="is_reachable" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1502,6 +1508,12 @@
         <mapperTableEntries name="network_name" expression="digital.network_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="id_profil" expression="digital.id_profil " type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="digital.url " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email" expression="mail.email " type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_organization_user_1" expression="mail.id_organization_user " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_norm" expression="mail.email_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_valid_1" expression="mail.is_valid " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_1" expression="mail.is_reachable " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" expression="mail.email_type " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -1598,15 +1610,36 @@
       <inputTables sizeState="INTERMEDIATE" name="digital" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="row2.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row2.meta_application_name " type="id_String"/>
+        <mapperTableEntries name="meta_creation_date" expression="" type="id_Date"/>
+        <mapperTableEntries name="meta_update_date" type="id_Date"/>
+        <mapperTableEntries name="meta_consumed" type="id_Boolean"/>
+        <mapperTableEntries name="meta_id_source" expression="row2.meta_id_source " type="id_String"/>
+        <mapperTableEntries name="id_physical_person" type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_organization_user" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_std" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_valid" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="creation_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="mail" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="row2.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="row2.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" type="id_Date"/>
         <mapperTableEntries name="meta_update_date" type="id_Date"/>
         <mapperTableEntries name="meta_consumed" type="id_Boolean"/>
         <mapperTableEntries name="meta_id_source" expression="row2.meta_id_source " type="id_String"/>
         <mapperTableEntries name="id_physical_person" type="id_String" nullable="true"/>
         <mapperTableEntries name="id_organization_user" type="id_String" nullable="true"/>
-        <mapperTableEntries name="network_name" type="id_String"/>
-        <mapperTableEntries name="id_profil" type="id_String" nullable="true"/>
-        <mapperTableEntries name="url" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_std" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_valid" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -2135,8 +2168,8 @@
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
     <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - physical_person_digital_details" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;physical_person_digital_details&quot;"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_email" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_email&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
@@ -2168,11 +2201,17 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="id_organization_user"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="network_name"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="id_profil"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="url"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_std"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_valid"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_type"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="creation_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2181,7 +2220,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="physical_person_digital_details" name="tPostgresqlInput_10">
+    <metadata connector="FLOW" label="norm_physical_person_email" name="tPostgresqlInput_10">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2206,13 +2245,22 @@
       <column comment="" key="false" length="255" name="id_organization_user" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="network_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="id_profil" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="email_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
@@ -2323,6 +2371,18 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="url"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="id_organization_user_1"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_norm"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_valid_1"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_1"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_type"/>
+      <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
@@ -2371,6 +2431,12 @@
       <column comment="" key="false" length="255" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="id_profil" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="id_organization_user_1" nullable="true" originalDbColumnName="id_organization_user" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="is_valid_1" nullable="true" originalDbColumnName="is_valid" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="is_reachable_1" nullable="true" originalDbColumnName="is_reachable" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="1024">
@@ -2382,11 +2448,6 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="main"/>
       <elementValue elementRef="ORDER" value="1"/>
-      <elementValue elementRef="PATH" value="/rootTag/master_gid"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="2"/>
       <elementValue elementRef="PATH" value="/rootTag/gender_norm"/>
       <elementValue elementRef="COLUMN" value="gender_norm"/>
       <elementValue elementRef="VALUE" value=""/>
@@ -2442,139 +2503,239 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="13"/>
-      <elementValue elementRef="PATH" value="/rootTag/Phone"/>
+      <elementValue elementRef="PATH" value="/rootTag/Address"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="36"/>
+      <elementValue elementRef="ORDER" value="14"/>
       <elementValue elementRef="PATH" value="class"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="array"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="37"/>
-      <elementValue elementRef="PATH" value="/rootTag/Phone/phone_number_norm"/>
-      <elementValue elementRef="COLUMN" value="phone_number_norm"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="38"/>
-      <elementValue elementRef="PATH" value="type"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value="string"/>
-      <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="39"/>
-    </elementParameter>
-    <elementParameter field="TABLE" name="GROUP" show="false"/>
-    <elementParameter field="TABLE" name="LOOP" show="false">
-      <elementValue elementRef="PATH" value="/rootTag/Address"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="main"/>
-      <elementValue elementRef="ORDER" value="14"/>
+      <elementValue elementRef="ORDER" value="15"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/postal_code_short_norm"/>
       <elementValue elementRef="COLUMN" value="postal_code_short_norm"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="15"/>
+      <elementValue elementRef="ORDER" value="16"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/postal_code_short_std"/>
       <elementValue elementRef="COLUMN" value="postal_code_short_std"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="16"/>
+      <elementValue elementRef="ORDER" value="17"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/locality_short_norm"/>
       <elementValue elementRef="COLUMN" value="locality_short_norm"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="17"/>
+      <elementValue elementRef="ORDER" value="18"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/id_organization_user"/>
       <elementValue elementRef="COLUMN" value="id_organization_user"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="18"/>
+      <elementValue elementRef="ORDER" value="19"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/street_number_short"/>
       <elementValue elementRef="COLUMN" value="street_number_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="19"/>
+      <elementValue elementRef="ORDER" value="20"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/street_number_long"/>
       <elementValue elementRef="COLUMN" value="street_number_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="20"/>
+      <elementValue elementRef="ORDER" value="21"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/routes_short"/>
       <elementValue elementRef="COLUMN" value="routes_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="21"/>
+      <elementValue elementRef="ORDER" value="22"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/route_long"/>
       <elementValue elementRef="COLUMN" value="route_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="22"/>
+      <elementValue elementRef="ORDER" value="23"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/sublocality_short"/>
       <elementValue elementRef="COLUMN" value="sublocality_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="23"/>
+      <elementValue elementRef="ORDER" value="24"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/sublocality_long"/>
       <elementValue elementRef="COLUMN" value="sublocality_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="24"/>
+      <elementValue elementRef="ORDER" value="25"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea1_short"/>
       <elementValue elementRef="COLUMN" value="admarea1_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="25"/>
+      <elementValue elementRef="ORDER" value="26"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea1_long"/>
       <elementValue elementRef="COLUMN" value="admarea1_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="26"/>
+      <elementValue elementRef="ORDER" value="27"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea2_short"/>
       <elementValue elementRef="COLUMN" value="admarea2_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="27"/>
+      <elementValue elementRef="ORDER" value="28"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea2_long"/>
       <elementValue elementRef="COLUMN" value="admarea2_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="28"/>
+      <elementValue elementRef="ORDER" value="29"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea3_short"/>
       <elementValue elementRef="COLUMN" value="admarea3_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="29"/>
+      <elementValue elementRef="ORDER" value="30"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/admarea3_long"/>
       <elementValue elementRef="COLUMN" value="admarea3_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="30"/>
+      <elementValue elementRef="ORDER" value="31"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/country_short"/>
       <elementValue elementRef="COLUMN" value="country_short"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="31"/>
+      <elementValue elementRef="ORDER" value="32"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/country_long"/>
       <elementValue elementRef="COLUMN" value="country_long"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="32"/>
+      <elementValue elementRef="ORDER" value="33"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/address"/>
       <elementValue elementRef="COLUMN" value="address"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="33"/>
+      <elementValue elementRef="ORDER" value="34"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/is_reachable"/>
       <elementValue elementRef="COLUMN" value="is_reachable"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="34"/>
+      <elementValue elementRef="ORDER" value="35"/>
       <elementValue elementRef="PATH" value="/rootTag/Address/address_type"/>
       <elementValue elementRef="COLUMN" value="address_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="35"/>
+      <elementValue elementRef="ORDER" value="36"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="37"/>
+      <elementValue elementRef="PATH" value="class"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="array"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="38"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/phone_number_norm"/>
+      <elementValue elementRef="COLUMN" value="phone_number_norm"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="39"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/phone_type"/>
+      <elementValue elementRef="COLUMN" value="phone_type"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="40"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/line_type"/>
+      <elementValue elementRef="COLUMN" value="line_type"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="41"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/is_reachable_by_sms"/>
+      <elementValue elementRef="COLUMN" value="is_reachable_by_sms"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="42"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/is_reachable_by_phone"/>
+      <elementValue elementRef="COLUMN" value="is_reachable_by_phone"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="43"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/hasCorrectCountryCode"/>
+      <elementValue elementRef="COLUMN" value="hasCorrectCountryCode"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="44"/>
+      <elementValue elementRef="PATH" value="/rootTag/Phone/is_valid"/>
+      <elementValue elementRef="COLUMN" value="is_valid"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="45"/>
+      <elementValue elementRef="PATH" value="/rootTag/DigitalDetails"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="46"/>
+      <elementValue elementRef="PATH" value="class"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="array"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="47"/>
+      <elementValue elementRef="PATH" value="/rootTag/DigitalDetails/network_name"/>
+      <elementValue elementRef="COLUMN" value="network_name"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="48"/>
+      <elementValue elementRef="PATH" value="/rootTag/DigitalDetails/id_profil"/>
+      <elementValue elementRef="COLUMN" value="id_profil"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="49"/>
+      <elementValue elementRef="PATH" value="/rootTag/DigitalDetails/url"/>
+      <elementValue elementRef="COLUMN" value="url"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="50"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="51"/>
+      <elementValue elementRef="PATH" value="class"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="array"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="52"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/email"/>
+      <elementValue elementRef="COLUMN" value="email"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="53"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/id_organization_user_1"/>
+      <elementValue elementRef="COLUMN" value="id_organization_user_1"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="54"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/email_norm"/>
+      <elementValue elementRef="COLUMN" value="email_norm"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="55"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/is_valid_1"/>
+      <elementValue elementRef="COLUMN" value="is_valid_1"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="56"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/is_reachable_1"/>
+      <elementValue elementRef="COLUMN" value="is_reachable_1"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="57"/>
+      <elementValue elementRef="PATH" value="/rootTag/Email/email_type"/>
+      <elementValue elementRef="COLUMN" value="email_type"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="58"/>
+    </elementParameter>
+    <elementParameter field="TABLE" name="GROUP" show="false"/>
+    <elementParameter field="TABLE" name="LOOP" show="false">
+      <elementValue elementRef="PATH" value="/rootTag/master_gid"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="main"/>
+      <elementValue elementRef="ORDER" value="2"/>
     </elementParameter>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="TABLE" name="GROUPBYS"/>
@@ -2775,6 +2936,124 @@
       <column comment="" key="false" length="255" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="id_profil" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="864">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_11" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DQM_ODS_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DQM_ODS_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DQM_ODS_Database"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_email" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_email&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_update_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_consumed\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;id_physical_person\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;id_organization_user\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_std\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;is_valid\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;is_reachable\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;update_date\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;&#xD;&#xA;where meta_brand_source like 'PEUGEOT' and meta_application_name like 'PLANET_VO' and meta_id_source like '2397240'&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_creation_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_update_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_consumed"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="id_physical_person"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="id_organization_user"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_std"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_valid"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_type"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="creation_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="norm_physical_person_email" name="tPostgresqlInput_11">
+      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="id_physical_person" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="id_organization_user" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
     </metadata>
   </node>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_2">
@@ -3048,6 +3327,24 @@
       <elementValue elementRef="TRACE_COLUMN" value="admarea1_short"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_type"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_reachable_1"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_valid_1"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_norm"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="id_organization_user_1"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out" show="false"/>
@@ -3215,6 +3512,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="mail" lineStyle="8" metaname="tPostgresqlInput_11" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_11" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="mail" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="COLLAPSED" value="true" show="false"/>
