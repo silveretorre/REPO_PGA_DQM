@@ -14,6 +14,7 @@
     <contextParameter comment="" name="DB_DQM_ODS_Schema" prompt="DB_DQM_ODS_Schema?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_DQM_ODS_Server" prompt="DB_DQM_ODS_Server?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="94.23.45.57"/>
     <contextParameter comment="" name="FullEventJSON_Input_File_Path" prompt="FullEventJSON_Input_File_Path?" promptNeeded="false" type="id_String" value="/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/Input_JSON/"/>
+    <contextParameter comment="" name="Reject_Json_File_Path" prompt="Reject_Json_File_Path?" promptNeeded="false" type="id_String" value="/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/Reject_JSON/"/>
   </context>
   <context confirmationNeeded="false" name="TEST">
     <contextParameter comment="" name="DB_AMC_Database" prompt="DB_AMC_Database?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc"/>
@@ -29,6 +30,7 @@
     <contextParameter comment="" name="DB_DQM_ODS_Schema" prompt="DB_DQM_ODS_Schema?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_DQM_ODS_Server" prompt="DB_DQM_ODS_Server?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value=""/>
     <contextParameter comment="" name="FullEventJSON_Input_File_Path" prompt="FullEventJSON_Input_File_Path?" promptNeeded="false" type="id_String" value=""/>
+    <contextParameter comment="" name="Reject_Json_File_Path" prompt="Reject_Json_File_Path?" promptNeeded="false" type="id_String" value=""/>
   </context>
   <context confirmationNeeded="false" name="PROD">
     <contextParameter comment="" name="DB_AMC_Database" prompt="DB_AMC_Database?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc"/>
@@ -44,6 +46,7 @@
     <contextParameter comment="" name="DB_DQM_ODS_Schema" prompt="DB_DQM_ODS_Schema?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_DQM_ODS_Server" prompt="DB_DQM_ODS_Server?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value=""/>
     <contextParameter comment="" name="FullEventJSON_Input_File_Path" prompt="FullEventJSON_Input_File_Path?" promptNeeded="false" type="id_String" value=""/>
+    <contextParameter comment="" name="Reject_Json_File_Path" prompt="Reject_Json_File_Path?" promptNeeded="false" type="id_String" value=""/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
@@ -482,13 +485,39 @@
       <column comment="" key="false" length="100" name="header_process_type" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="896" posY="320">
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="352" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;)));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_1"/>
+  </node>
+  <node componentName="tFileDelete" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
+    <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
+    <elementParameter field="DIRECTORY" name="DIRECTORY" value="&quot;/home/crouzeaud/dev/talend/6.1.1/studio/workspace_PGA/delete_folder&quot;" show="false"/>
+    <elementParameter field="TEXT" name="PATH" value="&quot;/home/crouzeaud/dev/talend/6.1.1/studio/workspace_PGA/delete_folder or delete_file&quot;" show="false"/>
+    <elementParameter field="CHECK" name="FAILON" value="true"/>
+    <elementParameter field="CHECK" name="FOLDER" value="false"/>
+    <elementParameter field="CHECK" name="FOLDER_FILE" value="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note &quot;CURRENT_STATUS&quot; including:&#xA;&quot;File (or path) deleted.&quot;&#xA;&quot;No file (or path) deleted.&quot;&#xA;&quot;File (or path) does not exist or is invalid.&quot;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFileDelete_1"/>
+  </node>
+  <node componentName="tFileCopy" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileCopy_1" show="false"/>
+    <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
+    <elementParameter field="CHECK" name="ENABLE_COPY_DIRECTORY" value="false"/>
+    <elementParameter field="DIRECTORY" name="SOURCE_DERECTORY" value="&quot;/home/crouzeaud/dev/talend/6.1.1/studio/workspace_PGA&quot;" show="false"/>
+    <elementParameter field="DIRECTORY" name="DESTINATION" value="context.Reject_Json_File_Path"/>
+    <elementParameter field="CHECK" name="RENAME" value="false"/>
+    <elementParameter field="TEXT" name="DESTINATION_RENAME" value="&quot;NewName.temp&quot;" show="false"/>
+    <elementParameter field="CHECK" name="REMOVE_FILE" value="false"/>
+    <elementParameter field="CHECK" name="REPLACE_FILE" value="true"/>
+    <elementParameter field="CHECK" name="CREATE_DIRECTORY" value="true"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFileCopy_1"/>
   </node>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tFileInputJSON_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
@@ -525,6 +554,12 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_2" offsetLabelX="0" offsetLabelY="0" source="tWarn_2" target="tFileCopy_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tFileCopy_1" offsetLabelX="0" offsetLabelY="0" source="tFileCopy_1" target="tFileDelete_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
+  </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Connection_OpenClose_DB_ODS_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
@@ -537,6 +572,16 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileCopy_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
