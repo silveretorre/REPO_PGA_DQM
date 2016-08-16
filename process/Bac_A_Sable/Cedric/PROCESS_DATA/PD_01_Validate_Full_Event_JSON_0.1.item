@@ -547,10 +547,13 @@
     <elementParameter field="TABLE" name="VALUES" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="catchException"/>
       <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="VALUE" value=""/>
     </elementParameter>
     <elementParameter field="RADIO" name="USE_INTABLE" value="true"/>
     <elementParameter field="TABLE" name="INTABLE">
       <elementValue elementRef="catchException" value="false"/>
+      <elementValue elementRef="errorMessage" value=""/>
     </elementParameter>
     <elementParameter field="RADIO" name="USE_INLINECONTENT" value="false"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
@@ -559,15 +562,17 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFixedFlowInput_2">
       <column comment="" key="false" length="-1" name="catchException" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="1216">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;&#xA;/*&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;System.out.println(&quot;processType    : &quot; + ((String)globalMap.get(&quot;processType&quot;)));&#xA;System.out.println(&quot;jsonSchemaPath : &quot; + ((String)globalMap.get(&quot;jsonSchemaPath&quot;)));&#xA;System.out.println(&quot;fullRawJson    : &quot; + ((String)globalMap.get(&quot;fullRawJson&quot;)));&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;*/&#xA;//String path2 = &quot;/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/setup/Full_Event_data_schema_for_SALE_VO.json&quot;;&#xA;String path = ((String)globalMap.get(&quot;jsonSchemaPath&quot;));&#xA;&#xA;//System.out.println(&quot;path_dur: '&quot; + path2 + &quot;'&quot;);&#xA;//System.out.println(&quot;path_glo: '&quot; + path + &quot;'&quot;);&#xA;&#xA;// ((String)globalMap.get(&quot;jsonSchemaPath&quot;))&#xA;&#xA;//try (InputStream inputStream = getClass().getResourceAsStream(&quot;/path/to/your/schema.json&quot;)) {&#xA;&#xA;output_row.catchException = false;&#xA;&#xA;try (InputStream in = new FileInputStream(new File(path))) {&#xA;  BufferedReader reader = new BufferedReader(new InputStreamReader(in));&#xA;  StringBuilder out = new StringBuilder();&#xA;  String line;&#xA;  while ((line = reader.readLine()) != null) {&#xA;    out.append(line);&#xA;  }&#xA;  JSONObject rawSchema = new JSONObject(new JSONTokener(out.toString()));&#xA;  Schema schema = SchemaLoader.load(rawSchema);&#xA;//  schema.validate(new JSONObject(&quot;{\&quot;hello\&quot; : \&quot;world\&quot;}&quot;)); // throws a ValidationException if this object is invalid&#xA;  schema.validate(new JSONObject(((String)globalMap.get(&quot;fullRawJson&quot;))));&#xA;} catch(ValidationException e) {&#xA;&#x9;System.out.println(&quot;ValidationException : &quot; + e.getErrorMessage());&#xA;&#x9;output_row.catchException = true;&#xA;}&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;&#xA;/*&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;System.out.println(&quot;processType    : &quot; + ((String)globalMap.get(&quot;processType&quot;)));&#xA;System.out.println(&quot;jsonSchemaPath : &quot; + ((String)globalMap.get(&quot;jsonSchemaPath&quot;)));&#xA;System.out.println(&quot;fullRawJson    : &quot; + ((String)globalMap.get(&quot;fullRawJson&quot;)));&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;*/&#xA;//String path2 = &quot;/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/setup/Full_Event_data_schema_for_SALE_VO.json&quot;;&#xA;String path = ((String)globalMap.get(&quot;jsonSchemaPath&quot;));&#xA;&#xA;//System.out.println(&quot;path_dur: '&quot; + path2 + &quot;'&quot;);&#xA;//System.out.println(&quot;path_glo: '&quot; + path + &quot;'&quot;);&#xA;&#xA;// ((String)globalMap.get(&quot;jsonSchemaPath&quot;))&#xA;&#xA;//try (InputStream inputStream = getClass().getResourceAsStream(&quot;/path/to/your/schema.json&quot;)) {&#xA;&#xA;output_row.catchException = false;&#xA;&#xA;try (InputStream in = new FileInputStream(new File(path))) {&#xA;  BufferedReader reader = new BufferedReader(new InputStreamReader(in));&#xA;  StringBuilder out = new StringBuilder();&#xA;  String line;&#xA;  while ((line = reader.readLine()) != null) {&#xA;    out.append(line);&#xA;  }&#xA;  JSONObject rawSchema = new JSONObject(new JSONTokener(out.toString()));&#xA;  Schema schema = SchemaLoader.load(rawSchema);&#xA;//  schema.validate(new JSONObject(&quot;{\&quot;hello\&quot; : \&quot;world\&quot;}&quot;)); // throws a ValidationException if this object is invalid&#xA;  schema.validate(new JSONObject(((String)globalMap.get(&quot;fullRawJson&quot;))));&#xA;} catch(ValidationException e) {&#xA;&#x9;System.out.println(&quot;ValidationException : &quot; + e.getErrorMessage());&#xA;&#x9;output_row.catchException = true;&#xA;&#x9;output_row.errorMessage = e.getErrorMessage();&#xA;}&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;&#xA;import java.io.BufferedReader;&#xA;import java.io.File;&#xA;import java.io.FileInputStream;&#xA;import java.io.FileNotFoundException;&#xA;import java.io.IOException;&#xA;import java.io.InputStream;&#xA;import java.io.InputStreamReader;&#xA;&#xA;import org.everit.json.schema.Schema;&#xA;import org.everit.json.schema.loader.SchemaLoader;&#xA;&#xA;import org.everit.json.schema.ValidationException;&#xA;&#xA;import org.json.JSONObject;&#xA;import org.json.JSONTokener;&#xA;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
       <column comment="" key="false" length="-1" name="catchException" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="512" posY="1216">
@@ -583,17 +588,47 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="schemaError" name="schemaError">
       <column comment="" key="false" length="-1" name="catchException" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="schemaError">
+      <outputTables sizeState="INTERMEDIATE" name="schemaError" expressionFilter="row4.catchException == true" activateExpressionFilter="true">
         <mapperTableEntries name="catchException" expression="row4.catchException " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="errorMessage" expression="row4.errorMessage " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="catchException" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="errorMessage" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
+  </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="1216">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="catchException"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="schemaError" name="tLogRow_3">
+      <column comment="" key="false" length="-1" name="catchException" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
   </node>
   <node componentName="tFileDelete" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
@@ -937,30 +972,6 @@
       <column comment="" key="false" length="-1" name="Error_message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="1216">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
-    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
-    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
-    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
-    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
-    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
-    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
-    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
-    <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="catchException"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tLogRow_3">
-      <column comment="" key="false" length="-1" name="catchException" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
-    </metadata>
-  </node>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tFileList_1" target="tFileInputJSON_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
@@ -1033,15 +1044,31 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="setProcessType" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tFixedFlowInput_2" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_2" target="tJavaRow_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tMap_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="schemaError" lineStyle="0" metaname="schemaError" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tLogRow_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="schemaError" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tFileDelete_1" offsetLabelX="0" offsetLabelY="0" source="tFileDelete_1" target="tWarn_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
@@ -1164,11 +1191,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
