@@ -540,7 +540,7 @@
       <column comment="" key="false" length="-1" name="event" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="false"/>
     </metadata>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="1216">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_2" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="false"/>
@@ -565,9 +565,9 @@
       <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="1216">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;&#xA;/*&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;System.out.println(&quot;processType    : &quot; + ((String)globalMap.get(&quot;processType&quot;)));&#xA;System.out.println(&quot;jsonSchemaPath : &quot; + ((String)globalMap.get(&quot;jsonSchemaPath&quot;)));&#xA;System.out.println(&quot;fullRawJson    : &quot; + ((String)globalMap.get(&quot;fullRawJson&quot;)));&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;*/&#xA;//String path2 = &quot;/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/setup/Full_Event_data_schema_for_SALE_VO.json&quot;;&#xA;String path = ((String)globalMap.get(&quot;jsonSchemaPath&quot;));&#xA;&#xA;//System.out.println(&quot;path_dur: '&quot; + path2 + &quot;'&quot;);&#xA;//System.out.println(&quot;path_glo: '&quot; + path + &quot;'&quot;);&#xA;&#xA;// ((String)globalMap.get(&quot;jsonSchemaPath&quot;))&#xA;&#xA;//try (InputStream inputStream = getClass().getResourceAsStream(&quot;/path/to/your/schema.json&quot;)) {&#xA;&#xA;output_row.catchException = false;&#xA;&#xA;try (InputStream in = new FileInputStream(new File(path))) {&#xA;  BufferedReader reader = new BufferedReader(new InputStreamReader(in));&#xA;  StringBuilder out = new StringBuilder();&#xA;  String line;&#xA;  while ((line = reader.readLine()) != null) {&#xA;    out.append(line);&#xA;  }&#xA;  JSONObject rawSchema = new JSONObject(new JSONTokener(out.toString()));&#xA;  Schema schema = SchemaLoader.load(rawSchema);&#xA;//  schema.validate(new JSONObject(&quot;{\&quot;hello\&quot; : \&quot;world\&quot;}&quot;)); // throws a ValidationException if this object is invalid&#xA;  schema.validate(new JSONObject(((String)globalMap.get(&quot;fullRawJson&quot;))));&#xA;} catch(ValidationException e) {&#xA;&#x9;System.out.println(&quot;ValidationException : &quot; + e.getErrorMessage());&#xA;&#x9;output_row.catchException = true;&#xA;&#x9;output_row.errorMessage = e.getErrorMessage();&#xA;}&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="/*&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;System.out.println(&quot;processType    : &quot; + ((String)globalMap.get(&quot;processType&quot;)));&#xA;System.out.println(&quot;jsonSchemaPath : &quot; + ((String)globalMap.get(&quot;jsonSchemaPath&quot;)));&#xA;System.out.println(&quot;fullRawJson    : &quot; + ((String)globalMap.get(&quot;fullRawJson&quot;)));&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;*/&#xA;&#xA;String path = ((String)globalMap.get(&quot;jsonSchemaPath&quot;));&#xA;&#xA;output_row.catchException = false;&#xA;&#xA;try (InputStream in = new FileInputStream(new File(path))) {&#xA;  BufferedReader reader = new BufferedReader(new InputStreamReader(in));&#xA;  StringBuilder out = new StringBuilder();&#xA;  String line;&#xA;  while ((line = reader.readLine()) != null) {&#xA;    out.append(line);&#xA;  }&#xA;  JSONObject rawSchema = new JSONObject(new JSONTokener(out.toString()));&#xA;  Schema schema = SchemaLoader.load(rawSchema);&#xA;  schema.validate(new JSONObject(((String)globalMap.get(&quot;fullRawJson&quot;))));&#xA;} catch(ValidationException e) {&#xA;&#x9;output_row.catchException = true;&#xA;&#x9;output_row.errorMessage = &quot;JSON Schema Validation Exception : &quot; +e.getErrorMessage();&#xA;}&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;&#xA;import java.io.BufferedReader;&#xA;import java.io.File;&#xA;import java.io.FileInputStream;&#xA;import java.io.FileNotFoundException;&#xA;import java.io.IOException;&#xA;import java.io.InputStream;&#xA;import java.io.InputStreamReader;&#xA;&#xA;import org.everit.json.schema.Schema;&#xA;import org.everit.json.schema.loader.SchemaLoader;&#xA;&#xA;import org.everit.json.schema.ValidationException;&#xA;&#xA;import org.json.JSONObject;&#xA;import org.json.JSONTokener;&#xA;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
@@ -575,7 +575,7 @@
       <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="512" posY="1216">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="608" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -603,7 +603,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="1216">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
@@ -899,7 +899,7 @@
       <column comment="" key="false" length="-1" name="full_json_data" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="1120">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="1280">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
@@ -919,7 +919,7 @@
       <column comment="" key="false" length="-1" name="Error_message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="1120">
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="1280">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="/*&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;System.out.println(&quot;processType    : &quot; + ((String)globalMap.get(&quot;processType&quot;)));&#xA;System.out.println(&quot;jsonSchemaPath : &quot; + ((String)globalMap.get(&quot;jsonSchemaPath&quot;)));&#xA;System.out.println(&quot;fullRawJson    : &quot; + ((String)globalMap.get(&quot;fullRawJson&quot;)));&#xA;System.out.println(&quot;=================================================================&quot;);&#xA;*/&#xA;//String path2 = &quot;/home/crouzeaud/SYNOTIS/Projets/PGA_Motors/PROCESS_DATA/setup/Full_Event_data_schema_for_SALE_VO.json&quot;;&#xA;String path = ((String)globalMap.get(&quot;jsonSchemaPath&quot;));&#xA;&#xA;//System.out.println(&quot;path_dur: '&quot; + path2 + &quot;'&quot;);&#xA;//System.out.println(&quot;path_glo: '&quot; + path + &quot;'&quot;);&#xA;&#xA;// ((String)globalMap.get(&quot;jsonSchemaPath&quot;))&#xA;&#xA;//try (InputStream inputStream = getClass().getResourceAsStream(&quot;/path/to/your/schema.json&quot;)) {&#xA;&#xA;output_row.catchException = false;&#xA;&#xA;try (InputStream in = new FileInputStream(new File(path))) {&#xA;  BufferedReader reader = new BufferedReader(new InputStreamReader(in));&#xA;  StringBuilder out = new StringBuilder();&#xA;  String line;&#xA;  while ((line = reader.readLine()) != null) {&#xA;    out.append(line);&#xA;  }&#xA;  JSONObject rawSchema = new JSONObject(new JSONTokener(out.toString()));&#xA;  Schema schema = SchemaLoader.load(rawSchema);&#xA;//  schema.validate(new JSONObject(&quot;{\&quot;hello\&quot; : \&quot;world\&quot;}&quot;)); // throws a ValidationException if this object is invalid&#xA;  schema.validate(new JSONObject(((String)globalMap.get(&quot;fullRawJson&quot;))));&#xA;} catch(ValidationException e) {&#xA;&#x9;System.out.println(&quot;ValidationException : &quot; + e.getErrorMessage());&#xA;&#x9;output_row.catchException = true;&#xA;}"/>
@@ -927,7 +927,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_2"/>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="1120">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="1280">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
@@ -961,7 +961,7 @@
       <column comment="" key="false" length="-1" name="Error_message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="1120">
+  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="1280">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;this is a warning  &quot;"/>
