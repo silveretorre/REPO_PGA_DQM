@@ -273,7 +273,7 @@
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="192">
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
     <elementParameter field="TABLE" name="VARIABLES">
       <elementValue elementRef="KEY" value="&quot;myJson&quot;"/>
@@ -315,16 +315,35 @@
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="288">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
+    <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
+    <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
+    <elementParameter field="TABLE" name="VALUES">
+      <elementValue elementRef="SCHEMA_COLUMN" value="monJson"/>
+      <elementValue elementRef="VALUE" value="((String)globalMap.get(&quot;myJson&quot;))"/>
+    </elementParameter>
+    <elementParameter field="RADIO" name="USE_INTABLE" value="false"/>
+    <elementParameter field="TABLE" name="INTABLE" show="false"/>
+    <elementParameter field="RADIO" name="USE_INLINECONTENT" value="false"/>
+    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;" show="false"/>
+    <elementParameter field="MEMO" name="INLINECONTENT" value="" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFixedFlowInput_1">
+      <column comment="" key="false" length="-1" name="monJson" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;//output_row.body = .replace(&quot;\r\n&quot;,&quot;&quot;);&#xA;//JSONObject jFullJSON = (new //JSONObject(input_row.body)).getJSONObject(&quot;pga_process_data&quot;).getJSONObject(&quot;vehicle&quot;).isNull(&quot;raw&quot;);&#xA;//JSONObject jVehicleJSON = jFullJSON.getJSONObject(&quot;vehicle&quot;);&#xA;//output_row.id_vehicle = jVehicleJSON.getString(&quot;id_vehicle&quot;);&#xD;&#xA;//output_row.body = obj.getJSONObject(&quot;pga_process_data&quot;).getString(&quot;pageName&quot;);&#xA;//obj.remove(&quot;id&quot;);&#xA;&#xA;//output_row.id_vehicle = (new JSONObject(input_row.body)).getJSONObject(&quot;pga_process_data&quot;).getJSONObject(&quot;vehicle&quot;).isNull(&quot;raw&quot;);&#xA;&#xA;JSONObject jFullJSON = (new JSONObject(input_row.body));&#xA;//output_row.json_clean = &#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;//output_row.body = .replace(&quot;\r\n&quot;,&quot;&quot;);&#xA;//JSONObject jFullJSON = (new //JSONObject(input_row.body)).getJSONObject(&quot;pga_process_data&quot;).getJSONObject(&quot;vehicle&quot;).isNull(&quot;raw&quot;);&#xA;//JSONObject jVehicleJSON = jFullJSON.getJSONObject(&quot;vehicle&quot;);&#xA;//output_row.id_vehicle = jVehicleJSON.getString(&quot;id_vehicle&quot;);&#xD;&#xA;//output_row.body = obj.getJSONObject(&quot;pga_process_data&quot;).getString(&quot;pageName&quot;);&#xA;//obj.remove(&quot;id&quot;);&#xA;&#xA;//output_row.id_vehicle = (new JSONObject(input_row.body)).getJSONObject(&quot;pga_process_data&quot;).getJSONObject(&quot;vehicle&quot;).isNull(&quot;raw&quot;);&#xA;&#xA;JSONObject jFullJSON = (new JSONObject(input_row.monJson));&#xA;//output_row.json_clean = &#xA;&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_2">
       <column key="false" length="0" name="json_clean" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="416" posY="288">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
@@ -361,6 +380,13 @@
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tRouteInput_2" offsetLabelX="0" offsetLabelY="0" source="tRouteInput_2" target="tSetGlobalVar_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_2" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_2" target="tFixedFlowInput_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tFixedFlowInput_1" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_1" target="tJavaRow_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJavaRow_2" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_2" target="tLogRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -404,7 +430,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
