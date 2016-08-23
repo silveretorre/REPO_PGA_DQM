@@ -401,7 +401,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
     <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
     <elementParameter field="MEMO_JAVA" name="CODE_START" value="for (int i=0; i&lt;1; i++) {"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="JSONObject obj_to_search = new JSONObject();&#xA;JSONObject obj_to_query = new JSONObject();&#xA;&#xA;if (((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)).trim())) {&#xA;&#x9;obj_to_search.put(&quot;vehicle_uuid&quot;, ((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)));&#xA;}&#xA;&#xA;if (((String)globalMap.get(&quot;row14.person_uuid&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.person_uuid&quot;)).trim())) {&#xA;&#x9;obj_to_search.put(&quot;person_uuid&quot;, ((String)globalMap.get(&quot;row14.person_uuid&quot;)));&#xA;}&#xA;&#xA;if (((String)globalMap.get(&quot;row14.event_type&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.event_type&quot;)).trim())) {&#xA;&#x9;obj_to_search.put(&quot;event_type&quot;, ((String)globalMap.get(&quot;row14.event_type&quot;)));&#xA;}&#xA;&#xA;obj_to_query.put(&quot;query&quot;, obj_to_search);&#xA;obj_to_query.put(&quot;from&quot;, ((String)globalMap.get(&quot;row14.from&quot;)));&#xA;obj_to_query.put(&quot;size&quot;, ((String)globalMap.get(&quot;row14.size&quot;)));&#xA;&#xA;globalMap.put(&quot;JSON_body&quot;, obj_to_query.toString());&#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="JSONObject obj_search = new JSONObject();&#xA;JSONObject obj_query = new JSONObject();&#xA;JSONObject obj_bool = new JSONObject();&#xA;JSONObject obj_must = new JSONObject();&#xA;JSONObject obj_term1 = new JSONObject();&#xA;JSONObject obj_term2 = new JSONObject();&#xA;JSONObject obj_term3 = new JSONObject();&#xA;JSONObject obj_data1 = new JSONObject();&#xA;JSONObject obj_data2 = new JSONObject();&#xA;JSONObject obj_data3 = new JSONObject();&#xA;JSONArray JsonArray = new JSONArray();&#xA;JSONObject JsonObject = new JSONObject();&#xA;&#xA;if (((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)).trim())) {&#xA;&#x9;obj_data1.put(&quot;vehicle_uuid&quot;, ((String)globalMap.get(&quot;row14.vehicle_uuid&quot;)));&#xA;}&#xA;&#xA;if (((String)globalMap.get(&quot;row14.person_uuid&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.person_uuid&quot;)).trim())) {&#xA;&#x9;obj_data2.put(&quot;person_uuid&quot;, ((String)globalMap.get(&quot;row14.person_uuid&quot;)));&#xA;}&#xA;&#xA;if (((String)globalMap.get(&quot;row14.event_type&quot;)) != null &amp;&amp; !&quot;&quot;.equals(((String)globalMap.get(&quot;row14.event_type&quot;)).trim())) {&#xA;&#x9;obj_data3.put(&quot;event_type&quot;, ((String)globalMap.get(&quot;row14.event_type&quot;)));&#xA;}&#xA;&#xA;obj_term1.put(&quot;term&quot;, obj_data1);&#xA;obj_term2.put(&quot;term&quot;, obj_data2);&#xA;obj_term3.put(&quot;term&quot;, obj_data3);&#xA;JsonObject.put(obj_term1);&#xA;JsonObject.put(obj_term2);&#xA;JsonObject.put(obj_term3);&#xA;JsonArray.put(JsonObject);&#xA;obj_must.put(&quot;must&quot;, JsonArray);&#xA;obj_search.put(&quot;bool&quot;, obj_must);&#xA;obj_search.put(&quot;query&quot;, obj_bool);&#xA;obj_search.put(&quot;from&quot;, ((String)globalMap.get(&quot;row14.from&quot;)));&#xA;obj_search.put(&quot;size&quot;, ((String)globalMap.get(&quot;row14.size&quot;)));&#xA;&#xA;globalMap.put(&quot;JSON_body&quot;, obj_search.toString());"/>
     <elementParameter field="MEMO_JAVA" name="CODE_END" value="}&#xA;      "/>
     <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
@@ -413,8 +413,16 @@
       <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(((String)globalMap.get(&quot;JSON_body&quot;)));"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJava_2"/>
+  </node>
   <node componentName="tREST" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tREST_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="URL" value="context.URL_Web_Service_Elastic+((String)globalMap.get(&quot;row14.brand&quot;))+&quot;/event/_search&quot;"/>
     <elementParameter field="CLOSED_LIST" name="METHOD" value="POST"/>
     <elementParameter field="TABLE" name="HEADERS">
@@ -431,6 +439,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1376" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;output_row.body = input_row.Body;&#xD;&#xA;&#xD;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="LABEL" value="keep_body"/>
@@ -441,6 +450,7 @@
   </node>
   <node componentName="tRESTResponse" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTResponse_4" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="REST_RESPONSE_SCHEMA_TYPE" name="RESPONSE_TYPE" value="id_String"/>
     <elementParameter field="CLOSED_LIST" name="STATUS_CODE" value="200"/>
     <elementParameter field="TEXT" name="CUSTOM_STATUS_CODE" value="200" show="false"/>
@@ -542,17 +552,19 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row15" show="false"/>
   </connection>
-  <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tJavaFlex_2" offsetLabelX="0" offsetLabelY="0" source="tJavaFlex_2" target="tREST_3">
+  <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tJavaFlex_2" offsetLabelX="0" offsetLabelY="0" source="tJavaFlex_2" target="tJava_2">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row16" lineStyle="0" metaname="tREST_3" offsetLabelX="0" offsetLabelY="0" source="tREST_3" target="tJavaRow_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row16" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row17" lineStyle="0" metaname="tJavaRow_4" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_4" target="tRESTResponse_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row17" show="false"/>
   </connection>
   <subjob>
@@ -572,6 +584,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tREST_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
