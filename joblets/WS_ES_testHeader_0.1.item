@@ -93,9 +93,10 @@
       <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
       <metadata connector="FLOW" name="Header_OK_KO">
         <column comment="" key="false" length="-1" name="header_ok_ou_ko" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+        <column comment="" key="false" length="-1" name="header_error_message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       </metadata>
       <nodeData xsi:type="MapperData">
-        <uiProperties/>
+        <uiProperties shellMaximized="true"/>
         <varTables sizeState="INTERMEDIATE" name="Var">
           <mapperTableEntries name="application_name" expression="row7.application_name != null" type="id_Boolean"/>
           <mapperTableEntries name="application_user" expression="row7.application_user != null" type="id_Boolean"/>
@@ -105,6 +106,7 @@
         </varTables>
         <outputTables sizeState="INTERMEDIATE" name="Header_OK_KO">
           <mapperTableEntries name="header_ok_ou_ko" expression="Var.is_header_ok " type="id_Boolean" nullable="true"/>
+          <mapperTableEntries name="header_error_message" expression="&quot;L'un des header n'est pas renseigné.&quot;" type="id_String" nullable="true"/>
         </outputTables>
         <inputTables sizeState="INTERMEDIATE" name="row7" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
           <mapperTableEntries name="application_name" type="id_String" nullable="true"/>
@@ -119,11 +121,14 @@
       <elementParameter field="TABLE" name="VARIABLES">
         <elementValue elementRef="KEY" value="&quot;isHeaderOk&quot;"/>
         <elementValue elementRef="VALUE" value="Header_OK_KO.header_ok_ou_ko"/>
+        <elementValue elementRef="KEY" value="&quot;headerError&quot;"/>
+        <elementValue elementRef="VALUE" value="Header_OK_KO.header_error_message"/>
       </elementParameter>
       <elementParameter field="TEXT" name="LABEL" value="Header_OK_ou_KO"/>
       <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
       <metadata connector="FLOW" name="tSetGlobalVar_1">
         <column comment="" key="false" length="-1" name="header_ok_ou_ko" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+        <column comment="" key="false" length="-1" name="header_error_message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       </metadata>
     </node>
     <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="INPUT_1" offsetLabelX="0" offsetLabelY="0" source="INPUT_1" target="tMap_1">
@@ -157,6 +162,9 @@
         <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
         <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
         <elementValue elementRef="TRACE_COLUMN" value="header_ok_ou_ko"/>
+        <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+        <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+        <elementValue elementRef="TRACE_COLUMN" value="header_error_message"/>
         <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
         <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       </elementParameter>
