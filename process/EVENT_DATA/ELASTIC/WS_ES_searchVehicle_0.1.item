@@ -299,6 +299,13 @@
     <metadata connector="FLOW" name="Header_OK_KO">
       <column comment="" key="false" length="-1" name="header_ok_ou_ko" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="out1">
+      <column comment="" defaultValue="" key="false" length="-1" name="application_name" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="application_user" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="auth_token" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="brand" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="is_header_ok" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
@@ -310,6 +317,13 @@
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="Header_OK_KO">
         <mapperTableEntries name="header_ok_ou_ko" expression="Var.is_header_ok " type="id_Boolean" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="out1">
+        <mapperTableEntries name="application_name" expression="Var.application_name " type="id_Boolean"/>
+        <mapperTableEntries name="application_user" expression="Var.application_user " type="id_Boolean"/>
+        <mapperTableEntries name="auth_token" expression="Var.auth_token " type="id_Boolean"/>
+        <mapperTableEntries name="brand" expression="Var.brand " type="id_Boolean"/>
+        <mapperTableEntries name="is_header_ok" expression="Var.is_header_ok " type="id_Boolean"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row7" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="application_name" type="id_String" nullable="true"/>
@@ -329,6 +343,42 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tSetGlobalVar_1">
       <column comment="" key="false" length="-1" name="header_ok_ou_ko" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="160">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="application_name"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="application_user"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="auth_token"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_header_ok"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tLogRow_1">
+      <column comment="" defaultValue="" key="false" length="-1" name="application_name" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="application_user" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="auth_token" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="brand" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="is_header_ok" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tRESTResponse" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="736" posY="352">
@@ -410,7 +460,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="Header_OK_KO" lineStyle="0" metaname="Header_OK_KO" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tSetGlobalVar_1">
+  <connection connectorName="FLOW" label="Header_OK_KO" lineStyle="0" metaname="Header_OK_KO" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tSetGlobalVar_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="pga_query"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -442,6 +492,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Header_OK_KO" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tLogRow_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTRequest_1" show="false"/>
