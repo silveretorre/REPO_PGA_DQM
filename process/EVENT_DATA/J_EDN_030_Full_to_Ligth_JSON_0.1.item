@@ -276,7 +276,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.jsonFull = input_row.jsonFull;&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;// Extraction de la valeur de la balise process_type&#xD;&#xA;String s_process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;).asText();&#xA;// Extraction de la valeur de la balise process_uuid&#xA;String s_process_uuid = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_uuid&quot;).asText();&#xA;// Extraction de la valeur de la balise src_application_brand&#xA;String s_src_application_brand = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;src_application_brand&quot;).asText();&#xA;// Extraction de la valeur de la balise src_process_moment&#xA;String s_src_process_moment = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;src_process_moment&quot;).asText().substring(0,10).replace(&quot;-&quot;, &quot;/&quot;);&#xA;&#xA;output_row.fileRep = &quot;/user/pga/process_data/&quot;+s_src_application_brand+&quot;/&quot;+s_process_type+&quot;/&quot;+s_src_process_moment+&quot;/&quot;+s_process_uuid+&quot;.json&quot;;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.jsonFull = input_row.jsonFull;&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;// Extraction de la valeur de la balise process_type&#xD;&#xA;String s_process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;).asText();&#xA;// Extraction de la valeur de la balise process_uuid&#xA;String s_process_uuid = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_uuid&quot;).asText();&#xA;// Extraction de la valeur de la balise src_application_brand&#xA;String s_src_application_brand = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;src_application_brand&quot;).asText();&#xA;// Extraction de la valeur de la balise src_process_moment&#xA;String s_src_process_moment = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;src_process_moment&quot;).asText().substring(0,10).replace(&quot;-&quot;, &quot;/&quot;);&#xA;&#xA;output_row.fileRep = &quot;/user/pga/process_data/&quot;+s_src_application_brand+&quot;/&quot;+s_process_type+&quot;/&quot;+s_src_process_moment+&quot;/&quot;+s_process_uuid+&quot;.json&quot;;&#xA;&#xA;System.out.println(&quot;output_row.fileRep: &quot; + output_row.fileRep);"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="LABEL" value="Extraction_du_header"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -334,38 +334,6 @@
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tLogRow_1">
-      <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tHDFSOutputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="544">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tHDFSOutputRaw_1" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tHDFSConnection_1"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="EMR_4_0_0" show="false"/>
-    <elementParameter field="HADOOP_DISTRIBUTION" name="HDFS" value="" show="false"/>
-    <elementParameter field="HADOOP_JARS_DIALOG" name="HADOOP_CUSTOM_JARS" value="" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="AUTHENTICATION_MODE" value="USERNAME" show="false"/>
-    <elementParameter field="TEXT" name="FS_DEFAULT_NAME" value="&quot;maprfs:///&quot;" show="false"/>
-    <elementParameter field="CHECK" name="USE_DATANODE_HOSTNAME" value="true" show="false"/>
-    <elementParameter field="CHECK" name="USE_KRB" value="false" show="false"/>
-    <elementParameter field="TEXT" name="NAMENODE_PRINCIPAL" value="&quot;nn/_HOST@EXAMPLE.COM&quot;" show="false"/>
-    <elementParameter field="CHECK" name="USE_KEYTAB" value="false" show="false"/>
-    <elementParameter field="TEXT" name="PRINCIPAL" value="&quot;hdfs&quot;" show="false"/>
-    <elementParameter field="FILE" name="KEYTAB_PATH" value="&quot;/tmp/hdfs.headless.keytab&quot;" show="false"/>
-    <elementParameter field="TEXT" name="USERNAME" value="&quot;anonymous&quot;" show="false"/>
-    <elementParameter field="TEXT" name="GROUP" value="&quot;supergroup&quot;" show="false"/>
-    <elementParameter field="BOTH_HADOOP" name="FILENAME" value="((String)globalMap.get(&quot;row3.fileRep&quot;))"/>
-    <elementParameter field="CLOSED_LIST" name="FILE_ACTION" value="OVERWRITE"/>
-    <elementParameter field="CHECK" name="CUSTOM_ENCODING" value="true"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
-    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
-    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false"/>
-    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES" show="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="to_HDFS_Raw"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tHDFSOutputRaw_1">
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -452,6 +420,39 @@
     <elementParameter field="TEXT" name="LABEL" value="PGA_Motors_Test_HDFS"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
+  <node componentName="tHDFSOutputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="544">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tHDFSOutputRaw_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tHDFSConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="EMR_4_0_0" show="false"/>
+    <elementParameter field="HADOOP_DISTRIBUTION" name="HDFS" value="" show="false"/>
+    <elementParameter field="HADOOP_JARS_DIALOG" name="HADOOP_CUSTOM_JARS" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="AUTHENTICATION_MODE" value="USERNAME" show="false"/>
+    <elementParameter field="TEXT" name="FS_DEFAULT_NAME" value="&quot;maprfs:///&quot;" show="false"/>
+    <elementParameter field="CHECK" name="USE_DATANODE_HOSTNAME" value="true" show="false"/>
+    <elementParameter field="CHECK" name="USE_KRB" value="false" show="false"/>
+    <elementParameter field="TEXT" name="NAMENODE_PRINCIPAL" value="&quot;nn/_HOST@EXAMPLE.COM&quot;" show="false"/>
+    <elementParameter field="CHECK" name="USE_KEYTAB" value="false" show="false"/>
+    <elementParameter field="TEXT" name="PRINCIPAL" value="&quot;hdfs&quot;" show="false"/>
+    <elementParameter field="FILE" name="KEYTAB_PATH" value="&quot;/tmp/hdfs.headless.keytab&quot;" show="false"/>
+    <elementParameter field="TEXT" name="USERNAME" value="&quot;anonymous&quot;" show="false"/>
+    <elementParameter field="TEXT" name="GROUP" value="&quot;supergroup&quot;" show="false"/>
+    <elementParameter field="BOTH_HADOOP" name="FILENAME" value="((String)globalMap.get(&quot;row3.fileRep&quot;))"/>
+    <elementParameter field="CLOSED_LIST" name="FILE_ACTION" value="OVERWRITE"/>
+    <elementParameter field="CHECK" name="CUSTOM_ENCODING" value="true"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false"/>
+    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="to_HDFS_Raw"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tHDFSOutputRaw_1">
+      <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_1" target="tSetGlobalVar_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
@@ -489,6 +490,7 @@
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tLogRow_1" offsetLabelX="0" offsetLabelY="0" source="tLogRow_1" target="tHDFSOutputRaw_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_2" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_2" target="tLibraryLoad_3">
@@ -564,6 +566,11 @@
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tHDFSConnection_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tHDFSOutputRaw_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
 </talendfile:ProcessType>
