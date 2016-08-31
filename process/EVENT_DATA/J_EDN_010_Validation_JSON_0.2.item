@@ -1313,13 +1313,15 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="to_RouteOutput_KO">
       <column comment="" key="false" length="-1" name="jsonStatus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="jsonErrorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="to_RouteOutput_KO">
         <mapperTableEntries name="jsonStatus" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="jsonErrorMessage" expression="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;)) + &quot; file has no valid schema ! Please check &quot;  + ((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;)).replace(&quot;.json&quot;, &quot;_schema_error.log&quot;) + &quot; file, in &quot;+ context.Reject_Json_File_Path + &quot; directory.&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="jsonFull" expression="row8.jsonFull" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row8" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
@@ -1333,6 +1335,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="jsonStatus"/>
       <elementValue elementRef="TYPE" value="Header"/>
       <elementValue elementRef="VALUE" value="&quot;status&quot;"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="jsonErrorMessage"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value="&quot;errorMessage&quot;"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="jsonFull"/>
       <elementValue elementRef="TYPE" value="Body"/>
       <elementValue elementRef="VALUE" value=""/>
@@ -1341,6 +1346,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRouteOutput_2">
       <column comment="" key="false" length="-1" name="jsonStatus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="jsonErrorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -1679,6 +1685,9 @@
   <connection connectorName="FLOW" label="to_RouteOutput_KO" lineStyle="0" metaname="to_RouteOutput_KO" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tRouteOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="jsonStatus"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="jsonErrorMessage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
