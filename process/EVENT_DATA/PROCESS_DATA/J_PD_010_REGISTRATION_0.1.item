@@ -467,7 +467,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="metadata" name="data">
+    <metadata comment="" label="metadata" name="data">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -588,7 +588,7 @@
       <column comment="" key="false" length="255" name="rent_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="filtre1" expression="true " type="id_Boolean"/>
         <mapperTableEntries name="ID" expression="new Integer(siv.id_technique).toString() " type="id_String"/>
@@ -1429,7 +1429,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.FPath + &quot;/&quot; + jobName + &quot;/ProcessData_Registration_SIV_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,((java.util.Date)globalMap.get(&quot;siv_id.DateVente&quot;))) + &quot;_&quot; + ((String)globalMap.get(&quot;siv_id.vente_id&quot;)) + &quot;.json&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.FPath + &quot;/&quot; + jobName + &quot;/ProcessData_Registration_SIV_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,((java.util.Date)globalMap.get(&quot;siv_id.b4_date_immat_siv&quot;))) + &quot;_&quot; + ((String)globalMap.get(&quot;siv_id.id_technique&quot;)) + &quot;.json&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
@@ -1741,6 +1741,18 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFlowToIterate_1" show="false"/>
+    <elementParameter field="CHECK" name="DEFAULT_MAP" value="true"/>
+    <elementParameter field="TABLE" name="MAP" show="false">
+      <elementValue elementRef="KEY" value="&quot;newLine&quot;"/>
+      <elementValue elementRef="VALUE" value="vente_id"/>
+      <elementValue elementRef="KEY" value="&quot;newLine&quot;"/>
+      <elementValue elementRef="VALUE" value="DateVente"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFlowToIterate_1"/>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tMysqlConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
@@ -1766,6 +1778,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="siv_id" lineStyle="0" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tFlowToIterate_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="siv_id" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
