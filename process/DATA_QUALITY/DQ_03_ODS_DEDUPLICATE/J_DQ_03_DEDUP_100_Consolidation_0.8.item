@@ -296,16 +296,16 @@
         <mapperTableEntries name="gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="dedup_rule_name" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="members_of_gid" activateCondensedTool="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="members_of_gid" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+        <mapperTableEntries name="meta_brand_source" expression="" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
-        <mapperTableEntries name="gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gid" expression="master_gid.gid " type="id_String" nullable="true" operator="="/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="gid2" activateCondensedTool="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="gid2" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+        <mapperTableEntries name="meta_brand_source" expression="members_of_gid.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="members_of_gid.meta_application_name " type="id_String"/>
+        <mapperTableEntries name="meta_id_source" expression="members_of_gid.meta_id_source " type="id_String"/>
         <mapperTableEntries name="gid" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="members_of_gid2" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
