@@ -1330,22 +1330,24 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="filtre1" expression="true " type="id_Boolean"/>
+        <mapperTableEntries name="isPhysicalPerson" expression="tgCliente.PERJURIDICA == 0" type="id_Boolean"/>
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + String.valueOf(tcPresupuesto.NUMINTERNO)" type="id_String"/>
+        <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
+        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tgCliente.ALTAFEC , TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) || (TalendDate.compareDate( tgCliente.ALTAFEC , TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.filtre1 " id="_EJLP0H5MEeadpLhVT7QsXw - metadata">
-        <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_name" expression="&quot;SIV&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="&quot;ALL&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv ) ? siv.b4_date_immat_siv : &quot;&quot; " type="id_String"/>
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp; Var.hasName" activateExpressionFilter="true" id="_EJLP0H5MEeadpLhVT7QsXw - metadata">
+        <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
+        <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT ) ? tcPresupuesto.FECHAAPERT : &quot;&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="&quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="null != siv.b1_tit_prenom ? siv.b1_tit_prenom : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="null != siv.b1_tit_nom_rso ? siv.b1_tit_nom_rso : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="null != tgCliente.NOMBRE ? tgCliente.NOMBRE : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="null != tgCliente.APELLIDO1 ? tgCliente.APELLIDO1 : &quot;&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="&quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_date" expression="null != siv.b3_tit_date_naissance ? siv.b3_tit_date_naissance : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="null != tgCliente.FECHANACIM ? tgCliente.FECHANACIM : &quot;&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="deceased" expression="false" type="id_Boolean" nullable="true"/>
