@@ -190,7 +190,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select d.master_gid, &#xD;&#xA;       d.grp_size,&#xD;&#xA;       r.registration_number_norm,&#xD;&#xA;       v.vin_norm&#xD;&#xA;from dedup_vehicle_consolidation d&#xD;&#xA;join (select meta_brand_source, meta_application_name, meta_id_source, registration_number_norm from norm_vehicle_registration group by 1, 2, 3, 4) r using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;join (select meta_brand_source, meta_application_name, meta_id_source, vin_norm from norm_vehicle_vin group by 1, 2, 3, 4) v using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;order by d.master_gid, d.grp_size&#xD;&#xA;&quot;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select d.master_gid, &#xD;&#xA;       d.grp_size,&#xD;&#xA;       r.registration_number_norm,&#xD;&#xA;       v.vin_norm&#xD;&#xA;from dedup_vehicle_consolidation d&#xD;&#xA;join (select meta_brand_source, meta_application_name, meta_id_source, registration_number_norm from norm_vehicle_registration group by 1, 2, 3, 4) r using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;join (select meta_brand_source, meta_application_name, meta_id_source, vin_norm from norm_vehicle_vin group by 1, 2, 3, 4) v using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;where d.master_gid = '0010ec64-e8cf-4499-9cd1-937f7c6cb954'&#xD;&#xA;order by d.master_gid, d.grp_size&#xD;&#xA;&quot;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -654,6 +654,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="64" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Starting indexes creation for table &quot;+((String)globalMap.get(&quot;OUTPUT_TABLE_NAME&quot;))"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -663,6 +664,7 @@
   </node>
   <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="1120">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="false"/>
     <elementParameter field="TABLE" name="VALUES" show="false">
@@ -689,6 +691,7 @@
   </node>
   <node componentName="tPostgresqlRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="1120">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRow_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
@@ -730,6 +733,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="1248">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_4" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="jobName +&quot; : index &quot; + indexes02.IDXname + &quot; has been created in table &quot;+((String)globalMap.get(&quot;OUTPUT_TABLE_NAME&quot;))"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -750,6 +754,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_vehicle_consolidation" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tWarn_3">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tLogRow_2">
@@ -829,6 +834,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_3" offsetLabelX="0" offsetLabelY="0" source="tWarn_3" target="tFixedFlowInput_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk6" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="indexes02" lineStyle="0" metaname="tFixedFlowInput_2" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_2" target="tPostgresqlRow_3">
@@ -841,11 +847,13 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="indexes02" show="false"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tPostgresqlRow_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlRow_3" target="tWarn_4">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
   <note opaque="true" posX="224" posY="32" sizeHeight="129" sizeWidth="705" text="Normalization of Physical Person data (firstname, lastname...)&#xD;&#xA;&#xD;&#xA;v0.1 (2016/06/21) - GMA : first version&#xD;&#xA;v0.2 (2016/06/23) - GMA : Add flow monitoring / Add deletion and creation of indexes&#xD;&#xA;v0.3 (2016/06/28) - SVA  : Change SQL Query to avoid duplicates from name norm table&#xD;&#xA;v0.4 (2016/09/15) - CRO : Duplicate J_DQ_04_GOLDEN_RECORDS job to create a specific version for deduplicate vehicle.">
