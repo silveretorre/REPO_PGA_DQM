@@ -1339,21 +1339,21 @@
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT ) ? tcPresupuesto.FECHAAPERT : &quot;&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHAAPERT))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender" expression="&quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="null != tgCliente.NOMBRE ? tgCliente.NOMBRE : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="null != tgCliente.APELLIDO1 ? tgCliente.APELLIDO1 : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" expression="&quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_date" expression="null != tgCliente.FECHANACIM ? tgCliente.FECHANACIM : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="license_number" expression="&quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_license" expression="&quot;&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="( null != tgCliente.FECHANACIM &amp;&amp; !(&quot;&quot;.equals(tgCliente.FECHANACIM))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,tgCliente.FECHANACIM))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="license_number" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="deceased" expression="false" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="death_date" expression="&quot;&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="death_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(Math.round(tgCliente.DIRPORTAL)) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(Math.round(tgCliente.DIRPORTAL)) : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="route" expression="( &#xD;&#xA;( null != tgVia.DESCRIPLARGO &amp;&amp; !(&quot;&quot;.equals(tgVia.DESCRIPLARGO)) ? tgVia.DESCRIPLARGO+&quot; &quot; : &quot;&quot; ) + &#xD;&#xA;( null != tgCliente.DIRCALLE  &amp;&amp; !(&quot;&quot;.equals(tgCliente.DIRCALLE )) ? tgCliente.DIRCALLE +&quot; &quot; : &quot;&quot; )&#xD;&#xA;).trim() " type="id_String" nullable="true"/>
         <mapperTableEntries name="locality" expression="null != tgPobla.DESCRIP ? tgPobla.DESCRIP : &quot;&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="&quot;&quot;" type="id_String" nullable="true"/>
