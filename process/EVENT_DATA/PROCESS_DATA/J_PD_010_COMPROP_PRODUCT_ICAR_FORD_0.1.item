@@ -255,7 +255,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO.NUMINTERNO&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO&#xD;&#xA;WHERE ROWNUM &lt;= 1000&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO.NUMINTERNO,&#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO.FECHAAPERT&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TCPRESUPUESTO&#xD;&#xA;WHERE ROWNUM &lt;= 1000&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -274,13 +274,16 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTERNO"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAAPERT"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tOracleInput_2">
-      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="true" length="10" name="NUMINTERNO" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="NUMINTERNO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
+      <column comment="" key="false" length="0" name="FECHAAPERT" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="416">
@@ -1234,11 +1237,11 @@
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
     <elementParameter field="IMAGE" name="PREVIEW" value="_qCN4wH5xEeadpLhVT7QsXw-tMap_1-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
-    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
+    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="true" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="metadata" name="data">
+    <metadata comment="" label="metadata" name="data">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -1325,7 +1328,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="filtre1" expression="true " type="id_Boolean"/>
         <mapperTableEntries name="ID" expression="icar_ford.EMP + String.valueOf(icar_ford.NUMINTERNO)" type="id_String"/>
@@ -1596,7 +1599,7 @@
         <mapperTableEntries name="IMPARSI" type="id_BigDecimal"/>
         <mapperTableEntries name="PORARSI" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" type="id_BigDecimal"/>
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
@@ -2239,7 +2242,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.FPath + &quot;/&quot; + jobName + &quot;/ProcessData_Comprop_ICAR_FORD_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,(TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,((String)globalMap.get(&quot;comprop_id.b4_date_immat_siv&quot;))))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;comprop_id.EMP&quot;))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;comprop_id.NUMINTERNO&quot;))) + &quot;.json&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.FPath + &quot;/&quot; + jobName + &quot;/ProcessData_Comprop_ICAR_FORD_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,(TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,((String)globalMap.get(&quot;comprop_id.FECHAAPERT&quot;))))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;comprop_id.EMP&quot;))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;comprop_id.NUMINTERNO&quot;))) + &quot;.json&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
