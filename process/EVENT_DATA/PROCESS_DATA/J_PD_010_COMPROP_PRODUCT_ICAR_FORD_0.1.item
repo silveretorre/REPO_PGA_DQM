@@ -1330,12 +1330,12 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="isPhysicalPerson" expression="tgCliente.PERJURIDICA == 0" type="id_Boolean"/>
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + String.valueOf(tcPresupuesto.NUMINTERNO)" type="id_String"/>
+        <mapperTableEntries name="isPhysicalPerson" expression="tgCliente.PERJURIDICA == 0" type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
-        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tgCliente.ALTAFEC , TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) || (TalendDate.compareDate( tgCliente.ALTAFEC , TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
+        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp; Var.hasName" activateExpressionFilter="true" id="_EJLP0H5MEeadpLhVT7QsXw - metadata">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp; Var.hasName &amp; Var.date2007plus " activateExpressionFilter="true" id="_EJLP0H5MEeadpLhVT7QsXw - metadata">
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
@@ -1353,9 +1353,9 @@
         <mapperTableEntries name="deceased" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="death_date" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number" expression="null != siv.b2_tit_adr_num_voie ? siv.b2_tit_adr_num_voie : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="null != (siv.b2_tit_adr_type_voie + siv.b2_tit_adr_nom_voie) ? siv.b2_tit_adr_type_voie + siv.b2_tit_adr_nom_voie : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="null != siv.b2_tit_adr_commune ? siv.b2_tit_adr_commune : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(Math.round(tgCliente.DIRPORTAL)) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="( &#xD;&#xA;( null != tgVia.DESCRIPLARGO &amp;&amp; !(&quot;&quot;.equals(tgVia.DESCRIPLARGO)) ? tgVia.DESCRIPLARGO+&quot; &quot; : &quot;&quot; ) + &#xD;&#xA;( null != tgCliente.DIRCALLE  &amp;&amp; !(&quot;&quot;.equals(tgCliente.DIRCALLE )) ? tgCliente.DIRCALLE +&quot; &quot; : &quot;&quot; )&#xD;&#xA;).trim() " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="null != tgPobla.DESCRIP ? tgPobla.DESCRIP : &quot;&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="null != siv.b2_tit_adr_lieudit ? siv.b2_tit_adr_lieudit : &quot;&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea2" expression="&quot;&quot;" type="id_String" nullable="true"/>
@@ -1601,7 +1601,7 @@
         <mapperTableEntries name="IMPARSI" type="id_BigDecimal"/>
         <mapperTableEntries name="PORARSI" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgCliente" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="tcPresupuesto.CLIENTEPROP" type="id_BigDecimal"/>
         <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
@@ -1738,6 +1738,10 @@
         <mapperTableEntries name="TALLFLEETBOX" type="id_BigDecimal"/>
         <mapperTableEntries name="NOMBRECOMP" type="id_String" nullable="true"/>
         <mapperTableEntries name="NOMBREEDITADO" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgPobla" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="ID" expression="tgCliente.POBLA " type="id_BigDecimal"/>
+        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -3001,6 +3005,78 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_4" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q="/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg - TGPOBLA" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPOBLA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.\&quot;ID\&quot;, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.DESCRIP&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="ID"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPOBLA" name="tOracleInput_4">
+      <column comment="" defaultValue="0" key="true" length="10" name="ID" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="IDPROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="1" key="false" length="5" name="IMPTEXTOPROV" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIPSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tOracleConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
@@ -3077,6 +3153,10 @@
   <connection connectorName="FLOW" label="tgCliente" lineStyle="8" metaname="tOracleInput_3" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgCliente" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPobla" lineStyle="8" metaname="tOracleInput_4" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_4" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPobla" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
