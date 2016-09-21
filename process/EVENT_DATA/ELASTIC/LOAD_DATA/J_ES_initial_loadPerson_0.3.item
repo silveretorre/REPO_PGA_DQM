@@ -412,13 +412,13 @@
         <mapperTableEntries name="language_code" expression="norm.language_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source.toLowerCase() " type="id_String"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dedup" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dedup" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="norm" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="norm" minimized="true" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String" operator="="/>
@@ -488,17 +488,17 @@
         <mapperTableEntries name="creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row7" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="address" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" type="id_Date"/>
         <mapperTableEntries name="meta_update_date" type="id_Date"/>
         <mapperTableEntries name="meta_consumed" type="id_Boolean"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String"/>
         <mapperTableEntries name="id_physical_person" type="id_String" nullable="true"/>
         <mapperTableEntries name="id_organization_user" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number_short" type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number_long" type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number_long" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="routes_short" type="id_String" nullable="true"/>
         <mapperTableEntries name="route_long" type="id_String" nullable="true"/>
         <mapperTableEntries name="locality_short" type="id_String" nullable="true"/>
@@ -858,7 +858,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="416">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_5" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -961,7 +961,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1120" posY="416">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_6" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -1578,9 +1578,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="digitalDetails" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row7" lineStyle="8" metaname="tPostgresqlInput_6" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_6" target="tMap_2">
+  <connection connectorName="FLOW" label="address" lineStyle="8" metaname="tPostgresqlInput_6" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_6" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="address" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_1" offsetLabelX="0" offsetLabelY="0" source="tWarn_1" target="tPostgresqlInput_3">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
