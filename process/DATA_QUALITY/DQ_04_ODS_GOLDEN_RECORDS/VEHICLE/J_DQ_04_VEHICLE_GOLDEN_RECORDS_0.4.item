@@ -286,7 +286,7 @@
         <mapperTableEntries name="meta_application_name" expression="dedup_vehicle_consolidation.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="dedup_vehicle_consolidation.meta_id_source " type="id_String"/>
         <mapperTableEntries name="brand" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="version" type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" type="id_String" nullable="true"/>
@@ -297,6 +297,8 @@
         <mapperTableEntries name="meta_brand_source" expression="dedup_vehicle_consolidation.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="dedup_vehicle_consolidation.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="dedup_vehicle_consolidation.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="brand" expression="vehicle.brand " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="model" expression="vehicle.model " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="vin_norm" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -373,7 +375,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;vin_norm\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;&#xD;&#xA;GROUP BY 1, 2, 3, 4&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;brand\&quot;, &#xD;&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;model\&quot;, &#xD;&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;.\&quot;vin_norm\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_vehicle_vin\&quot;&#xD;&#xA;GROUP BY 1, 2, 3, 4, 5, 6&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -390,6 +392,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vin_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
@@ -405,6 +411,8 @@
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="2500" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vin_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
