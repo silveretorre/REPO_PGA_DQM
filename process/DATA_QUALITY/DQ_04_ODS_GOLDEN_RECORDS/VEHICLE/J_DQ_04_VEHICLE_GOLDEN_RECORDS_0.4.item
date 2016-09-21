@@ -257,6 +257,7 @@
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
@@ -272,6 +273,7 @@
         <mapperTableEntries name="energy" expression="vehicle.energy " type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="vehicle.color " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" expression="vehicle.circulation_start_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" expression="vehicle.circulation_end_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="vehicle.last_mileage_known " type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="dedup_vehicle_consolidation" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -291,6 +293,7 @@
         <mapperTableEntries name="energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" type="id_Integer" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="norm_vehicle_vin" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
@@ -335,6 +338,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="circulation_start_date"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_end_date"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
@@ -351,6 +356,7 @@
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
@@ -510,7 +516,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;last_mileage_known\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xD;&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;circulation_end_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;last_mileage_known\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -538,6 +544,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="color"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="circulation_start_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_end_date"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -570,6 +578,9 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
@@ -663,13 +674,26 @@
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="vin_norm"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
+      <elementValue elementRef="RELATION" value="SEQ"/>
+      <elementValue elementRef="RULE_NAME" value="&quot;4_Version&quot;"/>
+      <elementValue elementRef="INPUT_COLUMN" value="version"/>
+      <elementValue elementRef="FUNCTION" value="MostComplete"/>
+      <elementValue elementRef="VALUE" value="&quot;&quot;"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="version"/>
+      <elementValue elementRef="IGNORE_NULL" value="true"/>
+      <elementValue elementRef="RELATION" value="SEQ"/>
+      <elementValue elementRef="RULE_NAME" value="&quot;5_Energy&quot;"/>
+      <elementValue elementRef="INPUT_COLUMN" value="energy"/>
+      <elementValue elementRef="FUNCTION" value="MostComplete"/>
+      <elementValue elementRef="VALUE" value="&quot;&quot;"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="energy"/>
+      <elementValue elementRef="IGNORE_NULL" value="true"/>
     </elementParameter>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_COcswH_yEea6E7EKW_Gc-A" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="3_VIN" value="_CUjUwH_yEea6E7EKW_Gc-A" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="2_Model" value="_CwKSsH_yEea6E7EKW_Gc-A" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="1_Brand" value="_DKmzAH_yEea6E7EKW_Gc-A" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="SurvivorFlow" value="_DnN2gH_yEea6E7EKW_Gc-A" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_yQ1f4H_5Eea6E7EKW_Gc-A" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="3_VIN" value="_zNOPoH_5Eea6E7EKW_Gc-A" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="5_Energy" value="_zhmkMH_5Eea6E7EKW_Gc-A" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="2_Model" value="_z_KC4H_5Eea6E7EKW_Gc-A" show="false"/>
     <metadata connector="FLOW" name="tRuleSurvivorship_1">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -680,6 +704,7 @@
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="0" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -717,6 +742,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="circulation_start_date"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_end_date"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="SURVIVOR"/>
@@ -737,6 +764,7 @@
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="0" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -1016,6 +1044,7 @@
         <mapperTableEntries name="energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="SURVIVOR" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="CONFLICT" type="id_String" nullable="true"/>
@@ -1174,6 +1203,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="energy"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="circulation_end_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
