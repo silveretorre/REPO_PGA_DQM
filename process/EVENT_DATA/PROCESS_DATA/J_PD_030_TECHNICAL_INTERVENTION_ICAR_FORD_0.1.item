@@ -593,7 +593,8 @@
       <column comment="" key="false" length="-1" name="is_definitive_registration" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="ti_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="intervention_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="intervention_price_without_taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="intervention_price_workforce" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="intervention_price_pieces" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="intervention_price_with_taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -603,6 +604,7 @@
       <column comment="" key="false" length="255" name="intervention_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="intervention_start_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="payment_mode" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="payment_channel" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_model" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -694,8 +696,9 @@
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="ti_number" expression="( null != ttOTFac.FACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FACTURA))) ? &#xD;&#xA;String.valueOf(ttOTFac.FACTURA.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="intervention_price_without_taxes" expression="" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="intervention_price_with_taxes" expression="( null != ttOTCargo.IMPFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPFACTURA))) ? &#xD;&#xA;ttOTCargo.IMPFACTURA.doubleValue()&#xD;&#xA;: 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_workforce" expression="( null != ttOTCargo.IMPBRUTOMO &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPBRUTOMO))) ? ttOTCargo.IMPBRUTOMO.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_pieces" expression="( null != ttOTCargo.IMPBRUTOREC &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPBRUTOREC))) ? ttOTCargo.IMPBRUTOREC.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_with_taxes" expression="( null != ttOTCargo.IMPFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPFACTURA))) ? ttOTCargo.IMPFACTURA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="taxes" expression="( null != ttOTCargo.IMPIVA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPIVA))) ? &#xD;&#xA;ttOTCargo.IMPIVA.doubleValue()&#xD;&#xA;: 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="( null != tgPtoVenta.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPtoVenta.DESCRIP))) ? tgPtoVenta.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -704,6 +707,7 @@
         <mapperTableEntries name="intervention_end_date" expression="( null != ttOTCab.FECHAACABADOJEFE &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAACABADOJEFE))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAACABADOJEFE)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_channel" type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_model" expression="( null != ttOTCab.DESMODELO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESMODELO))) ? ttOTCab.DESMODELO : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : &quot;NA&quot; " type="id_String" nullable="true"/>
