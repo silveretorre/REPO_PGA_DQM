@@ -624,18 +624,18 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="(ttOTFac.EMP + &quot;_&quot; + String.valueOf((ttOTFac.NUMINTERNO) + &quot;_&quot; + + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
-        <mapperTableEntries name="isPhysicalPerson" expression="tgCliente.PERJURIDICA == 0" type="id_Boolean"/>
-        <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
-        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
+        <mapperTableEntries name="isPhysicalPerson" expression="ttOTCab.PERJURIDICA == 0" type="id_Boolean"/>
+        <mapperTableEntries name="hasName" expression="ttOTCab.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(ttOTCab.APELLIDO1)) " type="id_Boolean"/>
+        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( ttOTCab.FECHAAPERTURAOT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp; Var.hasName &amp; Var.date2007plus " activateExpressionFilter="true" id="_uxpGEIACEeaqxOOc4AmHWA - metadata">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHAAPERT))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPROP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPROP))) ? &#xD;&#xA;tcPresupuesto.CLIENTEPROP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;ttOTCab.CLIENTEFAC&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -856,6 +856,197 @@
         <mapperTableEntries name="CALCULOAIRSI" type="id_BigDecimal"/>
         <mapperTableEntries name="IMPAIRSI" type="id_BigDecimal"/>
         <mapperTableEntries name="PORAIRSI" type="id_BigDecimal"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="ttOTCab" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
+        <mapperTableEntries name="NUMINTERNO" expression="ttOTFac.NUMINTERNO " type="id_BigDecimal"/>
+        <mapperTableEntries name="NUMINTERNOPRESUPUESTO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PRESUPOT" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PRESUPCITA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="STATUS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="TALLER" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SECCION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ANOCITA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMCITA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ANOPRESUP" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMPRESUP" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ANOOT" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMOT" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMPRISMA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CLIENTEPASO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="VEHICULOPASO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="VEHICULO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CLIENTEFAC" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CLIENTEPROP" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CLIENTECOND" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="TAREA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="FECHAAPERTURACITA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAAPERTURAOT" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAPRESUP" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHACARTON" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="RECEPCIONISTA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SINIESTRO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PERITO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="FECHAPERITO" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ENTREGAPREVFECHA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ENTREGAPREVHORA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ENTREGAPREVMINUTO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ENTREGAREALFECHA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ENTREGAREALHORA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ENTREGAREALMINUTO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="VEHACABADORELOJ" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="VEHACABADOJEFE" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CLIENTEAVISADO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CERRADA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ANULADA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="FECHAACABADORELOJ" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAACABADOJEFE" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHACLIENTEAVISADO" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHACIERRE" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAANULACION" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CATEGORIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MARCA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MODELO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="VERSION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MODELOTALLER" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MATRIC" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CHASIS" type="id_String" nullable="true"/>
+        <mapperTableEntries name="COLOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TAPIZ" type="id_String" nullable="true"/>
+        <mapperTableEntries name="COMBUSTIBLE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FECMATRICPRIMERA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECMATRICULTIMA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAGARANTIA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAGARANTIAEXTEN" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHAGARANTIACHAPA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FABRSEMANA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="FABRMES" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="FABRANO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMMOTOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="KM" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CIF" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CORTESIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NOMBRE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="APELLIDO1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="APELLIDO2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="APELLIDOSEARCH" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRECCION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRCALLE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRVIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRBIS" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRPORTAL" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="DIRRESTO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CPOSTAL" type="id_String" nullable="true"/>
+        <mapperTableEntries name="POBLA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PROVIN" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PAIS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMTEL1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NUMTEL2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NUMGSM" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HORARTEL1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HORARTEL2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HORARGSM" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NUMFAX" type="id_String" nullable="true"/>
+        <mapperTableEntries name="EMAIL" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PROTECTDATOS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="SEGURCOMPA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="SEGURAGENCIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SEGURPOLIZA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SEGURFECHAVTO" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="DESMODELO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESVERSION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESCOLOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESTAPIZ" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TAREAPRESUP" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ULTOTFECHA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ULTOTEMP" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ULTOTTALLER" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ULTOTNUM" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ULTOTKM" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="INGPINTURA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DIRECCIONEDITADA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="INGPINTURAMARCA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FECHACADUCIDAD" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CREATEDATE1" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CREATEDATE2" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CREATEHOUR1" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CREATEHOUR2" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CREATEMINUTE1" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CREATEMINUTE2" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CREATESLAP" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="IDIOMADOCUM" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PIEZASNOSERVIDAS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="BLOQUEOCARGAPIEZAS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="STATUSENCURSO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MOTIVOBAJA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CODIGOFABRICACION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MOTORTIPO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="MARCAASOACTIVIDAD" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NIVELCARBURANTE" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="DEVPIEZASCLIENTE" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="INTERVENCIONGRUA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NUMCONTRATOSERVICIO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FECHAINICIOGARANTIA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="PRESIONRUEDADD" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PRESIONRUEDADI" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PRESIONRUEDATD" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="PRESIONRUEDATI" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="LITROSCARBURANTE" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="KMANTESREVISION" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="REVISIONANTESMES" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="NIVELACEITE" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="DEFECTOPOLUCION" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="APERTURAOTHORA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="APERTURAOTMINUTO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="INDICADOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CITARAPIDA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="INTERVENPARADA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="OTGUID" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HAYSMS" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="USUARIOBAJA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="KMSALIDA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ENCUESTACALIDAD" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ALPHACAR" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="LLEGADAVEHFECHA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="LLEGADAVEHHORA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="LLEGADAVEHMINUTO" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="SECRETARIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="INFIXE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="INICIALES" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ALMVENDEDOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="RECEPCIONACTIVA" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="MOVILIDADOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="VISACONSTRUCTOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PAGOVISACONSTRUCTOR" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="USUARIOCIERRE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="INTERFACEOMSG" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="SDXDOSSIER" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SDXWAN" type="id_String" nullable="true"/>
+        <mapperTableEntries name="IDMENUPRINCING" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="HAYCAMPANAFORD" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="ANOMENUPRICING" type="id_BigDecimal" nullable="true"/>
+        <mapperTableEntries name="CONEXIONCAMPANA" type="id_BigDecimal"/>
+        <mapperTableEntries name="COMENTARIORECAMBIO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="SLIDESHOW" type="id_BigDecimal"/>
+        <mapperTableEntries name="FECHAPROXSERV" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ESASISTCARRETERA" type="id_BigDecimal"/>
+        <mapperTableEntries name="NUMGSMPRO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HORARGSMPRO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FECHACITAEXTERNA" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="HORACITAEXTERNA" type="id_BigDecimal"/>
+        <mapperTableEntries name="MINUTOCITAEXTERNA" type="id_BigDecimal"/>
+        <mapperTableEntries name="CODIGOBVM" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FECHACAMBIO" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="FECHARECEPTABLETTEPC" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="STATUSTABLETTEPC" type="id_String" nullable="true"/>
+        <mapperTableEntries name="INTERFAZ" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TABLET" type="id_String" nullable="true"/>
+        <mapperTableEntries name="HSN" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TSN" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NOMBRECOMP" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NOMBREEDITADO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ENVIAROKR" type="id_BigDecimal"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="ttOTCargo.CLIENTE " type="id_BigDecimal"/>
@@ -1301,7 +1492,7 @@
         <mapperTableEntries name="MARCADEF" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
+        <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
         <mapperTableEntries name="CIF" type="id_String" nullable="true"/>
         <mapperTableEntries name="RAZON" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIPCORTO" type="id_String" nullable="true"/>
@@ -8064,6 +8255,998 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="608">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_25" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q="/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg - TTOTCAB" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TTOTCAB&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMINTERNO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMINTERNOPRESUPUESTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESUPOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESUPCITA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.STATUS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TALLER, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SECCION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ANOCITA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMCITA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ANOPRESUP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMPRESUP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ANOOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMPRISMA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CLIENTEPASO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VEHICULOPASO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VEHICULO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CLIENTEFAC, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CLIENTEPROP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CLIENTECOND, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TAREA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAAPERTURACITA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAAPERTURAOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAPRESUP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACARTON, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.RECEPCIONISTA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SINIESTRO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PERITO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAPERITO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAPREVFECHA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAPREVHORA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAPREVMINUTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAREALFECHA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAREALHORA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENTREGAREALMINUTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VEHACABADORELOJ, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VEHACABADOJEFE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CLIENTEAVISADO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CERRADA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ANULADA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAACABADORELOJ, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAACABADOJEFE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACLIENTEAVISADO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACIERRE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAANULACION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CATEGORIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MARCA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MODELO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VERSION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MODELOTALLER, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MATRIC, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CHASIS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.COLOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TAPIZ, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.COMBUSTIBLE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECMATRICPRIMERA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECMATRICULTIMA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAGARANTIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAGARANTIAEXTEN, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAGARANTIACHAPA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FABRSEMANA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FABRMES, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FABRANO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMMOTOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.KM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CIF, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PERJURIDICA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CORTESIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NOMBRE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.APELLIDO1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.APELLIDO2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.APELLIDOSEARCH, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRECCION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRCALLE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRVIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRBIS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRPORTAL, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRRESTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CPOSTAL, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.POBLA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PROVIN, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PAIS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMTEL1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMTEL2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMGSM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HORARTEL1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HORARTEL2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HORARGSM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMFAX, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.EMAIL, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PROTECTDATOS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SEGURCOMPA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SEGURAGENCIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SEGURPOLIZA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SEGURFECHAVTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DESMODELO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DESVERSION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DESCOLOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DESTAPIZ, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TAREAPRESUP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ULTOTFECHA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ULTOTEMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ULTOTTALLER, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ULTOTNUM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ULTOTKM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INGPINTURA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DIRECCIONEDITADA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INGPINTURAMARCA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACADUCIDAD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEDATE1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEDATE2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEHOUR1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEHOUR2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEMINUTE1, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATEMINUTE2, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CREATESLAP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.IDIOMADOCUM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PIEZASNOSERVIDAS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.BLOQUEOCARGAPIEZAS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.STATUSENCURSO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MOTIVOBAJA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CODIGOFABRICACION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MOTORTIPO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MARCAASOACTIVIDAD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NIVELCARBURANTE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DEVPIEZASCLIENTE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INTERVENCIONGRUA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMCONTRATOSERVICIO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAINICIOGARANTIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESIONRUEDADD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESIONRUEDADI, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESIONRUEDATD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PRESIONRUEDATI, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.LITROSCARBURANTE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.KMANTESREVISION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.REVISIONANTESMES, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NIVELACEITE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.DEFECTOPOLUCION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.APERTURAOTHORA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.APERTURAOTMINUTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INDICADOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CITARAPIDA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INTERVENPARADA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.OTGUID, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HAYSMS, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.USUARIOBAJA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.KMSALIDA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENCUESTACALIDAD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ALPHACAR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.LLEGADAVEHFECHA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.LLEGADAVEHHORA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.LLEGADAVEHMINUTO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SECRETARIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INFIXE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INICIALES, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ALMVENDEDOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.RECEPCIONACTIVA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MOVILIDADOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.VISACONSTRUCTOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.PAGOVISACONSTRUCTOR, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.USUARIOCIERRE, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INTERFACEOMSG, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SDXDOSSIER, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SDXWAN, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.IDMENUPRINCING, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HAYCAMPANAFORD, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ANOMENUPRICING, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CONEXIONCAMPANA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.COMENTARIORECAMBIO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.SLIDESHOW, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHAPROXSERV, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ESASISTCARRETERA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NUMGSMPRO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HORARGSMPRO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACITAEXTERNA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HORACITAEXTERNA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.MINUTOCITAEXTERNA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.CODIGOBVM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHACAMBIO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.FECHARECEPTABLETTEPC, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.STATUSTABLETTEPC, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.INTERFAZ, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TABLET, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.HSN, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.TSN, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NOMBRECOMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.NOMBREEDITADO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB.ENVIAROKR&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCAB&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTERNO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTERNOPRESUPUESTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESUPOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESUPCITA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="STATUS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TALLER"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SECCION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ANOCITA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMCITA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ANOPRESUP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMPRESUP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ANOOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMPRISMA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CLIENTEPASO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VEHICULOPASO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VEHICULO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CLIENTEFAC"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CLIENTEPROP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CLIENTECOND"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TAREA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAAPERTURACITA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAAPERTURAOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAPRESUP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACARTON"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="RECEPCIONISTA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SINIESTRO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PERITO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAPERITO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAPREVFECHA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAPREVHORA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAPREVMINUTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAREALFECHA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAREALHORA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENTREGAREALMINUTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VEHACABADORELOJ"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VEHACABADOJEFE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CLIENTEAVISADO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CERRADA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ANULADA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAACABADORELOJ"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAACABADOJEFE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACLIENTEAVISADO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACIERRE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAANULACION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CATEGORIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MARCA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MODELO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VERSION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MODELOTALLER"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MATRIC"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CHASIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="COLOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TAPIZ"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="COMBUSTIBLE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECMATRICPRIMERA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECMATRICULTIMA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAGARANTIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAGARANTIAEXTEN"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAGARANTIACHAPA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FABRSEMANA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FABRMES"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FABRANO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMMOTOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="KM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CIF"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PERJURIDICA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CORTESIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NOMBRE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="APELLIDO1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="APELLIDO2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="APELLIDOSEARCH"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRECCION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRCALLE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRVIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRBIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRPORTAL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRRESTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CPOSTAL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="POBLA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PROVIN"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PAIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMTEL1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMTEL2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMGSM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HORARTEL1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HORARTEL2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HORARGSM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMFAX"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMAIL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PROTECTDATOS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SEGURCOMPA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SEGURAGENCIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SEGURPOLIZA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SEGURFECHAVTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESMODELO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESVERSION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCOLOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESTAPIZ"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TAREAPRESUP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ULTOTFECHA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ULTOTEMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ULTOTTALLER"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ULTOTNUM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ULTOTKM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INGPINTURA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DIRECCIONEDITADA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INGPINTURAMARCA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACADUCIDAD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEDATE1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEDATE2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEHOUR1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEHOUR2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEMINUTE1"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATEMINUTE2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CREATESLAP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IDIOMADOCUM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PIEZASNOSERVIDAS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="BLOQUEOCARGAPIEZAS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="STATUSENCURSO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MOTIVOBAJA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CODIGOFABRICACION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MOTORTIPO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MARCAASOACTIVIDAD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NIVELCARBURANTE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DEVPIEZASCLIENTE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INTERVENCIONGRUA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMCONTRATOSERVICIO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAINICIOGARANTIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESIONRUEDADD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESIONRUEDADI"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESIONRUEDATD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PRESIONRUEDATI"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LITROSCARBURANTE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="KMANTESREVISION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="REVISIONANTESMES"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NIVELACEITE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DEFECTOPOLUCION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="APERTURAOTHORA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="APERTURAOTMINUTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INDICADOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CITARAPIDA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INTERVENPARADA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="OTGUID"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HAYSMS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="USUARIOBAJA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="KMSALIDA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENCUESTACALIDAD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ALPHACAR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LLEGADAVEHFECHA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LLEGADAVEHHORA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LLEGADAVEHMINUTO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SECRETARIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INFIXE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INICIALES"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ALMVENDEDOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="RECEPCIONACTIVA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MOVILIDADOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="VISACONSTRUCTOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PAGOVISACONSTRUCTOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="USUARIOCIERRE"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INTERFACEOMSG"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SDXDOSSIER"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SDXWAN"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IDMENUPRINCING"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HAYCAMPANAFORD"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ANOMENUPRICING"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CONEXIONCAMPANA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="COMENTARIORECAMBIO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SLIDESHOW"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHAPROXSERV"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ESASISTCARRETERA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMGSMPRO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HORARGSMPRO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACITAEXTERNA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HORACITAEXTERNA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MINUTOCITAEXTERNA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CODIGOBVM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHACAMBIO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FECHARECEPTABLETTEPC"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="STATUSTABLETTEPC"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="INTERFAZ"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TABLET"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="HSN"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TSN"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NOMBRECOMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NOMBREEDITADO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ENVIAROKR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TTOTCAB" name="tOracleInput_25">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTERNO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="NUMINTERNOPRESUPUESTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESUPOT" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESUPCITA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="STATUS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="TALLER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="SECCION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="ANOCITA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="NUMCITA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="ANOPRESUP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="NUMPRESUP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="ANOOT" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="NUMOT" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="NUMPRISMA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CLIENTEPASO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="VEHICULOPASO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="VEHICULO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CLIENTEFAC" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CLIENTEPROP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CLIENTECOND" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="TAREA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAAPERTURACITA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAAPERTURAOT" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAPRESUP" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHACARTON" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="RECEPCIONISTA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="20" name="SINIESTRO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="6" name="PERITO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAPERITO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="ENTREGAPREVFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="ENTREGAPREVHORA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="ENTREGAPREVMINUTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="ENTREGAREALFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="ENTREGAREALHORA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="ENTREGAREALMINUTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="VEHACABADORELOJ" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="VEHACABADOJEFE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CLIENTEAVISADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CERRADA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="ANULADA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAACABADORELOJ" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAACABADOJEFE" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHACLIENTEAVISADO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHACIERRE" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAANULACION" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="CATEGORIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="MARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="MODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="VERSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="MODELOTALLER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="MATRIC" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="CHASIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="6" name="COLOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="12" name="TAPIZ" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="COMBUSTIBLE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECMATRICPRIMERA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECMATRICULTIMA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAGARANTIA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAGARANTIAEXTEN" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAGARANTIACHAPA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="FABRSEMANA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="FABRMES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="FABRANO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMMOTOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="KM" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="20" name="CIF" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PERJURIDICA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="CORTESIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="NOMBRE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="APELLIDO1" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="APELLIDO2" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="150" name="APELLIDOSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="150" name="DIRECCION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="DIRCALLE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="DIRVIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="DIRBIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="6" name="DIRPORTAL" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="DIRRESTO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CPOSTAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="POBLA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMTEL1" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMTEL2" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMGSM" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="HORARTEL1" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="HORARTEL2" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="HORARGSM" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMFAX" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="EMAIL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PROTECTDATOS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="SEGURCOMPA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="35" name="SEGURAGENCIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="20" name="SEGURPOLIZA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="SEGURFECHAVTO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="DESMODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="DESVERSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="DESCOLOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="DESTAPIZ" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="TAREAPRESUP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="ULTOTFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="ULTOTEMP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="ULTOTTALLER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="ULTOTNUM" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="ULTOTKM" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="INGPINTURA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="250" name="DIRECCIONEDITADA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="INGPINTURAMARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHACADUCIDAD" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="CREATEDATE1" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="CREATEDATE2" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CREATEHOUR1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CREATEHOUR2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CREATEMINUTE1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CREATEMINUTE2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="6" name="CREATESLAP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="IDIOMADOCUM" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PIEZASNOSERVIDAS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="BLOQUEOCARGAPIEZAS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="STATUSENCURSO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="MOTIVOBAJA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="CODIGOFABRICACION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="MOTORTIPO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="MARCAASOACTIVIDAD" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="NIVELCARBURANTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="DEVPIEZASCLIENTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="INTERVENCIONGRUA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="NUMCONTRATOSERVICIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="FECHAINICIOGARANTIA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESIONRUEDADD" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESIONRUEDADI" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESIONRUEDATD" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PRESIONRUEDATI" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="LITROSCARBURANTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="KMANTESREVISION" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="REVISIONANTESMES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="NIVELACEITE" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="DEFECTOPOLUCION" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="APERTURAOTHORA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="APERTURAOTMINUTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="INDICADOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="CITARAPIDA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="INTERVENPARADA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="OTGUID" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="HAYSMS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="USUARIOBAJA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="8" name="KMSALIDA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="ENCUESTACALIDAD" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="ALPHACAR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="7" name="LLEGADAVEHFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="LLEGADAVEHHORA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="LLEGADAVEHMINUTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="SECRETARIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="INFIXE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="INICIALES" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="ALMVENDEDOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="RECEPCIONACTIVA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="MOVILIDADOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="11" name="VISACONSTRUCTOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="PAGOVISACONSTRUCTOR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="USUARIOCIERRE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="INTERFACEOMSG" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="SDXDOSSIER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="30" name="SDXWAN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="IDMENUPRINCING" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="HAYCAMPANAFORD" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="ANOMENUPRICING" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="CONEXIONCAMPANA" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="250" name="COMENTARIORECAMBIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="SLIDESHOW" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="11" name="FECHAPROXSERV" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="ESASISTCARRETERA" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NUMGSMPRO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="HORARGSMPRO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="11" name="FECHACITAEXTERNA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="HORACITAEXTERNA" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="MINUTOCITAEXTERNA" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="CODIGOBVM" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="11" name="FECHACAMBIO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="11" name="FECHARECEPTABLETTEPC" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="STATUSTABLETTEPC" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="INTERFAZ" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="TABLET" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4" name="HSN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="TSN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="NOMBRECOMP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="250" name="NOMBREEDITADO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="3" name="ENVIAROKR" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tOracleConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
@@ -8248,6 +9431,10 @@
   <connection connectorName="FLOW" label="ttOTCargo" lineStyle="8" metaname="tOracleInput_24" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_24" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ttOTCargo" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="ttOTCab" lineStyle="8" metaname="tOracleInput_25" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_25" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="ttOTCab" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
