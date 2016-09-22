@@ -610,7 +610,7 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="ID" expression="(ttOTFac.EMP + &quot;_&quot; + String.valueOf((ttOTFac.NUMINTERNO) + &quot;_&quot; + + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
+        <mapperTableEntries name="ID" expression="ttOTFac.EMP + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTERNO) + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="ttOTCab.PERJURIDICA.intValue() == 0" type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="ttOTCab.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(ttOTCab.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( ttOTCab.FECHACARTON, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
@@ -626,7 +626,7 @@
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHACARTON)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;ttOTCab.CLIENTEFAC&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;String.valueOf(ttOTCab.CLIENTEFAC.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -634,10 +634,10 @@
         <mapperTableEntries name="birth_date" expression="( null != tgCliente.FECHANACIM &amp;&amp; !(&quot;&quot;.equals(tgCliente.FECHANACIM))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgCliente.FECHANACIM)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="( null != tgCliente.PERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERMISO))) ? &#xD;&#xA;tgCliente.PERMISO&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" expression="( null != tgCliente.ENTREGAPERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.ENTREGAPERMISO))) ? &#xD;&#xA;tgCliente.ENTREGAPERMISO&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="deceased" expression="( ( tgCliente.BAJA != null &amp;&amp; tgCliente.BAJAMOT != null ) &amp;&amp; tgCliente.BAJA == 1 &amp;&amp; &quot;DC&quot;.equals(tgCliente.BAJAMOT) ) ? true : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="deceased" expression="( ( tgCliente.BAJA != null &amp;&amp; tgCliente.BAJAMOT != null ) &amp;&amp; tgCliente.BAJA.intValue() == 1 &amp;&amp; &quot;DC&quot;.equals(tgCliente.BAJAMOT) ) ? true : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="death_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="( null != tyIdioma.ISO639 &amp;&amp; !(&quot;&quot;.equals(tyIdioma.ISO639))) ? &#xD;&#xA;tyIdioma.ISO639&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(Math.round(tgCliente.DIRPORTAL)) : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL != 0 ? String.valueOf(tgCliente.DIRPORTAL.intValue()) : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="route" expression="( null != (tgVia.DESCRIPLARGO+tgCliente.DIRCALLE) &amp;&amp; !(&quot;&quot;.equals(tgVia.DESCRIPLARGO+tgCliente.DIRCALLE)) ? tgVia.DESCRIPLARGO+&quot; &quot;+tgCliente.DIRCALLE : &quot;NA&quot; ).trim() " type="id_String" nullable="true"/>
         <mapperTableEntries name="locality" expression="( null != tgPobla.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPobla.DESCRIP))) ? &#xD;&#xA;tgPobla.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
@@ -708,7 +708,7 @@
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="NUMINTFAC" type="id_BigDecimal"/>
