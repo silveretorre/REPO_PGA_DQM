@@ -1416,9 +1416,9 @@
     </metadata>
     <nodeData xsi:type="TalendXMLMap:XmlMapData">
       <inputTrees name="row8" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <nodes name="meta_brand_source_1" type="id_String" xpath="row8/meta_brand_source_1" lookupOutgoingConnections="//@node.28/@nodeData/@connections.21" nullable="false"/>
-        <nodes name="meta_application_name" type="id_String" xpath="row8/meta_application_name" lookupOutgoingConnections="//@node.28/@nodeData/@connections.19" nullable="false"/>
-        <nodes name="meta_id_source" type="id_String" xpath="row8/meta_id_source" lookupOutgoingConnections="//@node.28/@nodeData/@connections.20" nullable="false"/>
+        <nodes name="meta_brand_source_1" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.68" xpath="row8/meta_brand_source_1" lookupOutgoingConnections="//@node.28/@nodeData/@connections.21" nullable="false"/>
+        <nodes name="meta_application_name" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.69" xpath="row8/meta_application_name" lookupOutgoingConnections="//@node.28/@nodeData/@connections.19" nullable="false"/>
+        <nodes name="meta_id_source" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.70" xpath="row8/meta_id_source" lookupOutgoingConnections="//@node.28/@nodeData/@connections.20" nullable="false"/>
         <nodes name="person_uuid" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.22" xpath="row8/person_uuid"/>
         <nodes name="gender_norm" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.23" xpath="row8/gender_norm"/>
         <nodes name="firstname_norm" type="id_String" outgoingConnections="//@node.28/@nodeData/@connections.61" xpath="row8/firstname_norm"/>
@@ -1564,9 +1564,9 @@
         </nodes>
       </outputTrees>
       <outputTrees name="out1">
-        <nodes name="dedupMetaBrandSource" expression="dedup.meta_brand_source" type="id_String" xpath="out1/dedupMetaBrandSource"/>
-        <nodes name="dedupMetaapplicationName" expression="dedup.meta_application_name" type="id_String" xpath="out1/dedupMetaapplicationName"/>
-        <nodes name="dedupMetaIdSource" expression="dedup.meta_id_source" type="id_String" xpath="out1/dedupMetaIdSource"/>
+        <nodes name="dedupMetaBrandSource" expression="row8.meta_brand_source_1" type="id_String" incomingConnections="//@node.28/@nodeData/@connections.68" xpath="out1/dedupMetaBrandSource"/>
+        <nodes name="dedupMetaapplicationName" expression="row8.meta_application_name" type="id_String" incomingConnections="//@node.28/@nodeData/@connections.69" xpath="out1/dedupMetaapplicationName"/>
+        <nodes name="dedupMetaIdSource" expression="row8.meta_id_source" type="id_String" incomingConnections="//@node.28/@nodeData/@connections.70" xpath="out1/dedupMetaIdSource"/>
         <nodes name="meta_brand_source" expression="person_link.meta_brand_source " type="id_String" incomingConnections="//@node.28/@nodeData/@connections.9" xpath="out1/meta_brand_source"/>
         <nodes name="meta_application_name" expression="person_link.meta_application_name" type="id_String" incomingConnections="//@node.28/@nodeData/@connections.10" xpath="out1/meta_application_name"/>
         <nodes name="meta_id_source" expression="person_link.meta_id_source" type="id_String" incomingConnections="//@node.28/@nodeData/@connections.11" xpath="out1/meta_id_source"/>
@@ -1642,6 +1642,9 @@
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.45" target="//@node.28/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15/@children.1"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.46" target="//@node.28/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15/@children.2"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.48" target="//@node.28/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15/@children.4"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.0" target="//@node.28/@nodeData/@outputTrees.1/@nodes.0"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.1" target="//@node.28/@nodeData/@outputTrees.1/@nodes.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.28/@nodeData/@inputTrees.0/@nodes.2" target="//@node.28/@nodeData/@outputTrees.1/@nodes.2"/>
     </nodeData>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="288">
@@ -1674,6 +1677,8 @@
     <elementParameter field="TEXT" name="CURSOR_SIZE" value="10000"/>
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="newColumn"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
@@ -1686,6 +1691,7 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="vehicle_person_link" name="tPostgresqlInput_7">
+      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2143,6 +2149,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="person_link" lineStyle="8" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tXMLMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="newColumn"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="person_link" show="false"/>
   </connection>
