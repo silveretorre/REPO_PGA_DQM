@@ -1554,7 +1554,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="metadata" name="data">
+    <metadata comment="" label="metadata" name="data">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -1642,7 +1642,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="tcVehFactur.EMP + &quot;_&quot; + String.valueOf(tcVehFactur.NUMINTERNO)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -1654,7 +1654,7 @@
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus " activateExpressionFilter="true" id="_N1RoIIABEeaqxOOc4AmHWA - metadata">
-        <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
+        <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVehFactur.FECHAAPERT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
@@ -1740,7 +1740,7 @@
         <mapperTableEntries name="taxes" expression="( null != tcVehFactur.SUBTOTAL9 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL9))) ? tcVehFactur.SUBTOTAL9.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="LINEA" type="id_BigDecimal"/>
@@ -1894,9 +1894,9 @@
         <mapperTableEntries name="PORARSI" type="id_BigDecimal"/>
         <mapperTableEntries name="FECHAHORACREACION" type="id_Date" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="CODIGO" expression="tcVehFactur.CLIENTEPROP" type="id_BigDecimal"/>
-        <mapperTableEntries name="EMP" expression="tcVehFactur.EMP " type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="tgCliente" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="CODIGO" expression="tcVehFactur.CLIENTE" type="id_BigDecimal"/>
+        <mapperTableEntries name="EMP" expression="" type="id_String"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="CIF" type="id_String" nullable="true"/>
         <mapperTableEntries name="CORTESIA" type="id_String" nullable="true"/>
@@ -3537,7 +3537,7 @@
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
     <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="false"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="ProcessData_Comprop_Product_ICar_Ford.json"/>
+    <elementParameter field="TEXT" name="LABEL" value="ProcessData_Sale_Product_ICar_Ford.json"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tFileOutputDelimited_1">
       <column comment="" key="false" length="-1" name="content" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
