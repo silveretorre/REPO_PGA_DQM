@@ -1728,10 +1728,10 @@
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="&quot;VEHICLE &quot; + &#xD;&#xA;( tcVehFactur.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="reception_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="sale_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="delivery_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="delivery_date" expression="( null != tcVehFactur.FECHAENTREGA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAENTREGA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVehFactur.FECHAENTREGA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="( null != tgPtoVenta.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPtoVenta.DESCRIP))) ? tgPtoVenta.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_price" expression="( null != tcVehFactur.SUBTOTAL1 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL1))) ? tcVehFactur.SUBTOTAL1.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
@@ -1740,7 +1740,7 @@
         <mapperTableEntries name="taxes" expression="( null != tcVehFactur.SUBTOTAL9 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL9))) ? tcVehFactur.SUBTOTAL9.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="LINEA" type="id_BigDecimal"/>
