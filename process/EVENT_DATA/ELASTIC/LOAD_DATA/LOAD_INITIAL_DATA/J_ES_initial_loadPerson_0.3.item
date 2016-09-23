@@ -729,7 +729,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="row8">
-        <mapperTableEntries name="description_head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + dedup.meta_brand_source + &quot;\&quot;,\&quot;_type\&quot;:\&quot;person\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + dedup.master_gid + &quot;\&quot;}}&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="description_head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + dedup.meta_brand_source.toLowerCase() + &quot;\&quot;,\&quot;_type\&quot;:\&quot;person\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + dedup.master_gid + &quot;\&quot;}}&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source_1" expression="dedup.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String"/>
@@ -1464,10 +1464,10 @@
         <nodes name="meta_id_source" expression="person_link.id_vehicle" type="id_String" xpath="vehicle_consolidation/meta_id_source" lookupIncomingConnections="//@node.27/@nodeData/@connections.8" nullable="false"/>
         <nodes name="master_gid" type="id_String" outgoingConnections="//@node.27/@nodeData/@connections.12" xpath="vehicle_consolidation/master_gid"/>
       </inputTrees>
-      <outputTrees name="head">
+      <outputTrees activateCondensedTool="true" name="head">
         <nodes name="description_head" expression="row8.description_head" type="id_String" incomingConnections="//@node.27/@nodeData/@connections.63" xpath="head/description_head"/>
       </outputTrees>
-      <outputTrees activateCondensedTool="true" minimized="true" name="out" allInOne="true">
+      <outputTrees activateCondensedTool="true" name="out" allInOne="true">
         <nodes name="Person" expression="" type="id_Document" xpath="out/Person" pattern="">
           <children xsi:type="TalendXMLMap:OutputTreeNode" name="Person" type="id_String" xpath="out.Person:/Person" main="true">
             <children xsi:type="TalendXMLMap:OutputTreeNode" name="person_uuid" expression="row8.person_uuid" type="id_Date" incomingConnections="//@node.27/@nodeData/@connections.17" xpath="out.Person:/Person/person_uuid" pattern="&quot;dd-MM-yyyy&quot;"/>
@@ -1876,6 +1876,29 @@
       <column comment="" key="false" length="-1" name="Person" nullable="true" pattern="" precision="-1" sourceType="" type="id_Document" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tUniqRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1920" posY="480">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tUniqRow_1" show="false"/>
+    <elementParameter field="TABLE" name="UNIQUE_KEY">
+      <elementValue elementRef="SCHEMA_COLUMN" value="description_head"/>
+      <elementValue elementRef="KEY_ATTRIBUTE" value="true"/>
+      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="ONLY_ONCE_EACH_DUPLICATED_KEY" value="false"/>
+    <elementParameter field="CHECK" name="IS_VIRTUAL_COMPONENT" value="false"/>
+    <elementParameter field="OPENED_LIST" name="BUFFER_SIZE" value="M" show="false"/>
+    <elementParameter field="DIRECTORY" name="TEMP_DIRECTORY" value="" show="false"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="head" name="tUniqRow_1">
+      <column comment="" key="false" length="-1" name="description_head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <metadata connector="UNIQUE" label="head" name="UNIQUE">
+      <column comment="" key="false" length="-1" name="description_head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <metadata connector="DUPLICATE" label="head" name="DUPLICATE">
+      <column comment="" key="false" length="-1" name="description_head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2048" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_5" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
@@ -2194,7 +2217,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="address" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="head" lineStyle="0" metaname="head" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tXMLMap_1" target="tFileOutputDelimited_5">
+  <connection connectorName="FLOW" label="head" lineStyle="0" metaname="head" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tXMLMap_1" target="tUniqRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="head" show="false"/>
   </connection>
@@ -2222,6 +2245,10 @@
   <connection connectorName="FLOW" label="vehicle_consolidation" lineStyle="8" metaname="tPostgresqlInput_10" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_10" target="tXMLMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle_consolidation" show="false"/>
+  </connection>
+  <connection connectorName="UNIQUE" label="row7" lineStyle="0" metaname="UNIQUE" offsetLabelX="0" offsetLabelY="0" source="tUniqRow_1" target="tFileOutputDelimited_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
   <note opaque="true" posX="1120" posY="896" sizeHeight="64" sizeWidth="705" text="Rajouter tSystem pour éxécuter la commande sur le job server elastic  (188.165.246.126): &#xD;&#xA;curl -XPUT localhost:9200/_bulk --data-binary &quot;nom du fichier construit&quot;"/>
   <note opaque="false" posX="320" posY="32" sizeHeight="225" sizeWidth="929" text="Initial person load in ElasticSearch (with Bulk Load mode)&#xD;&#xA;&#xD;&#xA;v0.1 (2016/08/24) - GMA : first version.&#xD;&#xA;v0.2 (2016/09/08) - CRO  : - Add Connection_OpenClose_DB_ODS joblet.&#xD;&#xA;                                           - Removal of tHashInput / tHashOuput for RAM optimisation.&#xD;&#xA;                                           - Update of lookup query flow to restrict  perimeter as same as main flow.&#xD;&#xA;                                           - Send bulk file to ElasticSearch with a CURL command (with a tSystem component)&#xD;&#xA;                                           - Change Send bulk file to ElasticSearch by a exchange with REST protocol (with a tRestClient component)&#xD;&#xA;                                           - Split bulk files with 2000 rows.&#xD;&#xA;v0.3 (2016/09/09) - CRO  : - Add an archivage of bulk files step at the end of the job. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;-Add lookups in order to complete the schema with phones, digitaldetails, addresses and emails&#xD;&#xA;">
