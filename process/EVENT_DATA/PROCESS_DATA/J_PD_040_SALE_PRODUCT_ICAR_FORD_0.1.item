@@ -241,7 +241,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.NUMINTERNO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.LINEA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.TIPOFACTURA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.FECHAFACTURA&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR&#xD;&#xA;WHERE  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.TIPOFACTURA = &quot;VE&quot;&#xD;&#xA;SAMPLE(1)&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.NUMINTERNO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.LINEA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.TIPOFACTURA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR.FECHAFACTURA&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TCVEHFACTUR&#xD;&#xA;SAMPLE(1)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1654,8 +1654,9 @@
         <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
+        <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus " activateExpressionFilter="true" id="_N1RoIIABEeaqxOOc4AmHWA - metadata">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale " activateExpressionFilter="true" id="_N1RoIIABEeaqxOOc4AmHWA - metadata">
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
@@ -1744,7 +1745,7 @@
         <mapperTableEntries name="payment_mode" expression="( null != tgModoPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModoPago.DESCRIP))) ? tgModoPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" expression="( null != tgFormaPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgFormaPago.DESCRIP))) ? tgFormaPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="LINEA" type="id_BigDecimal"/>
