@@ -955,8 +955,8 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="filtre1" expression="true " type="id_Boolean"/>
-        <mapperTableEntries name="ID" expression="new Integer(siv.id_technique).toString() " type="id_String"/>
-        <mapperTableEntries name="contract_id" expression="contrats.IdPdt_Ct.toString() + &quot;_&quot; + contrats.NumContrat_Ct.toString()" type="id_String"/>
+        <mapperTableEntries name="ID" expression="String.valueOf(contrats.IdContrat_Ct) " type="id_String"/>
+        <mapperTableEntries name="contract_id" expression="String.valueOf(contrats.IdPdt_Ct) + &quot;_&quot; + String.valueOf(contrats.NumContrat_Ct) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.filtre1 " activateExpressionFilter="true" id="_XCL5EIAAEeaqxOOc4AmHWA - metadata">
         <mapperTableEntries name="process_type" expression="&quot;SALE_SERVICE&quot;" type="id_String"/>
@@ -966,7 +966,7 @@
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender" expression="( null != contratsAdresses.PropCivilite_Adr &amp;&amp; !(&quot;&quot;.equals(contratsAdresses.PropCivilite_Adr))) ? contratsAdresses.PropCivilite_Adr : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="( null != civilites.Civilite &amp;&amp; !(&quot;&quot;.equals(civilites.Civilite))) ? civilites.Civilite : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
@@ -1127,7 +1127,7 @@
         <mapperTableEntries name="booRepriseAIXIA" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="booRepriseAppli" type="id_Boolean" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="Tiers" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="Tiers" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IDTiers" expression="titulairesContrats.IDTiers " type="id_Integer" operator="="/>
         <mapperTableEntries name="IDAdresse" type="id_Integer"/>
         <mapperTableEntries name="Nom" type="id_String" nullable="true"/>
@@ -1330,9 +1330,17 @@
         <mapperTableEntries name="Valeur" type="id_String" nullable="true"/>
         <mapperTableEntries name="TypeParam" type="id_String" nullable="true"/>
       </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="civilites" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="Civilite" expression="" type="id_String"/>
+        <mapperTableEntries name="Description" type="id_String" nullable="true"/>
+        <mapperTableEntries name="IDCivilite" expression="Tiers.IDCivilite " type="id_Integer"/>
+        <mapperTableEntries name="booBeneficiaire" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="booSaisissable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="ValeurSelecteur" type="id_Integer" nullable="true"/>
+      </inputTables>
     </nodeData>
   </node>
-  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="416">
+  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWriteJSONField_1" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_UlFNUHv2EeaBDLhFaWL-Tg" show="false"/>
@@ -2001,7 +2009,7 @@
       <column comment="" key="true" length="100" name="content" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="100" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tExtractJSONFields" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="416">
+  <node componentName="tExtractJSONFields" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tExtractJSONFields_1" show="false"/>
     <elementParameter field="CLOSED_LIST" name="READ_BY" value="XPATH"/>
     <elementParameter field="PREV_COLUMN_LIST" name="JSONFIELD" value="content"/>
@@ -3161,7 +3169,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputJSON" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="416">
+  <node componentName="tFileOutputJSON" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1120" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputJSON_1" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="context.FPath+&quot;/&quot; + jobName + &quot;/ProcessData_Registration_SIV_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,(TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,((String)globalMap.get(&quot;siv_id.b4_date_immat_siv&quot;))))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;siv_id.id_technique&quot;))) + &quot;.json&quot;"/>
     <elementParameter field="CHECK" name="GENERATE_JSON_ARRAY" value="false"/>
@@ -3358,7 +3366,7 @@
       <column comment="" key="false" length="255" name="rent_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="352">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_3" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3419,7 +3427,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="320">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_4" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3640,7 +3648,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="288">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_2" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3691,7 +3699,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="256">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_5" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3737,7 +3745,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="224">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_6" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3803,7 +3811,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="256">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_7" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -3879,7 +3887,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="288">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_8" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -4115,7 +4123,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="320">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_9" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -4607,7 +4615,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="512">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_12" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -4664,6 +4672,72 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="TypeParam" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_13" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="__sATIIPsEeaqxOOc4AmHWA" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_SECURYWEB_SQL_Prod_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_SECURYWEB_SQL_Prod_Port"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_SECURYWEB_SQL_Prod_Schema"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_SQL_Prod_Database"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_SQL_Prod_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTlfRETBPyHvTSPb3xheOfovYHUTSEaKQyQ=="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="__sATIIPsEeaqxOOc4AmHWA - Civilités" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;Civilités&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.\&quot;Civilité\&quot;,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.Description,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.\&quot;IDCivilité\&quot;,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.\&quot;booBénéficiaire\&quot;,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.booSaisissable,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;.\&quot;ValeurSélecteur\&quot;&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.\&quot;Civilités\&quot;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_SECURYWEB_SQL_Prod_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="Civilite"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Description"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IDCivilite"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booBeneficiaire"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booSaisissable"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ValeurSelecteur"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="Civilités" name="tMSSqlInput_13">
+      <column comment="" key="false" length="15" name="Civilite" nullable="false" originalDbColumnName="Civilité" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="IDCivilite" nullable="false" originalDbColumnName="IDCivilité" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booBeneficiaire" nullable="true" originalDbColumnName="booBénéficiaire" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booSaisissable" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="ValeurSelecteur" nullable="true" originalDbColumnName="ValeurSélecteur" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -4955,6 +5029,10 @@
   <connection connectorName="FLOW" label="parametres" lineStyle="8" metaname="tMSSqlInput_12" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_12" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="parametres" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="civilites" lineStyle="8" metaname="tMSSqlInput_13" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_13" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="civilites" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
