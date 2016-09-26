@@ -229,7 +229,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdContrat_Ct&quot;&#xA;+&quot; &#xA;FROM&#x9; \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats&#xD;&#xA;LIMIT 10&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdContrat_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.\&quot;DateIntégration_Ct\&quot;&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -241,11 +241,16 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="IdContrat_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DateIntegration_Ct"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="Contrats" name="tMSSqlInput_11">
       <column comment="" key="true" length="10" name="IdContrat_Ct" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DateIntegration_Ct" nullable="true" originalDbColumnName="DateIntégration_Ct" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="5" name="Etat_Ct" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -309,9 +314,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="booNPAI_Ct" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="23" name="DateIntegration_Ct" nullable="true" originalDbColumnName="DateIntégration_Ct" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="23" name="DateModif_Ct" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="false">
@@ -3179,7 +3181,7 @@
   </node>
   <node componentName="tFileOutputJSON" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1120" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputJSON_1" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.FPath+&quot;/&quot; + jobName + &quot;/ProcessData_Registration_SIV_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,(TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,((String)globalMap.get(&quot;siv_id.b4_date_immat_siv&quot;))))) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;siv_id.id_technique&quot;))) + &quot;.json&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.FPath+&quot;/&quot; + jobName + &quot;/ProcessData_SaleService_SECURYCAR_&quot; + TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,(Date)globalMap.get(&quot;contrat_id.DateIntegration_Ct&quot;)) + &quot;_&quot; + (String.valueOf(globalMap.get(&quot;contrat_id.IdContrat_Ct&quot;))) + &quot;.json&quot;"/>
     <elementParameter field="CHECK" name="GENERATE_JSON_ARRAY" value="false"/>
     <elementParameter field="TEXT" name="DATABLOCKNAME" value="&quot;pga_process_data&quot;"/>
     <elementParameter field="CHECK" name="CREATE" value="true"/>
