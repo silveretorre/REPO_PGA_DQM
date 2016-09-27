@@ -49,7 +49,7 @@
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx20g " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="32" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="20" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_HADOOP_DISTRIBUTION" value="" show="false"/>
@@ -199,6 +199,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="672">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'alimentation des fichiers bulk: &quot; + context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot; + &quot;ES_vehicle_BulkLoadXXX.json&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -207,6 +208,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Début de l'envoi des fichiers bulk vers ElasticSearch...&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -215,6 +217,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1216">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_4" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'envoi des fichiers bulk vers ElasticSearch. Veuillez consulter les fichiers *.log dans le répertoire &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -223,6 +226,7 @@
   </node>
   <node componentName="tFileList" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileList_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.bulkFile_Input_File_Path + &quot;/&quot; + jobName"/>
     <elementParameter field="CLOSED_LIST" name="LIST_MODE" value="FILES"/>
     <elementParameter field="CHECK" name="INCLUDSUBDIR" value="false"/>
@@ -245,6 +249,7 @@
   </node>
   <node componentName="tFileInputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputRaw_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
     <elementParameter field="RADIO" name="AS_STRING" value="true"/>
     <elementParameter field="RADIO" name="AS_BYTEARRAY" value="false"/>
@@ -259,6 +264,7 @@
   </node>
   <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="480" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="false"/>
     <elementParameter field="TABLE" name="MANUALTABLE">
       <elementValue elementRef="INPUT_COLUMN" value="content"/>
@@ -278,6 +284,7 @@
   </node>
   <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTClient_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="URL" value="&quot;http://localhost:9200/_bulk&quot;"/>
     <elementParameter field="TEXT" name="PATH" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="METHOD" value="PUT"/>
@@ -333,6 +340,7 @@
   </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;)).replace(&quot;.json&quot;, &quot;_response.log&quot;)"/>
@@ -369,6 +377,7 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="928">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -400,6 +409,7 @@
   </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;)).replace(&quot;.json&quot;, &quot;_error.log&quot;)"/>
@@ -435,6 +445,7 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="1088">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -463,6 +474,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1344">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_5" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Lancement de l'archivage de l'ensemble des fichiers bulk (.json / .log) contenus dans répertoire : &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -471,6 +483,7 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1600">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_6" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'archivage de l'ensemble des fichiers bulk (.json / .log) contenus dans répertoire : &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -507,6 +520,7 @@
   </node>
   <node componentName="tSystem" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1472">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSystem_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="ROOTDIR" value="true"/>
     <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.bulkFile_Input_File_Path + jobName"/>
     <elementParameter field="RADIO" name="USE_SINGLE_COMMAND" value="true"/>
@@ -591,7 +605,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="416" posY="512" sizeX="128" sizeY="32">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="416" posY="512" sizeX="256" sizeY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_2" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -623,9 +637,12 @@
       <column comment="" key="false" length="255" name="vehicle_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="registration_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="row8">
         <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source.toLowerCase() " type="id_String"/>
@@ -635,19 +652,22 @@
         <mapperTableEntries name="argus_kind" expression="norm.argus_kind " type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="norm.argus_model " type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="norm.argus_version " type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand" expression="norm.brand " type="id_String" nullable="true"/>
-        <mapperTableEntries name="circulation_end_date" expression="norm.circulation_end_date " type="id_Date" nullable="true"/>
-        <mapperTableEntries name="circulation_start_date" expression="norm.circulation_start_date " type="id_Date" nullable="true"/>
-        <mapperTableEntries name="color" expression="norm.color " type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy" expression="norm.energy " type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind" expression="norm.kind " type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="norm.last_mileage_known " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="model" expression="norm.model " type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="master.brand  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" expression="master.circulation_start_date  " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" expression="master.circulation_end_date  " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="color" expression="master.color  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="master.energy  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="master.kind  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="master.last_mileage_known  " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="model" expression="master.model  " type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="norm.national_identification_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="origin_country_code" expression="norm.origin_country_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup.master_gid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" expression="norm.version " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="norm.vin " type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="master.version  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="master.vin_norm  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number_norm" expression="vehicle_registration.registration_number_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_date" expression="vehicle_registration.registration_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="end_date" expression="vehicle_registration.end_date " type="id_Date" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="dedup" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -657,40 +677,43 @@
         <mapperTableEntries name="gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="norm" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_creation_date" type="id_Date"/>
-        <mapperTableEntries name="meta_update_date" type="id_Date"/>
-        <mapperTableEntries name="meta_consumed" type="id_Boolean"/>
-        <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String" operator="="/>
+      <inputTables sizeState="INTERMEDIATE" name="master" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+        <mapperTableEntries name="master_gid" expression="dedup.master_gid " type="id_String" operator="="/>
+        <mapperTableEntries name="vin_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="model" type="id_String" nullable="true"/>
         <mapperTableEntries name="version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" type="id_String" nullable="true"/>
-        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="SURVIVOR" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="CONFLICT" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="norm" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_kind" type="id_String" nullable="true"/>
-        <mapperTableEntries name="equipements_talend_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="equipements_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="equipements_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="equipements_external_identifier" type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_optional" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="creation_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="vehicle_registration" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="dedup.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="dedup.meta_application_name " type="id_String"/>
+        <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String"/>
+        <mapperTableEntries name="registration_number_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="352">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -704,14 +727,12 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - vehicle" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;vehicle&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_update_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_consumed\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;kind\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;vin\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;national_identification_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;circulation_end_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;origin_country_code\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;last_mileage_known\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_kind\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;equipements_talend_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;equipements_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;equipements_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;equipements_external_identifier\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;is_optional\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;update_date\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;national_identification_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;origin_country_code\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;.\&quot;argus_kind\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;vehicle\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -726,37 +747,11 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_creation_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_update_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_consumed"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="version"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="kind"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vin"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="energy"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="color"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="national_identification_type"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_start_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_end_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="origin_country_code"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="argus_brand"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -765,20 +760,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="argus_version"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="argus_kind"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="equipements_talend_id"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="equipements_type"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="equipements_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="equipements_external_identifier"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="is_optional"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="creation_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -790,52 +771,13 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="national_identification_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="255" name="origin_country_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -850,27 +792,6 @@
       <column comment="" key="false" length="255" name="argus_kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="equipements_talend_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2147483647" name="equipements_description" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_external_identifier" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="is_optional" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="40" name="meta_process_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -879,7 +800,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tXMLMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="672" posY="512">
+  <node componentName="tXMLMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="768" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tXMLMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false" show="false"/>
@@ -891,70 +812,62 @@
     </metadata>
     <nodeData xsi:type="TalendXMLMap:XmlMapData">
       <inputTrees name="row8" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <nodes name="meta_brand_source" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.23" xpath="row8/meta_brand_source" lookupOutgoingConnections="//@node.21/@nodeData/@connections.0" nullable="false"/>
-        <nodes name="meta_application_name" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.21" xpath="row8/meta_application_name" lookupOutgoingConnections="//@node.21/@nodeData/@connections.1" nullable="false"/>
-        <nodes name="meta_id_source" type="id_String" xpath="row8/meta_id_source" lookupOutgoingConnections="//@node.21/@nodeData/@connections.2" nullable="false"/>
-        <nodes name="argus_brand" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.3" xpath="row8/argus_brand"/>
-        <nodes name="argus_kind" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.4" xpath="row8/argus_kind"/>
-        <nodes name="argus_model" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.5" xpath="row8/argus_model"/>
-        <nodes name="argus_version" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.6" xpath="row8/argus_version"/>
-        <nodes name="brand" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.7" xpath="row8/brand"/>
-        <nodes name="circulation_end_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.8" xpath="row8/circulation_end_date"/>
-        <nodes name="circulation_start_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.9" xpath="row8/circulation_start_date"/>
-        <nodes name="color" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.10" xpath="row8/color"/>
-        <nodes name="energy" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.11" xpath="row8/energy"/>
-        <nodes name="kind" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.12" xpath="row8/kind"/>
-        <nodes name="last_mileage_known" type="id_Integer" outgoingConnections="//@node.21/@nodeData/@connections.13" xpath="row8/last_mileage_known"/>
-        <nodes name="model" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.14" xpath="row8/model"/>
-        <nodes name="national_identification_type" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.15" xpath="row8/national_identification_type"/>
-        <nodes name="origin_country_code" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.16" xpath="row8/origin_country_code"/>
-        <nodes name="vehicle_uuid" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.17 //@node.21/@nodeData/@connections.24" xpath="row8/vehicle_uuid"/>
+        <nodes name="meta_brand_source" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.16" xpath="row8/meta_brand_source" nullable="false"/>
+        <nodes name="meta_application_name" type="id_String" xpath="row8/meta_application_name" nullable="false"/>
+        <nodes name="meta_id_source" type="id_String" xpath="row8/meta_id_source" nullable="false"/>
+        <nodes name="argus_brand" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.0" xpath="row8/argus_brand"/>
+        <nodes name="argus_kind" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.1" xpath="row8/argus_kind"/>
+        <nodes name="argus_model" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.2" xpath="row8/argus_model"/>
+        <nodes name="argus_version" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.3" xpath="row8/argus_version"/>
+        <nodes name="brand" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.4" xpath="row8/brand"/>
+        <nodes name="circulation_end_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.5" xpath="row8/circulation_end_date"/>
+        <nodes name="circulation_start_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.6" xpath="row8/circulation_start_date"/>
+        <nodes name="color" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.7" xpath="row8/color"/>
+        <nodes name="energy" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.8" xpath="row8/energy"/>
+        <nodes name="kind" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.9" xpath="row8/kind"/>
+        <nodes name="last_mileage_known" type="id_Integer" outgoingConnections="//@node.21/@nodeData/@connections.10" xpath="row8/last_mileage_known"/>
+        <nodes name="model" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.11" xpath="row8/model"/>
+        <nodes name="national_identification_type" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.12" xpath="row8/national_identification_type"/>
+        <nodes name="origin_country_code" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.13" xpath="row8/origin_country_code"/>
+        <nodes name="vehicle_uuid" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.14 //@node.21/@nodeData/@connections.17" xpath="row8/vehicle_uuid"/>
         <nodes name="version" type="id_String" xpath="row8/version"/>
-        <nodes name="vin" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.18" xpath="row8/vin"/>
+        <nodes name="vin" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.15" xpath="row8/vin"/>
+        <nodes name="registration_number_norm" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.18" xpath="row8/registration_number_norm"/>
+        <nodes name="registration_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.19" xpath="row8/registration_date"/>
+        <nodes name="end_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.20" xpath="row8/end_date"/>
       </inputTrees>
-      <inputTrees name="row7" lookup="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <nodes name="meta_brand_source" expression="row8.meta_brand_source" type="id_String" xpath="row7/meta_brand_source" lookupIncomingConnections="//@node.21/@nodeData/@connections.0" nullable="false"/>
-        <nodes name="meta_application_name" expression="row8.meta_application_name" type="id_String" xpath="row7/meta_application_name" lookupIncomingConnections="//@node.21/@nodeData/@connections.1" nullable="false"/>
-        <nodes name="meta_id_source" expression="row8.meta_id_source" type="id_String" xpath="row7/meta_id_source" lookupIncomingConnections="//@node.21/@nodeData/@connections.2" nullable="false"/>
-        <nodes name="registration_number_norm" type="id_String" outgoingConnections="//@node.21/@nodeData/@connections.22" xpath="row7/registration_number_norm"/>
-        <nodes name="registration_date" expression="" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.19" xpath="row7/registration_date"/>
-        <nodes name="end_date" type="id_Date" outgoingConnections="//@node.21/@nodeData/@connections.20" xpath="row7/end_date"/>
-      </inputTrees>
-      <outputTrees activateCondensedTool="true" name="out5" enableEmptyElement="false">
+      <outputTrees activateCondensedTool="true" name="out5">
         <nodes name="newColumn" expression="" type="id_Document" xpath="out5/newColumn" pattern="">
           <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle" expression="" type="id_String" xpath="out5.newColumn:/vehicle" main="true">
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_brand" expression="row8.argus_brand" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.3" xpath="out5.newColumn:/vehicle/argus_brand"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_kind" expression="row8.argus_kind" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.4" xpath="out5.newColumn:/vehicle/argus_kind"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_model" expression="row8.argus_model" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.5" xpath="out5.newColumn:/vehicle/argus_model"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_version" expression="row8.argus_version" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.6" xpath="out5.newColumn:/vehicle/argus_version"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="brand" expression="row8.brand" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.7" xpath="out5.newColumn:/vehicle/brand"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_end_date" expression="row8.circulation_end_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.8" xpath="out5.newColumn:/vehicle/circulation_end_date" pattern="&quot;dd-MM-yyyy&quot;"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_start_date" expression="row8.circulation_start_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.9" xpath="out5.newColumn:/vehicle/circulation_start_date" pattern="&quot;dd-MM-yyyy&quot;"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="color" expression="row8.color" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.10" xpath="out5.newColumn:/vehicle/color"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="energy" expression="row8.energy" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.11" xpath="out5.newColumn:/vehicle/energy"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="kind" expression="row8.kind" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.12" xpath="out5.newColumn:/vehicle/kind"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="last_mileage_known" expression="row8.last_mileage_known" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.13" xpath="out5.newColumn:/vehicle/last_mileage_known"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="model" expression="row8.model" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.14" xpath="out5.newColumn:/vehicle/model"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="national_identification_type" expression="row8.national_identification_type" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.15" xpath="out5.newColumn:/vehicle/national_identification_type"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="origin_country_code" expression="row8.origin_country_code" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.16" xpath="out5.newColumn:/vehicle/origin_country_code"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="src_application_name" expression=" row8.meta_application_name" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.21" xpath="out5.newColumn:/vehicle/src_application_name"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle_uuid" expression="row8.vehicle_uuid" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.17" xpath="out5.newColumn:/vehicle/vehicle_uuid" aggregate="true"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vin" expression="row8.vin" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.18" xpath="out5.newColumn:/vehicle/vin"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_brand" expression="row8.argus_brand" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.0" xpath="out5.newColumn:/vehicle/argus_brand"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_kind" expression="row8.argus_kind" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.1" xpath="out5.newColumn:/vehicle/argus_kind"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_model" expression="row8.argus_model" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.2" xpath="out5.newColumn:/vehicle/argus_model"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_version" expression="row8.argus_version" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.3" xpath="out5.newColumn:/vehicle/argus_version"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="brand" expression="row8.brand" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.4" xpath="out5.newColumn:/vehicle/brand"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_end_date" expression="row8.circulation_end_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.5" xpath="out5.newColumn:/vehicle/circulation_end_date" pattern="&quot;dd-MM-yyyy&quot;"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_start_date" expression="row8.circulation_start_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.6" xpath="out5.newColumn:/vehicle/circulation_start_date" pattern="&quot;dd-MM-yyyy&quot;"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="color" expression="row8.color" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.7" xpath="out5.newColumn:/vehicle/color"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="energy" expression="row8.energy" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.8" xpath="out5.newColumn:/vehicle/energy"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="kind" expression="row8.kind" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.9" xpath="out5.newColumn:/vehicle/kind"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="last_mileage_known" expression="row8.last_mileage_known" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.10" xpath="out5.newColumn:/vehicle/last_mileage_known"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="model" expression="row8.model" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.11" xpath="out5.newColumn:/vehicle/model"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="national_identification_type" expression="row8.national_identification_type" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.12" xpath="out5.newColumn:/vehicle/national_identification_type"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="origin_country_code" expression="row8.origin_country_code" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.13" xpath="out5.newColumn:/vehicle/origin_country_code"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="src_application_name" expression="" type="id_String" xpath="out5.newColumn:/vehicle/src_application_name"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle_uuid" expression="row8.vehicle_uuid" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.14" xpath="out5.newColumn:/vehicle/vehicle_uuid" aggregate="true"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vin" expression="row8.vin" type="id_Integer" incomingConnections="//@node.21/@nodeData/@connections.15" xpath="out5.newColumn:/vehicle/vin"/>
             <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumbers" expression="" type="id_String" xpath="out5.newColumn:/vehicle/RegistrationNumbers" loop="true" main="true">
               <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumber" expression="" type="id_String" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber">
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_number_norm" expression=" row7.registration_number_norm" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.22" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_number_norm"/>
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_date" expression="row7.registration_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.19" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_date"/>
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="end_date" expression="row7.end_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.20" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/end_date"/>
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_number_norm" expression=" row8.registration_number_norm" type="id_String" incomingConnections="//@node.21/@nodeData/@connections.18" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_number_norm"/>
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_date" expression="row8.registration_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.19" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_date"/>
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="end_date" expression="row8.end_date" type="id_Date" incomingConnections="//@node.21/@nodeData/@connections.20" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/end_date"/>
               </children>
             </children>
           </children>
         </nodes>
-        <nodes name="head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + row8.meta_brand_source.toLowerCase() + &quot;\&quot;,\&quot;_type\&quot;:\&quot;vehicle\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row8.vehicle_uuid + &quot;\&quot;}}&quot; " type="id_String" incomingConnections="//@node.21/@nodeData/@connections.23 //@node.21/@nodeData/@connections.24" xpath="out5/head" pattern=""/>
+        <nodes name="head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + row8.meta_brand_source.toLowerCase() + &quot;\&quot;,\&quot;_type\&quot;:\&quot;vehicle\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row8.vehicle_uuid + &quot;\&quot;}}&quot; " type="id_String" incomingConnections="//@node.21/@nodeData/@connections.16 //@node.21/@nodeData/@connections.17" xpath="out5/head" pattern=""/>
       </outputTrees>
       <varTables name="Var" minimized="true"/>
-      <connections xsi:type="TalendXMLMap:LookupConnection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.0" target="//@node.21/@nodeData/@inputTrees.1/@nodes.0"/>
-      <connections xsi:type="TalendXMLMap:LookupConnection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.1" target="//@node.21/@nodeData/@inputTrees.1/@nodes.1"/>
-      <connections xsi:type="TalendXMLMap:LookupConnection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.2" target="//@node.21/@nodeData/@inputTrees.1/@nodes.2"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.3" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.0"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.4" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.1"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.5" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.2"/>
@@ -971,15 +884,190 @@
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.16" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.13"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.17" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.19" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.1/@nodes.4" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.1"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.1/@nodes.5" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.2"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.1" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.14"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.1/@nodes.3" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.0"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.0" target="//@node.21/@nodeData/@outputTrees.0/@nodes.1"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.17" target="//@node.21/@nodeData/@outputTrees.0/@nodes.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.20" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.0"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.21" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.21/@nodeData/@inputTrees.0/@nodes.22" target="//@node.21/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17/@children.0/@children.2"/>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="352">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;output_row.head = input_row.head;&#xA;JSONObject xmlJSONObj = XML.toJSONObject(input_row.newColumn.toString());&#xA;output_row.newColumn = xmlJSONObj.toString();&#xA;//String jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);&#xA;"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import org.json.XML;&#xA;import org.json.JSONObject;&#xA;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJavaRow_1">
+      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
+    <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_8EgZQH8QEeaEgd5mb8AOMw-tMap_3-PREVIEW.bmp"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
+    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="out1">
+      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <nodeData xsi:type="MapperData">
+      <uiProperties/>
+      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="out1">
+        <mapperTableEntries name="head" expression="row9.head " type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="out2" isJoinTableOf="out1">
+        <mapperTableEntries name="head" expression="row9.newColumn " type="id_String" nullable="true"/>
+      </outputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row9" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="newColumn" type="id_String" nullable="true"/>
+        <mapperTableEntries name="head" type="id_String" nullable="true"/>
+      </inputTables>
+    </nodeData>
+  </node>
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
+    <elementParameter field="CHECK" name="USESTREAM" value="false"/>
+    <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot; + &quot;ES_vehicle_BulkLoad.json&quot;"/>
+    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
+    <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
+    <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
+    <elementParameter field="CHECK" name="APPEND" value="false"/>
+    <elementParameter field="CHECK" name="INCLUDEHEADER" value="false"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false" show="false"/>
+    <elementParameter field="CHECK" name="ADVANCED_SEPARATOR" value="false"/>
+    <elementParameter field="TEXT" name="THOUSANDS_SEPARATOR" value="&quot;,&quot;" show="false"/>
+    <elementParameter field="TEXT" name="DECIMAL_SEPARATOR" value="&quot;.&quot;" show="false"/>
+    <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
+    <elementParameter field="TEXT" name="ESCAPE_CHAR" value="&quot;&quot;&quot;" show="false"/>
+    <elementParameter field="TEXT" name="TEXT_ENCLOSURE" value="&quot;&quot;&quot;" show="false"/>
+    <elementParameter field="CHECK" name="CREATE" value="true"/>
+    <elementParameter field="CHECK" name="SPLIT" value="true"/>
+    <elementParameter field="TEXT" name="SPLIT_EVERY" value="2000"/>
+    <elementParameter field="CHECK" name="FLUSHONROW" value="false"/>
+    <elementParameter field="TEXT" name="FLUSHONROW_NUM" value="1" show="false"/>
+    <elementParameter field="CHECK" name="ROW_MODE" value="true"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
+    <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="ES_vehicle_BulkLoadXXX.json"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFileOutputDelimited_1">
+      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="384">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_4" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="Connection_OpenClose_DB_ODS_1_tPostgresqlConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DQM_ODS_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DQM_ODS_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DQM_ODS_Database" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - master_vehicle" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;master_vehicle&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;master_gid\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;vin_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;kind\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_end_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;last_mileage_known\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;SURVIVOR\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;CONFLICT\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;&#xD;&#xA;WHERE   \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;SURVIVOR\&quot; = true&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="10000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vin_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="version"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="kind"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="energy"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="color"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_start_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="circulation_end_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SURVIVOR"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CONFLICT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="master_vehicle" name="tPostgresqlInput_4">
+      <column comment="" key="false" length="255" name="master_gid" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="vin_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="SURVIVOR" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="CONFLICT" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_3" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -1045,79 +1133,6 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;output_row.head = input_row.head;&#xA;JSONObject xmlJSONObj = XML.toJSONObject(input_row.newColumn.toString());&#xA;output_row.newColumn = xmlJSONObj.toString();&#xA;//String jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import org.json.XML;&#xA;import org.json.JSONObject;&#xA;"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_1">
-      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
-    <elementParameter field="EXTERNAL" name="MAP" value=""/>
-    <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
-    <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
-    <elementParameter field="IMAGE" name="PREVIEW" value="_8EgZQH8QEeaEgd5mb8AOMw-tMap_3-PREVIEW.bmp"/>
-    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
-    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
-    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="out1">
-      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-    <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="out1">
-        <mapperTableEntries name="head" expression="row9.head " type="id_String" nullable="true"/>
-      </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="out2" isJoinTableOf="out1">
-        <mapperTableEntries name="head" expression="row9.newColumn " type="id_String" nullable="true"/>
-      </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row9" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="newColumn" type="id_String" nullable="true"/>
-        <mapperTableEntries name="head" type="id_String" nullable="true"/>
-      </inputTables>
-    </nodeData>
-  </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
-    <elementParameter field="CHECK" name="USESTREAM" value="false"/>
-    <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot; + &quot;ES_vehicle_BulkLoad.json&quot;"/>
-    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
-    <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
-    <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
-    <elementParameter field="CHECK" name="APPEND" value="false"/>
-    <elementParameter field="CHECK" name="INCLUDEHEADER" value="false"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false" show="false"/>
-    <elementParameter field="CHECK" name="ADVANCED_SEPARATOR" value="false"/>
-    <elementParameter field="TEXT" name="THOUSANDS_SEPARATOR" value="&quot;,&quot;" show="false"/>
-    <elementParameter field="TEXT" name="DECIMAL_SEPARATOR" value="&quot;.&quot;" show="false"/>
-    <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
-    <elementParameter field="TEXT" name="ESCAPE_CHAR" value="&quot;&quot;&quot;" show="false"/>
-    <elementParameter field="TEXT" name="TEXT_ENCLOSURE" value="&quot;&quot;&quot;" show="false"/>
-    <elementParameter field="CHECK" name="CREATE" value="true"/>
-    <elementParameter field="CHECK" name="SPLIT" value="true"/>
-    <elementParameter field="TEXT" name="SPLIT_EVERY" value="2000"/>
-    <elementParameter field="CHECK" name="FLUSHONROW" value="false"/>
-    <elementParameter field="TEXT" name="FLUSHONROW_NUM" value="1" show="false"/>
-    <elementParameter field="CHECK" name="ROW_MODE" value="true"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
-    <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="ES_vehicle_BulkLoadXXX.json"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tFileOutputDelimited_1">
-      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="800">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
@@ -1156,7 +1171,7 @@
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out">
         <mapperTableEntries name="meta_brand_source" expression="row8.meta_brand_source " type="id_String"/>
@@ -1391,50 +1406,63 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_2" offsetLabelX="0" offsetLabelY="0" source="tWarn_2" target="tWarn_3">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_3" offsetLabelX="0" offsetLabelY="0" source="tWarn_3" target="tFileList_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_4" offsetLabelX="0" offsetLabelY="0" source="tWarn_4" target="tWarn_5">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk5" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tWarn_4">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tFileInputRaw_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tFileInputRaw_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputRaw_1" target="tConvertType_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tConvertType_1" offsetLabelX="0" offsetLabelY="0" source="tConvertType_1" target="tRESTClient_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
-  <connection connectorName="FAULT" label="row2" lineStyle="0" metaname="FAULT" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tFileOutputDelimited_3">
+  <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tFileOutputDelimited_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
-  </connection>
-  <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tRESTClient_1" target="tFileOutputDelimited_2">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
+  </connection>
+  <connection connectorName="FAULT" label="row2" lineStyle="0" metaname="FAULT" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tRESTClient_1" target="tFileOutputDelimited_3">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tFileOutputDelimited_2" offsetLabelX="0" offsetLabelY="0" source="tFileOutputDelimited_2" target="tLogRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row6" lineStyle="0" metaname="tFileOutputDelimited_3" offsetLabelX="0" offsetLabelY="0" source="tFileOutputDelimited_3" target="tLogRow_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row6" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_5" offsetLabelX="0" offsetLabelY="0" source="tWarn_5" target="tSystem_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk6" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tSystem_2" offsetLabelX="0" offsetLabelY="0" source="tSystem_2" target="tWarn_6">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedup" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_2">
@@ -1442,9 +1470,21 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tWarn_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="row8" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tXMLMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="registration_number_norm"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="end_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="registration_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
@@ -1455,10 +1495,6 @@
   <connection connectorName="FLOW" label="out5" lineStyle="0" metaname="out5" offsetLabelX="0" offsetLabelY="0" source="tXMLMap_1" target="tJavaRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out5" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="row7" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tXMLMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tMap_3">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -1472,6 +1508,14 @@
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tFileOutputDelimited_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="master" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="master" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="vehicle_registration" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle_registration" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out" lineStyle="0" metaname="out" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tWriteJSONField_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
