@@ -34,7 +34,7 @@ public class Synaltic_Search {
      * 
      * {example} helloExemple("world") # hello world !.
      */
-    public static String searchPerson(String query) throws Exception {
+    public static String searchPerson(String query, String from, String size) throws Exception {
         /*
          {
   "query": {
@@ -59,6 +59,7 @@ public class Synaltic_Search {
     	ObjectNode queryRootNode = mapper.createObjectNode();
     	ObjectNode queryStringNode = mapper.createObjectNode();
     	ObjectNode queryNode = mapper.createObjectNode();
+    	ObjectNode fieldsNode = mapper.createObjectNode();
     	ArrayNode fieldsArray = mapper.createArrayNode();
     	ObjectNode fromNode = mapper.createObjectNode();
     	ObjectNode sizeNode = mapper.createObjectNode();
@@ -71,8 +72,14 @@ public class Synaltic_Search {
     	fieldsArray.add("Person.Vehicle_links.Vehicle_link.vin");
     	fieldsArray.add("Person.Email.email_norm");
     	
-    	queryRootNode.put("query.query_string.query", query);
-    	queryRootNode.putPOJO("query.query_string.fields",fieldsArray);
+    	queryNode.put("query", query);
+    	fieldsNode.putPOJO("fields",fieldsArray);
+    	queryStringNode.putPOJO("query_string", queryNode);
+    	queryStringNode.putPOJO("query_string", fieldsNode);
+    	queryRootNode.putPOJO("query",queryStringNode);
+    	queryRootNode.put("from",from);
+    	queryRootNode.put("size",size);
+    	
     	
     	System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(queryRootNode));    
    
@@ -85,7 +92,7 @@ public class Synaltic_Search {
     
     public static void main(String[] args){
     	try {
-			searchPerson("toto");
+			searchPerson("toto",0,10);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
