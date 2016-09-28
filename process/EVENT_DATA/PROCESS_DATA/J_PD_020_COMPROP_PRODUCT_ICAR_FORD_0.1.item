@@ -1317,7 +1317,7 @@
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + &quot;_&quot; + String.valueOf(tcPresupuesto.NUMINTERNO.intValue())" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
-        <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
+        <mapperTableEntries name="date2007plus" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ?&#xD;&#xA;(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) : false " type="id_Boolean"/>
         <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
@@ -1328,7 +1328,7 @@
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHAAPERT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHAAPERT)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.getCurrentDate().toString() " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPROP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPROP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPROP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
