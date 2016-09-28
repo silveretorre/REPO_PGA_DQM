@@ -652,8 +652,11 @@
       <column comment="" key="false" length="-1" name="selling_price_without_taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="selling_price_with_taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="number_of_terms" nullable="true" pattern="" precision="0" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="renewal_on_time" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="date_last_comprop" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="amount_of_mails" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -666,11 +669,11 @@
         <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( contrats.DateSouscription_Ct , TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
         <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.groupePGA" activateExpressionFilter="true" id="_XCL5EIAAEeaqxOOc4AmHWA - metadata">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.groupePGA" activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_SERVICE&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SECURYCAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;ALL&quot; " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != contrats.DateIntegration_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DateIntegration_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DateIntegration_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != srch.DateEnregistrementRenouvellement &amp;&amp; !(&quot;&quot;.equals(srch.DateEnregistrementRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateEnregistrementRenouvellement))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="String.valueOf(Tiers.IDTiers)" type="id_String" nullable="true"/>
@@ -730,10 +733,10 @@
         <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_person_id" expression="Var.ID " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="( null != contrats.DateSouscription_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DateSouscription_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DateSouscription_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="( null != srch.DateEnregistrementRenouvellement &amp;&amp; !(&quot;&quot;.equals(srch.DateEnregistrementRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateEnregistrementRenouvellement))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_type" expression="&quot;SECURYCAR CONTRACT&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_type" expression="&quot;SECURYCAR RENEWAL&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_number" expression="( null != contrats.VehiculeImmatNum_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmatNum_Ct))) ? contrats.VehiculeImmatNum_Ct : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="first_registration_date" expression="( null != contrats.VehiculeImmat1Date_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmat1Date_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.VehiculeImmat1Date_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_registration_date" expression="( null != contrats.VehiculeImmatDate_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmatDate_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.VehiculeImmatDate_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
@@ -741,20 +744,23 @@
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.contract_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="service_type" expression="( null != produitsContrats.NomCommercial &amp;&amp; !(&quot;&quot;.equals(produitsContrats.NomCommercial))) ? produitsContrats.NomCommercial : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="subscription_date" expression="( null != contrats.DateSouscription_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DateSouscription_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DateSouscription_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="guarantee_start_date" expression="( null != contrats.DtDebValid_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DtDebValid_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DtDebValid_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="guarantee_end_date" expression="( null != contrats.DtFinValid_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DtFinValid_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DtFinValid_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="termination_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="renewal_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="payment_mode" expression="( null != contrats.PaiementMode_Ct &amp;&amp; !&quot;&quot;.equals(contrats.PaiementMode_Ct) ) ? ( contrats.PaiementMode_Ct == 1 ? &quot;PRELEVEMENT&quot; : ( contrats.PaiementMode_Ct == 2 ? &quot;COMPTANT&quot; : &quot;NA&quot; ) ) : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="( ( null != utilisateurs.Prenom &amp;&amp; !&quot;&quot;.equals(utilisateurs.Prenom) ) &amp;&amp; ( null != utilisateurs.Nom &amp;&amp; !&quot;&quot;.equals(utilisateurs.Nom) ) )&#xD;&#xA;? (utilisateurs.Prenom + &quot; &quot; + utilisateurs.Nom).trim() : ( ( null != utilisateurs.Nom &amp;&amp; !&quot;&quot;.equals(utilisateurs.Nom) ) ? utilisateurs.Nom : ( ( null != utilisateurs.Prenom &amp;&amp; !&quot;&quot;.equals(utilisateurs.Prenom) ) ? utilisateurs.Prenom : &quot;NA&quot; ) ) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="selling_dealership" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? concessions.Denomination_Conces : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="subscription_date" expression="( null != srch.DateEnregistrementRenouvellement &amp;&amp; !(&quot;&quot;.equals(srch.DateEnregistrementRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateEnregistrementRenouvellement))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="guarantee_start_date" expression="( null != srch.DateDebutNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(srch.DateDebutNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateDebutNouvelleValidite))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="guarantee_end_date" expression="( null != srch.DateFinNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(srch.DateFinNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateFinNouvelleValidite))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="termination_date" expression="&quot;1900-01-01 00:00:00&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="renewal_type" expression="srch.TypeRenouvellement " type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_mode" expression="( null != srch.ModePaiement &amp;&amp; !&quot;&quot;.equals(srch.ModePaiement) ) ? &#xD;&#xA;( &quot;CHQ&quot;.equals(srch.ModePaiement) ? &quot;CHEQUE&quot; : ( &quot;GRA&quot;.equals(srch.ModePaiement) ? &quot;GRATUIT&quot; : ( &quot;PRE12&quot;.equals(srch.ModePaiement) ? &quot;PRELEVEMENT 12 MOIS&quot; : ( &quot;PRE4&quot;.equals(srch.ModePaiement) ? &quot;PRELEVEMENT 4 MOIS&quot; : srch.ModePaiement ) ) ) ) : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="&quot;CENTRAL&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership" expression="&quot;CENTRAL&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_price" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="selling_price_without_taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="selling_price_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="number_of_terms" expression="0" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="number_of_terms" expression="( null != srch.ModePaiement &amp;&amp; !&quot;&quot;.equals(srch.ModePaiement) ) ? &#xD;&#xA;( &quot;CHQ&quot;.equals(srch.ModePaiement) ? 1 : ( &quot;GRA&quot;.equals(srch.ModePaiement) ? 0 : ( &quot;PRE12&quot;.equals(srch.ModePaiement) ? 12 : ( &quot;PRE4&quot;.equals(srch.ModePaiement) ? 4 : 0 ) ) ) ) : 0 " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="renewal_on_time" expression="( null != srch.RenouvellementPendantPeriodeOuApres &amp;&amp; !(&quot;&quot;.equals(srch.RenouvellementPendantPeriodeOuApres))) ? srch.RenouvellementPendantPeriodeOuApres : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="date_last_comprop" expression="( null != srch.DateEnvoiDerniereProposition &amp;&amp; !(&quot;&quot;.equals(srch.DateEnvoiDerniereProposition))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, srch.DateEnvoiDerniereProposition))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="amount_of_mails" expression="( null != srch.NumeroCourrier &amp;&amp; !(&quot;&quot;.equals(srch.NumeroCourrier))) ? srch.NumeroCourrier : 0 " type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="srch" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdLigne" type="id_Integer" nullable="true"/>
@@ -771,7 +777,7 @@
         <mapperTableEntries name="DateEnvoiDerniereProposition" type="id_String" nullable="true"/>
         <mapperTableEntries name="NumeroCourrier" type="id_Integer" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="contrats" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="contrats" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdContrat_Ct" expression="srch.IdContrat " type="id_Integer" operator="="/>
         <mapperTableEntries name="Etat_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="boovalide_Ct" type="id_Boolean" nullable="true"/>
@@ -4858,6 +4864,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="selling_price_with_taxes"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="date_last_comprop"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="amount_of_mails"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="renewal_on_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
