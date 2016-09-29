@@ -479,11 +479,13 @@
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" name="badNews">
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -492,11 +494,13 @@
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="badNews" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid  " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
@@ -600,12 +604,15 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut);&#xA;&#xA;output_row.vehicle_uuid = input_row.vehicle_uuid;&#xA;output_row.person_uuid = input_row.person_uuid;&#xA;output_row.status = input_row.status;&#xA;    &#x9;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import java.util.Iterator;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
     <elementParameter field="TEXT" name="LABEL" value="enrich JSON Doc"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
       <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1888" posY="416">
@@ -614,11 +621,23 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
       <elementValue elementRef="TYPE" value="Body"/>
       <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value="person_uuid"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vehicle_uuid"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value="vehicle_uuid"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value="status"/>
     </elementParameter>
     <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRouteOutput_1">
       <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1568" posY="256">
@@ -701,6 +720,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vehicle_uuid"/>
       <elementValue elementRef="TYPE" value="Header"/>
       <elementValue elementRef="VALUE" value="vehicle_uuid"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value="status"/>
     </elementParameter>
     <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -708,19 +730,7 @@
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="576">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_1" show="false"/>
-    <elementParameter field="TEXT" name="MESSAGE" value="&quot;Bad news: pas de Master Data Vehicle et / ou personne trouvé (vehicle_uuid = &quot; + badNews.vehicle_uuid + &quot;, person_uuid = &quot; + badNews.person_uuid + &quot;)&quot;"/>
-    <elementParameter field="TEXT" name="CODE" value="4"/>
-    <elementParameter field="CLOSED_LIST" name="PRIORITY" value="5"/>
-    <elementParameter field="CHECK" name="EXIT_JVM" value="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tDie_1">
-      <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tLibraryLoad_1">
@@ -770,10 +780,20 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="badNews" lineStyle="0" metaname="badNews" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tRouteOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNews" show="false"/>
   </connection>
@@ -784,6 +804,15 @@
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tRouteOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="body"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="person_uuid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vehicle_uuid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -863,11 +892,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
