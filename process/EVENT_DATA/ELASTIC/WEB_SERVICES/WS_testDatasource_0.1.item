@@ -218,7 +218,7 @@
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;master_gid\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;gender_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;firstname_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;lastname_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;birth_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;SURVIVOR\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;.\&quot;CONFLICT\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_physical_person\&quot;&#xD;&#xA;WHERE master_gid = '&quot; + (String)globalMap.get(&quot;master_gid&quot;) + &quot;'&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="true"/>
-    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;jdbc/talend_dq_ods&quot;"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;talend_dq_ods&quot;"/>
     <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
@@ -280,42 +280,6 @@
       <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tContextDump" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="320">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextDump_1" show="false"/>
-    <elementParameter field="CHECK" name="HIDE_PASSWORD" value="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tContextDump_1">
-      <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="255" name="value" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="544" posY="352">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
-    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
-    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
-    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
-    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
-    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
-    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
-    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
-    <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="key"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="value"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tLogRow_1">
-      <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="255" name="value" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <connection connectorName="FLOW" label="testDS" lineStyle="0" metaname="testDS" offsetLabelX="0" offsetLabelY="0" source="tRESTRequest_1" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="master_gid"/>
@@ -333,17 +297,8 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tContextDump_1" offsetLabelX="0" offsetLabelY="0" source="tContextDump_1" target="tLogRow_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
-  </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTRequest_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextDump_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
