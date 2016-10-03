@@ -95,7 +95,7 @@ public class Synaltic_Search {
     	
     }
     
-    public static String searchEvent(String person_uuid, String vehicle, String event_type) throws JsonProcessingException{
+    public static String searchEvent(String person_uuid, String vehicle_uuid, String event_type) throws JsonProcessingException{
     	/* On souhaite obtenir un document JSON comme celui ci dessous, en fonction des valeurs des paramètres
     	 {
   "query": {
@@ -133,6 +133,13 @@ public class Synaltic_Search {
     	
     	if(person_uuid != null){
     		fieldValueNode.put("pga_process_data.person.person_uuid", person_uuid);
+    		matchPhraseNode.putPOJO("match_phrase", fieldValueNode);
+    		mustArray.add(matchPhraseNode);
+    	}
+    	matchPhraseNode.removeAll();
+    	
+    	if(vehicle_uuid != null){
+    		fieldValueNode.put("pga_process_data.vehicle.vehicle_uuid", person_uuid);
     		matchPhraseNode.putPOJO("match_phrase", fieldValueNode);
     		mustArray.add(matchPhraseNode);
     	}
