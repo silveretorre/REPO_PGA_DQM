@@ -121,6 +121,8 @@ public class Synaltic_Search {
   }
 }
     	 */
+    	
+    	
     	ObjectMapper mapper = new ObjectMapper();
     	
     	ObjectNode queryRootNode = mapper.createObjectNode();
@@ -130,6 +132,14 @@ public class Synaltic_Search {
     	ArrayNode mustArray = mapper.createArrayNode();
     	ObjectNode matchPhraseNode = mapper.createObjectNode();
     	ObjectNode fieldValueNode = mapper.createObjectNode();
+    	
+    	if(person_uuid == null && vehicle_uuid == null && event_type == null){
+    		fieldValueNode.put("pga_process_data.header.easter_egg", "NoWay");
+    		matchPhraseNode.putPOJO("match_phrase", fieldValueNode.deepCopy());
+    		mustArray.add(matchPhraseNode.deepCopy());
+    	}
+    	matchPhraseNode.removeAll();
+    	fieldValueNode.removeAll();
     	
     	if(person_uuid != null){
     		fieldValueNode.put("pga_process_data.person.person_uuid", person_uuid);
