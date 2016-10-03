@@ -1,4 +1,5 @@
 package routines;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -34,7 +35,7 @@ public class Synaltic_Search {
      * 
      * {example} helloExemple("world") # hello world !.
      */
-    public static String searchPerson(String query, String from, String size) throws Exception {
+    public static String searchPerson(String query, String from, String size) throws JsonProcessingException {
         /*
          {
   "query": {
@@ -94,9 +95,66 @@ public class Synaltic_Search {
     	
     }
     
+    public static String searchEvent(String person_uuid, String vehicle, String event_type) throw JsonProcessingException{
+    	/* On souhaite obtenir un document JSON comme celui ci dessous, en fonction des valeurs des paramètres
+    	 {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "pga_process_data.person.person_uuid": "d3a28d42-1a9c-43ed-9db1-1fcf89090e92"
+          }
+        },
+        {
+          "match_phrase": {
+            "pga_process_data.vehicle.vehicle_uuid": "d3a28d42-1a9c-43ed-9db1-1fcf89090e92"
+          }
+        },
+        {
+          "match_phrase": {
+            "pga_process_data.header.process_type": "REGISTRATION"
+          }
+        }
+      ]
+    }
+  }
+}
+    	 */
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	ObjectNode queryRootNode = mapper.createObjectNode();
+    	//ObjectNode queryNode = mapper.createObjectNode();
+    	ObjectNode boolNode = mapper.createObjectNode();
+    	ObjectNode mustNode = mapper.createObjectNode();
+    	ArrayNode mustArray = mapper.createArrayNode();
+    	ObjectNode matchPhraseNode = mapper.createObjectNode();
+    	ObjectNode fieldValueNode = mapper.createObjectNode();
+    	
+    	if(person_uuid != null){
+    		fieldValueNode.put("pga_process_data.person.person_uuid", person_uuid);
+    		matchPhraseNode.putPOJO("match_phrase", fieldValueNode);
+    		mustArray.add(matchPhraseNode);
+    	}
+    	
+    	mustNode.putPOJO("must",mustArray);
+    	boolNode.putPOJO("bool", mustNode);
+    	queryRootNode.putPOJO("query", boolNode);
+    	
+    	
+    	
+    	try {
+			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(queryRootNode);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} 
+    }
+    
     public static void main(String[] args){
     	try {
-			searchPerson("toto","0","10");
+			System.out.println(searchEvent("d3a28d42-1a9c-43ed-9db1-1fcf89090e92", null, null));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
