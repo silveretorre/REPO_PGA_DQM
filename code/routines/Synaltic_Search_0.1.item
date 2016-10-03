@@ -122,7 +122,16 @@ public class Synaltic_Search {
 }
     	 */
     	
+    	//On met à nulle les valeurs vides
+    	if(person_uuid !=null && "".equals(person_uuid.trim()))
+    		person_uuid = null;
+    	if(vehicle_uuid !=null && "".equals(vehicle_uuid.trim()))
+    		vehicle_uuid = null;
+    	if(event_type !=null && "".equals(event_type.trim()))
+    		event_type = null;
     	
+    	
+    	//On initialise les objets pour construire le document JSON
     	ObjectMapper mapper = new ObjectMapper();
     	
     	ObjectNode queryRootNode = mapper.createObjectNode();
@@ -133,7 +142,8 @@ public class Synaltic_Search {
     	ObjectNode matchPhraseNode = mapper.createObjectNode();
     	ObjectNode fieldValueNode = mapper.createObjectNode();
     	
-    	if(person_uuid == null && vehicle_uuid == null && event_type == null){
+    	//Si person et vehicle ne sont pas retourné, pour éviter de pouvoir tout requêter (sécurité), on rajoute une recherche fake
+    	if(person_uuid == null  && vehicle_uuid == null){
     		fieldValueNode.put("pga_process_data.header.easter_egg", "NoWay");
     		matchPhraseNode.putPOJO("match_phrase", fieldValueNode.deepCopy());
     		mustArray.add(matchPhraseNode.deepCopy());
