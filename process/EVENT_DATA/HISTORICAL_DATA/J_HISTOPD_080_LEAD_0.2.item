@@ -819,9 +819,14 @@
       <column comment="" key="false" length="255" name="postal_code" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="address" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_is_reachable" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="email_is_reachable" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_perso" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="email_perso_is_reachable" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_pro" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="email_pro_is_reachable" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="landline_perso" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="landline_perso_is_reachable_by_phone" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="landline_pro" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="landline_pro_is_reachable_by_phone" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
@@ -917,7 +922,7 @@
       <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="app_band" expression="(null != c_marque.nom &amp;&amp; !(&quot;&quot;.equals(c_marque.nom)))? c_marque.nom :&quot;NC&quot; " type="id_String"/>
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
@@ -961,9 +966,14 @@
         <mapperTableEntries name="postal_code" expression="(null != propsect.cp  &amp;&amp; !(&quot;&quot;.equals(propsect.cp)))? propsect.cp : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="(null != Var.adresse  &amp;&amp; !(&quot;&quot;.equals(Var.adresse)))? Var.adresse : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="email" expression="(null != propsect.email  &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="email_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_perso" expression="(null != propsect.email  &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_perso_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_pro" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="original_number" expression="(null != Var.phone_number  &amp;&amp; !(&quot;&quot;.equals(Var.phone_number)))? Var.phone_number : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" expression="(null != Var.phone_type  &amp;&amp; !(&quot;&quot;.equals(Var.phone_type)))? Var.phone_type : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
@@ -2605,6 +2615,30 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="call_back_time_range"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="landline_perso"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="landline_pro_is_reachable_by_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_perso"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_pro_is_reachable"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_perso_is_reachable"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="landline_perso_is_reachable_by_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="landline_pro"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="email_pro"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
