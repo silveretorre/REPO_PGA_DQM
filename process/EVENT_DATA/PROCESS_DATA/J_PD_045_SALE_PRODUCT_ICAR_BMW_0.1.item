@@ -1653,7 +1653,7 @@
         <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="( null != tcVeh.STATUS &amp;&amp; !(&quot;&quot;.equals(tcVeh.STATUS)) &amp;&amp; tcVeh.STATUS.intValue() == 30) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true" id="_N1RoIIABEeaqxOOc4AmHWA - metadata">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
@@ -2034,8 +2034,8 @@
         <mapperTableEntries name="NOMBRECOMP" type="id_String" nullable="true"/>
         <mapperTableEntries name="NOMBREEDITADO" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPobla" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="ID" type="id_BigDecimal"/>
+      <inputTables sizeState="INTERMEDIATE" name="tgPobla" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="ID" expression="tgCliente.POBLA " type="id_BigDecimal"/>
         <mapperTableEntries name="CODIGO" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
         <mapperTableEntries name="IDPROVIN" type="id_BigDecimal" nullable="true"/>
@@ -2047,13 +2047,13 @@
         <mapperTableEntries name="CODIGO" expression="tgCliente.DIRBIS " type="id_String"/>
         <mapperTableEntries name="DESCRIP" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgVia" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="VIA" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="tgVia" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="VIA" expression="tgCliente.DIRVIA " type="id_String"/>
         <mapperTableEntries name="DESCRIPLARGO" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIPCORTO" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPais" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="ID" type="id_BigDecimal"/>
+      <inputTables sizeState="INTERMEDIATE" name="tgPais" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="ID" expression="tgCliente.PAIS " type="id_BigDecimal"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
         <mapperTableEntries name="CODEXTERNO" type="id_String" nullable="true"/>
         <mapperTableEntries name="MASCARADIRCOMPOSICION" type="id_BigDecimal" nullable="true"/>
@@ -2094,8 +2094,8 @@
         <mapperTableEntries name="PROTECTEMAILTWITTER" type="id_BigDecimal"/>
         <mapperTableEntries name="PROTECTEMAILGOOGLEP" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgCortesia" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="CODIGO" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="tgCortesia" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="CODIGO" expression="tgCliente.CORTESIA " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_String"/>
         <mapperTableEntries name="TEXTOIMP" type="id_String" nullable="true"/>
         <mapperTableEntries name="PERSONAFISICA" type="id_BigDecimal" nullable="true"/>
@@ -2738,7 +2738,7 @@
         <mapperTableEntries name="PAGOPERMITIDO" type="id_BigDecimal"/>
         <mapperTableEntries name="TIPOCHEQUEOBLIGATORIO" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgModoPago" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgModoPago" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="null != tcVehFactur.MODOPAGO &amp;&amp; !&quot;&quot;.equals(tcVehFactur.MODOPAGO) ? tcVehFactur.MODOPAGO : String.valueOf(0) " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_String"/>
         <mapperTableEntries name="CREDITO" type="id_BigDecimal" nullable="true"/>
@@ -8531,7 +8531,6 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <note opaque="true" posX="160" posY="32" sizeHeight="64" sizeWidth="96" text="focus sur histopd"/>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
