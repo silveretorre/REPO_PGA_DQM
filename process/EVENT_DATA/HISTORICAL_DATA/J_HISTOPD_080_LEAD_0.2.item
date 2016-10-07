@@ -827,10 +827,12 @@
       <column comment="" key="false" length="-1" name="landline_perso_is_reachable_by_phone" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="landline_pro" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="landline_pro_is_reachable_by_phone" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="mobile_perso" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="mobile_perso_is_reachable_by_phone" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="mobile_perso_is_reachable_by_sms" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="mobile_pro" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="mobile_pro_is_reachable_by_phone" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="mobile_pro_is_reachable_by_sms" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="activity_area_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="activity_area" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -915,6 +917,9 @@
       <column comment="" key="false" length="-1" name="covea_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="covea" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="covea_code_promo" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="rappel_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="rappel_heure" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="rappel_comment" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="processed_data2" name="processedData">
       <column comment="" key="true" length="-1" name="idpropsect" nullable="false" pattern="" precision="-1" sourceType="INT" type="id_Long" usefulColumn="true"/>
@@ -967,17 +972,19 @@
         <mapperTableEntries name="address" expression="(null != Var.adresse  &amp;&amp; !(&quot;&quot;.equals(Var.adresse)))? Var.adresse : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_perso" expression="(null != propsect.email  &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_perso_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_perso_is_reachable" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_pro" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_perso" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="landline_pro" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="(null != Var.phone_number  &amp;&amp; !(&quot;&quot;.equals(Var.phone_number)))? Var.phone_number : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="(null != Var.phone_type  &amp;&amp; !(&quot;&quot;.equals(Var.phone_type)))? Var.phone_type : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_sms" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_phone" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_perso" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="mobile_perso_is_reachable_by_phone" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_perso_is_reachable_by_sms" expression="(1 == propsect.optout)? false : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
@@ -1062,6 +1069,9 @@
         <mapperTableEntries name="covea_id" expression="(null != propsect.covea_id  &amp;&amp; !(&quot;&quot;.equals(propsect.covea_id))) ? propsect.covea_id : new Long(0) " type="id_Long" nullable="true"/>
         <mapperTableEntries name="covea" expression="(null != propsect.covea  &amp;&amp; !(&quot;&quot;.equals(propsect.covea))) ? propsect.covea : &quot;NA&quot; " type="id_Short" nullable="true"/>
         <mapperTableEntries name="covea_code_promo" expression="(null != propsect.covea_code_promo  &amp;&amp; !(&quot;&quot;.equals(propsect.covea_code_promo))) ? propsect.covea_code_promo : &quot;NA&quot; " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="rappel_date" expression="(null != propsect.rappel_date  &amp;&amp; !(&quot;&quot;.equals(propsect.rappel_date))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,propsect.rappel_date)  : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="rappel_heure" expression="(null != propsect.rappel_heure  &amp;&amp; !(&quot;&quot;.equals(propsect.rappel_heure))) ? propsect.rappel_heure : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="rappel_comment" expression="(null != propsect.rappel_comment &amp;&amp; !(&quot;&quot;.equals(propsect.rappel_comment))) ? propsect.rappel_comment : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
         <mapperTableEntries name="idpropsect" expression="propsect.idpropsect " type="id_Long"/>
@@ -1719,17 +1729,17 @@
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="47"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/original_number"/>
-      <elementValue elementRef="COLUMN" value="original_number"/>
+      <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="48"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/phone_type"/>
-      <elementValue elementRef="COLUMN" value="phone_type"/>
+      <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="49"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_sms"/>
-      <elementValue elementRef="COLUMN" value="is_reachable_by_sms"/>
+      <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="50"/>
@@ -1739,7 +1749,7 @@
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
       <elementValue elementRef="ORDER" value="51"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_phone"/>
-      <elementValue elementRef="COLUMN" value="is_reachable_by_phone"/>
+      <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="52"/>
@@ -2218,6 +2228,21 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="147"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/raw/rappel_date"/>
+      <elementValue elementRef="COLUMN" value="rappel_date"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="148"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/raw/rappel_heure"/>
+      <elementValue elementRef="COLUMN" value="rappel_heure"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="149"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/raw/rappel_comment"/>
+      <elementValue elementRef="COLUMN" value="rappel_comment"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="150"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
@@ -2564,13 +2589,13 @@
       <elementValue elementRef="TRACE_COLUMN" value="newColumn4"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="newColumn2"/>
+      <elementValue elementRef="TRACE_COLUMN" value="rappel_comment"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="covea_code_promo"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="newColumn1"/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_pro_is_reachable_by_sms"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="_______raw____"/>
@@ -2649,6 +2674,27 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="email_pro"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_perso_is_reachable_by_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_perso_is_reachable_by_sms"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_pro_is_reachable_by_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_perso"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="mobile_pro"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="rappel_heure"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="rappel_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
