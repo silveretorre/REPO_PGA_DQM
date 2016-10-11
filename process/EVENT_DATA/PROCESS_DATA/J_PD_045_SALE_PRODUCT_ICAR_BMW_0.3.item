@@ -1700,7 +1700,7 @@
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="company_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="company" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="buying_price" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="buying_price_with_taxes" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="sub_total_vehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="sub_total_transportation_fees" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="sub_total_carmaker_options" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
@@ -1853,7 +1853,7 @@
         <mapperTableEntries name="selling_dealership" expression="( null != tgPtoVenta.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPtoVenta.DESCRIP))) ? tgPtoVenta.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="company_id" expression="( null != tgEmpresa.EMP &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.EMP))) ? tgEmpresa.EMP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="company" expression="( null != tgEmpresa.RAZON &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.RAZON))) ? tgEmpresa.RAZON : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? tcVeh.IMPORTECOMPRA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="buying_price_with_taxes" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? tcVeh.IMPORTECOMPRA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_vehicle" expression="( null != tcVehFactur.SUBTOTAL1 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL1))) ? tcVehFactur.SUBTOTAL1.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_transportation_fees" expression="( null != tcVehFactur.SUBTOTAL2 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL2))) ? tcVehFactur.SUBTOTAL2.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_carmaker_options" expression="( null != tcVehFactur.SUBTOTAL3 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL3))) ? tcVehFactur.SUBTOTAL3.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
@@ -8825,8 +8825,8 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="133"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/buying_price"/>
-      <elementValue elementRef="COLUMN" value="buying_price"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/buying_price_with_taxes"/>
+      <elementValue elementRef="COLUMN" value="buying_price_with_taxes"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="134"/>
@@ -8835,8 +8835,8 @@
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
       <elementValue elementRef="ORDER" value="135"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/selling_price_without_taxes"/>
-      <elementValue elementRef="COLUMN" value="selling_price_without_taxes"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_vehicle"/>
+      <elementValue elementRef="COLUMN" value="sub_total_vehicle"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="136"/>
@@ -8845,8 +8845,8 @@
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
       <elementValue elementRef="ORDER" value="137"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/selling_price_with_taxes"/>
-      <elementValue elementRef="COLUMN" value="selling_price_with_taxes"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_transportation_fees"/>
+      <elementValue elementRef="COLUMN" value="sub_total_transportation_fees"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="138"/>
@@ -8855,8 +8855,8 @@
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
       <elementValue elementRef="ORDER" value="139"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/taxes"/>
-      <elementValue elementRef="COLUMN" value="taxes"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_carmaker_options"/>
+      <elementValue elementRef="COLUMN" value="sub_total_carmaker_options"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="140"/>
@@ -8865,31 +8865,201 @@
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
       <elementValue elementRef="ORDER" value="141"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_dealership_options"/>
+      <elementValue elementRef="COLUMN" value="sub_total_dealership_options"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="142"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="143"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_wokrshop_fees"/>
+      <elementValue elementRef="COLUMN" value="sub_total_wokrshop_fees"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="144"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="145"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_campaign_discount"/>
+      <elementValue elementRef="COLUMN" value="sub_total_campaign_discount"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="146"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="147"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_sales_discount"/>
+      <elementValue elementRef="COLUMN" value="sub_total_sales_discount"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="148"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="149"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_partial_without_taxes"/>
+      <elementValue elementRef="COLUMN" value="sub_total_partial_without_taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="150"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="151"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_taxes"/>
+      <elementValue elementRef="COLUMN" value="sub_total_taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="152"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="153"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_partial_with_taxes"/>
+      <elementValue elementRef="COLUMN" value="sub_total_partial_with_taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="154"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="155"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_registration_fees"/>
+      <elementValue elementRef="COLUMN" value="sub_total_registration_fees"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="156"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="157"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_scrapping_bonus"/>
+      <elementValue elementRef="COLUMN" value="sub_total_scrapping_bonus"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="158"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="159"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_disbursements"/>
+      <elementValue elementRef="COLUMN" value="sub_total_disbursements"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="160"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="161"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/total_to_be_payed"/>
+      <elementValue elementRef="COLUMN" value="total_to_be_payed"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="162"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="163"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/down_payment"/>
+      <elementValue elementRef="COLUMN" value="down_payment"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="164"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="165"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/vehicle_recovery_bonus"/>
+      <elementValue elementRef="COLUMN" value="vehicle_recovery_bonus"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="166"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="167"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/funding"/>
+      <elementValue elementRef="COLUMN" value="funding"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="168"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="169"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/total_to_be_deducted"/>
+      <elementValue elementRef="COLUMN" value="total_to_be_deducted"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="170"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="171"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/sub_total_maintenance_guarantee"/>
+      <elementValue elementRef="COLUMN" value="sub_total_maintenance_guarantee"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="172"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="173"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/credit_repurchase"/>
+      <elementValue elementRef="COLUMN" value="credit_repurchase"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="174"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="175"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/currency"/>
       <elementValue elementRef="COLUMN" value="currency"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="142"/>
+      <elementValue elementRef="ORDER" value="176"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_mode_id"/>
       <elementValue elementRef="COLUMN" value="payment_mode_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="143"/>
+      <elementValue elementRef="ORDER" value="177"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_mode"/>
       <elementValue elementRef="COLUMN" value="payment_mode"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="144"/>
+      <elementValue elementRef="ORDER" value="178"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_type_id"/>
       <elementValue elementRef="COLUMN" value="payment_type_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="145"/>
+      <elementValue elementRef="ORDER" value="179"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_type"/>
       <elementValue elementRef="COLUMN" value="payment_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="146"/>
+      <elementValue elementRef="ORDER" value="180"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
