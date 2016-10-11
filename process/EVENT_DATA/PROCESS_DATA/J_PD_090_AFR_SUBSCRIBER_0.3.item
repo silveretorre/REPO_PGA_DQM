@@ -644,22 +644,27 @@
       <column comment="" key="false" length="-1" name="token" nullable="true" pattern="" precision="-1" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="modification_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" label="processed_data2" name="processedData">
+      <column comment="" key="true" length="-1" name="idabonne" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="date_was_processed" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="process_id" expression="String.valueOf(subscriber.idabonne) " type="id_String"/>
         <mapperTableEntries name="phone_number" expression="(null != subscriber.tel &amp;&amp; !(&quot;&quot;.equals(subscriber.tel)))? subscriber.tel : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="adresse" expression="(null != subscriber.adresse1 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse1))) ? &#xD;&#xA;&#x9;subscriber.adresse1&#xD;&#xA;    :&#xD;&#xA;&#x9;&quot; &quot; + ((null != subscriber.adresse2 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse2))) ? &#xD;&#xA;&#x9;subscriber.adresse2&#xD;&#xA;    :&#xD;&#xA;&#x9;&quot; &quot; + ((null != subscriber.cp &amp;&amp; !(&quot;&quot;.equals(subscriber.cp))) ? &#xD;&#xA;&#x9;&#x9;&#x9;subscriber.cp&#xD;&#xA;&#x9;&#x9;&#x9;:&#xD;&#xA;&#x9;&#x9;&#x9;&quot; &quot; + ((null != subscriber.ville &amp;&amp; !(&quot;&quot;.equals(subscriber.ville))) ?&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;subscriber.ville &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;:&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&quot;France&quot;)) ) " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="&quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="inscription_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_creation) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_creation) &#xD;&#xA;&#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_modif) " type="id_String"/>
         <mapperTableEntries name="valid_email" expression="(subscriber.email_valide &amp; 255) == 1 ? false : true " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="flux_de_donnees_Json">
         <mapperTableEntries name="process_type" expression="&quot;AFR_SUBSCRIBE&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;AUTOSPHERE_FR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;ALL&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="Var.inscription_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="load_process_moment" expression="Var.process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="id_person" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;NA&quot; " type="id_String"/>
@@ -753,6 +758,11 @@
         <mapperTableEntries name="app_picture" expression="(null != subscriber.app_picture &amp;&amp; !(&quot;&quot;.equals(subscriber.app_picture)))? subscriber.app_picture : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="token" expression="(null != subscriber.token &amp;&amp; !(&quot;&quot;.equals(subscriber.token)))? subscriber.token : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="modification_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_modif) " type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
+        <mapperTableEntries name="idabonne" expression="subscriber.idabonne " type="id_String"/>
+        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="subscriber" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idabonne" type="id_Integer"/>
@@ -1623,14 +1633,127 @@
       <column comment="" key="false" length="-1" name="token" nullable="true" pattern="" precision="-1" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tMysqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="352">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlOutput_1" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VsP5IIcMEeaDW-fbSrzOgQ" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ProcessedData_Server"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ProcessedData_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ProcessedData_Database"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ProcessedData_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudMRz6DAltatHec0BYAuYL/LkCOFmsv/Ch3AhwFKI0rGQ=="/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;afrSubscriber&quot;"/>
+    <elementParameter field="CLOSED_LIST" name="TABLE_ACTION" value="CREATE_IF_NOT_EXISTS"/>
+    <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="mysql_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ProcessedData_AdditionalParams"/>
+    <elementParameter field="CHECK" name="EXTENDINSERT" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="(Not compatible with reject links)"/>
+    <elementParameter field="TEXT" name="NB_ROWS_PER_INSERT" value="100"/>
+    <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true" show="false"/>
+    <elementParameter field="TEXT" name="BATCH_SIZE" value="10000" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
+    <elementParameter field="TABLE" name="ADD_COLS"/>
+    <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
+    <elementParameter field="TABLE" name="FIELD_OPTIONS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="idabonne"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="date_was_processed"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="processed_type"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="USE_HINT_OPTIONS" value="false"/>
+    <elementParameter field="TABLE" name="HINT_OPTIONS" show="false"/>
+    <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
+    <elementParameter field="CHECK" name="ON_DUPLICATE_KEY_UPDATE" value="false"/>
+    <elementParameter field="TABLE" name="DUPLICATED_KEYS" show="false"/>
+    <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="processed_data2" name="tMysqlOutput_1">
+      <column comment="" key="true" length="-1" name="idabonne" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="date_was_processed" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <metadata connector="REJECT" label="processed_data2" name="REJECT">
+      <column comment="" key="true" length="-1" name="idabonne" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="date_was_processed" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tMysqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="96">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlConnection_2" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VsP5IIcMEeaDW-fbSrzOgQ" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ProcessedData_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ProcessedData_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ProcessedData_Database"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ProcessedData_AdditionalParams"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ProcessedData_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudMRz6DAltatHec0BYAuYL/LkCOFmsv/Ch3AhwFKI0rGQ=="/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="DB_ProcessedData"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
+  <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="96">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_2" show="false"/>
+    <elementParameter field="TEXT" name="MESSAGE" value="&quot;Connection error on DB_ProcessedData&quot;"/>
+    <elementParameter field="TEXT" name="CODE" value="4"/>
+    <elementParameter field="CLOSED_LIST" name="PRIORITY" value="5"/>
+    <elementParameter field="CHECK" name="EXIT_JVM" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tDie_2"/>
+  </node>
+  <node componentName="tMysqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="-32">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlClose_2" show="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMysqlConnection_2"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tMysqlConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_ERROR" label="OnComponentError" lineStyle="5" metaname="tMysqlConnection_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlConnection_1" target="tDie_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentError1" show="false"/>
   </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tMysqlConnection_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlConnection_1" target="tMysqlConnection_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
+  </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostjob_1" offsetLabelX="0" offsetLabelY="0" source="tPostjob_1" target="tMysqlClose_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tMysqlClose_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlClose_1" target="tMysqlClose_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="subs" lineStyle="0" metaname="tMysqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_7" target="tFlowToIterate_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -1645,7 +1768,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="subscriber" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="flux_de_donnees_Json" lineStyle="0" metaname="flux_de_donnees_Json" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tWriteJSONField_1">
+  <connection connectorName="FLOW" label="flux_de_donnees_Json" lineStyle="0" metaname="flux_de_donnees_Json" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tWriteJSONField_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="family"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -1666,9 +1789,16 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="flux_de_donnees_Json" show="false"/>
   </connection>
+  <connection connectorName="FLOW" label="processedData" lineStyle="0" metaname="processedData" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tMysqlOutput_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="processedData" show="false"/>
+  </connection>
   <connection connectorName="FLOW" label="content" lineStyle="0" metaname="tWriteJSONField_1" offsetLabelX="0" offsetLabelY="0" source="tWriteJSONField_1" target="tFileOutputDelimited_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="content" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_ERROR" label="OnComponentError" lineStyle="5" metaname="tMysqlConnection_2" offsetLabelX="0" offsetLabelY="0" source="tMysqlConnection_2" target="tDie_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentError2" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
@@ -1699,6 +1829,21 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_7" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlConnection_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlClose_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
