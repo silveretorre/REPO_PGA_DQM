@@ -714,17 +714,18 @@
       <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="new Integer(siv.id_technique).toString() " type="id_String"/>
         <mapperTableEntries name="current_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data">
+      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true">
         <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="CATEGORY TO DEFINEerr;;;rr//////////////////////////" type="id_String" nullable="true"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SIV&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;MULTI&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) : &quot;NA&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="Var.current_date " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
@@ -865,7 +866,7 @@
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData">
         <mapperTableEntries name="id_technique" expression="siv.id_technique " type="id_Integer"/>
-        <mapperTableEntries name="date_was_processed" expression="TalendDate.formatDate(&quot;yyyy-MM-dd&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="siv" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
