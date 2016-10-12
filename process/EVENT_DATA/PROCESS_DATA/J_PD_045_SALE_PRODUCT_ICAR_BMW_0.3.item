@@ -1743,13 +1743,14 @@
         <mapperTableEntries name="date2007plus" expression="(TalendDate.compareDate( tcVehFactur.FECHAFACTURA, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) " type="id_Boolean"/>
         <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="( null != tcVeh.STATUS &amp;&amp; !(&quot;&quot;.equals(tcVeh.STATUS)) &amp;&amp; tcVeh.STATUS.intValue() == 30) ? true : false " type="id_Boolean"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="CATEGORY TO DEFINEerr;;;rr//////////////////////////" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="BRAND TO DEFINEerr;;;rr//////////////////////////" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="( null != tcVehFactur.CLIENTE &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.CLIENTE))) ? &#xD;&#xA;String.valueOf( tcVehFactur.CLIENTE.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -1880,11 +1881,11 @@
         <mapperTableEntries name="payment_type_id" expression="( null != tgFormaPago.CODIGO &amp;&amp; !(&quot;&quot;.equals(tgFormaPago.CODIGO))) ? tgFormaPago.CODIGO : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" expression="( null != tgFormaPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgFormaPago.DESCRIP))) ? tgFormaPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="processedData">
         <mapperTableEntries name="EMP" expression="tcVehFactur.EMP " type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" expression="tcVehFactur.NUMINTERNO " type="id_BigDecimal"/>
         <mapperTableEntries name="LINEA" expression="tcVehFactur.LINEA " type="id_BigDecimal"/>
-        <mapperTableEntries name="date_was_processed" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
