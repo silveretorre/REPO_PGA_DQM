@@ -657,15 +657,14 @@
         <mapperTableEntries name="phone_number" expression="(null != subscriber.tel &amp;&amp; !(&quot;&quot;.equals(subscriber.tel)))? subscriber.tel : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="adresse" expression="(null != subscriber.adresse1 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse1))) ? &#xD;&#xA;&#x9;subscriber.adresse1&#xD;&#xA;    :&#xD;&#xA;&#x9;&quot; &quot; + ((null != subscriber.adresse2 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse2))) ? &#xD;&#xA;&#x9;subscriber.adresse2&#xD;&#xA;    :&#xD;&#xA;&#x9;&quot; &quot; + ((null != subscriber.cp &amp;&amp; !(&quot;&quot;.equals(subscriber.cp))) ? &#xD;&#xA;&#x9;&#x9;&#x9;subscriber.cp&#xD;&#xA;&#x9;&#x9;&#x9;:&#xD;&#xA;&#x9;&#x9;&#x9;&quot; &quot; + ((null != subscriber.ville &amp;&amp; !(&quot;&quot;.equals(subscriber.ville))) ?&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;subscriber.ville &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;:&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&quot;France&quot;)) ) " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="&quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="inscription_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_creation) " type="id_String"/>
         <mapperTableEntries name="valid_email" expression="(subscriber.email_valide &amp; 255) == 1 ? false : true " type="id_Boolean"/>
-        <mapperTableEntries name="last_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_modif) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != subscriber.date_modif ) ? ( TalendDate.compareDate(subscriber.date_creation,subscriber.date_modif) &lt;= 0 ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_modif) : TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_creation) ) : TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_creation) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="flux_de_donnees_Json">
         <mapperTableEntries name="process_type" expression="&quot;AFR_SUBSCRIBE&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;AUTOSPHERE_FR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;ALL&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="Var.inscription_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="load_process_moment" expression="Var.process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="id_person" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;NA&quot; " type="id_String"/>
@@ -762,7 +761,7 @@
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
         <mapperTableEntries name="idabonne" expression="subscriber.idabonne " type="id_Integer"/>
-        <mapperTableEntries name="date_was_processed" expression="Var.last_process_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="subscriber" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
