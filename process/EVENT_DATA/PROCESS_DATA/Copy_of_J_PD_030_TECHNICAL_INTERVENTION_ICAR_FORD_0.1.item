@@ -614,9 +614,9 @@
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTCab.FECHACARTON)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTCab.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
@@ -707,14 +707,14 @@
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="processedData">
+      <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
         <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" expression="ttOTFac.NUMINTERNO " type="id_BigDecimal"/>
         <mapperTableEntries name="NUMINTFAC" expression="ttOTFac.NUMINTFAC " type="id_BigDecimal"/>
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="NUMINTFAC" type="id_BigDecimal"/>
