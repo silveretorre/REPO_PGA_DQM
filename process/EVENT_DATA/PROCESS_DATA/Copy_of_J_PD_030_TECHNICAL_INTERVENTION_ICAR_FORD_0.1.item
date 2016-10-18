@@ -614,7 +614,7 @@
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTCab.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -680,7 +680,7 @@
         <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;String.valueOf(ttOTCab.CLIENTEFAC.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHACARTON)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;PAID FOR TECHNICAL INTERVENTION&quot;" type="id_String" nullable="true"/>
@@ -698,7 +698,7 @@
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="( null != tgPtoVenta.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPtoVenta.DESCRIP))) ? tgPtoVenta.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="description" expression="null != ttOTCargo.OBSERVACIONES &amp;&amp; !&quot;&quot;.equals(ttOTCargo.OBSERVACIONES) ? ttOTCargo.OBSERVACIONES : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="/////tyUsuario via  ttOTFac.USUARIO  !!!! ////" type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_end_date" expression="( null != ttOTCab.FECHAACABADOJEFE &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAACABADOJEFE))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAACABADOJEFE)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="( null != tgModoPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModoPago.DESCRIP))) ? tgModoPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -714,7 +714,7 @@
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="ttOTFac" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="NUMINTFAC" type="id_BigDecimal"/>
