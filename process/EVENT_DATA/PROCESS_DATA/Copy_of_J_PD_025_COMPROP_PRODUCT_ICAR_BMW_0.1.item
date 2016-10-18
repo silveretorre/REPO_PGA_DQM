@@ -1391,14 +1391,14 @@
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.ID &amp;&amp; !(&quot;&quot;.equals(Var.ID)))? &#xD;&#xA;String.valueOf(Var.ID)&#xD;&#xA;: &quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPROP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPROP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPROP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -1483,7 +1483,7 @@
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcPresupuesto" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcPresupuesto" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="ESVO" type="id_BigDecimal" nullable="true"/>
@@ -1664,7 +1664,7 @@
         <mapperTableEntries name="PORARSI" type="id_BigDecimal"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="CODIGO" expression="tcPresupuesto.CLIENTEPROP" type="id_BigDecimal"/>
+        <mapperTableEntries name="CODIGO" expression="tcPresupuesto.CLIENTEPRESUP" type="id_BigDecimal"/>
         <mapperTableEntries name="EMP" expression="" type="id_String"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="CIF" type="id_String" nullable="true"/>
