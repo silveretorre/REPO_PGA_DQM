@@ -1391,9 +1391,9 @@
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAAPERT)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
@@ -1485,7 +1485,7 @@
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcPresupuesto" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcPresupuesto" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="ESVO" type="id_BigDecimal" nullable="true"/>
