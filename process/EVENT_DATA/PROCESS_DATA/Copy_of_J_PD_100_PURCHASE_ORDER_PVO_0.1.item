@@ -799,7 +799,7 @@
         <mapperTableEntries name="phone_type" expression="(null != vente.AcheteurPortable &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurPortable)))? &quot;MOBILE&quot; : ( (null != vente.AcheteurTelephone1 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone1)))? &quot;FIXE&quot; : ( (null != vente.AcheteurTelephone2 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone2)))? &quot;FIXE&quot; : &quot;NA&quot; ) ) " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != vente.AcheteurPortable &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurPortable)))? true : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="true" type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,vente.DateVente) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="(null != vente.DateVente &amp;&amp; !&quot;&quot;.equals(vente.DateVente)) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,vente.DateVente) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.hasName &amp;&amp; Var.date2007plus " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
@@ -842,24 +842,24 @@
         <mapperTableEntries name="profession" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="unemployed" expression="&quot;NA&quot;" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="unemployed" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="network_name" expression="&quot;FACEBOOK&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="profile_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="( null != tcPresupuesto.VEHICULO &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VEHICULO))) ? &#xD;&#xA;String.valueOf(tcPresupuesto.VEHICULO.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand" expression="( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="Var.ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="( null != vente.Marque &amp;&amp; !(&quot;&quot;.equals(vente.Marque))) ? vente.Marque : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="( null != tgModelo.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModelo.DESCRIP))) ? &#xD;&#xA;tgModelo.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" expression="( null != tgVersion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgVersion.DESCRIP))) ? &#xD;&#xA;tgVersion.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind" expression="( null != tgCategoria.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCategoria.DESCRIP))) ? tgCategoria.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="( null != tcVeh.CHASIS &amp;&amp; !(&quot;&quot;.equals(tcVeh.CHASIS))) ? tcVeh.CHASIS : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy" expression="( null != tgCombustible.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCombustible.DESCRIP))) ? &#xD;&#xA;tgCombustible.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="color" expression="( null != tcColor.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tcColor.DESCRIP))) ? &#xD;&#xA;tcColor.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="( null != vente.Modele &amp;&amp; !(&quot;&quot;.equals(vente.Modele))) ? vente.Modele : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="( null != vente.Genre &amp;&amp; !(&quot;&quot;.equals(vente.Genre))) ? vente.Genre : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="( null != vente.Energie &amp;&amp; !(&quot;&quot;.equals(vente.Energie))) ? vente.Energie : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" expression="( null != vente.Couleur &amp;&amp; !(&quot;&quot;.equals(vente.Couleur))) ? vente.Couleur : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="circulation_start_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" expression="( null != vente.Date1Mec &amp;&amp; !(&quot;&quot;.equals(vente.Date1Mec))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,vente.Date1Mec)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="origin_country_code" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="( null != tcVeh.KM ) ? tcVeh.KM.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="( null != vente.Km ) ? vente.Km.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="argus_brand" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
@@ -869,23 +869,23 @@
         <mapperTableEntries name="person_link_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;PURCHASE ORDER&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_number" expression="( null != tcVeh.MATRIC &amp;&amp; !(&quot;&quot;.equals(tcVeh.MATRIC))) ? &#xD;&#xA;tcVeh.MATRIC&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="first_registration_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="current_registration_date" expression="( null != tcVeh.FECMATRICULTIMA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICULTIMA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICULTIMA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="( null != vente.Immatriculation &amp;&amp; !(&quot;&quot;.equals(vente.Immatriculation))) ? vente.Immatriculation : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="first_registration_date" expression="( null != vente.Date1Mec &amp;&amp; !(&quot;&quot;.equals(vente.Date1Mec))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,vente.Date1Mec)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" expression="&quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="purchase_order_number" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="retained_comprop" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="product_type" expression="( null != tcPresupuesto.ESVO &amp;&amp; !&quot;&quot;.equals(tcPresupuesto.ESVO)) ?&#xD;&#xA;&quot;VEHICLE &quot; + &#xD;&#xD;&#xA;( tcPresupuesto.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) : &quot;VEHICULE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="retained_comprop" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="product_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="reception_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="sale_date" expression="( null != tgClienteVehOper.FECHAVENTA &amp;&amp; !(&quot;&quot;.equals(tgClienteVehOper.FECHAVENTA))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgClienteVehOper.FECHAVENTA) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="sale_date" expression="(null != vente.DateVente &amp;&amp; !&quot;&quot;.equals(vente.DateVente)) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,vente.DateVente) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="(null != vente.Nom  &amp;&amp; !(&quot;&quot;.equals(vente.Nom))) ? vente.Nom : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? tcVeh.IMPORTECOMPRA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_without_taxes" expression="( null != tcPresupuesto.SUBTOTAL8 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL8))) ? tcPresupuesto.SUBTOTAL8.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_with_taxes" expression="( null != tcPresupuesto.SUBTOTAL10 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL10))) ? tcPresupuesto.SUBTOTAL10.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="taxes" expression="( null != tcPresupuesto.SUBTOTAL9 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL9))) ? tcPresupuesto.SUBTOTAL9.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="buying_price" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_without_taxes" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_with_taxes" expression="(!(&quot;&quot;.equals(vente.PvTTC))) ? Double.parseDouble(String.valueOf(vente.PvTTC)) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData">
