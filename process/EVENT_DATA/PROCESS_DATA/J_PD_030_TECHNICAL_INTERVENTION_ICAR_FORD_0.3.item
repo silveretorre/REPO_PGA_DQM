@@ -729,13 +729,14 @@
         <mapperTableEntries name="hasName" expression="ttOTCab.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(ttOTCab.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="date2007plus" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? (TalendDate.compareDate( ttOTCab.FECHACARTON, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) : false " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="CATEGORY TO DEFINEerr;;;rr//////////////////////////" type="id_String" nullable="true"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="BRAND TO DEFINEerr;;;rr//////////////////////////" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTCab.FECHACARTON)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
         <mapperTableEntries name="person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;String.valueOf(ttOTCab.CLIENTEFAC.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -856,7 +857,7 @@
         <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" expression="ttOTFac.NUMINTERNO " type="id_BigDecimal"/>
         <mapperTableEntries name="NUMINTFAC" expression="ttOTFac.NUMINTFAC " type="id_BigDecimal"/>
-        <mapperTableEntries name="date_was_processed" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHACARTON) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
