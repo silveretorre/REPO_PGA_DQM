@@ -1358,11 +1358,12 @@
       <column comment="" key="false" length="255" name="current_registration_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="registration_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="is_definitive_registration" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="comprop_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="purchase_order_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="retained_comprop" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="product_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="reception_delay" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="0" name="offer_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="0" name="expected_delivery_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="reception_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="0" name="sale_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="0" name="delivery_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="buying_price" nullable="true" pattern="" precision="0" type="id_Double" usefulColumn="true"/>
@@ -1389,17 +1390,17 @@
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAAPERT)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="printedDoc" expression="( null != tgClienteVehOper.PEDIDOCLIENTEPRINT &amp;&amp; !&quot;&quot;.equals(tgClienteVehOper.PEDIDOCLIENTEPRINT) ) ? ( tgClienteVehOper.PEDIDOCLIENTEPRINT.intValue() == 1 ) : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled &amp;&amp; Var.printedDoc " activateExpressionFilter="true">
-        <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled &amp;&amp; Var.printedDoc " activateExpressionFilter="true">
+        <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.ID &amp;&amp; !(&quot;&quot;.equals(Var.ID)))? &#xD;&#xA;String.valueOf(Var.ID)&#xD;&#xA;: &quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPROP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPROP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPROP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -1455,7 +1456,7 @@
         <mapperTableEntries name="argus_family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="( null != tcPresupuesto.CLIENTEPROP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPROP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPROP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_start_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="( null != tcPresupuesto.VENDEDOR &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VENDEDOR))) ? tcPresupuesto.EMP+&quot;__&quot;+tcPresupuesto.VENDEDOR : &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -1465,11 +1466,12 @@
         <mapperTableEntries name="current_registration_date" expression="( null != tcVeh.FECMATRICULTIMA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICULTIMA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICULTIMA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="comprop_number" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="purchase_order_number" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="retained_comprop" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="( null != tcPresupuesto.ESVO &amp;&amp; !&quot;&quot;.equals(tcPresupuesto.ESVO)) ?&#xD;&#xA;&quot;VEHICLE &quot; + &#xD;&#xD;&#xA;( tcPresupuesto.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) : &quot;VEHICULE&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="reception_delay" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="offer_end_date" expression="( null != tcPresupuesto.FECHACADUCIDAD &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHACADUCIDAD))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHACADUCIDAD)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="expected_delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reception_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="sale_date" expression="( null != tgClienteVehOper.FECHAVENTA &amp;&amp; !(&quot;&quot;.equals(tgClienteVehOper.FECHAVENTA))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tgClienteVehOper.FECHAVENTA) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? tcVeh.IMPORTECOMPRA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
@@ -1665,7 +1667,7 @@
         <mapperTableEntries name="PORARSI" type="id_BigDecimal"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="CODIGO" expression="tcPresupuesto.CLIENTEPROP" type="id_BigDecimal"/>
+        <mapperTableEntries name="CODIGO" expression="tcPresupuesto.CLIENTEPRESUP " type="id_BigDecimal"/>
         <mapperTableEntries name="EMP" expression="" type="id_String"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="CIF" type="id_String" nullable="true"/>
@@ -10090,7 +10092,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="is_definitive_registration"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="comprop_number"/>
+      <elementValue elementRef="TRACE_COLUMN" value="purchase_order_number"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="product_type"/>
@@ -10099,7 +10101,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="reception_delay"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="offer_end_date"/>
+      <elementValue elementRef="TRACE_COLUMN" value="sale_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="expected_delivery_date"/>
@@ -10124,6 +10126,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="currency"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="delivery_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="retained_comprop"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="reception_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
