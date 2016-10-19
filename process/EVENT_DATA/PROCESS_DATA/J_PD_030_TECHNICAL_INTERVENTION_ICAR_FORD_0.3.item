@@ -712,7 +712,6 @@
       <column comment="" key="false" length="255" name="mech_model" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="bofbof" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="processed_data2" name="processedData">
       <column comment="" key="true" length="12" name="EMP" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -731,7 +730,7 @@
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="CATEGORY TO DEFINEerr;;;rr//////////////////////////" type="id_String" nullable="true"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
@@ -817,7 +816,7 @@
         <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_person_id" expression="( null != ttOTCab.CLIENTEFAC &amp;&amp; !(&quot;&quot;.equals(ttOTCab.CLIENTEFAC))) ? &#xD;&#xA;String.valueOf(ttOTCab.CLIENTEFAC.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHACARTON)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;PAID FOR TECHNICAL INTERVENTION&quot;" type="id_String" nullable="true"/>
@@ -851,7 +850,6 @@
         <mapperTableEntries name="mech_model" expression="( null != ttOTCab.DESMODELO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESMODELO))) ? ttOTCab.DESMODELO : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="bofbof" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData">
         <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
@@ -13026,7 +13024,7 @@
   <connection connectorName="COMPONENT_ERROR" label="OnComponentError" lineStyle="5" metaname="tMysqlConnection_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlConnection_1" target="tDie_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentError3" show="false"/>
   </connection>
-  <note opaque="true" posX="544" posY="160" sizeHeight="161" sizeWidth="449" text="WARNING! Job in progress (cf 035)"/>
+  <note opaque="true" posX="544" posY="160" sizeHeight="161" sizeWidth="449" text="WARNING! Job in progress"/>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
