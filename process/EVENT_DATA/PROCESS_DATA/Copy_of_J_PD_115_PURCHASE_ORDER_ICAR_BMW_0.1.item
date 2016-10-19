@@ -301,7 +301,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.NUMINTERNO, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.FECHAAPERT&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO&#xD;&#xA;WHERE &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.STATUS = 30&#xD;&#xA;OR &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.STATUS = 40&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.NUMINTERNO, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.FECHAAPERT&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO&#xD;&#xA;WHERE &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.NUMOPER &lt;> 0&#xD;&#xA;AND (&quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.STATUS = 30&#xD;&#xA;OR &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCPRESUPUESTO.STATUS = 40 )&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1392,8 +1392,9 @@
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="printedDoc" expression="( null != tgClienteVehOper.PEDIDOCLIENTEPRINT &amp;&amp; !&quot;&quot;.equals(tgClienteVehOper.PEDIDOCLIENTEPRINT) ) ? ( tgClienteVehOper.PEDIDOCLIENTEPRINT.intValue() == 1 ) : false " type="id_Boolean"/>
+        <mapperTableEntries name="vehSold" expression="null != tgClienteVehOper.STATUS &amp;&amp; tgClienteVehOper.STATUS.intValue() == 1 " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled &amp;&amp; Var.printedDoc " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled &amp;&amp; Var.printedDoc &amp;&amp; Var.vehSold " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
