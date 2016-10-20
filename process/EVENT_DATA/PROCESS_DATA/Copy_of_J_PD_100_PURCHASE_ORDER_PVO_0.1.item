@@ -852,7 +852,7 @@
         <mapperTableEntries name="model" expression="( null != vente.Modele &amp;&amp; !(&quot;&quot;.equals(vente.Modele))) ? vente.Modele : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="( null != vente.Genre &amp;&amp; !(&quot;&quot;.equals(vente.Genre))) ? vente.Genre : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="( null != histo_pin.Chassis &amp;&amp; !(&quot;&quot;.equals(histo_pin.Chassis))) ? histo_pin.Chassis : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="( null != vente.Energie &amp;&amp; !(&quot;&quot;.equals(vente.Energie))) ? vente.Energie : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="( null != vente.Couleur &amp;&amp; !(&quot;&quot;.equals(vente.Couleur))) ? vente.Couleur : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
@@ -893,7 +893,7 @@
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="vente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="vente" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VENTE_ID" type="id_String"/>
         <mapperTableEntries name="CodePVO" type="id_String" nullable="true"/>
         <mapperTableEntries name="Nom" type="id_String" nullable="true"/>
@@ -946,6 +946,11 @@
         <mapperTableEntries name="nom" type="id_String"/>
         <mapperTableEntries name="active" type="id_Integer"/>
         <mapperTableEntries name="last_maj" type="id_Date"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="histo_pin" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="Numpoli" expression="vente.Numpoli " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Chassis" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Immat" expression="vente.Immatriculation " type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1615,7 +1620,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="352">
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_nH8cQC1tEeaqIfnqaQ1Huw" show="false"/>
@@ -1677,7 +1682,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="352">
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_3" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_nH8cQC1tEeaqIfnqaQ1Huw" show="false"/>
@@ -1725,6 +1730,58 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" defaultValue="CURRENT_TIMESTAMP" key="false" length="19" name="last_maj" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="352">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_5" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_aDISMC1ZEeaKmoVyeBW_yg" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_PLANET_VO_Server"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_PLANET_VO_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_PLANET_VO_Database"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_PLANET_VO_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud4DSXvOj03ARxUCm9rsT1Xgw+5HSEu9Ss="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_aDISMC1ZEeaKmoVyeBW_yg - histo_pin" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;histo_pin&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `histo_pin`.`Numpoli`, &#xA;  `histo_pin`.`Chassis`, &#xA;  `histo_pin`.`Immat`&#xA;FROM `histo_pin`&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="mysql_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_PLANET_VO_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="ENABLE_STREAM" value="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="Numpoli"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Chassis"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Immat"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="histo_pin" name="tMysqlInput_5">
+      <column comment="" key="false" length="255" name="Numpoli" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="Chassis" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="Immat" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -2042,6 +2099,10 @@
   <connection connectorName="FLOW" label="ceMarqueAssoc" lineStyle="8" metaname="ceMarqueAssoc" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ceMarqueAssoc" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="histo_pin" lineStyle="8" metaname="tMysqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_5" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="histo_pin" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
