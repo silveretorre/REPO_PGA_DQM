@@ -40,14 +40,14 @@ public class SynalticJson {
      * {param} string("jsonSchema") input: The JSON Schema.
      * 
      */
-    public static boolean jsonIsValid(String jsonDoc, String jsonSchema) {
+    public static String jsonIsValid(String jsonDoc, String jsonSchema) {
     	try{
 	    	JSONObject rawSchema = new JSONObject(new JSONTokener(jsonSchema));
 	    	Schema schema = SchemaLoader.load(rawSchema);
 	    	schema.validate(new JSONObject(jsonDoc));
-	    	return true;
+	    	return "OK";
     	} catch(ValidationException e){
-    		return false;
+    		return e.getErrorMessage();
     	}
     }
 }
