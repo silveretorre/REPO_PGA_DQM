@@ -605,17 +605,20 @@
       <column comment="" key="false" length="255" name="registration_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="is_definitive_registration" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="service_comprop_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="service_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="service_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="comprop_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="renewal_type_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="comprop_guarantee_start_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="comprop_guarantee_end_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="renewal_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="user_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="paying_mode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="seller_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="seller_info" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="selling_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="buying_price" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="selling_price_without_taxes" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="selling_price_with_taxes" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="taxes" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="currency" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_terms" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="processed_data2" name="processedData">
       <column comment="" key="true" length="10" name="IdContrat_Ct" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
@@ -623,7 +626,7 @@
       <column comment="" key="false" length="-1" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="String.valueOf(contrats.IDWeb_Ct)&#xD;&#xA;&#xD;&#xA;/* String.valueOf(contrats.IdContrat_Ct) */ " type="id_String"/>
         <mapperTableEntries name="contract_id" expression="String.valueOf(contrats.IdPdt_Ct) + &quot;_&quot; + String.valueOf(contrats.NumContrat_Ct) " type="id_String"/>
@@ -705,17 +708,20 @@
         <mapperTableEntries name="registration_end_date" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="service_comprop_number" expression="Var.contract_id " type="id_String" nullable="true"/>
-        <mapperTableEntries name="service_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="service_type" expression="( null != produitsContrats.NomCommercial &amp;&amp; !(&quot;&quot;.equals(produitsContrats.NomCommercial))) ? &#xD;&#xA;produitsContrats.NomCommercial :&quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="comprop_date" expression="( null != scrh.DatePropositionRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.DatePropositionRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DatePropositionRenouvellement))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="renewal_type_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="comprop_guarantee_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="comprop_guarantee_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="renewal_type" expression="( null != scrh.TypeRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.TypeRenouvellement))) ? scrh.TypeRenouvellement : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_id" expression="(!(&quot;&quot;.equals(utilisateurs.IDUtilisateur))) ? String.valueOf(utilisateurs.IDUtilisateur) : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="paying_mode" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != utilisateurs.Login &amp;&amp; !(&quot;&quot;.equals(utilisateurs.Login))) ? utilisateurs.Login : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="seller_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="seller_info" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="selling_dealership_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="&quot;CENTRAL&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_price" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_without_taxes" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="taxes" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="number_of_terms" expression="0" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
         <mapperTableEntries name="IdContrat_Ct" expression="contrats.IdContrat_Ct " type="id_Integer"/>
@@ -3110,23 +3116,23 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="93"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/service_id"/>
-      <elementValue elementRef="COLUMN" value="service_id"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="94"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/service_type"/>
       <elementValue elementRef="COLUMN" value="service_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="95"/>
+      <elementValue elementRef="ORDER" value="94"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/comprop_date"/>
       <elementValue elementRef="COLUMN" value="comprop_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="95"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/comprop_guarantee_start_date"/>
+      <elementValue elementRef="COLUMN" value="comprop_guarantee_start_date"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="96"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/renewal_type_id"/>
-      <elementValue elementRef="COLUMN" value="renewal_type_id"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/comprop_guarantee_end_date"/>
+      <elementValue elementRef="COLUMN" value="comprop_guarantee_end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="97"/>
@@ -3135,8 +3141,8 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="98"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/user_id"/>
-      <elementValue elementRef="COLUMN" value="user_id"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/paying_mode"/>
+      <elementValue elementRef="COLUMN" value="paying_mode"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="99"/>
@@ -3145,26 +3151,66 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="100"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/seller_id"/>
-      <elementValue elementRef="COLUMN" value="seller_id"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="101"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/seller_info"/>
-      <elementValue elementRef="COLUMN" value="seller_info"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="102"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/event/selling_dealership_id"/>
-      <elementValue elementRef="COLUMN" value="selling_dealership_id"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="103"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/selling_dealership"/>
       <elementValue elementRef="COLUMN" value="selling_dealership"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="101"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/buying_price"/>
+      <elementValue elementRef="COLUMN" value="buying_price"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="102"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="103"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/selling_price_without_taxes"/>
+      <elementValue elementRef="COLUMN" value="selling_price_without_taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="104"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="105"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/selling_price_with_taxes"/>
+      <elementValue elementRef="COLUMN" value="selling_price_with_taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="106"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="107"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/taxes"/>
+      <elementValue elementRef="COLUMN" value="taxes"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="108"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="number"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="109"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/currency"/>
+      <elementValue elementRef="COLUMN" value="currency"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="110"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/event/number_of_terms"/>
+      <elementValue elementRef="COLUMN" value="number_of_terms"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="111"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="integer"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="112"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
@@ -4014,6 +4060,33 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="selling_dealership_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="comprop_guarantee_start_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="selling_price_without_taxes"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="comprop_guarantee_end_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_terms"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="buying_price"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="taxes"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="currency"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="paying_mode"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="selling_price_with_taxes"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
