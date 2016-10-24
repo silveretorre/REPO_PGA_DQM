@@ -446,6 +446,11 @@
       <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="out1">
+      <column comment="" key="false" length="100" name="ADRESSE4_CHARADE" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="is_reachable_1" nullable="true" originalDbColumnName="is_reachable" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="8" name="is_reachable" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
@@ -494,6 +499,11 @@
         <mapperTableEntries name="address_type" expression="physical_person_address.address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="creation_date" expression="physical_person_address.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="physical_person_address.update_date " type="id_Date" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="out1">
+        <mapperTableEntries name="ADRESSE4_CHARADE" expression="from_cartegie.ADRESSE4_CHARADE " type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable_1" expression="physical_person_address.is_reachable " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable" expression="(from_cartegie.ADRESSE4_CHARADE != null || !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE.trim())) ? false : physical_person_address.is_reachable  " type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="from_cartegie" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="SourceBrand" type="id_String" nullable="true"/>
@@ -1187,6 +1197,36 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="480" posY="672">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="ADRESSE4_CHARADE"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_1"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tLogRow_1">
+      <column comment="" key="false" length="100" name="ADRESSE4_CHARADE" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="is_reachable_1" nullable="true" originalDbColumnName="is_reachable" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="8" name="is_reachable" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+    </metadata>
+  </node>
   <connection connectorName="FLOW" label="from_cartegie" lineStyle="0" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="from_cartegie" show="false"/>
@@ -1197,7 +1237,7 @@
   <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlRollback_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="norm_physical_person_address_ok" lineStyle="0" metaname="norm_physical_person_address_ok" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tPostgresqlOutput_1">
+  <connection connectorName="FLOW" label="norm_physical_person_address_ok" lineStyle="0" metaname="norm_physical_person_address_ok" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tPostgresqlOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="creation_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -1214,6 +1254,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="norm_physical_person_address_ok" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tLogRow_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="person" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
