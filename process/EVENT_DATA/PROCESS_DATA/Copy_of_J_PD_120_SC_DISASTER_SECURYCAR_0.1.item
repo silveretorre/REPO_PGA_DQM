@@ -805,7 +805,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="String.valueOf(scrh.IdSinistre) " type="id_String"/>
-        <mapperTableEntries name="contract_id" expression="String.valueOf(scrh.IdPdt_CtSin) + &quot;_&quot; + String.valueOf(scrh.IdContrat_CtSin) " type="id_String"/>
+        <mapperTableEntries name="contract_id" expression="String.valueOf(scrh.IdContrat_CtSin)" type="id_String"/>
         <mapperTableEntries name="phone_number" expression="(null != scrh.TelNom_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.TelNom_CtSin))) ? scrh.TelNom_CtSin : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="&quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != scrh.DateSinistre_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.DateSinistre_CtSin))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,scrh.DateSinistre_CtSin)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
@@ -885,25 +885,25 @@
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="contract_number" expression="Var.contract_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="event_person_id" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="disaster_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="insurance_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_supported" expression="" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="given_action" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="reimboursement_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="disaster_type" expression="( null != sinistresTypes.Description_TypeSin &amp;&amp; !(&quot;&quot;.equals(sinistresTypes.Description_TypeSin))) ? sinistresTypes.Description_TypeSin : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="insurance_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="( null != scrh.Oper_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.Oper_CtSin))) ? scrh.Oper_CtSin : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_supported" expression="( null != sinistresPrestationsTypes.Description_TypePrest &amp;&amp; !(&quot;&quot;.equals(sinistresPrestationsTypes.Description_TypePrest))) ? true : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="given_action" expression="( null != sinistresPrestationsTypes.Description_TypePrest &amp;&amp; !(&quot;&quot;.equals(sinistresPrestationsTypes.Description_TypePrest))) ? sinistresPrestationsTypes.Description_TypePrest : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="reimboursement_type" expression="( null != contratsSinistresPrestations.TypePaiement_SinPrest &amp;&amp; !(&quot;&quot;.equals(contratsSinistresPrestations.TypePaiement_SinPrest))) ? contratsSinistresPrestations.TypePaiement_SinPrest : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="reimboursement_amount_without_taxes" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="reimboursement_amount_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="reimboursement_amount_with_taxes" expression="( null != contratsSinistresPrestations.MtPrisCharge_SinPrest &amp;&amp; !(&quot;&quot;.equals(contratsSinistresPrestations.MtPrisCharge_SinPrest))) ? contratsSinistresPrestations.MtPrisCharge_SinPrest.intValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="disaster_date" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="disaster_declaration_date" expression="( null != scrh.DateCreate_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.DateCreate_CtSin))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,scrh.DateCreate_CtSin)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="disaster_closure_date" expression="( null != scrh.DateCloture_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.DateCloture_CtSin))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,scrh.DateCloture_CtSin)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="insurance_company" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="insurance_company" expression="( null != assureurs.Nom &amp;&amp; !(&quot;&quot;.equals(assureurs.Nom))) ? assureurs.Nom : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData" minimized="true">
         <mapperTableEntries name="IdSinistre" expression="scrh.IdSinistre " type="id_Integer"/>
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;  " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="scrh" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="scrh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdSinistre" type="id_Integer"/>
         <mapperTableEntries name="IdTypeSin_CtSin" type="id_String" nullable="true"/>
         <mapperTableEntries name="DateSinistre_CtSin" type="id_Date" nullable="true"/>
@@ -1135,7 +1135,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="concessions" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdConcession" expression="" type="id_Integer"/>
-        <mapperTableEntries name="CodeConcession" expression="contrats.CodeConcession_Ct " type="id_String"/>
+        <mapperTableEntries name="CodeConcession" expression="scrh.CodeConcession_CtSin " type="id_String"/>
         <mapperTableEntries name="booValide_Conces" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="IdWEB_Conces" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="Denomination_Conces" type="id_String" nullable="true"/>
@@ -1303,6 +1303,70 @@
         <mapperTableEntries name="CodeMouvement" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="Tri" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="booUtilisable" type="id_Boolean" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="assureurs" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdAssureur" expression="scrh.IdAssureur_CtSin " type="id_Integer"/>
+        <mapperTableEntries name="Nom" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NumCompte401" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NumCompte46" type="id_String" nullable="true"/>
+        <mapperTableEntries name="booActif" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="CodeAssureur" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="contratsSinistresPrestations" minimized="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdSinPrest" type="id_Integer"/>
+        <mapperTableEntries name="IdSinistre_SinPrest" expression="scrh.IdSinistre " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="IdTypePrest_SinPrest" type="id_String"/>
+        <mapperTableEntries name="DatePrest_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="MtPrisCharge_SinPrest" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="booTTC" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="TxTVA_SinPrest" type="id_Float" nullable="true"/>
+        <mapperTableEntries name="DatePaiement_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="DatePaiementRelle_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="TypePaiement_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PiecePaiement_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DestPaiement_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FactNumPaiement_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="FactDatePaiement_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="booAttentePaiement_SinPrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="NumLotCompta_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TypeLoueur_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="IdLoueur_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NbJourLoc_SinPrest" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="Assureur_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Commentaire_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Daterembours_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="NumLotCourrierPrestation_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="BasePrisCharge_SinPrest" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="TxPrisCharge_SinPrest" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="DateReceptionChq_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="MtHTRepar_SinPrest" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="ReparLieux_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="AccidentType_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="boo45jrs_SinPrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="ImmatVehiculLoc_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="RenouvLoc_SinPrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DatePaiementCourtier_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="DossierDateImpression_SinPrest" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="NumLotAssureur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="IDBanque_SinPrest" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="NomFichierControle" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="sinistresPrestationsTypes" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdTypePrest" expression="contratsSinistresPrestations.IdTypePrest_SinPrest " type="id_String"/>
+        <mapperTableEntries name="Description_TypePrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="booExport_TypePrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="booTiersPaiementDef_TypePrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="TiersPaiementDef_TypePrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="booTiersPaiementUnique_TypePrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="Ordre_TypePrest" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="booVirClient_TypePrest" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="TypePaiementDef_TypePrest" type="id_String" nullable="true"/>
+        <mapperTableEntries name="booAutoAssurance" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="NumComptaAutoAssurance" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NumComptaAna" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NumComptaTVA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NumCompta" type="id_String" nullable="true"/>
+        <mapperTableEntries name="booDossierAssureur" type="id_Boolean" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -4111,7 +4175,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="1824">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_17" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
@@ -4173,6 +4237,404 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="booUtilisable" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="1056">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_18" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_SECURYWEB_APPLISQL_Prod_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_SECURYWEB_APPLISQL_Prod_Port"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_SECURYWEB_APPLISQL_Prod_Schema"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_APPLISQL_Prod_Database"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_APPLISQL_Prod_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTnoBlJh7K5xGPmwbybKMTyhRzw2Sny+O1nrIey30qAXt"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw - Assureurs" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;Assureurs&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.IdAssureur,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.Nom,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.NumCompte401,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.NumCompte46,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.booActif,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs.CodeAssureur&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Assureurs&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_SECURYWEB_APPLISQL_Prod_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdAssureur"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Nom"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumCompte401"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumCompte46"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booActif"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CodeAssureur"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="Assureurs" name="tMSSqlInput_18">
+      <column comment="" key="true" length="10" name="IdAssureur" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="Nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NumCompte401" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="NumCompte46" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booActif" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CodeAssureur" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="1024">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_19" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_SECURYWEB_APPLISQL_Prod_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_SECURYWEB_APPLISQL_Prod_Port"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_SECURYWEB_APPLISQL_Prod_Schema"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_APPLISQL_Prod_Database"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_APPLISQL_Prod_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTnoBlJh7K5xGPmwbybKMTyhRzw2Sny+O1nrIey30qAXt"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw - Contrats_Sinistres_Prestations" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;Contrats_Sinistres_Prestations&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.IdSinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.IdSinistre_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.IdTypePrest_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DatePrest_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.MtPrisCharge_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.booTTC,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.TxTVA_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DatePaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DatePaiementRelle_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.TypePaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.PiecePaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DestPaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.FactNumPaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.FactDatePaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.booAttentePaiement_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.NumLotCompta_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.TypeLoueur_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.IdLoueur_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.NbJourLoc_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.Assureur_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.Commentaire_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.Daterembours_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.NumLotCourrierPrestation_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.BasePrisCharge_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.TxPrisCharge_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DateReceptionChq_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.MtHTRepar_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.ReparLieux_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.AccidentType_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.boo45jrs_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.ImmatVehiculLoc_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.RenouvLoc_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DatePaiementCourtier_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.DossierDateImpression_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.NumLotAssureur,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.IDBanque_SinPrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations.NomFichierControle&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats_Sinistres_Prestations&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_SECURYWEB_APPLISQL_Prod_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdSinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdSinistre_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdTypePrest_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DatePrest_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MtPrisCharge_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booTTC"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TxTVA_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DatePaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DatePaiementRelle_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TypePaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PiecePaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DestPaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FactNumPaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="FactDatePaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booAttentePaiement_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumLotCompta_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TypeLoueur_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdLoueur_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NbJourLoc_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Assureur_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Commentaire_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Daterembours_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumLotCourrierPrestation_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="BasePrisCharge_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TxPrisCharge_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DateReceptionChq_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="MtHTRepar_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ReparLieux_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="AccidentType_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="boo45jrs_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ImmatVehiculLoc_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="RenouvLoc_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DatePaiementCourtier_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DossierDateImpression_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumLotAssureur"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IDBanque_SinPrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NomFichierControle"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="Contrats_Sinistres_Prestations" name="tMSSqlInput_19">
+      <column comment="" key="true" length="10" name="IdSinPrest" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="IdSinistre_SinPrest" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="IdTypePrest_SinPrest" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DatePrest_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="19" name="MtPrisCharge_SinPrest" nullable="true" pattern="" precision="4" sourceType="VARBINARY" type="id_Object" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booTTC" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="24" name="TxTVA_SinPrest" nullable="true" pattern="" precision="0" sourceType="REAL" type="id_Float" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DatePaiement_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DatePaiementRelle_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="TypePaiement_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="PiecePaiement_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="DestPaiement_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="FactNumPaiement_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="FactDatePaiement_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booAttentePaiement_SinPrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="NumLotCompta_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="TypeLoueur_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="6" name="IdLoueur_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="NbJourLoc_SinPrest" nullable="true" pattern="" precision="0" sourceType="SMALLINT" type="id_Short" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="Assureur_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="Commentaire_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="Daterembours_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="NumLotCourrierPrestation_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="19" name="BasePrisCharge_SinPrest" nullable="true" pattern="" precision="4" sourceType="VARBINARY" type="id_Object" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="TxPrisCharge_SinPrest" nullable="true" pattern="" precision="0" sourceType="SMALLINT" type="id_Short" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DateReceptionChq_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="19" name="MtHTRepar_SinPrest" nullable="true" pattern="" precision="4" sourceType="VARBINARY" type="id_Object" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="ReparLieux_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="AccidentType_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="boo45jrs_SinPrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="15" name="ImmatVehiculLoc_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="RenouvLoc_SinPrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DatePaiementCourtier_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DossierDateImpression_SinPrest" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="NumLotAssureur" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="IDBanque_SinPrest" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="NomFichierControle" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="1088">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_20" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_SECURYWEB_APPLISQL_Prod_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_SECURYWEB_APPLISQL_Prod_Port"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_SECURYWEB_APPLISQL_Prod_Schema"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_APPLISQL_Prod_Database"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_APPLISQL_Prod_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTnoBlJh7K5xGPmwbybKMTyhRzw2Sny+O1nrIey30qAXt"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_EeYUsH5VEeadpLhVT7QsXw - Sinistres_Prestations_Types" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;Sinistres_Prestations_Types&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.IdTypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.Description_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booExport_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booTiersPaiementDef_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.TiersPaiementDef_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booTiersPaiementUnique_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.Ordre_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booVirClient_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.TypePaiementDef_TypePrest,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booAutoAssurance,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.NumComptaAutoAssurance,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.NumComptaAna,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.NumComptaTVA,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.NumCompta,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types.booDossierAssureur&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Sinistres_Prestations_Types&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_SECURYWEB_APPLISQL_Prod_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdTypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Description_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booExport_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booTiersPaiementDef_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TiersPaiementDef_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booTiersPaiementUnique_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Ordre_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booVirClient_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="TypePaiementDef_TypePrest"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booAutoAssurance"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumComptaAutoAssurance"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumComptaAna"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumComptaTVA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NumCompta"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="booDossierAssureur"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="Sinistres_Prestations_Types" name="tMSSqlInput_20">
+      <column comment="" key="true" length="5" name="IdTypePrest" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="Description_TypePrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booExport_TypePrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booTiersPaiementDef_TypePrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="TiersPaiementDef_TypePrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booTiersPaiementUnique_TypePrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="5" name="Ordre_TypePrest" nullable="true" pattern="" precision="0" sourceType="SMALLINT" type="id_Short" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booVirClient_TypePrest" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="50" name="TypePaiementDef_TypePrest" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booAutoAssurance" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="NumComptaAutoAssurance" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="NumComptaAna" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="NumComptaTVA" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="17" name="NumCompta" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="booDossierAssureur" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -4637,6 +5099,18 @@
   <connection connectorName="FLOW" label="sinistresTypes" lineStyle="8" metaname="tMSSqlInput_17" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_17" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="sinistresTypes" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="assureurs" lineStyle="8" metaname="tMSSqlInput_18" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_18" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="assureurs" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="contratsSinistresPrestations" lineStyle="8" metaname="tMSSqlInput_19" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_19" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="contratsSinistresPrestations" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="sinistresPrestationsTypes" lineStyle="8" metaname="tMSSqlInput_20" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_20" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="sinistresPrestationsTypes" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
