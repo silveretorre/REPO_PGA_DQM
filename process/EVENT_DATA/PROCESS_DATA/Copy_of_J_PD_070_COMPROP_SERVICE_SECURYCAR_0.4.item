@@ -405,7 +405,7 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata comment="" connector="FLOW" label="metadata" name="data">
-      <column comment="" key="true" length="10" name="IdLigne" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="true" length="10" name="IdLigne" nullable="true" pattern="" precision="0" sourceType="INT" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -506,7 +506,7 @@
         <mapperTableEntries name="process_category" expression="null != contrats.VehiculeImmat1Date_Ct &amp;&amp; null != contrats.VehiculeImmatDate_Ct &amp;&amp; TalendDate.compareDate(contrats.VehiculeImmat1Date_Ct,contrats.VehiculeImmatDate_Ct) == 0 ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data">
-        <mapperTableEntries name="IdLigne" expression="scrh.IdLigne " type="id_Integer"/>
+        <mapperTableEntries name="IdLigne" expression="scrh.IdLigne +&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_SERVICE&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SECURYWEB&quot;&#xD;&#xA;&#xD;&#xA;/* SECURYCAR */ " type="id_String"/>
@@ -2550,7 +2550,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="704">
+  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWriteJSONField_1" show="false"/>
     <elementParameter field="COLUMN_LIST" name="JSONFIELD" value="pga_process_data"/>
     <elementParameter field="TABLE" name="ROOT" show="false">
@@ -3130,7 +3130,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tWriteJSONField_1">
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="true" length="10" name="IdLigne" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="true" length="10" name="IdLigne" nullable="false" pattern="" precision="0" sourceType="INT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="864">
@@ -3686,14 +3686,14 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="800">
+  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFlowToIterate_1" show="false"/>
     <elementParameter field="CHECK" name="DEFAULT_MAP" value="true"/>
     <elementParameter field="TABLE" name="MAP" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFlowToIterate_1"/>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="992" posY="800">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
@@ -3712,11 +3712,11 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="800">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.FPath + jobName + &quot;/ProcessData_COMPROP_SERVICE_SECURYCAR_&quot; +((Integer)globalMap.get(&quot;row1.IdLigne&quot;)) + &quot;.json&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.FPath + jobName + &quot;/ProcessData_COMPROP_SERVICE_SECURYCAR_&quot; +((String)globalMap.get(&quot;row1.IdLigne&quot;)) + &quot;.json&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
