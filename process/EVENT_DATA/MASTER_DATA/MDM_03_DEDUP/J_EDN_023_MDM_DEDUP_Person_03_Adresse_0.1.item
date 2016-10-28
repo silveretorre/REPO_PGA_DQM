@@ -181,7 +181,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select meta_brand_source,&#xD;&#xA;meta_application_name,&#xD;&#xA;meta_id_source,&#xD;&#xA;id_physical_person,&#xD;&#xA;postal_code_short_norm&#xD;&#xA;from norm_physical_person_address where postal_code_short_norm = &#xD;&#xA;(select e.postal_code_short_norm  from norm_physical_person_address e &#xD;&#xA;inner join norm_physical_person_name n&#xD;&#xA;using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;where n.meta_process_uuid like '&quot;+context.meta_process_uuid+&quot;')&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select meta_brand_source,&#xD;&#xA;meta_application_name,&#xD;&#xA;meta_id_source,&#xD;&#xA;id_physical_person,&#xD;&#xA;postal_code_short_norm,&#xD;&#xA;meta_process_type,&#xD;&#xA;meta_process_uuid&#xD;&#xA;from norm_physical_person_address where postal_code_short_norm = &#xD;&#xA;(select e.postal_code_short_norm  from norm_physical_person_address e &#xD;&#xA;inner join norm_physical_person_name n&#xD;&#xA;using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;where n.meta_process_uuid like '&quot;+context.meta_process_uuid+&quot;')&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -202,6 +202,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="postal_code_short_std"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_process_type"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_process_uuid"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -221,6 +225,8 @@
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -477,6 +483,8 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="blocking_key_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -499,6 +507,8 @@
         <mapperTableEntries name="birth_date" expression="norm_physical_person_name.birth_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="postal_code_short_std" expression="address.postal_code_short_std " type="id_String" nullable="true"/>
         <mapperTableEntries name="blocking_key_name" expression="Var.blocking_key_name " type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_type" expression="address.meta_process_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_uuid" expression="address.meta_process_uuid " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="address" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="norm_physical_person_name.meta_brand_source " type="id_String" operator="="/>
@@ -506,6 +516,8 @@
         <mapperTableEntries name="meta_id_source" expression="" type="id_String"/>
         <mapperTableEntries name="id_physical_person" expression="norm_physical_person_name.meta_id_source " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code_short_std" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="norm_physical_person_name" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="RELOAD" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="address.meta_brand_source " type="id_String" operator="="/>
@@ -564,6 +576,8 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="blocking_key_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -585,12 +599,8 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="blocking_key_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="SCORE" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="GRP_QUALITY" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column key="false" length="255" name="MATCHING_DISTANCES" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <metadata connector="CONFIDENT_GROUPS" name="CONFIDENT_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -606,12 +616,8 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="blocking_key_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="SCORE" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="GRP_QUALITY" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column key="false" length="255" name="MATCHING_DISTANCES" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <metadata connector="UNCERTAIN_GROUPS" name="UNCERTAIN_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -627,12 +633,8 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="postal_code_short_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="blocking_key_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="SCORE" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="20" name="GRP_QUALITY" nullable="true" precision="0" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column key="false" length="255" name="MATCHING_DISTANCES" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="tdqmatching:MatchingData">
       <ruleMatchers>
@@ -725,8 +727,8 @@
         <mapperTableEntries name="grp_quality" expression="row3.GRP_QUALITY" type="id_Double" nullable="true"/>
         <mapperTableEntries name="matching_distances" expression="row3.MATCHING_DISTANCES" type="id_String" nullable="true"/>
         <mapperTableEntries name="dedup_rule_name" expression="&quot;DEDUP03_ADDRESS&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_type" expression="row3.meta_process_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_uuid" expression="row3.meta_process_uuid " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -742,6 +744,8 @@
         <mapperTableEntries name="birth_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="postal_code_short_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="blocking_key_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="GID" type="id_String" nullable="true"/>
         <mapperTableEntries name="GRP_SIZE" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="MASTER" type="id_Boolean" nullable="true"/>
@@ -1111,6 +1115,14 @@
     </metadata>
   </node>
   <connection connectorName="FLOW" label="address" lineStyle="0" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="meta_process_type"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_process_uuid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="address" show="false"/>
   </connection>
@@ -1124,6 +1136,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="blocking_key_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_process_type"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_process_uuid"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
