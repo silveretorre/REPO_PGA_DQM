@@ -19,6 +19,7 @@
     <contextParameter comment="" name="DB_ProcessedData_Port" prompt="DB_ProcessedData_Port?" promptNeeded="false" repositoryContextId="_d4jzQIcMEeaDW-fbSrzOgQ" type="id_String" value="3306"/>
     <contextParameter comment="" name="DB_ProcessedData_Password" prompt="DB_ProcessedData_Password?" promptNeeded="false" repositoryContextId="_d4jzQIcMEeaDW-fbSrzOgQ" type="id_Password" value="rajbuDJHj3kR4LtPzzy5uw=="/>
     <contextParameter comment="" name="DB_ProcessedData_Database" prompt="DB_ProcessedData_Database?" promptNeeded="false" repositoryContextId="_d4jzQIcMEeaDW-fbSrzOgQ" type="id_String" value="processeddata"/>
+    <contextParameter comment="" name="FPath" prompt="FPath?" promptNeeded="false" repositoryContextId="_sEb-cHwcEeaBDLhFaWL-Tg" type="id_String" value="&quot;/opt/data_exchange/event_data/&quot;"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx2G " show="false"/>
@@ -650,11 +651,11 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="ID" expression="new Integer(siv.id_technique).toString() " type="id_String"/>
+        <mapperTableEntries name="ID" expression="String.valueOf(siv.id_technique)" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="siv.b4_date_prem_immat.equalsIgnoreCase(siv.b4_date_immat_siv) ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data">
+      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true">
         <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SIV&quot;" type="id_String"/>
@@ -776,7 +777,7 @@
         <mapperTableEntries name="rent_type" expression="( null != siv.b3_type_location &amp;&amp; !(&quot;&quot;.equals(siv.b3_type_location))) ? siv.b3_type_location : &quot;NA&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processedData">
-        <mapperTableEntries name="id_technique" expression="Var.ID " type="id_Integer"/>
+        <mapperTableEntries name="id_technique" expression="siv.id_technique " type="id_Integer"/>
         <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
