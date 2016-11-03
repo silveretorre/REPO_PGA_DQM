@@ -386,6 +386,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata comment="" connector="FLOW" label="metadata" name="data">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -475,15 +476,8 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
-    <metadata connector="FLOW" label="processed_data2" name="processedData">
-      <column comment="" key="true" length="12" name="EMP" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="true" length="12" name="NUMINTERNO" nullable="false" pattern="" precision="-1" sourceType="DECIMAL" type="id_BigDecimal" usefulColumn="true"/>
-      <column comment="" key="true" length="12" name="NUMINTFAC" nullable="false" pattern="" precision="-1" sourceType="DECIMAL" type="id_BigDecimal" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="date_was_processed" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="processed_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-    </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="ttOTFac.EMP + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTERNO) + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -495,9 +489,11 @@
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="process_category" expression="&quot;APV&quot;" type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
+        <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
@@ -586,13 +582,6 @@
         <mapperTableEntries name="mech_model" expression="( null != ttOTCab.DESMODELO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESMODELO))) ? ttOTCab.DESMODELO : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : &quot;NA&quot; " type="id_String" nullable="true"/>
-      </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="processedData">
-        <mapperTableEntries name="EMP" expression="ttOTFac.EMP " type="id_String"/>
-        <mapperTableEntries name="NUMINTERNO" expression="ttOTFac.NUMINTERNO " type="id_BigDecimal"/>
-        <mapperTableEntries name="NUMINTFAC" expression="ttOTFac.NUMINTFAC " type="id_BigDecimal"/>
-        <mapperTableEntries name="date_was_processed" expression="Var.src_process_moment " type="id_String" nullable="true"/>
-        <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
@@ -1584,527 +1573,527 @@
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="9"/>
+      <elementValue elementRef="ORDER" value="10"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/person_id"/>
       <elementValue elementRef="COLUMN" value="person_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="10"/>
+      <elementValue elementRef="ORDER" value="11"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/gender"/>
       <elementValue elementRef="COLUMN" value="gender"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="11"/>
+      <elementValue elementRef="ORDER" value="12"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/firstname"/>
       <elementValue elementRef="COLUMN" value="firstname"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="12"/>
+      <elementValue elementRef="ORDER" value="13"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/lastname"/>
       <elementValue elementRef="COLUMN" value="lastname"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="13"/>
+      <elementValue elementRef="ORDER" value="14"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/birth_name"/>
       <elementValue elementRef="COLUMN" value="birth_name"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="14"/>
+      <elementValue elementRef="ORDER" value="15"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/birth_date"/>
       <elementValue elementRef="COLUMN" value="birth_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="15"/>
+      <elementValue elementRef="ORDER" value="16"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/license_number"/>
       <elementValue elementRef="COLUMN" value="license_number"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="16"/>
+      <elementValue elementRef="ORDER" value="17"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/country_license"/>
       <elementValue elementRef="COLUMN" value="country_license"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="17"/>
+      <elementValue elementRef="ORDER" value="18"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/deceased"/>
       <elementValue elementRef="COLUMN" value="deceased"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="18"/>
+      <elementValue elementRef="ORDER" value="19"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="19"/>
+      <elementValue elementRef="ORDER" value="20"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/death_date"/>
       <elementValue elementRef="COLUMN" value="death_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="20"/>
+      <elementValue elementRef="ORDER" value="21"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/language_code"/>
       <elementValue elementRef="COLUMN" value="language_code"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="21"/>
+      <elementValue elementRef="ORDER" value="22"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="22"/>
+      <elementValue elementRef="ORDER" value="23"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/street_number"/>
       <elementValue elementRef="COLUMN" value="street_number"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="23"/>
+      <elementValue elementRef="ORDER" value="24"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/route"/>
       <elementValue elementRef="COLUMN" value="route"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="24"/>
+      <elementValue elementRef="ORDER" value="25"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/locality"/>
       <elementValue elementRef="COLUMN" value="locality"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="25"/>
+      <elementValue elementRef="ORDER" value="26"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/sublocality"/>
       <elementValue elementRef="COLUMN" value="sublocality"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="26"/>
+      <elementValue elementRef="ORDER" value="27"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/admarea1"/>
       <elementValue elementRef="COLUMN" value="admarea1"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="27"/>
+      <elementValue elementRef="ORDER" value="28"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/admarea2"/>
       <elementValue elementRef="COLUMN" value="admarea2"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="28"/>
+      <elementValue elementRef="ORDER" value="29"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/admarea3"/>
       <elementValue elementRef="COLUMN" value="admarea3"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="29"/>
+      <elementValue elementRef="ORDER" value="30"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/country"/>
       <elementValue elementRef="COLUMN" value="country"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="30"/>
+      <elementValue elementRef="ORDER" value="31"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/postal_code"/>
       <elementValue elementRef="COLUMN" value="postal_code"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="31"/>
+      <elementValue elementRef="ORDER" value="32"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/address"/>
       <elementValue elementRef="COLUMN" value="address"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="32"/>
+      <elementValue elementRef="ORDER" value="33"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/address/is_reachable"/>
       <elementValue elementRef="COLUMN" value="address_is_reachable"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="33"/>
+      <elementValue elementRef="ORDER" value="34"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="34"/>
+      <elementValue elementRef="ORDER" value="35"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/email"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="35"/>
+      <elementValue elementRef="ORDER" value="36"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/email/email"/>
       <elementValue elementRef="COLUMN" value="email"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="36"/>
+      <elementValue elementRef="ORDER" value="37"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/email/is_reachable"/>
       <elementValue elementRef="COLUMN" value="email_is_reachable"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="37"/>
+      <elementValue elementRef="ORDER" value="38"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="38"/>
+      <elementValue elementRef="ORDER" value="39"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/email/email_type"/>
       <elementValue elementRef="COLUMN" value="email_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="39"/>
+      <elementValue elementRef="ORDER" value="40"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="40"/>
+      <elementValue elementRef="ORDER" value="41"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/original_number"/>
       <elementValue elementRef="COLUMN" value="original_number"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="41"/>
+      <elementValue elementRef="ORDER" value="42"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/phone_type"/>
       <elementValue elementRef="COLUMN" value="phone_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="42"/>
+      <elementValue elementRef="ORDER" value="43"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_sms"/>
       <elementValue elementRef="COLUMN" value="is_reachable_by_sms"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="43"/>
+      <elementValue elementRef="ORDER" value="44"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="44"/>
+      <elementValue elementRef="ORDER" value="45"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_phone"/>
       <elementValue elementRef="COLUMN" value="is_reachable_by_phone"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="45"/>
+      <elementValue elementRef="ORDER" value="46"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="46"/>
+      <elementValue elementRef="ORDER" value="47"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/phone/line_type"/>
       <elementValue elementRef="COLUMN" value="line_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="47"/>
+      <elementValue elementRef="ORDER" value="48"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="48"/>
+      <elementValue elementRef="ORDER" value="49"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession/activity_area"/>
       <elementValue elementRef="COLUMN" value="activity_area"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="49"/>
+      <elementValue elementRef="ORDER" value="50"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession/profession"/>
       <elementValue elementRef="COLUMN" value="profession"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="50"/>
+      <elementValue elementRef="ORDER" value="51"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession/start_date"/>
       <elementValue elementRef="COLUMN" value="start_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="51"/>
+      <elementValue elementRef="ORDER" value="52"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession/end_date"/>
       <elementValue elementRef="COLUMN" value="end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="52"/>
+      <elementValue elementRef="ORDER" value="53"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/profession/unemployed"/>
       <elementValue elementRef="COLUMN" value="unemployed"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="53"/>
+      <elementValue elementRef="ORDER" value="54"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="54"/>
+      <elementValue elementRef="ORDER" value="55"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_details"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="55"/>
+      <elementValue elementRef="ORDER" value="56"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_details/network_name"/>
       <elementValue elementRef="COLUMN" value="network_name"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="56"/>
+      <elementValue elementRef="ORDER" value="57"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_details/profile_id"/>
       <elementValue elementRef="COLUMN" value="profile_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="57"/>
+      <elementValue elementRef="ORDER" value="58"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_details/url"/>
       <elementValue elementRef="COLUMN" value="url"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="58"/>
+      <elementValue elementRef="ORDER" value="59"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="59"/>
+      <elementValue elementRef="ORDER" value="60"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/vehicle_id"/>
       <elementValue elementRef="COLUMN" value="vehicle_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="60"/>
+      <elementValue elementRef="ORDER" value="61"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/brand"/>
       <elementValue elementRef="COLUMN" value="brand"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="61"/>
+      <elementValue elementRef="ORDER" value="62"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/family"/>
       <elementValue elementRef="COLUMN" value="family"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="62"/>
+      <elementValue elementRef="ORDER" value="63"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/model"/>
       <elementValue elementRef="COLUMN" value="model"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="63"/>
+      <elementValue elementRef="ORDER" value="64"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/version"/>
       <elementValue elementRef="COLUMN" value="version"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="64"/>
+      <elementValue elementRef="ORDER" value="65"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/kind"/>
       <elementValue elementRef="COLUMN" value="kind"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="65"/>
+      <elementValue elementRef="ORDER" value="66"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/vin"/>
       <elementValue elementRef="COLUMN" value="vin"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="66"/>
+      <elementValue elementRef="ORDER" value="67"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/energy"/>
       <elementValue elementRef="COLUMN" value="energy"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="67"/>
+      <elementValue elementRef="ORDER" value="68"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/color"/>
       <elementValue elementRef="COLUMN" value="color"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="68"/>
+      <elementValue elementRef="ORDER" value="69"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/national_identification_type"/>
       <elementValue elementRef="COLUMN" value="national_identification_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="69"/>
+      <elementValue elementRef="ORDER" value="70"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/circulation_start_date"/>
       <elementValue elementRef="COLUMN" value="circulation_start_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="70"/>
+      <elementValue elementRef="ORDER" value="71"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/circulation_end_date"/>
       <elementValue elementRef="COLUMN" value="circulation_end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="71"/>
+      <elementValue elementRef="ORDER" value="72"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/origin_country_code"/>
       <elementValue elementRef="COLUMN" value="origin_country_code"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="72"/>
+      <elementValue elementRef="ORDER" value="73"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/last_mileage_known"/>
       <elementValue elementRef="COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="73"/>
+      <elementValue elementRef="ORDER" value="74"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="74"/>
+      <elementValue elementRef="ORDER" value="75"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/argus_brand"/>
       <elementValue elementRef="COLUMN" value="argus_brand"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="75"/>
+      <elementValue elementRef="ORDER" value="76"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/argus_family"/>
       <elementValue elementRef="COLUMN" value="argus_family"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="76"/>
+      <elementValue elementRef="ORDER" value="77"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/argus_model"/>
       <elementValue elementRef="COLUMN" value="argus_model"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="77"/>
+      <elementValue elementRef="ORDER" value="78"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/argus_version"/>
       <elementValue elementRef="COLUMN" value="argus_version"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="78"/>
+      <elementValue elementRef="ORDER" value="79"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="79"/>
+      <elementValue elementRef="ORDER" value="80"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link/person_id"/>
       <elementValue elementRef="COLUMN" value="person_link_person_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="80"/>
+      <elementValue elementRef="ORDER" value="81"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link/start_date"/>
       <elementValue elementRef="COLUMN" value="person_link_start_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="81"/>
+      <elementValue elementRef="ORDER" value="82"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link/end_date"/>
       <elementValue elementRef="COLUMN" value="person_link_end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="82"/>
+      <elementValue elementRef="ORDER" value="83"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link/organization_user_id"/>
       <elementValue elementRef="COLUMN" value="person_link_organization_user_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="83"/>
+      <elementValue elementRef="ORDER" value="84"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/person_link/link_type"/>
       <elementValue elementRef="COLUMN" value="person_link_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="84"/>
+      <elementValue elementRef="ORDER" value="85"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="85"/>
+      <elementValue elementRef="ORDER" value="86"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration/registration_number"/>
       <elementValue elementRef="COLUMN" value="registration_number"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="86"/>
+      <elementValue elementRef="ORDER" value="87"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration/first_registration_date"/>
       <elementValue elementRef="COLUMN" value="first_registration_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="87"/>
+      <elementValue elementRef="ORDER" value="88"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration/current_registration_date"/>
       <elementValue elementRef="COLUMN" value="current_registration_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="88"/>
+      <elementValue elementRef="ORDER" value="89"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration/end_date"/>
       <elementValue elementRef="COLUMN" value="registration_end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="89"/>
+      <elementValue elementRef="ORDER" value="90"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle/registration/is_definitive_registration"/>
       <elementValue elementRef="COLUMN" value="is_definitive_registration"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="90"/>
+      <elementValue elementRef="ORDER" value="91"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="91"/>
+      <elementValue elementRef="ORDER" value="92"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="92"/>
+      <elementValue elementRef="ORDER" value="93"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/ti_number"/>
       <elementValue elementRef="COLUMN" value="ti_number"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="93"/>
+      <elementValue elementRef="ORDER" value="94"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_type"/>
       <elementValue elementRef="COLUMN" value="intervention_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="94"/>
+      <elementValue elementRef="ORDER" value="95"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_price_workforce"/>
       <elementValue elementRef="COLUMN" value="intervention_price_workforce"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="95"/>
+      <elementValue elementRef="ORDER" value="96"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="96"/>
+      <elementValue elementRef="ORDER" value="97"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_price_pieces"/>
       <elementValue elementRef="COLUMN" value="intervention_price_pieces"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="97"/>
+      <elementValue elementRef="ORDER" value="98"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="98"/>
+      <elementValue elementRef="ORDER" value="99"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_price_with_taxes"/>
       <elementValue elementRef="COLUMN" value="intervention_price_with_taxes"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="99"/>
+      <elementValue elementRef="ORDER" value="100"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="100"/>
+      <elementValue elementRef="ORDER" value="101"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/taxes"/>
       <elementValue elementRef="COLUMN" value="taxes"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="101"/>
+      <elementValue elementRef="ORDER" value="102"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="number"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="102"/>
+      <elementValue elementRef="ORDER" value="103"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/currency"/>
       <elementValue elementRef="COLUMN" value="currency"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="103"/>
+      <elementValue elementRef="ORDER" value="104"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/dealership"/>
       <elementValue elementRef="COLUMN" value="dealership"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="104"/>
+      <elementValue elementRef="ORDER" value="105"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/description"/>
       <elementValue elementRef="COLUMN" value="description"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="105"/>
+      <elementValue elementRef="ORDER" value="106"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/user_info"/>
       <elementValue elementRef="COLUMN" value="user_info"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="106"/>
+      <elementValue elementRef="ORDER" value="107"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_end_date"/>
       <elementValue elementRef="COLUMN" value="intervention_end_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="107"/>
+      <elementValue elementRef="ORDER" value="108"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/intervention_start_date"/>
       <elementValue elementRef="COLUMN" value="intervention_start_date"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="108"/>
+      <elementValue elementRef="ORDER" value="109"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_mode"/>
       <elementValue elementRef="COLUMN" value="payment_mode"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="109"/>
+      <elementValue elementRef="ORDER" value="110"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/payment_type"/>
       <elementValue elementRef="COLUMN" value="payment_type"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="110"/>
+      <elementValue elementRef="ORDER" value="111"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/mech_model"/>
       <elementValue elementRef="COLUMN" value="mech_model"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="111"/>
+      <elementValue elementRef="ORDER" value="112"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/mech_version"/>
       <elementValue elementRef="COLUMN" value="mech_version"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="112"/>
+      <elementValue elementRef="ORDER" value="113"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/mech_color"/>
       <elementValue elementRef="COLUMN" value="mech_color"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="113"/>
+      <elementValue elementRef="ORDER" value="114"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
@@ -2118,31 +2107,36 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="3"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/header/process_category"/>
+      <elementValue elementRef="COLUMN" value="process_category"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="4"/>
       <elementValue elementRef="PATH" value="/pga_process_data/header/src_application_name"/>
       <elementValue elementRef="COLUMN" value="src_application_name"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="4"/>
+      <elementValue elementRef="ORDER" value="5"/>
       <elementValue elementRef="PATH" value="/pga_process_data/header/src_application_brand"/>
       <elementValue elementRef="COLUMN" value="src_application_brand"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="5"/>
+      <elementValue elementRef="ORDER" value="6"/>
       <elementValue elementRef="PATH" value="/pga_process_data/header/src_process_moment"/>
       <elementValue elementRef="COLUMN" value="src_process_moment"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="6"/>
+      <elementValue elementRef="ORDER" value="7"/>
       <elementValue elementRef="PATH" value="/pga_process_data/header/load_process_moment"/>
       <elementValue elementRef="COLUMN" value="load_process_moment"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="7"/>
+      <elementValue elementRef="ORDER" value="8"/>
       <elementValue elementRef="PATH" value="/pga_process_data/header/src_process_id"/>
       <elementValue elementRef="COLUMN" value="src_process_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="8"/>
+      <elementValue elementRef="ORDER" value="9"/>
     </elementParameter>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="TABLE" name="GROUPBYS"/>
@@ -8168,6 +8162,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="mech_color"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="process_category"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
