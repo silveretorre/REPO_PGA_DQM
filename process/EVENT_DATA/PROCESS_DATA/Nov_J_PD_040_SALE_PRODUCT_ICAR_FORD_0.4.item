@@ -22,7 +22,7 @@
     <contextParameter comment="" name="ICAR_FORD_Schema" prompt="ICAR_FORD_Schema?" promptNeeded="false" repositoryContextId="_wrAVgDFgEeaBhsgNMgHnVg" type="id_String" value="ICARDMS"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx20G " show="false"/>
+    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx10G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="160" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
@@ -1148,7 +1148,7 @@
         <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="( null != tcVeh.STATUS &amp;&amp; !(&quot;&quot;.equals(tcVeh.STATUS)) &amp;&amp; tcVeh.STATUS.intValue() == 30) ? true : false " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
-        <mapperTableEntries name="process_category" type="id_String"/>
+        <mapperTableEntries name="process_category" expression="( null != tcVeh.ESVO &amp;&amp; tcVeh.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -1240,7 +1240,7 @@
         <mapperTableEntries name="payment_mode" expression="( null != tgModoPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModoPago.DESCRIP))) ? tgModoPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" expression="( null != tgFormaPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgFormaPago.DESCRIP))) ? tgFormaPago.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" type="id_BigDecimal"/>
         <mapperTableEntries name="LINEA" type="id_BigDecimal"/>
@@ -1740,7 +1740,7 @@
         <mapperTableEntries name="TIPOFACTURACIONCOMPRAVONOREBU" type="id_String" nullable="true"/>
         <mapperTableEntries name="TIPOFACTURACIONVENTAVONOREBU" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcVeh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcVeh" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcVehFactur.EMP " type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" expression="tcVehFactur.NUMINTERNO " type="id_BigDecimal"/>
         <mapperTableEntries name="NUMSTOCK" type="id_BigDecimal" nullable="true"/>
