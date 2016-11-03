@@ -528,16 +528,6 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.person_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String puis en bytes()&#xA;    &#x9;output_row.serializedValue = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut).getBytes();&#xA;&#xA;&#xA;    &#x9;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import java.util.Iterator;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
-    <elementParameter field="TEXT" name="LABEL" value="enrich JSON Doc"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_1">
-      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1568" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
@@ -634,6 +624,17 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.person_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String puis en bytes()&#xA;    &#x9;output_row.serializedValue = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut).getBytes();&#xA;&#xA;&#xA;    &#x9;"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import java.util.Iterator;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
+    <elementParameter field="TEXT" name="LABEL" value="enrich JSON Doc"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJavaRow_1">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1856" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
@@ -659,17 +660,17 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_2" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_2" target="tLibraryLoad_3">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3" show="false"/>
   </connection>
+  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tParallelize_1" target="tRunJob_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
+  </connection>
+  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tParallelize_1" target="tRunJob_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
+  </connection>
   <connection connectorName="SYNCHRONIZE" label="Synchronize" lineStyle="12" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" source="tParallelize_1" target="tParallelize_2">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Synchronize" show="false"/>
-  </connection>
-  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tParallelize_1" target="tRunJob_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
-  </connection>
-  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tParallelize_1" target="tRunJob_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
   </connection>
   <connection connectorName="SYNCHRONIZE" label="Synchronize" lineStyle="12" metaname="tParallelize_2" offsetLabelX="0" offsetLabelY="0" source="tParallelize_2" target="tParallelize_3">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
@@ -702,6 +703,7 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="badNewsFile" lineStyle="0" metaname="badNewsFile" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tFileOutputDelimited_1">
@@ -714,6 +716,10 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_physical" show="false"/>
   </connection>
+  <connection connectorName="FLOW" label="dedup_vehicle" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_vehicle" show="false"/>
+  </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tKafkaOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
@@ -725,17 +731,13 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="dedup_vehicle" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_vehicle" show="false"/>
-  </connection>
   <note opaque="true" posX="128" posY="0" sizeHeight="96" sizeWidth="545" text="Job en cours d'update pour Sprint 5&#xD;&#xA;"/>
   <note opaque="true" posX="128" posY="576" sizeHeight="96" sizeWidth="385" text="Chargement des tables MDM &quot;brutes&quot;&#xD;&#xA;"/>
   <note opaque="true" posX="128" posY="864" sizeHeight="96" sizeWidth="385" text="Normalisation des champs"/>
   <note opaque="true" posX="128" posY="1056" sizeHeight="96" sizeWidth="385" text="Dédoublonnage / Consolidation / Golden Records"/>
   <note opaque="true" posX="128" posY="1312" sizeHeight="96" sizeWidth="385" text="Génération des JSON MDM pour envoi vers&#xD;&#xA;ELK / ..."/>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -801,7 +803,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
