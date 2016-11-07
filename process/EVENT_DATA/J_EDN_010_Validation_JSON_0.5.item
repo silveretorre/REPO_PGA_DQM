@@ -612,12 +612,18 @@
       <column comment="" key="false" length="-1" name="jsonStatus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="Kafka_OK">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="to_RouteOutput_OK">
         <mapperTableEntries name="jsonStatus" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="jsonFull" expression="row7.jsonFull" type="id_String" nullable="true"/>
+        <mapperTableEntries name="jsonFull" expression="row7.jsonFul" type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="Kafka_OK">
+        <mapperTableEntries name="serializedValue" expression="row7.jsonFull.getBytes()" type="id_byte[]" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row7" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="jsonFull" type="id_String" nullable="true"/>
@@ -728,13 +734,19 @@
       <column comment="" key="false" length="-1" name="jsonErrorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="Kafka_KO">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="to_RouteOutput_KO">
         <mapperTableEntries name="jsonStatus" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="jsonErrorMessage" expression="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;)) + &quot; file has no valid schema ! Please check &quot;  + ((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;)).replace(&quot;.json&quot;, &quot;_schema_error.log&quot;) + &quot; file, in &quot;+ context.Reject_Json_File_Path + &quot; directory.&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="jsonFull" expression="row8.jsonFull" type="id_String" nullable="true"/>
+        <mapperTableEntries name="jsonFull" expression="row8.jsonFul" type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="Kafka_KO">
+        <mapperTableEntries name="serializedValue" expression="row8.jsonFull.getBytes()" type="id_byte[]" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row8" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="jsonFull" type="id_String" nullable="true"/>
@@ -1015,7 +1027,7 @@
     <elementParameter field="CLOSED_LIST" name="LOGICAL_OP" value="&amp;&amp;"/>
     <elementParameter field="TABLE" name="CONDITIONS"/>
     <elementParameter field="CHECK" name="USE_ADVANCED" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="ADVANCED_COND" value="// code sample : use input_row to define the condition.&#xA;// input_row.columnName1.equals(&quot;foo&quot;) ||!(input_row.columnName2.equals(&quot;bar&quot;))&#xA;// replace the following expression by your own filter condition &#xA;input_row.body != null &amp;&amp; input_row.body.trim().length() > 0&#xA;&#x9;&#x9;&#x9;"/>
+    <elementParameter field="MEMO_JAVA" name="ADVANCED_COND" value="// code sample : use input_row to define the condition.&#xA;// input_row.columnName1.equals(&quot;foo&quot;) ||!(input_row.columnName2.equals(&quot;bar&quot;))&#xA;// replace the following expression by your own filter condition &#xA;input_row.payload != null &amp;&amp; input_row.payload.trim().length() > 0&#xA;&#x9;&#x9;&#x9;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFilterRow_29">
       <column key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -1060,7 +1072,7 @@
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
-      <elementValue elementRef="VALUE" value="(String)globalMap.get(&quot;row5.body&quot;)"/>
+      <elementValue elementRef="VALUE" value="(String)globalMap.get(&quot;row5.payload&quot;)"/>
     </elementParameter>
     <elementParameter field="RADIO" name="USE_INTABLE" value="false"/>
     <elementParameter field="TABLE" name="INTABLE" show="false"/>
@@ -1617,9 +1629,14 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="to_RouteOutput_OK" lineStyle="0" metaname="to_RouteOutput_OK" offsetLabelX="0" offsetLabelY="0" source="tMap_4" target="tKafkaOutput_1">
+  <connection connectorName="FLOW" label="Kafka_OK" lineStyle="0" metaname="Kafka_OK" offsetLabelX="0" offsetLabelY="0" source="tMap_4" target="tKafkaOutput_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="to_RouteOutput_OK" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Kafka_OK" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tLibraryLoad_3" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_3" target="tLibraryLoad_4">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk9" show="false"/>
@@ -1636,9 +1653,14 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="to_RouteOutput_KO" lineStyle="0" metaname="to_RouteOutput_KO" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tKafkaOutput_2">
+  <connection connectorName="FLOW" label="Kafka_KO" lineStyle="0" metaname="Kafka_KO" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tKafkaOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="to_RouteOutput_KO" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Kafka_KO" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tFileInputDelimited_4" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_4" target="tMap_6">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
