@@ -974,19 +974,6 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="800">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
-    <elementParameter field="TABLE" name="VARIABLES">
-      <elementValue elementRef="KEY" value="&quot;processStatus&quot;"/>
-      <elementValue elementRef="VALUE" value=" processType_status.isValid "/>
-    </elementParameter>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="true"/>
-    <elementParameter field="MEMO" name="COMMENT" value="On cherche à récupérer le statut pour la validation d'un event. Mais un event subit 4 validations (header, person, vehicle, event)&#xD;&#xA;&#xD;&#xA;De ce fait, le statut est réinitialisé à chaque event. On cherche à savoir s'il est null ou au statut OK. Si c'est le cas, on surcharge avec le nouveau statut (true ou false). Si le statut est false (KO) on ne surcharge pas, car au moins 1 des 4 validations n'est pas bonne."/>
-    <metadata connector="FLOW" label="processType_status" name="tSetGlobalVar_2">
-      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="704" posY="896">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_6" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
@@ -1008,7 +995,7 @@
       <column comment="" key="false" length="-1" name="isTrue" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="globalMap.get(&quot;processStatus&quot;)!=null  &amp;&amp;  (Boolean)globalMap.get(&quot;processStatus&quot;)" activateExpressionFilter="true">
         <mapperTableEntries name="serializedValue" expression="row11.body.getBytes()  " type="id_byte[]" nullable="true"/>
@@ -1180,6 +1167,19 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="logs_1" name="tLogRow_4">
       <column comment="" key="false" length="-1" name="isTrue" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="800">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
+    <elementParameter field="TABLE" name="VARIABLES">
+      <elementValue elementRef="KEY" value="&quot;processStatus&quot;"/>
+      <elementValue elementRef="VALUE" value=" processType_status.isValid "/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="INFORMATION" value="true"/>
+    <elementParameter field="MEMO" name="COMMENT" value="On cherche à récupérer le statut pour la validation d'un event. Mais un event subit 4 validations (header, person, vehicle, event)&#xD;&#xA;&#xD;&#xA;De ce fait, le statut est réinitialisé à chaque event. On cherche à savoir s'il est null ou au statut OK. Si c'est le cas, on surcharge avec le nouveau statut (true ou false). Si le statut est false (KO) on ne surcharge pas, car au moins 1 des 4 validations n'est pas bonne."/>
+    <metadata connector="FLOW" label="processType_status" name="tSetGlobalVar_2">
+      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tHashOutput_1">
@@ -1465,6 +1465,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_4" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
