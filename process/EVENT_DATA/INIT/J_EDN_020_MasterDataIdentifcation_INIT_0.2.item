@@ -395,7 +395,7 @@
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
     <elementParameter field="IMAGE" name="PREVIEW" value="_P7DSQJmyEea5b7lEswal7A-tMap_1-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
-    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
+    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="true" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -422,7 +422,7 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc" type="id_String" nullable="true"/>
@@ -696,13 +696,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="badNewsFile" lineStyle="0" metaname="badNewsFile" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tFileOutputDelimited_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Relative"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value="row1"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNewsFile" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tJavaRow_1">
+  <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -710,6 +704,12 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="badNewsFile" lineStyle="0" metaname="badNewsFile" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tFileOutputDelimited_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
+    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Relative"/>
+    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value="row1"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNewsFile" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedup_physical" lineStyle="8" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
