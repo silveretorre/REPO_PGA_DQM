@@ -1285,7 +1285,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + &quot;_&quot; + String.valueOf(tcPresupuesto.NUMINTERNO.intValue())" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -1299,11 +1299,11 @@
         <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="&quot;FORD&quot;" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="&quot;MERCEDES&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.ID &amp;&amp; !(&quot;&quot;.equals(Var.ID)))? &#xD;&#xA;String.valueOf(Var.ID)&#xD;&#xA;: &quot;NA&quot; " type="id_String"/>
@@ -1704,7 +1704,7 @@
         <mapperTableEntries name="NOMBRECOMP" type="id_String" nullable="true"/>
         <mapperTableEntries name="NOMBREEDITADO" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPobla" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgPobla" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="ID" type="id_BigDecimal"/>
         <mapperTableEntries name="CODIGO" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
@@ -1717,12 +1717,12 @@
         <mapperTableEntries name="CODIGO" expression="tgCliente.DIRBIS " type="id_String"/>
         <mapperTableEntries name="DESCRIP" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgVia" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgVia" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VIA" type="id_String"/>
         <mapperTableEntries name="DESCRIPLARGO" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIPCORTO" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPais" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgPais" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="ID" type="id_BigDecimal"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
         <mapperTableEntries name="CODEXTERNO" type="id_String" nullable="true"/>
@@ -1764,7 +1764,7 @@
         <mapperTableEntries name="PROTECTEMAILTWITTER" type="id_BigDecimal"/>
         <mapperTableEntries name="PROTECTEMAILGOOGLEP" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgCortesia" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgCortesia" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_String"/>
         <mapperTableEntries name="TEXTOIMP" type="id_String" nullable="true"/>
@@ -8672,7 +8672,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.FPath + jobName + &quot;/ProcessData_Comprop_ICAR_FORD_&quot; + java.util.UUID.randomUUID().toString() + &quot;.json&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.FPath + jobName + &quot;/ProcessData_Comprop_ICAR_MERCEDES_&quot; + java.util.UUID.randomUUID().toString() + &quot;.json&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
