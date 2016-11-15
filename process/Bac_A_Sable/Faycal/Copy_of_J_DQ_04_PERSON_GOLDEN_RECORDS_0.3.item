@@ -231,7 +231,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xA;d.master_gid,&#xA;d.grp_size, &#xA;n.gender_norm ,&#xA;n.firstname_norm, &#xA;n.lastname_norm, &#xA;n.birth_date &#xA;from dedup_physical_person_consolidation d &#xA;inner join&#xA;(select name.meta_brand_source, name.meta_application_name, name.meta_id_source, name.gender_norm, name.firstname_norm, name.lastname_norm, name.birth_date&#xA;from public.norm_physical_person_name name&#xA;group by 1,2,3, 4, 5, 6, 7&#xA;) n on (d.meta_brand_source = n.meta_brand_source and d.meta_application_name = n.meta_application_name and d.meta_id_source = n.meta_id_source)&#xA;order by d.master_gid&#xD;&#xA;&quot;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xA;d.master_gid,&#xA;d.grp_size, &#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xA;n.gender_norm ,&#xA;n.firstname_norm, &#xA;n.lastname_norm, &#xA;n.birth_date &#xA;from dedup_physical_person_consolidation d &#xA;inner join&#xA;(select name.meta_brand_source, name.meta_application_name, name.meta_id_source, name.gender_norm, name.firstname_norm, name.lastname_norm, name.birth_date&#xA;from public.norm_physical_person_name name&#xA;group by 1,2,3, 4, 5, 6, 7&#xA;) n on (d.meta_brand_source = n.meta_brand_source and d.meta_application_name = n.meta_application_name and d.meta_id_source = n.meta_id_source)&#xA;order by d.master_gid&#xD;&#xA;&quot;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -245,6 +245,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -260,10 +264,12 @@
     <metadata connector="FLOW" name="tPostgresqlInput_1">
       <column comment="" key="false" length="-1" name="master_gid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="gender_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="firstname_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="lastname_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="'yyyy-MM-dd'" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="384" posY="864">
@@ -271,7 +277,7 @@
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
-    <elementParameter field="IMAGE" name="PREVIEW" value="_mXvMEDeZEeaVHdujfD3_hw-tMap_2-PREVIEW.bmp"/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_avP_kKsUEeaLuIZlBbQIpg-tMap_2-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
@@ -280,17 +286,21 @@
     <metadata connector="FLOW" name="out1">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT8" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="master_gid" expression="dedup_physical_person_consolidation.master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="dedup_physical_person_consolidation.grp_size " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="meta_brand_source" expression="dedup_physical_person_consolidation.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="dedup_physical_person_consolidation.meta_application_name " type="id_String"/>
         <mapperTableEntries name="gender_norm" expression="dedup_physical_person_consolidation.gender_norm == null || dedup_physical_person_consolidation.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="dedup_physical_person_consolidation.firstname_norm == null || dedup_physical_person_consolidation.firstname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.firstname_norm&#xD;&#xA;" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="dedup_physical_person_consolidation.lastname_norm == null || dedup_physical_person_consolidation.lastname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.lastname_norm&#xD;&#xA;&#xD;&#xA;" type="id_String" nullable="true"/>
@@ -299,6 +309,8 @@
       <inputTables sizeState="INTERMEDIATE" name="dedup_physical_person_consolidation" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
@@ -326,6 +338,10 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="firstname_norm"/>
@@ -341,6 +357,8 @@
     <metadata connector="FLOW" name="tLogRow_2">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT8" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -350,7 +368,7 @@
   <node componentName="tRuleSurvivorship" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="864">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRuleSurvivorship_1" show="false"/>
     <elementParameter field="CHECK" name="TSTATCATCHER_STATS" value="true"/>
-    <elementParameter field="TEXT" name="PACKAGE_NAME" value="&quot;com.pgamotors.survivorship.physicalPerson&quot;"/>
+    <elementParameter field="TEXT" name="PACKAGE_NAME" value="&quot;test.com.pgamotors.survivorship.physicalPerson&quot;"/>
     <elementParameter field="GENERATE_SURVIVORSHIP_RULES_CONTROLLER" name="GEN_SURVIVORSHIP_RULES" value="false"/>
     <elementParameter field="PREV_COLUMN_LIST" name="GRP_ID" value="master_gid"/>
     <elementParameter field="PREV_COLUMN_LIST" name="GRP_SIZE" value="grp_size"/>
@@ -383,6 +401,20 @@
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="birth_date"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
+      <elementValue elementRef="RELATION" value="SEQ"/>
+      <elementValue elementRef="RULE_NAME" value="&quot;&quot;"/>
+      <elementValue elementRef="INPUT_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="FUNCTION" value="None"/>
+      <elementValue elementRef="VALUE" value="&quot;&quot;"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="RELATION" value="SEQ"/>
+      <elementValue elementRef="RULE_NAME" value="&quot;&quot;"/>
+      <elementValue elementRef="INPUT_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="FUNCTION" value="None"/>
+      <elementValue elementRef="VALUE" value="&quot;&quot;"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="SURVIVOR_RELATION" name="drools" value="_sPIFsKEiEeaZ5OPus_aS7w" show="false"/>
@@ -394,6 +426,8 @@
     <metadata connector="FLOW" name="tRuleSurvivorship_1">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT8" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -422,6 +456,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="firstname_norm"/>
@@ -429,6 +465,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="lastname_norm"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="birth_date"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="SURVIVOR"/>
       <elementValue elementRef="LENGTH" value="10"/>
@@ -441,10 +479,12 @@
     <metadata connector="FLOW" name="tLogRow_1">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT8" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="0" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -454,7 +494,7 @@
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
-    <elementParameter field="IMAGE" name="PREVIEW" value="_mXvMEDeZEeaVHdujfD3_hw-tMap_1-PREVIEW.bmp"/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_avP_kKsUEeaLuIZlBbQIpg-tMap_1-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
@@ -464,32 +504,40 @@
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="-1" name="SURVIVOR" nullable="true" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="master_physical_person">
         <mapperTableEntries name="master_gid" expression="row4.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_brand_source" expression="row4.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="gender_norm" expression="row4.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="row4.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="row4.lastname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="(row4.birth_date != null &amp;&amp; !&quot;&quot;.equals(row4.birth_date) ) ? &#xD;&#xA;&#x9;TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,row4.birth_date)&#xD;&#xA;:&#xD;&#xA;&#x9;null " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="prospect_client_siv" expression="(&quot;AUTOSPHERE_FR&quot;.equals(row4.meta_application_name))? &quot;Prospect&quot; : &#xD;&#xA;(&quot;SIV&quot;.equals(row1.meta_application_name))? &#xD;&#xA;&quot;SIV&quot; : &#xD;&#xA;&quot;Client&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="online_offline" expression="(&quot;AUTOSPHERE_FR&quot;.equals(row4.meta_application_name))?&#xD;&#xA;&quot;Online&quot; :&#xD;&#xA;&quot;Offline&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="SURVIVOR" expression="row4.SURVIVOR" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="CONFLICT" expression="row4.CONFLICT" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="SURVIVOR" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="CONFLICT" type="id_String" nullable="true"/>
       </inputTables>
@@ -531,6 +579,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -547,6 +600,16 @@
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="birth_date"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="prospect_client_siv"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="online_offline"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -572,10 +635,13 @@
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="-1" name="SURVIVOR" nullable="true" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -583,10 +649,13 @@
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="-1" name="SURVIVOR" nullable="true" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -597,7 +666,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_1" show="false"/>
     <elementParameter field="TABLE" name="VARIABLES">
       <elementValue elementRef="KEY" value="&quot;OUTPUT_TABLE_NAME&quot;"/>
-      <elementValue elementRef="VALUE" value="&quot;master_physical_person&quot;"/>
+      <elementValue elementRef="VALUE" value="&quot;test_master_physical_person&quot;"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__VARIABLES__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -832,6 +901,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="birth_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
@@ -860,6 +935,18 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="birth_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="online_offline"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="prospect_client_siv"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
