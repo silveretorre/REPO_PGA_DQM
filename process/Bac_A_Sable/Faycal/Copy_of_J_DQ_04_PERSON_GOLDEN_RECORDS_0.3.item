@@ -433,7 +433,10 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="864">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_1" show="false"/>
-    <elementParameter field="TABLE" name="GROUPBYS"/>
+    <elementParameter field="TABLE" name="GROUPBYS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="group_identifier"/>
+      <elementValue elementRef="INPUT_COLUMN" value="group_identifier"/>
+    </elementParameter>
     <elementParameter field="TABLE" name="OPERATIONS"/>
     <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
     <elementParameter field="CHECK" name="USE_FINANCIAL_PRECISION" value="true"/>
@@ -441,25 +444,22 @@
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tAggregateRow_1">
-      <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="group_identifier" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT8" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="meta_brand_source" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_application_name" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="-1" sourceType="TIMESTAMP" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
-      <column key="false" length="0" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRuleSurvivorship" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="864">
+  <node componentName="tRuleSurvivorship" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="864">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRuleSurvivorship_1" show="false"/>
     <elementParameter field="CHECK" name="TSTATCATCHER_STATS" value="true"/>
     <elementParameter field="TEXT" name="PACKAGE_NAME" value="&quot;test.com.pgamotors.survivorship.physicalPerson&quot;"/>
     <elementParameter field="GENERATE_SURVIVORSHIP_RULES_CONTROLLER" name="GEN_SURVIVORSHIP_RULES" value="false"/>
-    <elementParameter field="PREV_COLUMN_LIST" name="GRP_ID" value="master_gid"/>
-    <elementParameter field="PREV_COLUMN_LIST" name="GRP_SIZE" value="grp_size"/>
+    <elementParameter field="PREV_COLUMN_LIST" name="GRP_ID" value="group_identifier"/>
+    <elementParameter field="PREV_COLUMN_LIST" name="GRP_SIZE" value="group_identifier"/>
     <elementParameter field="TABLE" name="OPERATIONS">
       <elementValue elementRef="RELATION" value="SEQ"/>
       <elementValue elementRef="RULE_NAME" value="&quot;1_Firstname&quot;"/>
@@ -490,16 +490,9 @@
       <elementValue elementRef="OUTPUT_COLUMN" value="birth_date"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="RELATION" value="SEQ"/>
-      <elementValue elementRef="RULE_NAME" value="&quot;&quot;"/>
-      <elementValue elementRef="INPUT_COLUMN" value="meta_brand_source"/>
-      <elementValue elementRef="FUNCTION" value="None"/>
-      <elementValue elementRef="VALUE" value="&quot;&quot;"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="meta_brand_source"/>
-      <elementValue elementRef="IGNORE_NULL" value="false"/>
-      <elementValue elementRef="RELATION" value="SEQ"/>
-      <elementValue elementRef="RULE_NAME" value="&quot;&quot;"/>
+      <elementValue elementRef="RULE_NAME" value="&quot;5_meta_app_name&quot;"/>
       <elementValue elementRef="INPUT_COLUMN" value="meta_application_name"/>
-      <elementValue elementRef="FUNCTION" value="None"/>
+      <elementValue elementRef="FUNCTION" value="MostCommon"/>
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="IGNORE_NULL" value="false"/>
