@@ -14,6 +14,12 @@
     <contextParameter comment="" name="DB_DataSources_Database" prompt="DB_DataSources_Database?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="data_sources"/>
     <contextParameter comment="" name="DB_DataSources_Login" prompt="DB_DataSources_Login?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="dsuser"/>
     <contextParameter comment="" name="DB_DataSources_Password" prompt="DB_DataSources_Password?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_Password" value="rajbuDJHj3kR4LtPzzy5uw=="/>
+    <contextParameter comment="" name="DB_DQM_ODS_Schema" prompt="DB_DQM_ODS_Schema?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="public"/>
+    <contextParameter comment="" name="DB_DQM_ODS_Server" prompt="DB_DQM_ODS_Server?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="167.114.227.214"/>
+    <contextParameter comment="" name="DB_DQM_ODS_Login" prompt="DB_DQM_ODS_Login?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="dquser"/>
+    <contextParameter comment="" name="DB_DQM_ODS_Port" prompt="DB_DQM_ODS_Port?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="5432"/>
+    <contextParameter comment="" name="DB_DQM_ODS_Database" prompt="DB_DQM_ODS_Database?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="talend_dq_ods_dev"/>
+    <contextParameter comment="" name="DB_DQM_ODS_Password" prompt="DB_DQM_ODS_Password?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_Password" value="rajbuDJHj3kR4LtPzzy5uw=="/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx16G " show="false"/>
@@ -466,9 +472,9 @@
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_id" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -595,13 +601,13 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="String.valueOf(siv.id_technique)" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="siv.b4_date_prem_immat.equalsIgnoreCase(siv.b4_date_immat_siv) ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="json" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="json">
         <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SIV&quot;" type="id_String"/>
@@ -722,7 +728,7 @@
         <mapperTableEntries name="renter_siren_number" expression="( null != siv.b3_lou_siren &amp;&amp; !(&quot;&quot;.equals(siv.b3_lou_siren))) ? siv.b3_lou_siren : &quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="rent_type" expression="( null != siv.b3_type_location &amp;&amp; !(&quot;&quot;.equals(siv.b3_type_location))) ? siv.b3_type_location : &quot;NA&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd">
+      <outputTables sizeState="INTERMEDIATE" name="pd" minimized="true">
         <mapperTableEntries name="id_technique" expression="siv.id_technique " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="date_was_processed" expression="siv.b4_date_immat_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="processed_type" expression="&quot;ADD&quot;" type="id_String" nullable="true"/>
@@ -1332,8 +1338,8 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="meta_brand_source" expression="json.src_application_brand " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="json.src_application_name " type="id_String"/>
-        <mapperTableEntries name="meta_creation_date" expression="json.src_process_moment " type="id_Date"/>
-        <mapperTableEntries name="meta_update_date" expression="json.load_process_moment " type="id_Date"/>
+        <mapperTableEntries name="meta_creation_date" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, json.src_process_moment) " type="id_Date"/>
+        <mapperTableEntries name="meta_update_date" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, json.load_process_moment) " type="id_Date"/>
         <mapperTableEntries name="meta_consumed" expression="false" type="id_Boolean"/>
         <mapperTableEntries name="meta_id_source" expression="json.src_process_id " type="id_String"/>
         <mapperTableEntries name="person_id" expression="json.person_id " type="id_String"/>
