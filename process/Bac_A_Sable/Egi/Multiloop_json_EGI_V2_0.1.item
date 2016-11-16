@@ -1946,7 +1946,7 @@
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="master_vehicle2.master_gid == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -3207,7 +3207,7 @@
       <column comment="" key="false" length="255" name="vehicle_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="test_null" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="REGISTRATION_NUMBER_ID" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="registration_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -3243,7 +3243,7 @@
         <mapperTableEntries name="vehicle_uuid" expression="dedup.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="master.version  " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="master.vin_norm  " type="id_String" nullable="true"/>
-        <mapperTableEntries name="test_null" expression="Var.test_null " type="id_String"/>
+        <mapperTableEntries name="REGISTRATION_NUMBER_ID" expression=" &quot;1&quot;.equals(Var.test_null) ? context.ValeurFiltreDM : Numeric.sequence(Var.META_ID+&quot;RegistrationNumber&quot;,1,1)+&quot;&quot;" type="id_String"/>
         <mapperTableEntries name="registration_number_norm" expression="vehicle_registration.registration_number_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_date" expression="vehicle_registration.registration_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="end_date" expression="vehicle_registration.end_date " type="id_Date" nullable="true"/>
@@ -3469,11 +3469,12 @@
     <elementParameter field="CHECK" name="KEEP_ORDER_FOR_DOCUMENT" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out5" name="out5">
-      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="" type="id_Document" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_Document" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="TalendXMLMap:XmlMapData">
       <inputTrees name="row8" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+        <nodes name="META_ID" type="id_String" xpath="row8/META_ID" nullable="false"/>
         <nodes name="meta_brand_source" type="id_String" xpath="row8/meta_brand_source" nullable="false"/>
         <nodes name="meta_application_name" type="id_String" xpath="row8/meta_application_name" nullable="false"/>
         <nodes name="meta_id_source" type="id_String" xpath="row8/meta_id_source" nullable="false"/>
@@ -3494,63 +3495,64 @@
         <nodes name="vehicle_uuid" type="id_String" outgoingConnections="//@node.32/@nodeData/@connections.14 //@node.32/@nodeData/@connections.16" xpath="row8/vehicle_uuid"/>
         <nodes name="version" type="id_String" outgoingConnections="//@node.32/@nodeData/@connections.20" xpath="row8/version"/>
         <nodes name="vin" type="id_String" outgoingConnections="//@node.32/@nodeData/@connections.15" xpath="row8/vin"/>
+        <nodes name="REGISTRATION_NUMBER_ID" type="id_String" xpath="row8/REGISTRATION_NUMBER_ID" nullable="false"/>
         <nodes name="registration_number_norm" type="id_String" outgoingConnections="//@node.32/@nodeData/@connections.17" xpath="row8/registration_number_norm"/>
         <nodes name="registration_date" type="id_Date" outgoingConnections="//@node.32/@nodeData/@connections.18" xpath="row8/registration_date"/>
         <nodes name="end_date" type="id_Date" outgoingConnections="//@node.32/@nodeData/@connections.19" xpath="row8/end_date"/>
       </inputTrees>
       <outputTrees activateCondensedTool="true" name="out5">
-        <nodes name="newColumn" expression="" type="id_Document" xpath="out5/newColumn" pattern="">
-          <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle" expression="" type="id_String" xpath="out5.newColumn:/vehicle" main="true">
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_brand" expression="row8.argus_brand" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.0" xpath="out5.newColumn:/vehicle/argus_brand"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_kind" expression="row8.argus_kind" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.1" xpath="out5.newColumn:/vehicle/argus_kind"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_model" expression="row8.argus_model" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.2" xpath="out5.newColumn:/vehicle/argus_model"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_version" expression="row8.argus_version" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.3" xpath="out5.newColumn:/vehicle/argus_version"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="brand" expression="row8.brand" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.4" xpath="out5.newColumn:/vehicle/brand"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_end_date" expression="row8.circulation_end_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.5" xpath="out5.newColumn:/vehicle/circulation_end_date" pattern="&quot;dd-MM-yyyy&quot;"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_start_date" expression="row8.circulation_start_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.6" xpath="out5.newColumn:/vehicle/circulation_start_date" pattern="&quot;dd-MM-yyyy&quot;"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="color" expression="row8.color" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.7" xpath="out5.newColumn:/vehicle/color"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="energy" expression="row8.energy" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.8" xpath="out5.newColumn:/vehicle/energy"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="kind" expression="row8.kind" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.9" xpath="out5.newColumn:/vehicle/kind"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="last_mileage_known" expression="row8.last_mileage_known" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.10" xpath="out5.newColumn:/vehicle/last_mileage_known"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="model" expression="row8.model" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.11" xpath="out5.newColumn:/vehicle/model"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="national_identification_type" expression="row8.national_identification_type" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.12" xpath="out5.newColumn:/vehicle/national_identification_type"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="origin_country_code" expression="row8.origin_country_code" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.13" xpath="out5.newColumn:/vehicle/origin_country_code"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle_uuid" expression="row8.vehicle_uuid" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.14" xpath="out5.newColumn:/vehicle/vehicle_uuid" aggregate="true"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vin" expression="row8.vin" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.15" xpath="out5.newColumn:/vehicle/vin"/>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumbers" expression="" type="id_String" xpath="out5.newColumn:/vehicle/RegistrationNumbers" loop="true" main="true">
-              <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumber" expression="" type="id_String" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber">
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_number_norm" expression=" row8.registration_number_norm" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.17" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_number_norm"/>
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_date" expression="row8.registration_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.18" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/registration_date"/>
-                <children xsi:type="TalendXMLMap:OutputTreeNode" name="end_date" expression="row8.end_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.19" xpath="out5.newColumn:/vehicle/RegistrationNumbers/RegistrationNumber/end_date"/>
+        <nodes name="vehicle" expression="" type="id_Document" xpath="out5/vehicle" pattern="">
+          <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle" expression="" type="id_String" xpath="out5.vehicle:/vehicle" main="true">
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_brand" expression="row8.argus_brand" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.0" xpath="out5.vehicle:/vehicle/argus_brand"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_kind" expression="row8.argus_kind" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.1" xpath="out5.vehicle:/vehicle/argus_kind"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_model" expression="row8.argus_model" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.2" xpath="out5.vehicle:/vehicle/argus_model"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="argus_version" expression="row8.argus_version" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.3" xpath="out5.vehicle:/vehicle/argus_version"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="brand" expression="row8.brand" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.4" xpath="out5.vehicle:/vehicle/brand"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_end_date" expression="row8.circulation_end_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.5" xpath="out5.vehicle:/vehicle/circulation_end_date" pattern="&quot;dd-MM-yyyy&quot;"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="circulation_start_date" expression="row8.circulation_start_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.6" xpath="out5.vehicle:/vehicle/circulation_start_date" pattern="&quot;dd-MM-yyyy&quot;"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="color" expression="row8.color" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.7" xpath="out5.vehicle:/vehicle/color"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="energy" expression="row8.energy" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.8" xpath="out5.vehicle:/vehicle/energy"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="kind" expression="row8.kind" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.9" xpath="out5.vehicle:/vehicle/kind"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="last_mileage_known" expression="row8.last_mileage_known" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.10" xpath="out5.vehicle:/vehicle/last_mileage_known"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="model" expression="row8.model" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.11" xpath="out5.vehicle:/vehicle/model"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="national_identification_type" expression="row8.national_identification_type" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.12" xpath="out5.vehicle:/vehicle/national_identification_type"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="origin_country_code" expression="row8.origin_country_code" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.13" xpath="out5.vehicle:/vehicle/origin_country_code"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle_uuid" expression="row8.vehicle_uuid" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.14" xpath="out5.vehicle:/vehicle/vehicle_uuid" aggregate="true"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="vin" expression="row8.vin" type="id_Integer" incomingConnections="//@node.32/@nodeData/@connections.15" xpath="out5.vehicle:/vehicle/vin"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumbers" expression="" type="id_String" xpath="out5.vehicle:/vehicle/RegistrationNumbers" loop="true" main="true">
+              <children xsi:type="TalendXMLMap:OutputTreeNode" name="RegistrationNumber" expression="" type="id_String" xpath="out5.vehicle:/vehicle/RegistrationNumbers/RegistrationNumber">
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_number_norm" expression=" row8.registration_number_norm" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.17" xpath="out5.vehicle:/vehicle/RegistrationNumbers/RegistrationNumber/registration_number_norm"/>
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="registration_date" expression="row8.registration_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.18" xpath="out5.vehicle:/vehicle/RegistrationNumbers/RegistrationNumber/registration_date"/>
+                <children xsi:type="TalendXMLMap:OutputTreeNode" name="end_date" expression="row8.end_date" type="id_Date" incomingConnections="//@node.32/@nodeData/@connections.19" xpath="out5.vehicle:/vehicle/RegistrationNumbers/RegistrationNumber/end_date"/>
               </children>
             </children>
-            <children xsi:type="TalendXMLMap:OutputTreeNode" name="version" expression="row8.version" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.20" xpath="out5.newColumn:/vehicle/version"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="version" expression="row8.version" type="id_String" incomingConnections="//@node.32/@nodeData/@connections.20" xpath="out5.vehicle:/vehicle/version"/>
           </children>
         </nodes>
         <nodes name="head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + &quot;all&quot; + &quot;\&quot;,\&quot;_type\&quot;:\&quot;vehicle\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row8.vehicle_uuid + &quot;\&quot;}}&quot; " type="id_String" incomingConnections="//@node.32/@nodeData/@connections.16" xpath="out5/head" pattern=""/>
       </outputTrees>
       <varTables name="Var" minimized="true"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.3" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.0"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.4" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.1"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.5" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.2"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.6" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.3"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.7" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.4"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.8" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.5"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.9" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.6"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.10" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.7"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.11" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.8"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.12" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.9"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.13" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.10"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.14" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.11"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.15" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.12"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.16" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.13"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.17" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.14"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.19" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.17" target="//@node.32/@nodeData/@outputTrees.0/@nodes.1"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.20" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.0"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.21" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.1"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.22" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.2"/>
-      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.18" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.4" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.0"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.5" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.6" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.2"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.7" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.3"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.8" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.4"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.9" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.5"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.10" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.6"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.11" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.7"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.12" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.8"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.13" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.9"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.14" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.10"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.15" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.11"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.16" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.12"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.17" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.13"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.18" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.14"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.20" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.15"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.18" target="//@node.32/@nodeData/@outputTrees.0/@nodes.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.22" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.0"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.23" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.24" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.16/@children.0/@children.2"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.32/@nodeData/@inputTrees.0/@nodes.19" target="//@node.32/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.17"/>
     </nodeData>
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="864">
@@ -4018,7 +4020,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="META_ID"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="test_null"/>
+      <elementValue elementRef="TRACE_COLUMN" value="REGISTRATION_NUMBER_ID"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
