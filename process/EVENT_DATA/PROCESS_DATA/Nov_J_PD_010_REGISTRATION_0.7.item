@@ -1690,10 +1690,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="dfgh" name="dfgh">
-      <column comment="" key="false" length="-1" name="join_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="master_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
     <metadata connector="FLOW" label="metadata" name="pd_all_hpv_tit">
       <column comment="" key="false" length="255" name="master_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -1903,10 +1899,6 @@
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="dfgh">
-        <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
-        <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
-      </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_tit" minimized="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
@@ -3753,33 +3745,6 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="480">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_2" show="false"/>
-    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
-    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
-    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
-    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
-    <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="join_key"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="master_key"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="dfgh" name="tLogRow_2">
-      <column comment="" key="false" length="-1" name="join_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="master_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tPostgresqlClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1184" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlClose_1" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tPostgresqlConnection_1"/>
@@ -4297,11 +4262,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="dfgh" lineStyle="0" metaname="dfgh" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tLogRow_2">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dfgh" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="pd_all_hpv_tit" lineStyle="0" metaname="pd_all_hpv_tit" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tPostgresqlOutput_2">
+  <connection connectorName="FLOW" label="pd_all_hpv_tit" lineStyle="0" metaname="pd_all_hpv_tit" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tPostgresqlOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="join_key"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4313,7 +4274,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv_tit" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="pd_all_hpv_loc" lineStyle="0" metaname="pd_all_hpv_loc" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_3" target="tPostgresqlOutput_4">
+  <connection connectorName="FLOW" label="pd_all_hpv_loc" lineStyle="0" metaname="pd_all_hpv_loc" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tPostgresqlOutput_4">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="join_key"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4325,7 +4286,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv_loc" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="pd_event_registration" lineStyle="0" metaname="pd_event_registration" offsetLabelX="0" offsetLabelY="0" outputId="4" source="tMap_3" target="tPostgresqlOutput_3">
+  <connection connectorName="FLOW" label="pd_event_registration" lineStyle="0" metaname="pd_event_registration" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_3" target="tPostgresqlOutput_3">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="join_key"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
