@@ -318,7 +318,7 @@
       <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="processType_status" name="processType_status">
-      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="isValid" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -329,7 +329,7 @@
         <mapperTableEntries name="errorMessage" expression="&quot;JSON Schema Validation Exception on bloc part &quot; + row4.bloc_part + &quot; : &quot; +Var.isValid " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="processType_status">
-        <mapperTableEntries name="isValid" expression="&quot;OK&quot;.equals(Var.isValid)" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="isValid" expression="&quot;OK&quot;.equals(Var.isValid)" type="id_Boolean"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row9" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="body" type="id_String" nullable="true"/>
@@ -528,7 +528,7 @@
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="processType_status" name="tLogRow_1">
-      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="isValid" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="800">
@@ -541,7 +541,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="true"/>
     <elementParameter field="MEMO" name="COMMENT" value="On cherche à récupérer le statut pour la validation d'un event. Mais un event subit 4 validations (header, person, vehicle, event)&#xD;&#xA;&#xD;&#xA;De ce fait, le statut est réinitialisé à chaque event. On cherche à savoir s'il est null ou au statut OK. Si c'est le cas, on surcharge avec le nouveau statut (true ou false). Si le statut est false (KO) on ne surcharge pas, car au moins 1 des 4 validations n'est pas bonne."/>
     <metadata connector="FLOW" label="processType_status" name="tSetGlobalVar_2">
-      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="isValid" nullable="false" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="672" posY="736">
@@ -590,7 +590,7 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="process_valid" expression="globalMap.get(&quot;processStatus&quot;)!=null  &amp;&amp;  ((Boolean)globalMap.get(&quot;processStatus&quot;)).booleanValue() " type="id_Boolean"/>
+        <mapperTableEntries name="process_valid" expression="globalMap.get(&quot;processStatus&quot;)!=null  &amp;&amp;  ((Boolean)globalMap.get(&quot;processStatus&quot;)) " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="Var.process_valid " activateExpressionFilter="true">
         <mapperTableEntries name="serializedValue" expression="temp23.body.getBytes()  " type="id_byte[]" nullable="true"/>
