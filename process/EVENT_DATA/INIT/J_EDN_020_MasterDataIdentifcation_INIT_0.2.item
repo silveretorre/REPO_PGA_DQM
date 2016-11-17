@@ -408,6 +408,7 @@
     <metadata connector="FLOW" name="badNews">
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="serializedValue" nullable="true" pattern="" precision="-1" sourceType="" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -433,6 +434,7 @@
       <outputTables sizeState="INTERMEDIATE" name="badNews" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serializedValue" expression="row1.jsonDoc.getBytes() " type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
       </outputTables>
@@ -721,6 +723,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="badNews" lineStyle="0" metaname="badNews" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tKafkaOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNews" show="false"/>
   </connection>
