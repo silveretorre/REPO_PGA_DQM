@@ -533,8 +533,10 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="globalMap.get(&quot;processStatus&quot;)!=null  &amp;&amp;  (Boolean)globalMap.get(&quot;processStatus&quot;)" activateExpressionFilter="true">
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="process_valid" expression="globalMap.get(&quot;processStatus&quot;)!=null  &amp;&amp;  (Boolean)globalMap.get(&quot;processStatus&quot;)" type="id_Boolean"/>
+      </varTables>
+      <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="Var.process_valid " activateExpressionFilter="true">
         <mapperTableEntries name="serializedValue" expression="row11.body.getBytes()  " type="id_byte[]" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="kafka_error" activateCondensedTool="true" reject="true">
