@@ -1515,7 +1515,7 @@
               <children xsi:type="TalendXMLMap:OutputTreeNode" name="META_ID" expression="copyOfrow8.META_ID" type="id_String" incomingConnections="//@node.29/@nodeData/@connections.20" xpath="copyOfout5.vehicle:/vehicles/vehicle/META_ID" aggregate="true"/>
               <children xsi:type="TalendXMLMap:OutputTreeNode" name="meta_brand_source" expression="copyOfrow8.meta_brand_source" type="id_String" incomingConnections="//@node.29/@nodeData/@connections.21" xpath="copyOfout5.vehicle:/vehicles/vehicle/meta_brand_source" aggregate="true"/>
               <children xsi:type="TalendXMLMap:OutputTreeNode" name="version" expression="copyOfrow8.version" type="id_String" incomingConnections="//@node.29/@nodeData/@connections.22" xpath="copyOfout5.vehicle:/vehicles/vehicle/version"/>
-              <children xsi:type="TalendXMLMap:OutputTreeNode" name="head" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + &quot;all&quot; + &quot;\&quot;,\&quot;_type\&quot;:\&quot;vehicle\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + copyOfrow8.vehicle_uuid + &quot;\&quot;}}&quot; " type="id_String" incomingConnections="//@node.29/@nodeData/@connections.23" xpath="copyOfout5.vehicle:/vehicles/vehicle/head"/>
+              <children xsi:type="TalendXMLMap:OutputTreeNode" name="head" expression="&quot;{#index# : {#_index# : &quot; +&quot;#&quot; + &quot;all&quot; + &quot;#,#_type#:#vehicle#,  #_id# : #&quot; + copyOfrow8.vehicle_uuid + &quot;#}}&quot; " type="id_String" incomingConnections="//@node.29/@nodeData/@connections.23" xpath="copyOfout5.vehicle:/vehicles/vehicle/head"/>
             </children>
           </children>
         </nodes>
@@ -1554,8 +1554,8 @@
     <elementParameter field="HMAP_PATH" name="HMAP_PATH" value="&quot;MULTIBOUCLE_VEHICLE_XML_TO_JSON&quot;"/>
     <elementParameter field="RADIO" name="SOURCE_AS_MAP" value="false" show="false"/>
     <elementParameter field="RADIO" name="SOURCE_AS_STRING" value="true"/>
-    <elementParameter field="RADIO" name="AS_MAP" value="false"/>
-    <elementParameter field="RADIO" name="AS_STRING" value="true"/>
+    <elementParameter field="RADIO" name="AS_MAP" value="true"/>
+    <elementParameter field="RADIO" name="AS_STRING" value="false"/>
     <elementParameter field="RADIO" name="AS_BYTEARRAY" value="false"/>
     <elementParameter field="RADIO" name="AS_INPUTSTREAM" value="false"/>
     <elementParameter field="RADIO" name="AS_DOCUMENT" value="false"/>
@@ -1581,21 +1581,21 @@
     <elementParameter field="TEXT" name="LABEL" value="__HMAP_PATH__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out5" name="tHMap_1">
-      <column comment="" key="false" length="-1" name="vehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="800">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_4" show="false"/>
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="800">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_5" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="&quot;C:/Users/egelfi/Desktop/Projets/PGA/Vehicles/VehicleFinal_V2.xml&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot; + &quot;ES_vehicle_BulkLoad.json&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;¤¤&quot;"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
     <elementParameter field="CHECK" name="APPEND" value="false"/>
     <elementParameter field="CHECK" name="INCLUDEHEADER" value="false"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false" show="false"/>
     <elementParameter field="CHECK" name="ADVANCED_SEPARATOR" value="false"/>
     <elementParameter field="TEXT" name="THOUSANDS_SEPARATOR" value="&quot;,&quot;" show="false"/>
     <elementParameter field="TEXT" name="DECIMAL_SEPARATOR" value="&quot;.&quot;" show="false"/>
@@ -1603,19 +1603,19 @@
     <elementParameter field="TEXT" name="ESCAPE_CHAR" value="&quot;&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="TEXT_ENCLOSURE" value="&quot;&quot;&quot;" show="false"/>
     <elementParameter field="CHECK" name="CREATE" value="true"/>
-    <elementParameter field="CHECK" name="SPLIT" value="false"/>
-    <elementParameter field="TEXT" name="SPLIT_EVERY" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="SPLIT" value="true"/>
+    <elementParameter field="TEXT" name="SPLIT_EVERY" value="2000"/>
     <elementParameter field="CHECK" name="FLUSHONROW" value="false"/>
     <elementParameter field="TEXT" name="FLUSHONROW_NUM" value="1" show="false"/>
-    <elementParameter field="CHECK" name="ROW_MODE" value="false"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
-    <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="false"/>
+    <elementParameter field="CHECK" name="ROW_MODE" value="true"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
+    <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="Vehicles"/>
+    <elementParameter field="TEXT" name="LABEL" value="ES_vehicle_BulkLoadXXX.json"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="out5" name="tFileOutputDelimited_4">
-      <column comment="" key="false" length="-1" name="vehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    <metadata connector="FLOW" name="tFileOutputDelimited_5">
+      <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_1" offsetLabelX="0" offsetLabelY="0" source="tWarn_1" target="tPostgresqlInput_1">
@@ -1755,9 +1755,12 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout5" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tHMap_1" offsetLabelX="0" offsetLabelY="0" source="tHMap_1" target="tFileOutputDelimited_4">
+  <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tHMap_1" offsetLabelX="0" offsetLabelY="0" source="tHMap_1" target="tFileOutputDelimited_5">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="vehicle"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="head"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -1844,9 +1847,10 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_5" show="false"/>
-    <elementParameter field="TEXT" name="SUBJOB_TITLE" value="Send data from json bulk files to ElasticSearch via REST protocol : " show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="TEXT" name="SUBJOB_TITLE" value="Send data from json bulk files to ElasticSearch via REST protocol : "/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
 </talendfile:ProcessType>
