@@ -3,7 +3,7 @@
   <context confirmationNeeded="false" name="Default">
     <contextParameter comment="" name="ELK_Port" prompt="ELK_Port?" promptNeeded="false" repositoryContextId="_ixeKMIYgEeag-KE4v9trHg" type="id_String" value="9200"/>
     <contextParameter comment="" name="ELK_Server" prompt="ELK_Server?" promptNeeded="false" repositoryContextId="_ixeKMIYgEeag-KE4v9trHg" type="id_String" value="149.202.181.216"/>
-    <contextParameter comment="" name="bulkFile_Input_File_Path" prompt="bulkFile_Input_File_Path?" promptNeeded="false" type="id_String" value=""/>
+    <contextParameter comment="" name="bulkFile_Input_File_Path" prompt="bulkFile_Input_File_Path?" promptNeeded="false" type="id_String" value="/opt/data_exchange/event_data/elastic_over_water_bulk_load/"/>
     <contextParameter comment="" name="KafkaBroker_Server" prompt="KafkaBroker_Server?" promptNeeded="false" repositoryContextId="_ApK14HAsEeaTHq4oSNn4RQ" type="id_String" value="149.202.167.112"/>
     <contextParameter comment="" name="nbThreads" prompt="nbThreads?" promptNeeded="false" repositoryContextId="_ApK14HAsEeaTHq4oSNn4RQ" type="id_Integer" value="2"/>
     <contextParameter comment="" name="KafkaBroker_Port" prompt="KafkaBroker_Port?" promptNeeded="false" repositoryContextId="_ApK14HAsEeaTHq4oSNn4RQ" type="id_String" value="9092"/>
@@ -297,6 +297,36 @@
       <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_3" show="false"/>
+    <elementParameter field="CHECK" name="AUTOCAST" value="true"/>
+    <elementParameter field="TABLE" name="MANUALTABLE" show="false"/>
+    <elementParameter field="CHECK" name="EMPTYTONULL" value="false"/>
+    <elementParameter field="CHECK" name="DIEONERROR" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tConvertType_3">
+      <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
+    <metadata connector="REJECT" name="REJECT">
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
+    <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
+    <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_040_Event_to_ELK_fallback&quot;"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
+    <elementParameter field="TABLE" name="KAFKA_PRODUCER_PROPERTIES"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tKafkaOutput_1">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="608" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_1" show="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'alimentation des fichiers bulk: &quot;"/>
@@ -491,42 +521,6 @@
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_3"/>
-  </node>
-  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
-    <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
-    <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_040_Event_to_ELK_fallback&quot;"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
-    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
-    <elementParameter field="TABLE" name="KAFKA_PRODUCER_PROPERTIES"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tKafkaOutput_1">
-      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="256">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;output_row.statusCode = input_row.statusCode;&#xD;&#xA;output_row.body = input_row.body;&#xD;&#xA;output_row.string = input_row.string;&#xD;&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_2">
-      <column defaultValue="" key="false" length="0" name="statusCode" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
-      <column key="false" length="4048" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tFileInputRaw_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
@@ -540,9 +534,13 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
-  <connection connectorName="RESPONSE" label="row6" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" source="tRESTClient_1" target="tConvertType_2">
+  <connection connectorName="RESPONSE" label="row6" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tConvertType_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row6" show="false"/>
+  </connection>
+  <connection connectorName="FAULT" label="row8" lineStyle="0" metaname="FAULT" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tRESTClient_1" target="tConvertType_3">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tConvertType_2" offsetLabelX="0" offsetLabelY="0" source="tConvertType_2" target="tKafkaOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -552,6 +550,15 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tConvertType_3" offsetLabelX="0" offsetLabelY="0" source="tConvertType_3" target="tKafkaOutput_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_1" offsetLabelX="0" offsetLabelY="0" source="tWarn_1" target="tWarn_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
@@ -580,11 +587,6 @@
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tFileOutputDelimited_1" offsetLabelX="0" offsetLabelY="0" source="tFileOutputDelimited_1" target="tWarn_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tJavaRow_3" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_3" target="tKafkaOutput_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
@@ -619,16 +621,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_3" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
