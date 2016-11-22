@@ -38,12 +38,12 @@
     <contextParameter comment="" name="DB_ICAR_BMWMINI_ORACLE_Login" prompt="DB_ICAR_BMWMINI_ORACLE_Login?" promptNeeded="false" repositoryContextId="_fypP8DLOEeaqAeV714N3sQ" type="id_String" value=""/>
     <contextParameter comment="" name="DB_ICAR_BMWMINI_ORACLE_AdditionalParams" prompt="DB_ICAR_BMWMINI_ORACLE_AdditionalParams?" promptNeeded="false" repositoryContextId="_fypP8DLOEeaqAeV714N3sQ" type="id_String" value=""/>
     <contextParameter comment="" name="FPath" prompt="FPath?" promptNeeded="false" repositoryContextId="_sEb-cHwcEeaBDLhFaWL-Tg" type="id_String" value="&quot;/opt/data_exchange/event_data/sprint6/&quot;"/>
-    <contextParameter comment="" name="DB_DataSources_Server" prompt="DB_DataSources_Server?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="167.114.224.248"/>
-    <contextParameter comment="" name="DB_DataSources_Login" prompt="DB_DataSources_Login?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="dsuser"/>
-    <contextParameter comment="" name="DB_DataSources_Schema" prompt="DB_DataSources_Schema?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="public"/>
-    <contextParameter comment="" name="DB_DataSources_Database" prompt="DB_DataSources_Database?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="data_sources"/>
-    <contextParameter comment="" name="DB_DataSources_Port" prompt="DB_DataSources_Port?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value="5432"/>
-    <contextParameter comment="" name="DB_DataSources_Password" prompt="DB_DataSources_Password?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_Password" value="rajbuDJHj3kR4LtPzzy5uw=="/>
+    <contextParameter comment="" name="DB_DataSources_Server" prompt="DB_DataSources_Server?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value=""/>
+    <contextParameter comment="" name="DB_DataSources_Login" prompt="DB_DataSources_Login?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value=""/>
+    <contextParameter comment="" name="DB_DataSources_Schema" prompt="DB_DataSources_Schema?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value=""/>
+    <contextParameter comment="" name="DB_DataSources_Database" prompt="DB_DataSources_Database?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value=""/>
+    <contextParameter comment="" name="DB_DataSources_Port" prompt="DB_DataSources_Port?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_String" value=""/>
+    <contextParameter comment="" name="DB_DataSources_Password" prompt="DB_DataSources_Password?" promptNeeded="false" repositoryContextId="_33i4sKZkEeaBqvCP9ASYzQ" type="id_Password" value=""/>
     <contextParameter comment="" name="contextPathFile" prompt="contextPathFile?" promptNeeded="true" repositoryContextId="_ek_E0JIXEeaGH4IQwcS6yQ" type="id_String" value="/opt/data_exchange/context/context_DEV.properties"/>
   </context>
   <parameters>
@@ -403,7 +403,6 @@
         <mapperTableEntries name="ID" expression="ttOTFac.EMP + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTERNO) + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="ttOTCab.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(ttOTCab.APELLIDO1)) " type="id_Boolean"/>
-        <mapperTableEntries name="date2007plus" expression="( null != ttOTCab.FECHACARTON &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHACARTON))) ? (TalendDate.compareDate( ttOTCab.FECHACARTON, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) : false " type="id_Boolean"/>
         <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
@@ -412,7 +411,7 @@
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;APV&quot;" type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.date2007plus &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
