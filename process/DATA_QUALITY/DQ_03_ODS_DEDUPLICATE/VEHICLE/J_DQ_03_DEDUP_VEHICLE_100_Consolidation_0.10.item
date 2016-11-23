@@ -65,7 +65,7 @@
     <contextParameter comment="" name="contextPathFile" prompt="contextPathFile?" promptNeeded="true" repositoryContextId="_ek_E0JIXEeaGH4IQwcS6yQ" type="id_String" value="/opt/data_exchange/context/context_DEV.properties"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx16g " show="false"/>
+    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx32G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="160" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
@@ -250,7 +250,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="1248">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="1248">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="//Code generated according to input schema and output schema&#xA;output_row.master_gid = java.util.UUID.randomUUID().toString();&#xA;output_row.gid = input_row.gid;&#xA;output_row.dedup_rule_name = input_row.dedup_rule_name;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
@@ -266,7 +266,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="992" posY="1248">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="640" posY="1248" sizeX="288" sizeY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -277,7 +277,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="dedup_physical_person_consolidation" name="out1">
+    <metadata comment="" connector="FLOW" label="dedup_physical_person_consolidation" name="dedup_physical_person_consolidation_deduplicates">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -298,9 +298,9 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="out1" activateCondensedTool="true">
+      <outputTables sizeState="INTERMEDIATE" name="dedup_physical_person_consolidation_deduplicates" expressionFilter="Numeric.sequence(members_of_gid2.meta_brand_source + &quot;-&quot; + members_of_gid2.meta_application_name + &quot;-&quot; + members_of_gid2.meta_id_source,1,1) == 1" activateExpressionFilter="true" activateCondensedTool="true">
         <mapperTableEntries name="meta_brand_source" expression="members_of_gid2.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="members_of_gid2.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="members_of_gid2.meta_id_source " type="id_String"/>
@@ -334,7 +334,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="1024">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="1024">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_3" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -408,7 +408,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="1024">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="1024">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -482,7 +482,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="1120">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="1024">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_4" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -558,99 +558,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tUniqRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="1248">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tUniqRow_1" show="false"/>
-    <elementParameter field="CHECK" name="TSTATCATCHER_STATS" value="true"/>
-    <elementParameter field="TABLE" name="UNIQUE_KEY">
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="true"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="true"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="true"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="false"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="gid_member"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="false"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
-      <elementValue elementRef="KEY_ATTRIBUTE" value="false"/>
-      <elementValue elementRef="CASE_SENSITIVE" value="false"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="ONLY_ONCE_EACH_DUPLICATED_KEY" value="false"/>
-    <elementParameter field="CHECK" name="IS_VIRTUAL_COMPONENT" value="true"/>
-    <elementParameter field="OPENED_LIST" name="BUFFER_SIZE" value="B"/>
-    <elementParameter field="DIRECTORY" name="TEMP_DIRECTORY" value="context.tmpFolder"/>
-    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="true"/>
-    <elementParameter field="MEMO" name="COMMENT" value="Temporary storage on disk at : __TEMP_DIRECTORY__"/>
-    <metadata connector="FLOW" name="tUniqRow_1">
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="gid_member" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-    <metadata connector="UNIQUE" name="UNIQUE">
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="gid_member" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-    <metadata connector="DUPLICATE" name="DUPLICATE">
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="gid_member" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-  </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1888" posY="1248">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="1248">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_1" show="false"/>
     <elementParameter field="CHECK" name="TSTATCATCHER_STATS" value="true"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
@@ -1160,7 +1068,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="master_gid" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tUniqRow_1">
+  <connection connectorName="FLOW" label="dedup_physical_person_consolidation_deduplicates" lineStyle="0" metaname="dedup_physical_person_consolidation_deduplicates" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tPostgresqlOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="gid_phone"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -1173,23 +1081,19 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_physical_person_consolidation_deduplicates" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="members_of_gid" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="members_of_gid" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="gid2" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
+  <connection connectorName="FLOW" label="gid2" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="-2" offsetLabelY="26" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="gid2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="members_of_gid2" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="members_of_gid2" show="false"/>
-  </connection>
-  <connection connectorName="UNIQUE" label="dedup_physical_person_consolidation_deduplicates" lineStyle="0" metaname="tUniqRow_1" offsetLabelX="0" offsetLabelY="0" source="tUniqRow_1" target="tPostgresqlOutput_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_physical_person_consolidation_deduplicates" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlCommit_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlCommit_1" target="tWarn_3">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5" show="false"/>
@@ -1257,7 +1161,7 @@
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
-  <note opaque="true" posX="128" posY="32" sizeHeight="289" sizeWidth="1281" text="Consolidation of Deduplication Rules&#xD;&#xA;&#xD;&#xA;v0.1 (2016/06/17) - SVA : first version&#xD;&#xA;v0.2 (2016/06/21) - SMA : Improvements of first version&#xD;&#xA;v0.3 (2016/06/21) - SVA : Retrieve person with missing data from normalization that were not deduplicate. Add group size&#xD;&#xA;v0.4 (2016/06/22) - SVA : Add flow monitoring / Add deletion and creation of indexes&#xD;&#xA;v0.5 (2016/06/22) - SVA : Change process order to create index before UPDATE. Replace group size calculation by SQL query instead of Talend component&#xD;&#xA;v0.6 (2016/06/23) - SVA : Remove SIV persons from uniques dataflow for dedup&#xD;&#xA;v0.7 (2016/06/27) - CRO : Add tempory flie in &quot;/home/applications/Talend/6.1.1/tmpExecRun/&quot; + projectName + &quot;/&quot; + jobName + &quot;/&quot; for tUniqRow composant &#xD;&#xA;                                      (it is maybe possible to do the deduplication in tMap with a Numeric.sequence() )&#xD;&#xA;v0.8 (2016/06/28) - SVA : Remove step adding uniques records. Delete SIV groups&#xD;&#xA;                          - SMA : Deactivation deletion for SIV group&#xD;&#xA;v0.9 (2016/09/15) - CRO : Duplicate J_DQ_03_DEDUP_100_Consolidation job to create a specific version for deduplicate vehicle.">
+  <note opaque="true" posX="128" posY="32" sizeHeight="289" sizeWidth="1281" text="Consolidation of Deduplication Rules&#xD;&#xA;&#xD;&#xA;v0.1 (2016/06/17) - SVA : first version&#xD;&#xA;v0.2 (2016/06/21) - SMA : Improvements of first version&#xD;&#xA;v0.3 (2016/06/21) - SVA : Retrieve person with missing data from normalization that were not deduplicate. Add group size&#xD;&#xA;v0.4 (2016/06/22) - SVA : Add flow monitoring / Add deletion and creation of indexes&#xD;&#xA;v0.5 (2016/06/22) - SVA : Change process order to create index before UPDATE. Replace group size calculation by SQL query instead of Talend component&#xD;&#xA;v0.6 (2016/06/23) - SVA : Remove SIV persons from uniques dataflow for dedup&#xD;&#xA;v0.7 (2016/06/27) - CRO : Add tempory flie in &quot;/home/applications/Talend/6.1.1/tmpExecRun/&quot; + projectName + &quot;/&quot; + jobName + &quot;/&quot; for tUniqRow composant &#xD;&#xA;                                      (it is maybe possible to do the deduplication in tMap with a Numeric.sequence() )&#xD;&#xA;v0.8 (2016/06/28) - SVA : Remove step adding uniques records. Delete SIV groups&#xD;&#xA;                          - SMA : Deactivation deletion for SIV group&#xD;&#xA;v0.9 (2016/09/15) - CRO : Duplicate J_DQ_03_DEDUP_100_Consolidation job to create a specific version for deduplicate vehicle.&#xA;v0.10 (2016/11/23) - CRO : Replace tUniqRow composant by a Numeric.sequence() in tMap filter output.">
     <elementParameter field="RADIO" name="NOTETXT_LEFT" value="true"/>
     <elementParameter field="RADIO" name="NOTETXT_CENTER" value="false"/>
     <elementParameter field="RADIO" name="NOTELABEL_CENTER" value="false"/>
