@@ -95,7 +95,7 @@
       <elementParameter field="TEXT" name="LABEL" value="tPostjob_1"/>
       <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     </node>
-    <node componentName="tPostgresqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="64">
+    <node componentName="tPostgresqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="64">
       <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlConnection_1" show="false"/>
       <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
       <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -118,7 +118,7 @@
       <elementParameter field="TEXT" name="LABEL" value="DB_DQM_ODS"/>
       <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     </node>
-    <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="64">
+    <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="544" posY="64">
       <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_1" show="false"/>
       <elementParameter field="TEXT" name="MESSAGE" value="&quot;Connection error on DB_DQM_ODS&quot;"/>
       <elementParameter field="TEXT" name="CODE" value="4"/>
@@ -134,7 +134,14 @@
       <elementParameter field="TEXT" name="LABEL" value="tPostgresqlClose_1"/>
       <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     </node>
-    <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tPostgresqlConnection_1">
+    <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="192" posY="64">
+      <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
+      <elementParameter field="MEMO_JAVA" name="CODE" value="context.DB_DQM_ODS_Server = &quot;167.114.224.248&quot;;&#xA;context.DB_DQM_ODS_Database = &quot;talend_dq_ods_int&quot;;&#xA;context.DB_DQM_ODS_Login = &quot;dquser&quot;;&#xA;context.DB_DQM_ODS_Port = &quot;5432&quot;;&#xA;context.DB_DQM_ODS_Schema = &quot;public&quot;;&#xA;context.DB_DQM_ODS_Password = &quot;Syn@ltic!2016&quot;;"/>
+      <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+      <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+      <metadata connector="FLOW" name="tJava_1"/>
+    </node>
+    <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tJava_1">
       <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
     </connection>
     <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostjob_1" offsetLabelX="0" offsetLabelY="0" source="tPostjob_1" target="tPostgresqlClose_1">
@@ -142,6 +149,9 @@
     </connection>
     <connection connectorName="COMPONENT_ERROR" label="OnComponentError" lineStyle="5" metaname="tPostgresqlConnection_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlConnection_1" target="tDie_1">
       <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentError1" show="false"/>
+    </connection>
+    <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_1" offsetLabelX="0" offsetLabelY="0" source="tJava_1" target="tPostgresqlConnection_1">
+      <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
     </connection>
     <subjob>
       <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
@@ -167,6 +177,11 @@
     </subjob>
     <subjob>
       <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlClose_1" show="false"/>
+      <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+      <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+    </subjob>
+    <subjob>
+      <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
       <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
       <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
     </subjob>
