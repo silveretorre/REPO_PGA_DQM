@@ -1658,16 +1658,16 @@
   <node componentName="tJavaFlex" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2144" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
     <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_START" value="int i = 0;&#xA;while(i+1 &lt;= ((java.util.ArrayList&lt;String>)globalMap.get(&quot;maListe&quot;)).size()) {"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="row42.newColumn = (((java.util.ArrayList&lt;String>)globalMap.get(&quot;maListe&quot;)).get(i));&#xA;i++;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_START" value="for (int i=0; i&lt;1; i++) {"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="int j = 0;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(((String)globalMap.get(&quot;retour_Elastic&quot;)));&#xA;&#xA;JsonNode contactNode = root.path(&quot;hits&quot;).path(&quot;hits&quot;);&#xA;&#xA;for (JsonNode node : contactNode) {&#xA;&#x9;if (&quot;$$$&quot;.equals(((java.util.ArrayList&lt;String>)globalMap.get(&quot;maListe&quot;)).get(j))) {&#xA;&#x9;&#x9;((ObjectNode) node.path(&quot;_source&quot;).path(&quot;Person&quot;)).remove(&quot;prospect_client_siv&quot;);&#xA;&#x9;&#x9;((ObjectNode) node.path(&quot;_source&quot;).path(&quot;Person&quot;)).put(&quot;prospect_client_siv&quot;, ((java.util.ArrayList&lt;String>)globalMap.get(&quot;maListe&quot;)).get(j));&#xA;&#x9;}&#xA;&#x9;j++;&#xA;}&#xA;&#xA;row42.string = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);"/>
     <elementParameter field="MEMO_JAVA" name="CODE_END" value="}&#xA;      "/>
     <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V4.0" value="true" show="false"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.databind.JsonNode;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaFlex_2">
-      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2304" posY="832">
@@ -1684,14 +1684,14 @@
     <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
     <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
     <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="newColumn"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="string"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tLogRow_1">
-      <column comment="" key="false" length="-1" name="newColumn" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2880" posY="864">
@@ -2073,7 +2073,7 @@
   </connection>
   <connection connectorName="FLOW" label="row42" lineStyle="0" metaname="tJavaFlex_2" offsetLabelX="0" offsetLabelY="0" source="tJavaFlex_2" target="tLogRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
-      <elementValue elementRef="TRACE_COLUMN" value="newColumn"/>
+      <elementValue elementRef="TRACE_COLUMN" value="string"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
