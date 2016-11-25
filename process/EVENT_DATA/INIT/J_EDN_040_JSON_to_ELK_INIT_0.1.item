@@ -27,8 +27,8 @@
   <parameters>
     <elementParameter field="CHECK" name="LOG4J_RUN_ACTIVATE" value="true" show="false"/>
     <elementParameter field="CLOSED_LIST" name="LOG4J_RUN_LEVEL" value="Debug" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="104" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="14" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="64" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_HADOOP_DISTRIBUTION" value="" show="false"/>
@@ -141,7 +141,7 @@
     <routinesParameter id="_7EtyEIVkEeaNqaqfOqpPZg" name="Synaltic_Search"/>
     <routinesParameter id="_pfnn8HBNEeaObJ-hJlHXJw" name="Synaltic_UUID"/>
   </parameters>
-  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="224">
+  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_1" show="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'alimentation des fichiers bulk: &quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
@@ -149,18 +149,18 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tWarn_1"/>
   </node>
-  <node componentName="tKafkaConnection" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="64" posY="0">
+  <node componentName="tKafkaConnection" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="224" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaConnection_1" show="false"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="context.Zookeeper_Server + &quot;:&quot; + context.zookeeper_Port"/>
     <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-96" posY="0">
+  <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="0" posY="128">
+  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="128">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
     <elementParameter field="CLOSED_LIST" name="OUTPUT_TYPE" value="STRING"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -168,7 +168,7 @@
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0" show="false"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="&quot;zk1:port1,zk2:port2,...&quot;" show="false"/>
     <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_040_Event_to_ELK_in&quot;"/>
-    <elementParameter field="TEXT" name="GROUP_ID" value="context.Kafka_groupID+&quot;_102&quot;"/>
+    <elementParameter field="TEXT" name="GROUP_ID" value="context.Kafka_groupID+&quot;_1020&quot;"/>
     <elementParameter field="CHECK" name="RESET_OFFSET" value="true"/>
     <elementParameter field="CLOSED_LIST" name="AUTO_OFFSET_RESET" value="SMALLEST"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_OFFSET_STORAGE" value="ZOOKEEPER"/>
@@ -278,11 +278,12 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="index" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + row4.src_application_brand + &quot;\&quot;,\&quot;_type\&quot;: &quot;+&quot;\&quot;&quot; + row4.process_type + &quot;\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row4.process_uuid + &quot;\&quot;}}&quot; " type="id_String"/>
+        <mapperTableEntries name="sequence" expression="Numeric.sequence(row4.process_uuid,1,1 )" type="id_Integer"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="load" expressionFilter="Numeric.sequence(row4.src_application_brand + &quot;-&quot; + row4.process_uuid + &quot;-&quot; + row4.process_type,1,1)== 1" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="load" expressionFilter="Var.sequence ==1" activateExpressionFilter="true">
         <mapperTableEntries name="jsonDoc" expression="Var.index " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="load1" expressionFilter="Numeric.sequence(row4.src_application_brand + &quot;-&quot; + row4.process_uuid + &quot;-&quot; + row4.process_type,1,1)== 1" activateExpressionFilter="true" isJoinTableOf="load">
+      <outputTables sizeState="INTERMEDIATE" name="load1" expressionFilter="Var.sequence ==1" activateExpressionFilter="true" isJoinTableOf="load">
         <mapperTableEntries name="jsonDoc" expression="row4.jsonDoc " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -293,7 +294,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="128">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="128">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
@@ -327,7 +328,7 @@
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileDelete" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="512">
+  <node componentName="tFileDelete" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileOutputDelimited_1_FILE_NAME&quot;))"/>
@@ -340,7 +341,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFileDelete_1"/>
   </node>
-  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="256">
+  <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_2" show="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;this is a warning&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
@@ -359,10 +360,10 @@
     <elementParameter field="TABLE" name="FILES">
       <elementValue elementRef="FILEMASK" value="&quot;ES_Event_BulkLoad_*&quot;"/>
     </elementParameter>
-    <elementParameter field="RADIO" name="ORDER_BY_NOTHING" value="true"/>
+    <elementParameter field="RADIO" name="ORDER_BY_NOTHING" value="false"/>
     <elementParameter field="RADIO" name="ORDER_BY_FILENAME" value="false"/>
     <elementParameter field="RADIO" name="ORDER_BY_FILESIZE" value="false"/>
-    <elementParameter field="RADIO" name="ORDER_BY_MODIFIEDDATE" value="false"/>
+    <elementParameter field="RADIO" name="ORDER_BY_MODIFIEDDATE" value="true"/>
     <elementParameter field="RADIO" name="ORDER_ACTION_ASC" value="true"/>
     <elementParameter field="RADIO" name="ORDER_ACTION_DESC" value="false"/>
     <elementParameter field="CHECK" name="IFEXCLUDE" value="false"/>
@@ -370,7 +371,7 @@
     <elementParameter field="CHECK" name="FORMAT_FILEPATH_TO_SLASH" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tFileInputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="384">
+  <node componentName="tFileInputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="64" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputRaw_1" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
     <elementParameter field="RADIO" name="AS_STRING" value="true"/>
@@ -384,7 +385,7 @@
       <column defaultValue="" key="false" length="0" name="content" nullable="true" precision="0" sourceType="" type="id_Object" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="-4" offsetLabelY="1" posX="288" posY="384">
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="-4" offsetLabelY="1" posX="224" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_1" show="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="false"/>
     <elementParameter field="TABLE" name="MANUALTABLE">
@@ -403,7 +404,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="384">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="352" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_2" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
@@ -427,7 +428,7 @@
       <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="384">
+  <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTClient_1" show="false"/>
     <elementParameter field="TEXT" name="URL" value="&quot;http://&quot;+context.ELK_Server+&quot;:&quot; + context.ELK_Port + &quot;/_bulk&quot;"/>
     <elementParameter field="TEXT" name="PATH" value="&quot;&quot;"/>
@@ -479,10 +480,10 @@
     </metadata>
     <metadata connector="FAULT" name="FAULT">
       <column defaultValue="" key="false" length="0" name="errorCode" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="320">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="608" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
@@ -512,7 +513,7 @@
       <column key="false" length="4048" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="480">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="608" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
@@ -539,7 +540,7 @@
       <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="832" posY="320">
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_5" show="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="false"/>
     <elementParameter field="TABLE" name="MANUALTABLE"/>
@@ -559,7 +560,7 @@
       <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="320">
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="896" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_2" show="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="true"/>
     <elementParameter field="TABLE" name="MANUALTABLE" show="false"/>
@@ -579,7 +580,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="320">
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_2" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
@@ -594,7 +595,7 @@
       <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="832" posY="480">
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_4" show="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="false"/>
     <elementParameter field="TABLE" name="MANUALTABLE"/>
@@ -610,7 +611,7 @@
       <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="480">
+  <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="896" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_3" show="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="true"/>
     <elementParameter field="TABLE" name="MANUALTABLE" show="false"/>
@@ -626,7 +627,7 @@
       <column key="false" length="1024" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="480">
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
@@ -647,8 +648,11 @@
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tKafkaConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="0" offsetLabelY="0" source="tKafkaInput_1" target="tExtractJSONFields_1">
+  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="50" offsetLabelY="-33" source="tKafkaInput_1" target="tExtractJSONFields_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="RADIO" name="PARTITIONER" value="true"/>
+    <elementParameter field="RADIO" name="NONE" value="false"/>
+    <elementParameter field="TEXT" name="NUM_PARTITIONS" value="context.nbThreads"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tExtractJSONFields_1" offsetLabelX="0" offsetLabelY="0" source="tExtractJSONFields_1" target="tJavaRow_1">
@@ -657,6 +661,8 @@
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="RADIO" name="DEPARTITIONER" value="true"/>
+    <elementParameter field="RADIO" name="NONE" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="load" lineStyle="0" metaname="load" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tFileOutputDelimited_1">
