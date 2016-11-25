@@ -1544,10 +1544,23 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2656" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_10" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;prospect_client_siv : &quot;+input_row.prospect_client_siv);&#xA;System.out.println(&quot;dealership&quot;+input_row.dealership);&#xA;System.out.println(&quot;string&quot;+input_row.string);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="//System.out.println(&quot;prospect_client_siv : &quot;+input_row.prospect_client_siv);&#xA;//System.out.println(&quot;dealership&quot;+input_row.dealership);&#xA;//System.out.println(&quot;string&quot;+input_row.string);&#xA;List&lt;String> maListe = (List&lt;String>)globalMap.get(&quot;maListe&quot;);&#xA;&#xA;output_row.string = input_row.string;&#xA;&#xA;if (input_row.prospect_client_siv != null &amp;&amp; &quot;Client&quot;.equals(input_row.prospect_client_siv.trim())) {&#xA;&#x9;if (input_row.dealership != null &amp;&amp; ((String)globalMap.get(&quot;user_dealership&quot;)) != null) {&#xA;&#x9;&#x9;if (input_row.dealership.equals(((String)globalMap.get(&quot;user_dealership&quot;)))) {&#xA;&#x9;&#x9;&#x9;maListe.add(&quot;Client Concession&quot;);&#xA;&#x9;&#x9;} else {&#xA;&#x9;&#x9;&#x9;maListe.add(&quot;Client Marque&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;} else {&#xA;&#x9;&#x9;maListe.add(&quot;$$$&quot;);&#xA;&#x9;}&#xA;} else {&#xA;&#x9;maListe.add(&quot;$$$&quot;);&#xA;}&#xA;&#xA;globalMap.put(&quot;maListe&quot;, maListe);"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_10"/>
+    <metadata connector="FLOW" name="tJavaRow_10">
+      <column key="false" length="0" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2816" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_5" show="false"/>
+    <elementParameter field="TABLE" name="VARIABLES">
+      <elementValue elementRef="KEY" value="&quot;retour_Elastic&quot;"/>
+      <elementValue elementRef="VALUE" value="row41.string"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tSetGlobalVar_5">
+      <column key="false" length="0" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
   </node>
   <node componentName="tFilterRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2656" posY="608">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFilterRow_37" show="false"/>
@@ -1635,6 +1648,19 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
+  </node>
+  <node componentName="tJavaFlex" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2176" posY="864">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
+    <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_START" value="int i = 0;&#xA;while(((List&lt;String>)globalMap.get(&quot;maListe&quot;)).size() &lt;= i+1) {"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="System.out.println(((List&lt;String>)globalMap.get(&quot;maListe&quot;)).get(i));&#xA;i++;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_END" value="}&#xA;      "/>
+    <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
+    <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
+    <elementParameter field="CHECK" name="Version_V4.0" value="true" show="false"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJavaFlex_2"/>
   </node>
   <connection connectorName="FLOW" label="POST" lineStyle="0" metaname="POST" offsetLabelX="0" offsetLabelY="0" source="tRESTRequest_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -1947,6 +1973,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row29" show="false"/>
   </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileInputRaw_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputRaw_1" target="tJavaFlex_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk4" show="false"/>
+  </connection>
   <connection connectorName="FLOW" label="row40" lineStyle="0" metaname="tConvertType_1" offsetLabelX="0" offsetLabelY="0" source="tConvertType_1" target="tExtractJSONFields_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="string"/>
@@ -1970,6 +1999,15 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row30" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row41" lineStyle="0" metaname="tJavaRow_10" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_10" target="tSetGlobalVar_5">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="string"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row41" show="false"/>
   </connection>
   <connection connectorName="FILTER" label="row31" lineStyle="0" metaname="FILTER" offsetLabelX="0" offsetLabelY="0" source="tFilterRow_37" target="tFlowToIterate_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -2105,6 +2143,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFilterRow_37" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
