@@ -496,7 +496,7 @@
       <column comment="" key="false" length="3" name="amount_of_mails" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="( null != contrats.IDWeb_Ct &amp;&amp; !&quot;&quot;.equals(contrats.IDWeb_Ct) ) ? String.valueOf(contrats.IDWeb_Ct) : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="contract_id" expression="String.valueOf(contrats.IdPdt_Ct) + &quot;_&quot; + String.valueOf(contrats.NumContrat_Ct) " type="id_String"/>
@@ -581,8 +581,8 @@
         <mapperTableEntries name="contract_number" expression="Var.contract_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="service_type" expression="( null != produitsContrats.NomCommercial &amp;&amp; !(&quot;&quot;.equals(produitsContrats.NomCommercial))) ? &#xD;&#xA;produitsContrats.NomCommercial :&quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="subscription_date" expression="( null != scrh.DateEnregistrementRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.DateEnregistrementRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DateEnregistrementRenouvellement))&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="guarantee_start_date" expression="( null != scrh.DateDebutNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(scrh.DateDebutNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DateDebutNouvelleValidite))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="guarantee_end_date" expression="( null != scrh.DateFinNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(scrh.DateFinNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DateFinNouvelleValidite))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="guarantee_start_date" expression="( null != scrh.DateDebutNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(scrh.DateDebutNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DateDebutNouvelleValidite))&#xD;&#xA;: &#xA;( &#xA;( null != contrats.DtDebValid_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DtDebValid_Ct))) ? &#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,contrats.DtDebValid_Ct)&#xA;: &quot;1900-01-01&quot; ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="guarantee_end_date" expression="( null != scrh.DateFinNouvelleValidite &amp;&amp; !(&quot;&quot;.equals(scrh.DateFinNouvelleValidite))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;, scrh.DateFinNouvelleValidite))&#xD;&#xA;:  &#xA;( &#xA;( null != contrats.DtFinValid_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DtFinValid_Ct))) ? &#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,contrats.DtFinValid_Ct)&#xA;: &quot;1900-01-01&quot; ) " type="id_String" nullable="true"/>
         <mapperTableEntries name="termination_date" expression="&quot;1900-01-01 00:00:00&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="renewal_type" expression="( null != scrh.TypeRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.TypeRenouvellement))) ? scrh.TypeRenouvellement : &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="( null != scrh.ModePaiement &amp;&amp; !&quot;&quot;.equals(scrh.ModePaiement) ) ? &#xD;&#xA;( &quot;CHQ&quot;.equals(scrh.ModePaiement) ? &quot;CHEQUE&quot; : ( &quot;GRA&quot;.equals(scrh.ModePaiement) ? &quot;GRATUIT&quot; : ( &quot;PRE12&quot;.equals(scrh.ModePaiement) ? &quot;PRELEVEMENT 12 MOIS&quot; : ( &quot;PRE4&quot;.equals(scrh.ModePaiement) ? &quot;PRELEVEMENT 4 MOIS&quot; : scrh.ModePaiement ) ) ) ) : &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -613,17 +613,17 @@
         <mapperTableEntries name="DateEnvoiDerniereProposition" type="id_String" nullable="true"/>
         <mapperTableEntries name="NumeroCourrier" type="id_Integer" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="contrats" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="IdContrat_Ct" expression="scrh.IdContrat" type="id_Integer" operator="="/>
-        <mapperTableEntries name="IdPdt_Ct" expression="" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="NumContrat_Ct" expression="" type="id_Integer" nullable="true"/>
+      <inputTables sizeState="INTERMEDIATE" name="contrats" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdPdt_Ct" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="NumContrat_Ct" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="DtDebValid_Ct" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="DtFinValid_Ct" type="id_Date" nullable="true"/>
         <mapperTableEntries name="CodeConcession_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="VehiculeImmatNum_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="VehiculeImmatDate_Ct" type="id_Date" nullable="true"/>
         <mapperTableEntries name="VehiculeImmat1Date_Ct" type="id_Date" nullable="true"/>
         <mapperTableEntries name="VehiculeGenre_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="VehiculeNumSerie_Ct" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Oper_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="booVN_Ct" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="IDWeb_Ct" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="IdMarqueMaster_Ct" type="id_Integer" nullable="true"/>
@@ -714,7 +714,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdContrat_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdPdt_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.NumContrat_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.CodeConcession_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmatNum_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmatDate_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmat1Date_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeGenre_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeNumSerie_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.Oper_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.booVN_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IDWeb_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdMarqueMaster_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.\&quot;IDModèleMaster_Ct\&quot;&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdPdt_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.NumContrat_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.DtDebValid_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.DtFinValid_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.CodeConcession_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmatNum_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmatDate_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeImmat1Date_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeGenre_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.VehiculeNumSerie_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.booVN_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IDWeb_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.IdMarqueMaster_Ct,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats.\&quot;IDModèleMaster_Ct\&quot;&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_APPLISQL_Prod_Schema+&quot;\&quot;.Contrats&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -724,11 +724,13 @@
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="IdContrat_Ct"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="IdPdt_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="NumContrat_Ct"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DtDebValid_Ct"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DtFinValid_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="CodeConcession_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -742,8 +744,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="VehiculeNumSerie_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="Oper_Ct"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="booVN_Ct"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="IDWeb_Ct"/>
@@ -756,13 +756,16 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="Contrats" name="tMSSqlInput_1">
-      <column comment="" key="true" length="10" name="IdContrat_Ct" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="10" name="IdPdt_Ct" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="NumContrat_Ct" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DtDebValid_Ct" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="23" name="DtFinValid_Ct" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="6" name="CodeConcession_Ct" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -781,9 +784,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="17" name="VehiculeNumSerie_Ct" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="50" name="Oper_Ct" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="booVN_Ct" nullable="true" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true">
