@@ -278,7 +278,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="index" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + row4.src_application_brand + &quot;\&quot;,\&quot;_type\&quot;: &quot;+&quot;\&quot;&quot; + row4.process_type + &quot;\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row4.process_uuid + &quot;\&quot;}}&quot; " type="id_String"/>
-        <mapperTableEntries name="sequence" expression="Numeric.sequence(row4.process_uuid,1,1 )" type="id_Integer"/>
+        <mapperTableEntries name="sequence" expression="Numeric.sequence(row4.process_uuid, 1, 1) " type="id_Integer"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="load" expressionFilter="Var.sequence ==1" activateExpressionFilter="true">
         <mapperTableEntries name="jsonDoc" expression="Var.index " type="id_String" nullable="true"/>
@@ -650,9 +650,7 @@
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="50" offsetLabelY="-33" source="tKafkaInput_1" target="tExtractJSONFields_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="RADIO" name="PARTITIONER" value="true"/>
-    <elementParameter field="RADIO" name="NONE" value="false"/>
-    <elementParameter field="TEXT" name="NUM_PARTITIONS" value="context.nbThreads"/>
+    <elementParameter field="TEXT" name="NUM_PARTITIONS" value="context.nbThreads" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tExtractJSONFields_1" offsetLabelX="0" offsetLabelY="0" source="tExtractJSONFields_1" target="tJavaRow_1">
@@ -661,8 +659,6 @@
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="RADIO" name="DEPARTITIONER" value="true"/>
-    <elementParameter field="RADIO" name="NONE" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="load" lineStyle="0" metaname="load" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tFileOutputDelimited_1">
