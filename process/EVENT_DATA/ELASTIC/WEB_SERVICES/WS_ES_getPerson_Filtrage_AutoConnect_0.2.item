@@ -713,7 +713,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1984" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;//output_row.body = input_row.string;&#xA;System.out.println(input_row.string);&#xA;&#xA;JSONObject obj = new JSONObject(input_row.string);&#xA;&#xA;if(!obj.isNull(&quot;_source&quot;)) {&#xA;&#x9;output_row.body = obj.getJSONObject(&quot;_source&quot;).toString(1);&#xA;}&#xA;&#xA;if (input_row.statusCode != null) {&#xA;&#x9;globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;} else {&#xA;&#x9;globalMap.put(&quot;code_erreur&quot;, 200);&#xA;}&#xD;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="JSONObject obj = new JSONObject(input_row.string);&#xA;&#xA;if(!obj.isNull(&quot;_source&quot;)) {&#xA;&#x9;output_row.body = obj.getJSONObject(&quot;_source&quot;).toString(1);&#xA;}&#xA;&#xA;if (input_row.statusCode != null) {&#xA;&#x9;globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;} else {&#xA;&#x9;globalMap.put(&quot;code_erreur&quot;, 200);&#xA;}&#xD;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="LABEL" value="extract _source"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -893,9 +893,9 @@
   <node componentName="tJavaFlex" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="3168" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_2" show="false"/>
     <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_START" value="for (int i=0; i&lt;1; i++) {&#xA;&#xA;if (((Integer)globalMap.get(&quot;code_erreur&quot;)) == null) {"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_START" value="for (int i=0; i&lt;1; i++) {&#xA;&#xA;//if (((Integer)globalMap.get(&quot;code_erreur&quot;)) == null) {"/>
     <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(((String)globalMap.get(&quot;retour_Elastic&quot;)));&#xA;&#xA;if (!&quot;$$$&quot;.equals(((String)globalMap.get(&quot;prospect_client_siv&quot;)))) {&#xA;&#x9;((ObjectNode) root.path(&quot;_source&quot;).path(&quot;Person&quot;)).put(&quot;prospect_client_siv&quot;, ((String)globalMap.get(&quot;prospect_client_siv&quot;)));&#xA;}&#xA;&#xA;row42.statusCode = ((Integer)globalMap.get(&quot;retour_Elastic_statusCode&quot;));&#xA;row42.string = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_END" value="}&#xA;}"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_END" value="//}&#xA;}"/>
     <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V4.0" value="true" show="false"/>
@@ -917,21 +917,28 @@
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRESTResponse" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="3488" posY="480">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTResponse_9" show="false"/>
-    <elementParameter field="REST_RESPONSE_SCHEMA_TYPE" name="RESPONSE_TYPE" value="id_String"/>
-    <elementParameter field="CLOSED_LIST" name="STATUS_CODE" value="CUSTOM"/>
-    <elementParameter field="TEXT" name="CUSTOM_STATUS_CODE" value="((Integer)globalMap.get(&quot;code_erreur&quot;))"/>
-    <elementParameter field="TABLE" name="RESPONSE_HEADERS">
-      <elementValue elementRef="NAME" value="&quot;Content-Type&quot;"/>
-      <elementValue elementRef="VALUE" value="&quot;application/json&quot;"/>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="3424" posY="384">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
+      <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
-    <elementParameter field="CHECK" name="UNWRAP_JSON_RESPONSE" value="false"/>
-    <elementParameter field="TEXT" name="JSON_ARRAY_KEYS" value=""/>
-    <elementParameter field="TEXT" name="LABEL" value="Query_result"/>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tRESTResponse_9">
-      <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    <metadata connector="FLOW" name="tLogRow_1">
+      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="3168" posY="608">
@@ -1019,7 +1026,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2848" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_14" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;output_row.statusCode = 200;&#xD;&#xA;output_row.string = input_row.string;&#xD;&#xA;System.out.println(input_row.string);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xD;&#xA;output_row.statusCode = 200;&#xD;&#xA;output_row.string = input_row.string;&#xD;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_14">
@@ -1149,6 +1156,24 @@
       <column key="false" length="40" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tRESTResponse" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="3488" posY="480">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTResponse_9" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="REST_RESPONSE_SCHEMA_TYPE" name="RESPONSE_TYPE" value="id_String"/>
+    <elementParameter field="CLOSED_LIST" name="STATUS_CODE" value="CUSTOM"/>
+    <elementParameter field="TEXT" name="CUSTOM_STATUS_CODE" value="((Integer)globalMap.get(&quot;code_erreur&quot;))"/>
+    <elementParameter field="TABLE" name="RESPONSE_HEADERS">
+      <elementValue elementRef="NAME" value="&quot;Content-Type&quot;"/>
+      <elementValue elementRef="VALUE" value="&quot;application/json&quot;"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="UNWRAP_JSON_RESPONSE" value="false"/>
+    <elementParameter field="TEXT" name="JSON_ARRAY_KEYS" value=""/>
+    <elementParameter field="TEXT" name="LABEL" value="Query_result"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tRESTResponse_9">
+      <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="FLOW" label="GET" lineStyle="0" metaname="GET" offsetLabelX="0" offsetLabelY="0" source="tRESTRequest_1" target="tJavaRow_7">
@@ -1372,7 +1397,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row42" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row28" lineStyle="0" metaname="tJavaRow_11" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_11" target="tRESTResponse_9">
+  <connection connectorName="FLOW" label="row28" lineStyle="0" metaname="tJavaRow_11" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_11" target="tLogRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row28" show="false"/>
   </connection>
@@ -1528,6 +1553,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputRaw_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTResponse_9" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
