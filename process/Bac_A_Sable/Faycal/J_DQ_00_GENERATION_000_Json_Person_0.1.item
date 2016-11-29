@@ -363,37 +363,36 @@
         <mapperTableEntries name="postal_code" expression="(from_cartegie.ADRESSE4_CHARADE != null )? Synaltic_DQ.ExtractPostalCode(from_cartegie.ADRESSE6_CHARADE): &quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_CP)*/ " type="id_String"/>
         <mapperTableEntries name="streetNumber" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? Synaltic_DQ.FindStreetNumber(from_cartegie.ADRESSE4_CHARADE):&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(Synaltic_DQ.FindStreetNumber(from_cartegie.RNVP_ADR4))*/ " type="id_String"/>
         <mapperTableEntries name="route_Short" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? from_cartegie.ADRESSE4_CHARADE : &quot;&quot;&#xD;&#xA;&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)*/&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR4)*/ " type="id_String"/>
-        <mapperTableEntries name="var1" type="id_String"/>
-        <mapperTableEntries name="var2" type="id_String"/>
+        <mapperTableEntries name="process_load_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.addDate(TalendDate.getCurrentDate())) " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="norm_physical_person_address_ok" activateCondensedTool="true">
+      <outputTables sizeState="INTERMEDIATE" name="norm_physical_person_address_ok">
         <mapperTableEntries name="process_type" expression="&quot;Demenagement&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="physical_person_address.meta_application_name " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="physical_person_address.meta_brand_source " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" type="id_String"/>
-        <mapperTableEntries name="load_process_moment" type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="physical_person_address.meta_creation_date " type="id_String"/>
+        <mapperTableEntries name="load_process_moment" expression="Var.process_load_date " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="physical_person_address.meta_id_source " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="physical_person_address.id_physical_person " type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="license_number" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_license" type="id_String" nullable="true"/>
-        <mapperTableEntries name="deceased" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="death_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="language_code" type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" type="id_String" nullable="true"/>
-        <mapperTableEntries name="sublocality" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression=" physical_person_address.meta_id_source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="row1.Civilite " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="row1.Prenom " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="row1.Nom " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="physical_person_name.birth_name_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="physical_person_name.birth_date " type="id_String" nullable="true"/>
+        <mapperTableEntries name="license_number" expression="physical_person_name.license_number " type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" expression="physical_person_name.country_license " type="id_String" nullable="true"/>
+        <mapperTableEntries name="deceased" expression="physical_person_name.deceased " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="death_date" expression="physical_person_name.death_date " type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_code" expression="physical_person_name.language_code " type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="Var.streetNumber " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="Var.route_Short " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="Var.locality " type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" expression="Var.sublocality " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea2" type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea3" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="Var.admarea2 " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea3" expression="Var.admarea3 " type="id_String" nullable="true"/>
         <mapperTableEntries name="country" type="id_String" nullable="true"/>
-        <mapperTableEntries name="postal_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" expression="Var.postal_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email" type="id_String" nullable="true"/>
