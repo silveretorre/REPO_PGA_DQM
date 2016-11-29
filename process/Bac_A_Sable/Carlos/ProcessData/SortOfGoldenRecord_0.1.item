@@ -234,12 +234,14 @@
       <column comment="" key="false" length="255" name="Lastname" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="PhoneNumber" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Email" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Date" originalLength="24" usefulColumn="true"/>
+      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="" type="id_Date" originalLength="24" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="out">
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="useless" expression="&quot;Na&quot;.equalsIgnoreCase(master.firstname_norm)  &amp;&amp;&#xD;&#xA;&quot;NA&quot;.equalsIgnoreCase(master.lastname_norm) ? false : true " type="id_Boolean"/>
+      </varTables>
+      <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Var.useless " activateExpressionFilter="true">
         <mapperTableEntries name="person_uuid" expression="master.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="Firstname" expression="master.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="Lastname" expression="master.lastname_norm " type="id_String" nullable="true"/>
@@ -253,7 +255,7 @@
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="SURVIVOR" type="id_Boolean" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dedup_conso" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dedup_conso" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="(master.master_gid).split(&quot;_&quot;)[0] " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -501,7 +503,7 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -590,7 +592,7 @@
       <column comment="" key="false" length="255" name="Lastname" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="PhoneNumber" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Email" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="24" usefulColumn="true"/>
+      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="24" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="out" name="REJECT">
       <column comment="" key="false" length="255" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -598,7 +600,7 @@
       <column comment="" key="false" length="255" name="Lastname" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="PhoneNumber" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Email" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="24" usefulColumn="true"/>
+      <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="24" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
