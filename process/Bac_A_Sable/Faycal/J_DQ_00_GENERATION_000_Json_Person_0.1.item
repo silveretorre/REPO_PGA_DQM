@@ -367,13 +367,14 @@
         <mapperTableEntries name="streetNumber" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? Synaltic_DQ.FindStreetNumber(from_cartegie.ADRESSE4_CHARADE):&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(Synaltic_DQ.FindStreetNumber(from_cartegie.RNVP_ADR4))*/ " type="id_String"/>
         <mapperTableEntries name="route_Short" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? from_cartegie.ADRESSE4_CHARADE : &quot;&quot;&#xD;&#xA;&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)*/&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR4)*/ " type="id_String"/>
         <mapperTableEntries name="process_load_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
+        <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, physical_person_address.meta_creation_date) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="norm_physical_person_address_ok">
         <mapperTableEntries name="process_type" expression="&quot;Demenagement&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="physical_person_address.meta_application_name " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="physical_person_address.meta_brand_source " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="physical_person_address.meta_creation_date " type="id_Date"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.process_moment " type="id_Date"/>
         <mapperTableEntries name="load_process_moment" expression="Var.process_load_date " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="physical_person_address.meta_id_source " type="id_String"/>
         <mapperTableEntries name="person_id" expression=" physical_person_address.meta_id_source " type="id_String" nullable="true"/>
@@ -391,10 +392,10 @@
         <mapperTableEntries name="route" expression="Var.route_Short " type="id_String" nullable="true"/>
         <mapperTableEntries name="locality" expression="Var.locality " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="Var.sublocality " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea1" expression="&quot;&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea1" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea2" expression="Var.admarea2 " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea3" expression="Var.admarea3 " type="id_String" nullable="true"/>
-        <mapperTableEntries name="country" expression="&quot;&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="Var.postal_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="(Var.route_Short +&quot; &quot;+ Var.postal_code +&quot; &quot;+ Var.locality +&quot; &quot;+ Var.sublocality +&quot; &quot;+ Var.admarea2 +&quot; &quot;+ Var.admarea3).trim() " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="(Var.route_Short != null &amp;&amp; Var.locality != null &amp;&amp; Var.postal_code != null )? true : null " type="id_Boolean" nullable="true"/>
@@ -429,7 +430,7 @@
         <mapperTableEntries name="ADRESSE5_CHARADE" type="id_String" nullable="true"/>
         <mapperTableEntries name="ADRESSE6_CHARADE" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="physical_person_address" minimized="true" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="physical_person_address" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="from_cartegie.SourceBrand " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="from_cartegie.SourceApp " type="id_String" operator="="/>
         <mapperTableEntries name="meta_creation_date" expression="" type="id_Date"/>
@@ -973,86 +974,101 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="44"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_phone"/>
-      <elementValue elementRef="COLUMN" value="is_reachable_by_phone"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="45"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/phone/line_type"/>
-      <elementValue elementRef="COLUMN" value="line_type"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="46"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="47"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/activity_area"/>
-      <elementValue elementRef="COLUMN" value="activity_area"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="48"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/profession"/>
-      <elementValue elementRef="COLUMN" value="profession"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="49"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/start_date"/>
-      <elementValue elementRef="COLUMN" value="start_date"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="50"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/end_date"/>
-      <elementValue elementRef="COLUMN" value="end_date"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="51"/>
-      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/unemployed"/>
-      <elementValue elementRef="COLUMN" value="unemployed"/>
-      <elementValue elementRef="VALUE" value=""/>
-      <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="52"/>
       <elementValue elementRef="PATH" value="type"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value="boolean"/>
       <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="45"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/phone/is_reachable_by_phone"/>
+      <elementValue elementRef="COLUMN" value="is_reachable_by_phone"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="46"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="boolean"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="47"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/phone/line_type"/>
+      <elementValue elementRef="COLUMN" value="line_type"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="48"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="49"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/activity_area"/>
+      <elementValue elementRef="COLUMN" value="activity_area"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="50"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/profession"/>
+      <elementValue elementRef="COLUMN" value="profession"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="51"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/start_date"/>
+      <elementValue elementRef="COLUMN" value="start_date"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="52"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/end_date"/>
+      <elementValue elementRef="COLUMN" value="end_date"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="53"/>
+      <elementValue elementRef="PATH" value="/pga_process_data/person/profession/unemployed"/>
+      <elementValue elementRef="COLUMN" value="unemployed"/>
+      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="ATTRIBUTE" value="branch"/>
+      <elementValue elementRef="ORDER" value="54"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="boolean"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="55"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_detail"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="54"/>
+      <elementValue elementRef="ORDER" value="56"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_detail/network_name"/>
       <elementValue elementRef="COLUMN" value="network_name"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="55"/>
+      <elementValue elementRef="ORDER" value="57"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_detail/profile_id"/>
       <elementValue elementRef="COLUMN" value="profile_id"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="56"/>
+      <elementValue elementRef="ORDER" value="58"/>
       <elementValue elementRef="PATH" value="/pga_process_data/person/digital_detail/url"/>
       <elementValue elementRef="COLUMN" value="url"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="57"/>
+      <elementValue elementRef="ORDER" value="59"/>
       <elementValue elementRef="PATH" value="/pga_process_data/vehicle"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="58"/>
+      <elementValue elementRef="ORDER" value="60"/>
+      <elementValue elementRef="PATH" value="type"/>
+      <elementValue elementRef="COLUMN" value=""/>
+      <elementValue elementRef="VALUE" value="String"/>
+      <elementValue elementRef="ATTRIBUTE" value="attri"/>
+      <elementValue elementRef="ORDER" value="61"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="59"/>
+      <elementValue elementRef="ORDER" value="62"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/load_moment"/>
       <elementValue elementRef="COLUMN" value="load_moment"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="60"/>
+      <elementValue elementRef="ORDER" value="63"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
