@@ -361,9 +361,9 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="locality" expression="(from_cartegie.ADRESSE6_CHARADE != null)? Synaltic_DQ.ExtractCity(from_cartegie.ADRESSE6_CHARADE) : &#xD;&#xA;&quot;&quot; &#xA;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE6_CHARADE)&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_VILLE)*/ " type="id_String"/>
         <mapperTableEntries name="sublocality" expression="(from_cartegie.ADRESSE4_CHARADE != null )? from_cartegie.ADRESSE5_CHARADE :&quot;&quot;  &#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR5)*/ " type="id_String"/>
-        <mapperTableEntries name="admarea2" expression="(from_cartegie.ADRESSE4_CHARADE !=null )? from_cartegie.ADRESSE2_CHARADE :&#xD;&#xA;&quot;&quot;&#xA;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR2)*/ " type="id_String"/>
-        <mapperTableEntries name="admarea3" expression="(from_cartegie.ADRESSE4_CHARADE != null )? from_cartegie.ADRESSE3_CHARADE :&#xD;&#xA;&quot;&quot;&#xA;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR3)*/ " type="id_String"/>
-        <mapperTableEntries name="postal_code" expression="(from_cartegie.ADRESSE4_CHARADE != null )? Synaltic_DQ.ExtractPostalCode(from_cartegie.ADRESSE6_CHARADE): &quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_CP)*/ " type="id_String"/>
+        <mapperTableEntries name="admarea2" expression="(from_cartegie.ADRESSE4_CHARADE !=null )? from_cartegie.ADRESSE2_CHARADE :&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR2)*/ " type="id_String"/>
+        <mapperTableEntries name="admarea3" expression="(from_cartegie.ADRESSE4_CHARADE != null )? from_cartegie.ADRESSE3_CHARADE :&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR3)*/ " type="id_String"/>
+        <mapperTableEntries name="postal_code" expression="(from_cartegie.ADRESSE4_CHARADE != null )? Synaltic_DQ.ExtractPostalCode(from_cartegie.ADRESSE6_CHARADE):&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_CP)*/ " type="id_String"/>
         <mapperTableEntries name="streetNumber" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? Synaltic_DQ.FindStreetNumber(from_cartegie.ADRESSE4_CHARADE):&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(Synaltic_DQ.FindStreetNumber(from_cartegie.RNVP_ADR4))*/ " type="id_String"/>
         <mapperTableEntries name="route_Short" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? from_cartegie.ADRESSE4_CHARADE : &quot;&quot;&#xD;&#xA;&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)*/&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR4)*/ " type="id_String"/>
         <mapperTableEntries name="process_load_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
@@ -396,7 +396,7 @@
         <mapperTableEntries name="admarea3" expression="Var.admarea3 " type="id_String" nullable="true"/>
         <mapperTableEntries name="country" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="Var.postal_code " type="id_String" nullable="true"/>
-        <mapperTableEntries name="address" expression="Var.route_Short +&quot; &quot;+ Var.postal_code +&quot; &quot;+ Var.locality +&quot; &quot;+ Var.sublocality +&quot; &quot;+ Var.admarea2 +&quot; &quot;+ Var.admarea3 " type="id_String" nullable="true"/>
+        <mapperTableEntries name="address" expression="(Var.route_Short +&quot; &quot;+ Var.postal_code +&quot; &quot;+ Var.locality +&quot; &quot;+ Var.sublocality +&quot; &quot;+ Var.admarea2 +&quot; &quot;+ Var.admarea3).trim() " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="(Var.route_Short != null &amp;&amp; Var.locality != null &amp;&amp; Var.postal_code != null )? true : null " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email" expression="email.email_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="email.is_reachable " type="id_Boolean" nullable="true"/>
@@ -1043,26 +1043,16 @@
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
       <elementValue elementRef="ORDER" value="58"/>
-      <elementValue elementRef="PATH" value="type"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value="Array"/>
-      <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="59"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event"/>
       <elementValue elementRef="COLUMN" value=""/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="60"/>
-      <elementValue elementRef="PATH" value="type"/>
-      <elementValue elementRef="COLUMN" value=""/>
-      <elementValue elementRef="VALUE" value="Array"/>
-      <elementValue elementRef="ATTRIBUTE" value="attri"/>
-      <elementValue elementRef="ORDER" value="61"/>
+      <elementValue elementRef="ORDER" value="59"/>
       <elementValue elementRef="PATH" value="/pga_process_data/event/load_moment"/>
       <elementValue elementRef="COLUMN" value="load_moment"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="ATTRIBUTE" value="branch"/>
-      <elementValue elementRef="ORDER" value="62"/>
+      <elementValue elementRef="ORDER" value="60"/>
     </elementParameter>
     <elementParameter field="TABLE" name="GROUP" show="false"/>
     <elementParameter field="TABLE" name="LOOP" show="false">
