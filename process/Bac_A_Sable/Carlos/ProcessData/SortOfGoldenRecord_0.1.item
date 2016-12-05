@@ -259,7 +259,7 @@
       <column comment="" key="false" length="24" name="Freshness_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="" type="id_Date" originalLength="24" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="useless" expression="&quot;Na&quot;.equalsIgnoreCase(master.firstname_norm)  &amp;&amp;&#xD;&#xA;&quot;NA&quot;.equalsIgnoreCase(master.lastname_norm) ? false : true " type="id_Boolean"/>
       </varTables>
@@ -267,12 +267,12 @@
         <mapperTableEntries name="person_uuid" expression="dedup_conso.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="marque" expression="dedup_conso.meta_brand_source " type="id_String" nullable="true"/>
         <mapperTableEntries name="Firstname" expression="&quot;&quot;.equals(name.firstname_std) || &quot;na&quot;.equalsIgnoreCase(name.firstname_std) ? null : name.firstname_std " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Lastname" expression="&quot;&quot;.equals(name.lastname_std) || &quot;na&quot;.equalsIgnoreCase(name.lastname_std) ? null : name.lastname_std " type="id_String" nullable="true"/>
-        <mapperTableEntries name="PhoneNumber" expression="&quot;&quot;.equalsIgnoreCase(phone.phone_number_std) ? null : phone.phone_number_std " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Email" expression="&quot;&quot;.equals(email.email_std) || &quot;na&quot;.equalsIgnoreCase(email.email_std) ? null : email.email_std " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Lastname" expression="null != name.lastname_std || &quot;&quot;.equals(name.lastname_std) || &quot;na&quot;.equalsIgnoreCase(name.lastname_std) ? (null != name.birth_name_std || &quot;&quot;.equals(name.birth_name_std) || &quot;na&quot;.equalsIgnoreCase(name.birth_name_std) ? null : name.birth_name_std ) : name.lastname_std " type="id_String" nullable="true"/>
+        <mapperTableEntries name="PhoneNumber" expression="&quot;&quot;.equalsIgnoreCase(phone.original_number) ? null : phone.original_number&#xD;&#xA;/*&#xD;&#xA;&quot;&quot;.equalsIgnoreCase(phone.phone_number_std) ? null : phone.phone_number_std&#xD;&#xA;*/ " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Email" expression="&quot;&quot;.equals(email.email) || &quot;na&quot;.equalsIgnoreCase(email.email) ? null : email.email&#xD;&#xA;/*&#xD;&#xA;&quot;&quot;.equals(email.email_std) || &quot;na&quot;.equalsIgnoreCase(email.email_std) ? null : email.email_std&#xD;&#xA;*/ " type="id_String" nullable="true"/>
         <mapperTableEntries name="Freshness_date" expression="name.meta_creation_date " type="id_Date" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="master" expressionFilter="master.SURVIVOR == true" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="master" minimized="true" expressionFilter="master.SURVIVOR == true" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
@@ -288,21 +288,32 @@
         <mapperTableEntries name="meta_brand_source" expression="dedup_conso.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="dedup_conso.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="dedup_conso.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="email" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_std" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="phone" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="dedup_conso.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="dedup_conso.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="dedup_conso.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="original_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number_std" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="name" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="name" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="dedup_conso.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="dedup_conso.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_creation_date" type="id_Date"/>
         <mapperTableEntries name="meta_id_source" expression="dedup_conso.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="firstname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_std" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_std" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name_std" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -325,7 +336,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;.\&quot;email_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_email\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -342,6 +353,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="email_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="email_std"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
@@ -355,6 +370,12 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="email_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -381,7 +402,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;original_number\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -398,6 +419,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="original_number"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="phone_number_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="phone_number_std"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
@@ -411,6 +436,12 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -437,7 +468,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;firstname_std\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;lastname_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;firstname\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;firstname_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;firstname_std\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;lastname\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;lastname_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;lastname_std\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;birth_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;birth_name_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;.\&quot;birth_name_std\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_name\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -456,9 +487,23 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="firstname"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="firstname_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="firstname_std"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lastname"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lastname_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="lastname_std"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="birth_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="birth_name_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="birth_name_std"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -470,16 +515,37 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="firstname" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="firstname_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="lastname" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="lastname_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="birth_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="birth_name_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="birth_name_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
