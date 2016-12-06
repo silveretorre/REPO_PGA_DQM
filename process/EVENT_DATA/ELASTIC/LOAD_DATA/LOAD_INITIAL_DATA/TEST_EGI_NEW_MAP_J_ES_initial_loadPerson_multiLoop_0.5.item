@@ -630,6 +630,7 @@
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -649,6 +650,7 @@
         <mapperTableEntries name="head" expression="&quot;{#index# : {#_index# : &quot; +&quot;#&quot; + dedupl.meta_brand_source.toLowerCase() +&quot;_mdm&quot;+ &quot;#,#_type#:#person#, #_id# :#&quot; + dedupl.master_gid + &quot;#}}&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="row37.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="row37.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="dedupl.tot_dedup " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row37" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
@@ -845,9 +847,10 @@
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out7">
         <mapperTableEntries name="head" expression="out6.head " type="id_String" nullable="true"/>
@@ -870,6 +873,7 @@
         <mapperTableEntries name="dealership" expression="row39.dealership " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out6.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out6.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out6.tot_dedup " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out6" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -881,6 +885,7 @@
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row38" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="out6.meta_brand_source " type="id_String" operator="="/>
@@ -1051,7 +1056,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_address.meta_brand_source, &#xD;&#xA;  norm_physical_person_address.meta_application_name, &#xD;&#xA;  norm_physical_person_address.meta_id_source, &#xD;&#xA;  norm_physical_person_address.id_physical_person, &#xD;&#xA;  norm_physical_person_address.id_organization_user, &#xD;&#xA;  norm_physical_person_address.street_number_short, &#xD;&#xA;  norm_physical_person_address.street_number_long, &#xD;&#xA;  norm_physical_person_address.routes_short, &#xD;&#xA;  norm_physical_person_address.route_long, &#xD;&#xA;  norm_physical_person_address.locality_short, &#xD;&#xA;  norm_physical_person_address.locality_short_norm, &#xD;&#xA;  norm_physical_person_address.locality_short_std, &#xD;&#xA;  norm_physical_person_address.locality_long, &#xD;&#xA;  norm_physical_person_address.admarea1_short, &#xD;&#xA;  norm_physical_person_address.admarea1_long, &#xD;&#xA;  norm_physical_person_address.admarea2_short, &#xD;&#xA;  norm_physical_person_address.admarea2_long, &#xD;&#xA;  norm_physical_person_address.admarea3_short, &#xD;&#xA;  norm_physical_person_address.admarea3_long, &#xD;&#xA;  norm_physical_person_address.country_short, &#xD;&#xA;  norm_physical_person_address.country_long, &#xD;&#xA;  norm_physical_person_address.postal_code_short_norm, &#xD;&#xA;  norm_physical_person_address.address, &#xD;&#xA;  norm_physical_person_address.is_reachable, &#xD;&#xA;  norm_physical_person_address.address_type&#xD;&#xA;FROM norm_physical_person_address&#xD;&#xA;inner join (select count(norm_physical_person_address.meta_brand_source || norm_physical_person_address.meta_application_name || norm_physical_person_address.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_address.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_address.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_address.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_address&#xD;&#xA;&#x9;group by norm_physical_person_address.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_address.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_address.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_address.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_address.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_address.meta_id_source = calcTot.meta_is&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_address.meta_brand_source, &#xD;&#xA;  norm_physical_person_address.meta_application_name, &#xD;&#xA;  norm_physical_person_address.meta_id_source, &#xD;&#xA;  norm_physical_person_address.id_physical_person, &#xD;&#xA;  norm_physical_person_address.id_organization_user, &#xD;&#xA;  norm_physical_person_address.street_number_short, &#xD;&#xA;  norm_physical_person_address.street_number_long, &#xD;&#xA;  norm_physical_person_address.routes_short, &#xD;&#xA;  norm_physical_person_address.route_long, &#xD;&#xA;  norm_physical_person_address.locality_short, &#xD;&#xA;  norm_physical_person_address.locality_short_norm, &#xD;&#xA;  norm_physical_person_address.locality_short_std, &#xD;&#xA;  norm_physical_person_address.locality_long, &#xD;&#xA;  norm_physical_person_address.admarea1_short, &#xD;&#xA;  norm_physical_person_address.admarea1_long, &#xD;&#xA;  norm_physical_person_address.admarea2_short, &#xD;&#xA;  norm_physical_person_address.admarea2_long, &#xD;&#xA;  norm_physical_person_address.admarea3_short, &#xD;&#xA;  norm_physical_person_address.admarea3_long, &#xD;&#xA;  norm_physical_person_address.country_short, &#xD;&#xA;  norm_physical_person_address.country_long, &#xD;&#xA;  norm_physical_person_address.postal_code_short_norm, &#xD;&#xA;  norm_physical_person_address.address, &#xD;&#xA;  norm_physical_person_address.is_reachable, &#xD;&#xA;  norm_physical_person_address.address_type&#xD;&#xA;FROM norm_physical_person_address&#xD;&#xA;inner join (select count(norm_physical_person_address.meta_brand_source || norm_physical_person_address.meta_application_name || norm_physical_person_address.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_address.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_address.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_address.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_address&#xD;&#xA;&#x9;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;&#x9;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;&#x9;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&#x9;group by norm_physical_person_address.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_address.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_address.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_address.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_address.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_address.meta_id_source = calcTot.meta_is&#xD;&#xA;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1259,6 +1264,8 @@
       <column comment="" key="false" length="255" name="address_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_address" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1310,6 +1317,8 @@
         <mapperTableEntries name="address_type" expression="row40.address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out7.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out7.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out7.tot_dedup " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" expression="row40.tot_address " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out7" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
@@ -1332,8 +1341,9 @@
         <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row40" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row40" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="RELOAD">
         <mapperTableEntries name="tot_address" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out7.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out7.meta_application_name " type="id_String" operator="="/>
@@ -1385,7 +1395,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_phone.meta_brand_source, &#xD;&#xA;  norm_physical_person_phone.meta_application_name, &#xD;&#xA;  norm_physical_person_phone.meta_id_source, &#xD;&#xA;  norm_physical_person_phone.phone_number_norm, &#xD;&#xA;  norm_physical_person_phone.phone_type, &#xD;&#xA;  norm_physical_person_phone.is_reachable_by_sms, &#xD;&#xA;  norm_physical_person_phone.is_reachable_by_phone, &#xD;&#xA;  norm_physical_person_phone.&quot;hasCorrectCountryCode&quot;, &#xD;&#xA;  norm_physical_person_phone.is_valid, &#xD;&#xA;  norm_physical_person_phone.line_type&#xD;&#xA;FROM norm_physical_person_phone&#xD;&#xA;inner join (select count(norm_physical_person_phone.meta_brand_source || norm_physical_person_phone.meta_application_name || norm_physical_person_phone.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_phone&#xD;&#xA;&#x9;group by norm_physical_person_phone.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_phone.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_phone.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_phone.meta_id_source = calcTot.meta_is&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_phone.meta_brand_source, &#xD;&#xA;  norm_physical_person_phone.meta_application_name, &#xD;&#xA;  norm_physical_person_phone.meta_id_source, &#xD;&#xA;  norm_physical_person_phone.phone_number_norm, &#xD;&#xA;  norm_physical_person_phone.phone_type, &#xD;&#xA;  norm_physical_person_phone.is_reachable_by_sms, &#xD;&#xA;  norm_physical_person_phone.is_reachable_by_phone, &#xD;&#xA;  norm_physical_person_phone.\&quot;hasCorrectCountryCode\&quot;, &#xD;&#xA;  norm_physical_person_phone.is_valid, &#xD;&#xA;  norm_physical_person_phone.line_type&#xD;&#xA;FROM norm_physical_person_phone&#xD;&#xA;inner join (select count(norm_physical_person_phone.meta_brand_source || norm_physical_person_phone.meta_application_name || norm_physical_person_phone.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_phone&#xD;&#xA;&#x9;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;&#x9;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;&#x9;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&#x9;group by norm_physical_person_phone.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_phone.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_phone.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_phone.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_phone.meta_id_source = calcTot.meta_is&#xD;&#xA;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1520,9 +1530,12 @@
       <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_address" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_phone" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row41.meta_brand_source ==null &amp;&amp; row41.meta_application_name ==null &amp;&amp; row41.meta_id_source == null ? &quot;1&quot; : &quot;0&quot;" type="id_String"/>
       </varTables>
@@ -1579,6 +1592,9 @@
         <mapperTableEntries name="is_valid" expression="row41.is_valid" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out8.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out8.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out8.tot_dedup " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" expression="out8.tot_address " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" expression="row41.tot_phone " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out8" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
@@ -1625,8 +1641,10 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row41" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row41" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="RELOAD">
         <mapperTableEntries name="tot_phone" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out8.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out8.meta_application_name " type="id_String" operator="="/>
@@ -1663,7 +1681,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  physical_person_digital_details.meta_brand_source, &#xD;&#xA;  physical_person_digital_details.meta_application_name, &#xD;&#xA;  physical_person_digital_details.meta_id_source,&#xD;&#xA;  physical_person_digital_details.network_name, &#xD;&#xA;  physical_person_digital_details.id_profil, &#xD;&#xA;  physical_person_digital_details.url&#xD;&#xA;FROM physical_person_digital_details&#xD;&#xA;inner join (select count(physical_person_digital_details.meta_brand_source || physical_person_digital_details.meta_application_name || physical_person_digital_details.meta_id_source) tot, &#xD;&#xA;&#x9;physical_person_digital_details.meta_brand_source meta_bs, &#xD;&#xA;&#x9;physical_person_digital_details.meta_application_name meta_an, &#xD;&#xA;&#x9;physical_person_digital_details.meta_id_source meta_is&#xD;&#xA;&#x9;from physical_person_digital_details&#xD;&#xA;&#x9;group by physical_person_digital_details.meta_brand_source, &#xD;&#xA;&#x9;physical_person_digital_details.meta_application_name, &#xD;&#xA;&#x9;physical_person_digital_details.meta_id_source) calcTot &#xD;&#xA;on physical_person_digital_details.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and physical_person_digital_details.meta_application_name = calcTot.meta_an&#xD;&#xA;and physical_person_digital_details.meta_id_source = calcTot.meta_is&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  physical_person_digital_details.meta_brand_source, &#xD;&#xA;  physical_person_digital_details.meta_application_name, &#xD;&#xA;  physical_person_digital_details.meta_id_source,&#xD;&#xA;  physical_person_digital_details.network_name, &#xD;&#xA;  physical_person_digital_details.id_profil, &#xD;&#xA;  physical_person_digital_details.url&#xD;&#xA;FROM physical_person_digital_details&#xD;&#xA;inner join (select count(physical_person_digital_details.meta_brand_source || physical_person_digital_details.meta_application_name || physical_person_digital_details.meta_id_source) tot, &#xD;&#xA;&#x9;physical_person_digital_details.meta_brand_source meta_bs, &#xD;&#xA;&#x9;physical_person_digital_details.meta_application_name meta_an, &#xD;&#xA;&#x9;physical_person_digital_details.meta_id_source meta_is&#xD;&#xA;&#x9;from physical_person_digital_details&#xD;&#xA;&#x9;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;&#x9;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;&#x9;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&#x9;group by physical_person_digital_details.meta_brand_source, &#xD;&#xA;&#x9;physical_person_digital_details.meta_application_name, &#xD;&#xA;&#x9;physical_person_digital_details.meta_id_source) calcTot &#xD;&#xA;on physical_person_digital_details.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and physical_person_digital_details.meta_application_name = calcTot.meta_an&#xD;&#xA;and physical_person_digital_details.meta_id_source = calcTot.meta_is&#xD;&#xA;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1782,9 +1800,13 @@
       <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_address" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_phone" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_digital_detail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row42.meta_brand_source ==null &amp;&amp; row42.meta_application_name ==null &amp;&amp; row42.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -1845,6 +1867,10 @@
         <mapperTableEntries name="url" expression="row42.url " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out9.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out9.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out9.tot_dedup " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" expression="out9.tot_address " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" expression="out9.tot_phone " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_digital_detail" expression="row42.tot_digital_detail " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out9" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
@@ -1899,8 +1925,11 @@
         <mapperTableEntries name="is_valid" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row42" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row42" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="RELOAD">
         <mapperTableEntries name="tot_digital_detail" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out9.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out9.meta_application_name " type="id_String" operator="="/>
@@ -1933,7 +1962,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_email.meta_brand_source, &#xD;&#xA;  norm_physical_person_email.meta_application_name, &#xD;&#xA;  norm_physical_person_email.meta_id_source, &#xD;&#xA;  norm_physical_person_email.id_organization_user, &#xD;&#xA;  norm_physical_person_email.email_norm, &#xD;&#xA;  norm_physical_person_email.is_valid, &#xD;&#xA;  norm_physical_person_email.is_reachable, &#xD;&#xA;  norm_physical_person_email.email_type&#xD;&#xA;FROM norm_physical_person_email&#xD;&#xA;inner join (select count(norm_physical_person_email.meta_brand_source || norm_physical_person_email.meta_application_name || norm_physical_person_email.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_email.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_email.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_email.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_email&#xD;&#xA;&#x9;group by norm_physical_person_email.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_email.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_email.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_email.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_email.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_email.meta_id_source = calcTot.meta_is&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  calcTot.tot,&#xD;&#xA;  norm_physical_person_email.meta_brand_source, &#xD;&#xA;  norm_physical_person_email.meta_application_name, &#xD;&#xA;  norm_physical_person_email.meta_id_source, &#xD;&#xA;  norm_physical_person_email.id_organization_user, &#xD;&#xA;  norm_physical_person_email.email_norm, &#xD;&#xA;  norm_physical_person_email.is_valid, &#xD;&#xA;  norm_physical_person_email.is_reachable, &#xD;&#xA;  norm_physical_person_email.email_type&#xD;&#xA;FROM norm_physical_person_email&#xD;&#xA;inner join (select count(norm_physical_person_email.meta_brand_source || norm_physical_person_email.meta_application_name || norm_physical_person_email.meta_id_source) tot, &#xD;&#xA;&#x9;norm_physical_person_email.meta_brand_source meta_bs, &#xD;&#xA;&#x9;norm_physical_person_email.meta_application_name meta_an, &#xD;&#xA;&#x9;norm_physical_person_email.meta_id_source meta_is&#xD;&#xA;&#x9;from norm_physical_person_email&#xD;&#xA;&#x9;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;&#x9;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;&#x9;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&#xD;&#xA;&#x9;group by norm_physical_person_email.meta_brand_source, &#xD;&#xA;&#x9;norm_physical_person_email.meta_application_name, &#xD;&#xA;&#x9;norm_physical_person_email.meta_id_source) calcTot &#xD;&#xA;on norm_physical_person_email.meta_brand_source = calcTot.meta_bs&#xD;&#xA;and norm_physical_person_email.meta_application_name = calcTot.meta_an&#xD;&#xA;and norm_physical_person_email.meta_id_source = calcTot.meta_is&#xD;&#xA;where meta_brand_source = '&quot;+((String)globalMap.get(&quot;brand_source&quot;))+&quot;' and  &#xD;&#xA;meta_application_name = '&quot;+((String)globalMap.get(&quot;application_name&quot;))+&quot;' and &#xD;&#xA;meta_id_source = '&quot;+((String)globalMap.get(&quot;id_source&quot;))+&quot;'&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2068,9 +2097,14 @@
       <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_address" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_phone" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_digital_detail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_email" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row43.meta_brand_source ==null &amp;&amp; row43.meta_application_name ==null &amp;&amp; row43.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -2137,6 +2171,11 @@
         <mapperTableEntries name="email_type" expression="row43.email_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out10.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out10.online_offline " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out10.tot_dedup " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" expression="out10.tot_address " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" expression="out10.tot_phone " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_digital_detail" expression="out10.tot_digital_detail " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_email" expression="row43.tot_email " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out10" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
@@ -2195,6 +2234,10 @@
         <mapperTableEntries name="url" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_digital_detail" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row43" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="tot_email" type="id_String" nullable="true"/>
@@ -2352,6 +2395,11 @@
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_dedup" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_address" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_phone" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_digital_detail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="tot_email" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -2430,6 +2478,11 @@
         <mapperTableEntries name="version" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle2.version)" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.prospect_client_siv)" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.online_offline)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" expression="out11.tot_dedup " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" expression="out11.tot_address " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" expression="out11.tot_phone " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_digital_detail" expression="out11.tot_digital_detail " type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_email" expression="out11.tot_email " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out11" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
@@ -2494,6 +2547,11 @@
         <mapperTableEntries name="email_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_dedup" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_address" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_phone" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_digital_detail" type="id_String" nullable="true"/>
+        <mapperTableEntries name="tot_email" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="person_link2" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="distinct_geoffrey" type="id_String" nullable="true"/>
@@ -2711,7 +2769,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2176" posY="864">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xA;output_row.meta_brand_source = input_row.meta_brand_source;&#xA;output_row.meta_application_name = input_row.meta_application_name;&#xA;output_row.meta_id_source = input_row.meta_id_source;&#xA;output_row.person_uuid = input_row.person_uuid;&#xA;output_row.gender_norm = input_row.gender_norm;&#xA;output_row.firstname_norm = input_row.firstname_norm;&#xA;output_row.lastname_norm = input_row.lastname_norm;&#xA;output_row.birth_name_norm = input_row.birth_name_norm;&#xA;output_row.birth_date = input_row.birth_date;&#xA;output_row.license_number = input_row.license_number;&#xA;output_row.country_license = input_row.country_license;&#xA;output_row.death_date = input_row.death_date;&#xA;output_row.creation_date = input_row.creation_date;&#xA;output_row.language_code = input_row.language_code;&#xA;output_row.dealership = input_row.dealership;&#xA;output_row.postal_code_short_norm = input_row.postal_code_short_norm;&#xA;output_row.id_organization_user = input_row.id_organization_user;&#xA;output_row.street_number_short = input_row.street_number_short;&#xA;output_row.street_number_long = input_row.street_number_long;&#xA;output_row.routes_short = input_row.routes_short;&#xA;output_row.route_long = input_row.route_long;&#xA;output_row.locality_short = input_row.locality_short;&#xA;output_row.locality_short_norm = input_row.locality_short_norm;&#xA;output_row.locality_short_std = input_row.locality_short_std;&#xA;output_row.locality_long = input_row.locality_long;&#xA;output_row.sublocality_short = input_row.sublocality_short;&#xA;output_row.sublocality_long = input_row.sublocality_long;&#xA;output_row.admarea1_short = input_row.admarea1_short;&#xA;output_row.admarea1_long = input_row.admarea1_long;&#xA;output_row.admarea2_short = input_row.admarea2_short;&#xA;output_row.admarea2_long = input_row.admarea2_long;&#xA;output_row.admarea3_short = input_row.admarea3_short;&#xA;output_row.admarea3_long = input_row.admarea3_long;&#xA;output_row.country_short = input_row.country_short;&#xA;output_row.country_long = input_row.country_long;&#xA;output_row.address = input_row.address;&#xA;output_row.is_reachable = input_row.is_reachable;&#xA;output_row.address_type = input_row.address_type;&#xA;output_row.phone_number_norm = input_row.phone_number_norm;&#xA;output_row.phone_type = input_row.phone_type;&#xA;output_row.line_type = input_row.line_type;&#xA;output_row.is_reachable_by_sms = input_row.is_reachable_by_sms;&#xA;output_row.is_reachable_by_phone = input_row.is_reachable_by_phone;&#xA;output_row.hasCorrectCountryCode = input_row.hasCorrectCountryCode;&#xA;output_row.is_valid = input_row.is_valid;&#xA;output_row.network_name = input_row.network_name;&#xA;output_row.id_profil = input_row.id_profil;&#xA;output_row.url = input_row.url;&#xA;output_row.email_norm = input_row.email_norm;&#xA;output_row.id_organization_user_1 = input_row.id_organization_user_1;&#xA;output_row.is_valid_1 = input_row.is_valid_1;&#xA;output_row.is_reachable_1 = input_row.is_reachable_1;&#xA;output_row.email_type = input_row.email_type;&#xA;output_row.start_date = input_row.start_date;&#xA;output_row.brand = input_row.brand;&#xA;output_row.model = input_row.model;&#xA;output_row.RegistrationNumber = input_row.RegistrationNumber;&#xA;output_row.vin = input_row.vin;&#xA;output_row.vehicle_uuid = input_row.vehicle_uuid;&#xA;output_row.link_type = input_row.link_type;&#xA;output_row.version = input_row.version;&#xA;output_row.head = input_row.head;&#xA;output_row.prospect_client_siv = input_row.prospect_client_siv;&#xA;output_row.online_offline = input_row.online_offline;&#xA;&#xA;if (context.META_ID.equals(&quot;0&quot;) || !context.META_ID.equals(input_row.META_ID)) {&#xA;&#x9;output_row.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;output_row.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;output_row.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;output_row.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;output_row.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;output_row.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;context.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;context.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;context.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;context.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;context.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;context.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;context.ADDRESS_ID_STOP = false;&#xA;&#x9;context.PHONE_ID_STOP = false;&#xA;&#x9;context.DIGITAL_DETAIL_ID_STOP = false;&#xA;&#x9;context.EMAIL_ID_STOP = false;&#xA;&#x9;context.VEHICLE_LINK_ID_STOP = false;&#xA;} else {&#xA;&#x9;/* Pour les dédup */&#xA;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) { &#xA;&#x9;&#x9;context.ADDRESS_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les Phones */&#xA;&#x9;if (((Integer)globalMap.get(&quot;tPostgresqlInput_1_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.PHONE_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) { &#xA;&#x9;&#x9;context.PHONE_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les digitalDetail */&#xA;&#x9;if (((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_1_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les email */&#xA;&#x9;if (((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_1_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.DIGITAL_DETAIL_ID)) {&#xA;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les vehicleLink */&#xA;&#x9;if (((Integer)globalMap.get(&quot;tPostgresqlInput_20_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_1_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_20_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_18_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_20_NB_LINE&quot;)) == 0 &amp;&amp; ((Integer)globalMap.get(&quot;tPostgresqlInput_19_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (((Integer)globalMap.get(&quot;tPostgresqlInput_20_NB_LINE&quot;)) == 0) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DIGITAL_DETAIL_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.EMAIL_ID)) {&#xA;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;if (context.DEDUP_ID.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;output_row.DEDUP_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;&#x9;context.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;}&#xA;&#x9;if (context.ADDRESS_ID.equals(input_row.ADDRESS_ID) || context.ADDRESS_ID_STOP) {&#xA;&#x9;&#x9;output_row.ADDRESS_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;&#x9;context.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;}&#xA;&#x9;if (context.PHONE_ID.equals(input_row.PHONE_ID) || context.PHONE_ID_STOP) {&#xA;&#x9;&#x9;output_row.PHONE_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;&#x9;context.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;}&#xA;&#x9;if (context.DIGITAL_DETAIL_ID.equals(input_row.DIGITAL_DETAIL_ID) || context.DIGITAL_DETAIL_ID_STOP) {&#xA;&#x9;&#x9;output_row.DIGITAL_DETAIL_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;&#x9;context.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;}&#xA;&#x9;if (context.EMAIL_ID.equals(input_row.EMAIL_ID) || context.EMAIL_ID_STOP) {&#xA;&#x9;&#x9;output_row.EMAIL_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;&#x9;context.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;}&#xA;&#x9;if (context.VEHICLE_LINK_ID.equals(input_row.VEHICLE_LINK_ID) || context.VEHICLE_LINK_ID_STOP) {&#xA;&#x9;&#x9;output_row.VEHICLE_LINK_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;&#x9;context.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;}&#xA;}&#xA;output_row.META_ID = input_row.META_ID;&#xA;context.META_ID = input_row.META_ID;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xA;output_row.meta_brand_source = input_row.meta_brand_source;&#xA;output_row.meta_application_name = input_row.meta_application_name;&#xA;output_row.meta_id_source = input_row.meta_id_source;&#xA;output_row.person_uuid = input_row.person_uuid;&#xA;output_row.gender_norm = input_row.gender_norm;&#xA;output_row.firstname_norm = input_row.firstname_norm;&#xA;output_row.lastname_norm = input_row.lastname_norm;&#xA;output_row.birth_name_norm = input_row.birth_name_norm;&#xA;output_row.birth_date = input_row.birth_date;&#xA;output_row.license_number = input_row.license_number;&#xA;output_row.country_license = input_row.country_license;&#xA;output_row.death_date = input_row.death_date;&#xA;output_row.creation_date = input_row.creation_date;&#xA;output_row.language_code = input_row.language_code;&#xA;output_row.dealership = input_row.dealership;&#xA;output_row.postal_code_short_norm = input_row.postal_code_short_norm;&#xA;output_row.id_organization_user = input_row.id_organization_user;&#xA;output_row.street_number_short = input_row.street_number_short;&#xA;output_row.street_number_long = input_row.street_number_long;&#xA;output_row.routes_short = input_row.routes_short;&#xA;output_row.route_long = input_row.route_long;&#xA;output_row.locality_short = input_row.locality_short;&#xA;output_row.locality_short_norm = input_row.locality_short_norm;&#xA;output_row.locality_short_std = input_row.locality_short_std;&#xA;output_row.locality_long = input_row.locality_long;&#xA;output_row.sublocality_short = input_row.sublocality_short;&#xA;output_row.sublocality_long = input_row.sublocality_long;&#xA;output_row.admarea1_short = input_row.admarea1_short;&#xA;output_row.admarea1_long = input_row.admarea1_long;&#xA;output_row.admarea2_short = input_row.admarea2_short;&#xA;output_row.admarea2_long = input_row.admarea2_long;&#xA;output_row.admarea3_short = input_row.admarea3_short;&#xA;output_row.admarea3_long = input_row.admarea3_long;&#xA;output_row.country_short = input_row.country_short;&#xA;output_row.country_long = input_row.country_long;&#xA;output_row.address = input_row.address;&#xA;output_row.is_reachable = input_row.is_reachable;&#xA;output_row.address_type = input_row.address_type;&#xA;output_row.phone_number_norm = input_row.phone_number_norm;&#xA;output_row.phone_type = input_row.phone_type;&#xA;output_row.line_type = input_row.line_type;&#xA;output_row.is_reachable_by_sms = input_row.is_reachable_by_sms;&#xA;output_row.is_reachable_by_phone = input_row.is_reachable_by_phone;&#xA;output_row.hasCorrectCountryCode = input_row.hasCorrectCountryCode;&#xA;output_row.is_valid = input_row.is_valid;&#xA;output_row.network_name = input_row.network_name;&#xA;output_row.id_profil = input_row.id_profil;&#xA;output_row.url = input_row.url;&#xA;output_row.email_norm = input_row.email_norm;&#xA;output_row.id_organization_user_1 = input_row.id_organization_user_1;&#xA;output_row.is_valid_1 = input_row.is_valid_1;&#xA;output_row.is_reachable_1 = input_row.is_reachable_1;&#xA;output_row.email_type = input_row.email_type;&#xA;output_row.start_date = input_row.start_date;&#xA;output_row.brand = input_row.brand;&#xA;output_row.model = input_row.model;&#xA;output_row.RegistrationNumber = input_row.RegistrationNumber;&#xA;output_row.vin = input_row.vin;&#xA;output_row.vehicle_uuid = input_row.vehicle_uuid;&#xA;output_row.link_type = input_row.link_type;&#xA;output_row.version = input_row.version;&#xA;output_row.head = input_row.head;&#xA;output_row.prospect_client_siv = input_row.prospect_client_siv;&#xA;output_row.online_offline = input_row.online_offline;&#xA;&#xA;if (context.META_ID.equals(&quot;0&quot;) || !context.META_ID.equals(input_row.META_ID)) {&#xA;&#x9;output_row.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;output_row.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;output_row.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;output_row.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;output_row.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;output_row.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;context.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;context.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;context.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;context.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;context.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;context.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;context.ADDRESS_ID_STOP = false;&#xA;&#x9;context.PHONE_ID_STOP = false;&#xA;&#x9;context.DIGITAL_DETAIL_ID_STOP = false;&#xA;&#x9;context.EMAIL_ID_STOP = false;&#xA;&#x9;context.VEHICLE_LINK_ID_STOP = false;&#xA;} else {&#xA;&#x9;/* Pour les Adresses */&#xA;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) { &#xA;&#x9;&#x9;context.ADDRESS_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les Phones */&#xA;&#x9;if (input_row.tot_address == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.PHONE_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) { &#xA;&#x9;&#x9;context.PHONE_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les digitalDetail */&#xA;&#x9;if (input_row.tot_phone == null &amp;&amp; input_row.tot_address == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_phone == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;context.DIGITAL_DETAIL_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les email */&#xA;&#x9;if (input_row.tot_digital_detail == null &amp;&amp; input_row.tot_phone == null &amp;&amp; input_row.tot_address == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_digital_detail == null &amp;&amp; input_row.tot_phone == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_digital_detail == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.DIGITAL_DETAIL_ID)) {&#xA;&#x9;&#x9;context.EMAIL_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;/* Pour les vehicleLink */&#xA;&#x9;if (input_row.tot_email == null &amp;&amp; input_row.tot_digital_detail == null &amp;&amp; input_row.tot_phone == null &amp;&amp; input_row.tot_address == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_email == null &amp;&amp; input_row.tot_digital_detail == null &amp;&amp; input_row.tot_phone == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.ADDRESS_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_email == null &amp;&amp; input_row.tot_digital_detail == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.PHONE_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (input_row.tot_email == null) {&#xA;&#x9;&#x9;if (&quot;2&quot;.equals(input_row.DIGITAL_DETAIL_ID)) {&#xA;&#x9;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;&#x9;}&#xA;&#x9;} else if (&quot;2&quot;.equals(input_row.EMAIL_ID)) {&#xA;&#x9;&#x9;context.VEHICLE_LINK_ID_STOP = true;&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;if (context.DEDUP_ID.equals(input_row.DEDUP_ID)) {&#xA;&#x9;&#x9;output_row.DEDUP_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;&#x9;context.DEDUP_ID = input_row.DEDUP_ID;&#xA;&#x9;}&#xA;&#x9;if (context.ADDRESS_ID.equals(input_row.ADDRESS_ID) || context.ADDRESS_ID_STOP) {&#xA;&#x9;&#x9;output_row.ADDRESS_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;&#x9;context.ADDRESS_ID = input_row.ADDRESS_ID;&#xA;&#x9;}&#xA;&#x9;if (context.PHONE_ID.equals(input_row.PHONE_ID) || context.PHONE_ID_STOP) {&#xA;&#x9;&#x9;output_row.PHONE_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;&#x9;context.PHONE_ID = input_row.PHONE_ID;&#xA;&#x9;}&#xA;&#x9;if (context.DIGITAL_DETAIL_ID.equals(input_row.DIGITAL_DETAIL_ID) || context.DIGITAL_DETAIL_ID_STOP) {&#xA;&#x9;&#x9;output_row.DIGITAL_DETAIL_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;&#x9;context.DIGITAL_DETAIL_ID = input_row.DIGITAL_DETAIL_ID;&#xA;&#x9;}&#xA;&#x9;if (context.EMAIL_ID.equals(input_row.EMAIL_ID) || context.EMAIL_ID_STOP) {&#xA;&#x9;&#x9;output_row.EMAIL_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;&#x9;context.EMAIL_ID = input_row.EMAIL_ID;&#xA;&#x9;}&#xA;&#x9;if (context.VEHICLE_LINK_ID.equals(input_row.VEHICLE_LINK_ID) || context.VEHICLE_LINK_ID_STOP) {&#xA;&#x9;&#x9;output_row.VEHICLE_LINK_ID = context.ValeurFiltreDM;&#xA;&#x9;} else {&#xA;&#x9;&#x9;output_row.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;&#x9;context.VEHICLE_LINK_ID = input_row.VEHICLE_LINK_ID;&#xA;&#x9;}&#xA;}&#xA;output_row.META_ID = input_row.META_ID;&#xA;context.META_ID = input_row.META_ID;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="LABEL" value="Mise_en_forme"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -3435,7 +3493,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xD;&#xA;  calcTot.tot,&#xD;&#xA;  dedup_physical_person_consolidation.meta_brand_source, &#xD;&#xA;  dedup_physical_person_consolidation.meta_application_name, &#xD;&#xA;  dedup_physical_person_consolidation.meta_id_source, &#xD;&#xA;  dedup_physical_person_consolidation.master_gid&#xD;&#xA;FROM dedup_physical_person_consolidation&#xD;&#xA;inner join (select count(dedup_physical_person_consolidation.master_gid) tot, dedup_physical_person_consolidation.master_gid mast&#xD;&#xA;&#x9;from dedup_physical_person_consolidation&#xD;&#xA;&#x9;where (master_gid like '%e47bbeaf-3211-4d5f-b0b1-9ee5edff75ea'&#xD;&#xA;&#x9;or master_gid like '%4b937553-13ca-4c0c-8218-23b1c69d28bf'&#xD;&#xA;&#x9;or master_gid like '%c50bf817-fd65-4c09-bd51-b022769d3491')&#xD;&#xA;&#x9;group by dedup_physical_person_consolidation.master_gid) calcTot on dedup_physical_person_consolidation.master_gid = calcTot.mast&#xD;&#xA;where (master_gid like '%e47bbeaf-3211-4d5f-b0b1-9ee5edff75ea'&#xD;&#xA;or master_gid like '%4b937553-13ca-4c0c-8218-23b1c69d28bf'&#xD;&#xA;or master_gid like '%c50bf817-fd65-4c09-bd51-b022769d3491')&#xD;&#xA;where master_gid = '&quot;+((String)globalMap.get(&quot;master_gid&quot;))+&quot;'&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xD;&#xA;  calcTot.tot,&#xD;&#xA;  dedup_physical_person_consolidation.meta_brand_source, &#xD;&#xA;  dedup_physical_person_consolidation.meta_application_name, &#xD;&#xA;  dedup_physical_person_consolidation.meta_id_source, &#xD;&#xA;  dedup_physical_person_consolidation.master_gid&#xD;&#xA;FROM dedup_physical_person_consolidation&#xD;&#xA;inner join (select count(dedup_physical_person_consolidation.master_gid) tot, dedup_physical_person_consolidation.master_gid mast&#xD;&#xA;&#x9;from dedup_physical_person_consolidation&#xD;&#xA;&#x9;where (master_gid like '%e47bbeaf-3211-4d5f-b0b1-9ee5edff75ea'&#xD;&#xA;&#x9;or master_gid like '%4b937553-13ca-4c0c-8218-23b1c69d28bf'&#xD;&#xA;&#x9;or master_gid like '%c50bf817-fd65-4c09-bd51-b022769d3491')&#xD;&#xA;&#x9;group by dedup_physical_person_consolidation.master_gid) calcTot on dedup_physical_person_consolidation.master_gid = calcTot.mast&#xD;&#xA;where (master_gid like '%e47bbeaf-3211-4d5f-b0b1-9ee5edff75ea'&#xD;&#xA;or master_gid like '%4b937553-13ca-4c0c-8218-23b1c69d28bf'&#xD;&#xA;or master_gid like '%c50bf817-fd65-4c09-bd51-b022769d3491')&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3908,6 +3966,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out6" show="false"/>
@@ -3928,6 +3989,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -3964,6 +4028,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_address"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out8" show="false"/>
@@ -3995,6 +4065,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_address"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -4031,6 +4110,18 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_digital_detail"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_address"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -4072,6 +4163,21 @@
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_email"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_digital_detail"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_address"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out11" show="false"/>
@@ -4092,6 +4198,21 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="DEDUP_ID"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_email"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_digital_detail"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_phone"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_dedup"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="tot_address"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
