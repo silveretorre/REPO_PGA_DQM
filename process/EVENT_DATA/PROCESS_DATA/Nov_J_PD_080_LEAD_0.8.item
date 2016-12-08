@@ -634,7 +634,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`last_maj`&#xA;FROM `propsect`&#xD;&#xA;WHERE ( last_maj BETWEEN '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;'&#xD;&#xA;AND last_maj &lt; '&quot;+String.valueOf(globalMap.get(&quot;currDate&quot;))+&quot;' )&#xD;&#xA;OR&#xD;&#xA;( date_insc BETWEEN '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;'&#xD;&#xA;AND date_insc &lt; '&quot;+String.valueOf(globalMap.get(&quot;currDate&quot;))+&quot;' )&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`last_maj`&#xA;FROM `propsect`&#xD;&#xA;WHERE&#xD;&#xA;( date_insc BETWEEN '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;'&#xD;&#xA;AND date_insc &lt; '&quot;+String.valueOf(globalMap.get(&quot;currDate&quot;))+&quot;' )&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -946,6 +946,10 @@
       <column comment="" key="false" length="255" name="linked_vehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lead_lifespan" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lead_temperature" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lead_veh_brand" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lead_veh_model" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="1024" name="lead_search_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="1024" usefulColumn="true"/>
+      <column comment="" key="false" length="1024" name="lead_fund_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="1024" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1050,6 +1054,10 @@
         <mapperTableEntries name="linked_vehicle" expression="&quot;VO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_lifespan" expression="&quot;15 days&quot;" type="id_String"/>
         <mapperTableEntries name="lead_temperature" expression="(null != propsect.trait_interet  &amp;&amp; !(&quot;&quot;.equals(propsect.trait_interet)))? propsect.trait_interet : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="propsect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idpropsect" type="id_Long"/>
@@ -1110,7 +1118,7 @@
         <mapperTableEntries name="plaque_groupe_id" expression="plaque_rap.plaque_groupe_id " type="id_Integer" operator="="/>
         <mapperTableEntries name="externe" type="id_Integer"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="veh_histo" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="veh_histo" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="identifiant" expression="propsect.lastseen == null ? &quot;noveh&quot; : propsect.lastseen " type="id_String"/>
         <mapperTableEntries name="V_IMMATR" type="id_String" nullable="true"/>
         <mapperTableEntries name="V_MARQUE" type="id_String" nullable="true"/>
@@ -1498,6 +1506,10 @@
         <mapperTableEntries name="linked_vehicle" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_lifespan" type="id_String"/>
         <mapperTableEntries name="lead_temperature" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="pd_filters_gender" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="src_application_name" expression="data.src_application_name " type="id_String"/>
@@ -3891,6 +3903,18 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="email"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_veh_model"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_fund_com"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_veh_brand"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_search_com"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
