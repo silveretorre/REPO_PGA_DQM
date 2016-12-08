@@ -1255,6 +1255,7 @@
     <metadata connector="FLOW" name="out3">
       <column comment="" key="false" length="-1" name="META_ID" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1276,6 +1277,7 @@
       <outputTables sizeState="INTERMEDIATE" name="out3">
         <mapperTableEntries name="META_ID" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(Var.META_ID)" type="id_String"/>
         <mapperTableEntries name="meta_brand_source" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row9.meta_brand_source.toLowerCase())" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="row9.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row9.meta_id_source )" type="id_String"/>
         <mapperTableEntries name="brand" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row8.brand)" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="row8.circulation_end_date" type="id_Date" nullable="true"/>
@@ -1420,37 +1422,40 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="test_null" expression="row14.meta_brand_source == null &amp;&amp; row14.meta_application_name == null &amp;&amp; row14.meta_id_source == null ? &quot;1&quot; : &quot;0&quot;" type="id_String"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="row81">
-        <mapperTableEntries name="META_ID" type="id_String"/>
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
-        <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_kind" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="circulation_start_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="color" type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy" type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="model" type="id_String" nullable="true"/>
-        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="REGISTRATION_NUMBER_ID" type="id_String"/>
-        <mapperTableEntries name="registration_number_norm" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="META_ID" expression="out3.META_ID" type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" expression="out3.meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.meta_application_name)" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" expression="out3.meta_id_source" type="id_String"/>
+        <mapperTableEntries name="argus_brand" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.argus_brand)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_kind" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.argus_kind)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.argus_model)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.argus_version)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="out3.brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" expression="out3.circulation_end_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" expression="out3.circulation_start_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="color" expression="out3.color" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="out3.energy" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="out3.kind" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="out3.last_mileage_known" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="model" expression="out3.model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="national_identification_type" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.national_identification_type)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.origin_country_code)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_uuid" expression="out3.vehicle_uuid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="out3.version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="out3.vin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="REGISTRATION_NUMBER_ID" expression=" &quot;1&quot;.equals(Var.test_null) ? context.ValeurFiltreDM : &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="registration_number_norm" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row14.registration_number_norm)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_date" expression="row14.registration_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="end_date" expression="row14.end_date" type="id_Date" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="META_ID" type="id_String"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
@@ -1465,22 +1470,22 @@
         <mapperTableEntries name="vin" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row13" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
-        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_brand_source" expression="out3.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="out3.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="out3.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_kind" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_kind" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row14" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
-        <mapperTableEntries name="registration_number_norm" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_date" type="id_Date" nullable="true"/>
+      <inputTables sizeState="INTERMEDIATE" name="row14" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="out3.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="out3.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="out3.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="registration_number_norm" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_date" expression="" type="id_Date" nullable="true"/>
         <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -1989,6 +1994,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out3" lineStyle="0" metaname="out3" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMap_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out3" show="false"/>
   </connection>
