@@ -1252,7 +1252,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata name="out3">
+    <metadata connector="FLOW" name="out3">
       <column comment="" key="false" length="-1" name="META_ID" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1448,6 +1448,41 @@
         <mapperTableEntries name="registration_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
       </outputTables>
+      <inputTables sizeState="INTERMEDIATE" name="out3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="META_ID" type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" type="id_String"/>
+        <mapperTableEntries name="brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="color" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row13" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" type="id_String"/>
+        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_kind" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row14" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" type="id_String"/>
+        <mapperTableEntries name="registration_number_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
+      </inputTables>
     </nodeData>
   </node>
   <node componentName="tXMLMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="960" posY="672">
@@ -1953,6 +1988,10 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
+  <connection connectorName="FLOW" label="out3" lineStyle="0" metaname="out3" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMap_4">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out3" show="false"/>
+  </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="8" metaname="tPostgresqlInput_6" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_6" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
@@ -1984,6 +2023,14 @@
   <connection connectorName="FLOW" label="copyOfout1" lineStyle="0" metaname="copyOfout1" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tFileOutputDelimited_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row13" lineStyle="8" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tMap_4">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row13" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row14" lineStyle="8" metaname="tPostgresqlInput_8" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_8" target="tMap_4">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row14" show="false"/>
   </connection>
   <note opaque="true" posX="1120" posY="896" sizeHeight="64" sizeWidth="705" text="Rajouter tSystem pour éxécuter la commande sur le job server elastic  (188.165.246.126): &#xD;&#xA;curl -XPUT localhost:9200/_bulk --data-binary &quot;nom du fichier construit&quot;"/>
   <note opaque="true" posX="288" posY="-448" sizeHeight="225" sizeWidth="929" text="Initial vehicle load in ElasticSearch (with Bulk Load mode)&#xD;&#xA;&#xD;&#xA;v0.1 (2016/09/20) - GMA : first version.&#xD;&#xA;v0.4 (03/10/2016) - SMA : Put all vehicle in the same index (all)&#xD;&#xA;">
@@ -2085,21 +2132,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_5" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_7" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_8" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
