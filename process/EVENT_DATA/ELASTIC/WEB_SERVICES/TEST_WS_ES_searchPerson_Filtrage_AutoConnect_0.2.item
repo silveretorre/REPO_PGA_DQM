@@ -601,7 +601,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_1" show="false"/>
     <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
     <elementParameter field="MEMO_JAVA" name="CODE_START" value="for (int i=0; i&lt;1; i++) {"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="&#xA;&#xA;/// le document généré sera le body du WS qui suit.&#xA;row11.string = Synaltic_Search.searchPerson(((String)globalMap.get(&quot;row9.pga_query&quot;)), ((String)globalMap.get(&quot;row9.from&quot;)), ((String)globalMap.get(&quot;row9.size&quot;)));&#xA;System.out.println(&quot;http://&quot; + context.ELK_Server + &quot;:&quot; + context.ELK_Port +&quot;/&quot;+(&quot;&quot;.equals(org.apache.commons.lang3.StringUtils.substringAfterLast(((String)globalMap.get(&quot;row9.brand&quot;)), &quot;,&quot;)) ? ((String)globalMap.get(&quot;row9.brand&quot;)) : ((String)globalMap.get(&quot;row9.brand&quot;)).replace(&quot;,&quot;, &quot;_mdm,&quot;))+&quot;_mdm/person/_search&quot;);&#xA;&#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="&#xA;&#xA;/// le document généré sera le body du WS qui suit.&#xA;row11.string = Synaltic_Search.searchPerson(((String)globalMap.get(&quot;row9.pga_query&quot;)), ((String)globalMap.get(&quot;row9.from&quot;)), ((String)globalMap.get(&quot;row9.size&quot;)));&#xA;System.out.println(row11.string);&#xA;&#xA;"/>
     <elementParameter field="MEMO_JAVA" name="CODE_END" value="}&#xA;      "/>
     <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
@@ -1302,6 +1302,13 @@
     <elementParameter field="TEXT" name="LABEL" value="commons-lang3-3.3.2.jar"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="-192">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_4" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="context.DB_DQM_ODS_Server = &quot;167.114.224.248&quot;;&#xA;context.DB_DQM_ODS_Database = &quot;talend_dq_ods_int&quot;;&#xA;context.DB_DQM_ODS_Login = &quot;dquser&quot;;&#xA;context.DB_DQM_ODS_Port = &quot;5432&quot;;&#xA;context.DB_DQM_ODS_Schema = &quot;public&quot;;&#xA;context.DB_DQM_ODS_Password = &quot;Syn@ltic!2016&quot;;"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJava_4"/>
+  </node>
   <connection connectorName="FLOW" label="POST" lineStyle="0" metaname="POST" offsetLabelX="0" offsetLabelY="0" source="tRESTRequest_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="application_name"/>
@@ -1660,6 +1667,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row37" show="false"/>
   </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_4" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_4" target="tJava_4">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk4" show="false"/>
+  </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTRequest_1" show="false"/>
@@ -1762,6 +1772,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_4" show="false"/>
     <elementParameter field="TEXT" name="SUBJOB_TITLE" value="Chargement de StringUtils"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_4" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
 </talendfile:ProcessType>
