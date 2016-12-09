@@ -340,7 +340,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="512" sizeX="736" sizeY="32">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="512" sizeX="800" sizeY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -468,10 +468,10 @@
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;APV&quot;" type="id_String"/>
-        <mapperTableEntries name="dealership_id" type="id_String"/>
-        <mapperTableEntries name="dealership_city" type="id_String"/>
-        <mapperTableEntries name="dealership_zipcode" type="id_String"/>
-        <mapperTableEntries name="dealership_label" type="id_String"/>
+        <mapperTableEntries name="dealership_id" expression="null == (tgTaller.EMP) || (&quot;&quot;.equals(tgTaller.EMP)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgTaller.ORGANIS) || (&quot;&quot;.equals(tgTaller.ORGANIS)) ?&#xD;&#xA;null : tgTaller.ORGANIS&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgTaller.ORGANIS) || (&quot;&quot;.equals(tgTaller.ORGANIS)) ?&#xD;&#xA;(tgTaller.EMP : tgTaller.EMP+&quot;_&quot;+tgTaller.ORGANIS).trim()&#xD;&#xA;) " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ? &#xD;&#xA;tgPoblaEmp.DESCRIP&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_zipcode" expression="( null != tgEmpresa.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.CPOSTAL))) ? &#xD;&#xA;tgEmpresa.CPOSTAL&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ? &#xD;&#xA;tgOrganis.DESCRIP&#xD;&#xA;: null " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed" activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -726,9 +726,9 @@
         <mapperTableEntries name="TALLER" expression="ttOTCab.TALLER " type="id_String"/>
         <mapperTableEntries name="ORGANIS" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPtoVenta" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgOrganis" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tgTaller.EMP " type="id_String"/>
-        <mapperTableEntries name="PUNTOVENTA" expression="tgTaller.ORGANIS " type="id_String"/>
+        <mapperTableEntries name="ORGANIS" expression="tgTaller.ORGANIS " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgModoPago" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -742,6 +742,15 @@
       <inputTables sizeState="INTERMEDIATE" name="tyUsuario" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="ttOTFac.USUARIO " type="id_String"/>
         <mapperTableEntries name="NOMBRE" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="tgTaller.EMP " type="id_String"/>
+        <mapperTableEntries name="CPOSTAL" type="id_String" nullable="true"/>
+        <mapperTableEntries name="POBLA" type="id_BigDecimal" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgPoblaEmp" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="ID" expression="tgEmpresa.POBLA " type="id_BigDecimal" operator="="/>
+        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -2177,22 +2186,22 @@
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
     <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
-    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
     <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
     <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
     <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
     <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
     <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPTOVENTA&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGORGANIS&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.PUNTOVENTA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.DESCRIP&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.ORGANIS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.DESCRIP&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2209,7 +2218,7 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="PUNTOVENTA"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2217,11 +2226,11 @@
     <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TGPTOVENTA" name="tOracleInput_21">
+    <metadata connector="FLOW" label="TGORGANIS" name="tOracleInput_21">
       <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="true" length="3" name="PUNTOVENTA" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="true" length="3" name="ORGANIS" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
@@ -2394,7 +2403,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="992" posY="512">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -2703,7 +2712,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="992" posY="416">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
@@ -2756,7 +2765,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1120" posY="512">
+  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1184" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tReplicate_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tReplicate_1">
@@ -2852,7 +2861,7 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="416">
+  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWriteJSONField_1" show="false"/>
     <elementParameter field="COLUMN_LIST" name="JSONFIELD" value="pga_process_data"/>
     <elementParameter field="TABLE" name="ROOT" show="false">
@@ -3440,14 +3449,14 @@
       <column comment="" key="false" length="-1" name="pga_process_data" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="416">
+  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFlowToIterate_1" show="false"/>
     <elementParameter field="CHECK" name="DEFAULT_MAP" value="true"/>
     <elementParameter field="TABLE" name="MAP" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFlowToIterate_1"/>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="416">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1600" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
@@ -3466,7 +3475,7 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="416">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
@@ -3499,7 +3508,7 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="544" sizeX="64" sizeY="64">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="544" sizeX="64" sizeY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -3804,7 +3813,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="512">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -4376,7 +4385,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="608">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="608">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -4547,6 +4556,136 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="352">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_2" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGEMPRESA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.CPOSTAL, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.POBLA&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CPOSTAL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="POBLA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGEMPRESA" name="tOracleInput_2">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CPOSTAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="POBLA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="672">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_26" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPOBLA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA.\&quot;ID\&quot;, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA.DESCRIP&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="ID"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPOBLA" name="tOracleInput_26">
+      <column comment="" defaultValue="0" key="true" length="10" name="ID" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="IDPROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="1" key="false" length="5" name="IMPTEXTOPROV" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIPSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="160">
@@ -7516,7 +7655,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgTaller" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="tgPtoVenta" lineStyle="8" metaname="tOracleInput_21" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_21" target="tMap_1">
+  <connection connectorName="FLOW" label="tgOrganis" lineStyle="8" metaname="tOracleInput_21" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_21" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="EMP"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -7814,7 +7953,7 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPtoVenta" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgOrganis" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="tgModoPago" lineStyle="8" metaname="tOracleInput_19" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_19" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -7958,6 +8097,14 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_techint" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgEmpresa" lineStyle="8" metaname="tOracleInput_2" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_2" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgEmpresa" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPoblaEmp" lineStyle="8" metaname="tOracleInput_26" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_26" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPoblaEmp" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
