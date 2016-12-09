@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.talend.org/mapper" xmlns:TalendXMLMap="http://www.talend.org/xmlmap" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default">
   <context confirmationNeeded="false" name="Default">
-    <contextParameter comment="" name="bulkFile_Input_File_Path" prompt="bulkFile_Input_File_Path?" promptNeeded="false" type="id_String" value="C:/LoopJSON"/>
+    <contextParameter comment="" name="bulkFile_Input_File_Path" prompt="bulkFile_Input_File_Path?" promptNeeded="false" type="id_String" value="/opt/data_exchange/event_data/elastic_intial_load/"/>
     <contextParameter comment="" name="DB_AMC_Database" prompt="DB_AMC_Database?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc_dev"/>
     <contextParameter comment="" name="DB_AMC_Login" prompt="DB_AMC_Login?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc"/>
     <contextParameter comment="" name="DB_AMC_Password" prompt="DB_AMC_Password?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="Syn@ltic!2016"/>
@@ -179,7 +179,6 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'alimentation des fichiers bulk: &quot; + context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot; + &quot;ES_vehicle_BulkLoadXXX.json&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -188,7 +187,6 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="704">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Début de l'envoi des fichiers bulk vers ElasticSearch...&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -197,7 +195,6 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1376">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_4" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'envoi des fichiers bulk vers ElasticSearch. Veuillez consulter les fichiers *.log dans le répertoire &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -206,7 +203,6 @@
   </node>
   <node componentName="tFileList" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="960">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileList_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.bulkFile_Input_File_Path + &quot;/&quot; + jobName"/>
     <elementParameter field="CLOSED_LIST" name="LIST_MODE" value="FILES"/>
     <elementParameter field="CHECK" name="INCLUDSUBDIR" value="false"/>
@@ -229,7 +225,6 @@
   </node>
   <node componentName="tFileInputRaw" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="960">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputRaw_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
     <elementParameter field="RADIO" name="AS_STRING" value="true"/>
     <elementParameter field="RADIO" name="AS_BYTEARRAY" value="false"/>
@@ -244,7 +239,6 @@
   </node>
   <node componentName="tConvertType" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="480" posY="960">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tConvertType_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="AUTOCAST" value="false"/>
     <elementParameter field="TABLE" name="MANUALTABLE">
       <elementValue elementRef="INPUT_COLUMN" value="content"/>
@@ -264,7 +258,6 @@
   </node>
   <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="960">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTClient_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="URL" value="&quot;http://&quot;+context.ELK_Server+&quot;:&quot; + context.ELK_Port+ &quot;/_bulk&quot;"/>
     <elementParameter field="TEXT" name="PATH" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="METHOD" value="PUT"/>
@@ -320,7 +313,6 @@
   </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="960">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;)).replace(&quot;.json&quot;, &quot;_response.log&quot;)"/>
@@ -357,7 +349,6 @@
   </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="1120">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;)).replace(&quot;.json&quot;, &quot;_error.log&quot;)"/>
@@ -393,7 +384,6 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1504">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_5" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Lancement de l'archivage de l'ensemble des fichiers bulk (.json / .log) contenus dans répertoire : &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -402,7 +392,6 @@
   </node>
   <node componentName="tWarn" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1760">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWarn_6" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="MESSAGE" value="&quot;Fin de l'archivage de l'ensemble des fichiers bulk (.json / .log) contenus dans répertoire : &quot; +context.bulkFile_Input_File_Path + &quot;/&quot; + jobName + &quot;/&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="42"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="3"/>
@@ -411,7 +400,6 @@
   </node>
   <node componentName="tSystem" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1632">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSystem_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="ROOTDIR" value="true"/>
     <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.bulkFile_Input_File_Path + jobName"/>
     <elementParameter field="RADIO" name="USE_SINGLE_COMMAND" value="true"/>
@@ -462,7 +450,7 @@
   <node componentName="ELK_before_bulk" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ELK_before_bulk_1"/>
     <elementParameter field="TEXT" name="FAMILY" value="Joblets"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="CHECK" name="DUMMY" value="false" show="false"/>
     <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
     <elementParameter field="CHECK" name="START" value="false" show="false"/>
@@ -478,7 +466,7 @@
   <node componentName="ELK_after_bulk" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="1248">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ELK_after_bulk_1"/>
     <elementParameter field="TEXT" name="FAMILY" value="Joblets"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="CHECK" name="DUMMY" value="false" show="false"/>
     <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
     <elementParameter field="CHECK" name="START" value="false" show="false"/>
@@ -510,7 +498,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;master_gid\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;vin_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;kind\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_end_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;last_mileage_known\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;SURVIVOR\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;CONFLICT\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;&#xD;&#xA;WHERE \&quot;SURVIVOR\&quot; = true LIMIT 10000&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;master_gid\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;vin_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;model\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;version\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;kind\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;energy\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;color\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_start_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;circulation_end_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;last_mileage_known\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;SURVIVOR\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;CONFLICT\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;&#xD;&#xA;WHERE \&quot;SURVIVOR\&quot; = true&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -773,9 +761,6 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
-    <metadata connector="FLOW" name="out1">
-      <column comment="" key="false" length="255" name="registration_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
@@ -807,9 +792,6 @@
         <mapperTableEntries name="registration_number_norm" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row14.registration_number_norm)" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_date" expression="row14.registration_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="end_date" expression="row14.end_date" type="id_Date" nullable="true"/>
-      </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="out1">
-        <mapperTableEntries name="registration_number_norm" expression="row14.registration_number_norm " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="META_ID" type="id_String"/>
@@ -1396,81 +1378,46 @@
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="544">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
-    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
-    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
-    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
-    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
-    <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="registration_number_norm"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tLogRow_1">
-      <column comment="" key="false" length="255" name="registration_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_1" offsetLabelX="0" offsetLabelY="0" source="tWarn_1" target="tPostgresqlInput_5">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_2" offsetLabelX="0" offsetLabelY="0" source="tWarn_2" target="tWarn_3">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_3" offsetLabelX="0" offsetLabelY="0" source="tWarn_3" target="ELK_before_bulk_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk12" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_4" offsetLabelX="0" offsetLabelY="0" source="tWarn_4" target="tWarn_5">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk5" show="false"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tFileInputRaw_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="ELK_after_bulk_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tFileInputRaw_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputRaw_1" target="tConvertType_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tConvertType_1" offsetLabelX="0" offsetLabelY="0" source="tConvertType_1" target="tRESTClient_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FAULT" label="row2" lineStyle="0" metaname="FAULT" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tFileOutputDelimited_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tRESTClient_1" target="tFileOutputDelimited_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tWarn_5" offsetLabelX="0" offsetLabelY="0" source="tWarn_5" target="tSystem_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk6" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tSystem_2" offsetLabelX="0" offsetLabelY="0" source="tSystem_2" target="tWarn_6">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk4" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_1" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_1" target="tLibraryLoad_2">
@@ -1486,11 +1433,9 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk11" show="false"/>
   </connection>
   <connection connectorName="TRIGGER_OUTPUT_1" label="OnSubjobOk (TRIGGER_OUTPUT_1)" lineStyle="1" metaname="ELK_before_bulk_1" offsetLabelX="0" offsetLabelY="0" source="ELK_before_bulk_1" target="tFileList_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk13" show="false"/>
   </connection>
   <connection connectorName="TRIGGER_OUTPUT_1" label="OnSubjobOk (TRIGGER_OUTPUT_1)" lineStyle="1" metaname="ELK_after_bulk_1" offsetLabelX="0" offsetLabelY="0" source="ELK_after_bulk_1" target="tWarn_4">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk14" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="tPostgresqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_5" target="tMap_1">
@@ -1498,7 +1443,6 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_5" target="tWarn_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out3" lineStyle="0" metaname="out3" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMap_4">
@@ -1514,13 +1458,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row82" lineStyle="0" metaname="row82" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_4" target="tReplace_1">
+  <connection connectorName="FLOW" label="row82" lineStyle="0" metaname="row82" offsetLabelX="0" offsetLabelY="0" source="tMap_4" target="tReplace_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row82" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_4" target="tLogRow_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row13" lineStyle="8" metaname="tPostgresqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_7" target="tMap_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
