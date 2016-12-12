@@ -311,8 +311,8 @@
     <metadata comment="" connector="FLOW" label="norm_physical_person_address" name="norm_physical_person_address_ok">
       <column comment="" key="false" length="255" name="process_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_category" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_moment" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="load_process_moment" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -342,14 +342,13 @@
         <mapperTableEntries name="streetNumber" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? Synaltic_DQ.FindStreetNumber(from_cartegie.ADRESSE4_CHARADE):&quot;&quot;&#xD;&#xA;&#xD;&#xA;/*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)&#xD;&#xA;&amp;&amp; !&quot;&quot;.equals(Synaltic_DQ.FindStreetNumber(from_cartegie.RNVP_ADR4))*/ " type="id_String"/>
         <mapperTableEntries name="route_Short" expression="(from_cartegie.ADRESSE4_CHARADE != null ) ? from_cartegie.ADRESSE4_CHARADE : &quot;&quot;&#xD;&#xA;&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.ADRESSE4_CHARADE)*/&#xD;&#xA; /*&amp;&amp; !&quot;&quot;.equals(from_cartegie.RNVP_ADR4)*/ " type="id_String"/>
         <mapperTableEntries name="process_load_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
-        <mapperTableEntries name="process_moment" expression="(physical_person_address.meta_creation_date != null)? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, physical_person_address.meta_creation_date): null " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="norm_physical_person_address_ok">
         <mapperTableEntries name="process_type" expression="&quot;DEMENAGEMENT&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_category" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_application_name" expression="physical_person_address.meta_application_name " type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_application_brand" expression="physical_person_address.meta_brand_source " type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_process_moment" expression="Var.process_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_application_brand" expression="from_cartegie.SourceBrand " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_application_name" expression="from_cartegie.SourceApp " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_moment" expression="&quot;2016-11-30 11:30:00&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="load_process_moment" expression="Var.process_load_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="src_process_id" expression="from_cartegie.SourceID " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_id" expression="from_cartegie.SourceID " type="id_String" nullable="true"/>
