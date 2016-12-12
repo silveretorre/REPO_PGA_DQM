@@ -449,6 +449,7 @@
         <mapperTableEntries name="hasName" expression="ttOTCab.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(ttOTCab.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
+        <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="null != ttOTCab.STATUS &amp;&amp; !(&quot;&quot;.equals(ttOTCab.STATUS)) &amp;&amp; ttOTCab.STATUS.intValue() == 40 " type="id_Boolean"/>
@@ -506,8 +507,8 @@
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="unemployed" expression="( null != tgCliente.PROFESION ) ? ( &quot;16&quot;.equals(tgCliente.PROFESION) ? true : false ) : false " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="network_name" expression="&quot;FACEBOOK&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="network_name" expression="null != Var.profile_id ? &quot;FACEBOOK&quot; : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profile_id" expression="Var.profile_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="( null != ttOTCab.VEHICULO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.VEHICULO))) ? &#xD;&#xA;String.valueOf(ttOTCab.VEHICULO.intValue())&#xD;&#xA;: &quot;0&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
@@ -2375,7 +2376,7 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="filtered" rejectInnerJoin="true">
         <mapperTableEntries name="process_type" expression="data.process_type" type="id_String"/>
@@ -3413,7 +3414,7 @@
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
-    <elementParameter field="IMAGE" name="PREVIEW" value="_tv8c0JRsEealdpznCUDRpA-tMap_3-PREVIEW.bmp"/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_v9ItIJRsEealdpznCUDRpA-tMap_4-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
