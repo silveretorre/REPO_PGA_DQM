@@ -508,7 +508,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + &quot;_&quot; + String.valueOf(tcPresupuesto.NUMINTERNO.intValue())" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -516,17 +516,23 @@
         <mapperTableEntries name="date2007plus" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ?&#xD;&#xA;(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) : false " type="id_Boolean"/>
         <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : &quot;NA&quot; " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
+        <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
+        <mapperTableEntries name="dealership_id" type="id_String"/>
+        <mapperTableEntries name="dealership_city" type="id_String"/>
+        <mapperTableEntries name="dealership_zipcode" type="id_String"/>
+        <mapperTableEntries name="dealership_label" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;BMW&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;BMW&quot; ) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="&quot;BMWMINI&quot;" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="Var.src_application_brand " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="(null != Var.ID &amp;&amp; !(&quot;&quot;.equals(Var.ID)))? &#xD;&#xA;String.valueOf(Var.ID)&#xD;&#xA;: &quot;NA&quot; " type="id_String"/>
@@ -565,10 +571,10 @@
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="unemployed" expression="( null != tgCliente.PROFESION ) ? ( &quot;16&quot;.equals(tgCliente.PROFESION) ? true : false ) : false " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="network_name" expression="&quot;FACEBOOK&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK) &amp;&amp;&#xD;&#xA;tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ? (( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : &quot;NA&quot; ) : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="network_name" expression="null != Var.profile_id ? &quot;FACEBOOK&quot; : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profile_id" expression="Var.profile_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="( null != tcPresupuesto.VEHICULO &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VEHICULO))) ? &#xD;&#xA;String.valueOf(tcPresupuesto.VEHICULO.intValue())&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="( null != tcPresupuesto.VEHICULO &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VEHICULO))) ? &#xD;&#xA;String.valueOf(tcPresupuesto.VEHICULO.intValue())&#xD;&#xA;: &quot;0&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression="( null != tgModelo.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModelo.DESCRIP))) ? &#xD;&#xA;tgModelo.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
@@ -3880,7 +3886,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="filtered" rejectInnerJoin="true">
         <mapperTableEntries name="process_type" expression="data.process_type" type="id_String"/>
@@ -4311,7 +4317,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
