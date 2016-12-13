@@ -481,10 +481,10 @@
         <mapperTableEntries name="is_sold" expression="( null != tcVeh.STATUS &amp;&amp; !(&quot;&quot;.equals(tcVeh.STATUS)) &amp;&amp; tcVeh.STATUS.intValue() == 30) ? true : false " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="( null != tcVeh.ESVO &amp;&amp; tcVeh.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_id" type="id_String"/>
-        <mapperTableEntries name="dealership_city" type="id_String"/>
-        <mapperTableEntries name="dealership_zipcode" type="id_String"/>
-        <mapperTableEntries name="dealership_label" type="id_String"/>
+        <mapperTableEntries name="dealership_id" expression="null == (tgPtoVenta.EMP) || (&quot;&quot;.equals(tgPtoVenta.EMP)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;null : tgPtoVenta.ORGANIS&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;tgPtoVenta.EMP : (tgPtoVenta.EMP+&quot;_&quot;+tgPtoVenta.ORGANIS).trim()&#xD;&#xA;) " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ? &#xD;&#xA;tgPoblaEmp.DESCRIP&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_zipcode" expression="( null != tgEmpresa.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.CPOSTAL))) ? &#xD;&#xA;tgEmpresa.CPOSTAL&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ? &#xD;&#xA;tgOrganis.DESCRIP&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="( null != tcVeh.ESVO &amp;&amp; tcVeh.ESVO.intValue() == 1 ) ? &quot;MERCEDES&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;MERCEDES&quot; ) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
@@ -734,14 +734,14 @@
         <mapperTableEntries name="CODIGO" expression="null != tcVehFactur.MODOPAGO &amp;&amp; !&quot;&quot;.equals(tcVehFactur.MODOPAGO) ? tcVehFactur.MODOPAGO : String.valueOf(9) " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_String"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tgPuntoVenta" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tgPtoVenta" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcVehFactur.EMP " type="id_String"/>
         <mapperTableEntries name="PUNTOVENTA" expression="tcVehFactur.PTOVTADESTINOTRAS " type="id_String"/>
         <mapperTableEntries name="ORGANIS" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgOrganis" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcVehFactur.EMP " type="id_String"/>
-        <mapperTableEntries name="ORGANIS" expression="tgPuntoVenta.ORGANIS " type="id_String" operator="="/>
+        <mapperTableEntries name="ORGANIS" expression="tgPtoVenta.ORGANIS " type="id_String" operator="="/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -5124,9 +5124,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="tgPuntoVenta" lineStyle="8" metaname="tOracleInput_8" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_8" target="tMap_1">
+  <connection connectorName="FLOW" label="tgPtoVenta" lineStyle="8" metaname="tOracleInput_8" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_8" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPuntoVenta" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPtoVenta" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="tgOrganis" lineStyle="8" metaname="tOracleInput_9" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_9" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
