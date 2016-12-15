@@ -575,12 +575,13 @@
         <mapperTableEntries name="phone_number" expression="(null != tiers.TelephonePortable &amp;&amp; !(&quot;&quot;.equals(tiers.TelephonePortable)))? tiers.TelephonePortable : (null != tiers.TelephoneFixe &amp;&amp; !(&quot;&quot;.equals(tiers.TelephoneFixe)))? tiers.TelephoneFixe : null " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != tiers.TelephonePortable &amp;&amp; !(&quot;&quot;.equals(tiers.TelephonePortable)))? &quot;MOBILE&quot; : (null != tiers.TelephoneFixe &amp;&amp; !(&quot;&quot;.equals(tiers.TelephoneFixe)))? &quot;FIXE&quot; : null " type="id_String"/>
         <mapperTableEntries name="process_category" expression="contrats.booVN_Ct ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
+        <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
         <mapperTableEntries name="dealership_id" expression="( null != concessions.CodeConcession &amp;&amp; !(&quot;&quot;.equals(concessions.CodeConcession))) ? concessions.CodeConcession : null " type="id_String"/>
         <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? concessions.Ville_Conces : null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != concessions.CP_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.CP_Conces))) ? String.format(&quot;%05d&quot;, concessions.CP_Conces) : null " type="id_String"/>
         <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? concessions.Denomination_Conces : null " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="!&quot;0&quot;.equals(Var.ID)" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="!&quot;0&quot;.equals(Var.ID) &amp;&amp; Var.groupePGA " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SC_RENEWAL&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SECURYWEB&quot;" type="id_String"/>
