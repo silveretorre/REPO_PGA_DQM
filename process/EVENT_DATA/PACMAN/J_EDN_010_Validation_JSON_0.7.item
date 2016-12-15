@@ -38,7 +38,7 @@
     <elementParameter field="CHECK" name="LOG4J_RUN_ACTIVATE" value="true" show="false"/>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="100" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="96" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -546,7 +546,7 @@
       <column comment="" key="false" length="-1" name="event" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="false"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="headerElementValue_KO" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="columnName" expression="headerElementName_OK.columnName " type="id_String" nullable="true"/>
@@ -707,26 +707,26 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="schemaError" name="schemaError">
-      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
     <metadata connector="FLOW" name="schemavalid">
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" label="schemaError" name="schemaError">
+      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="isValid" expression="SynalticJson.jsonIsValid(row4.body, row15.json_schema) " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="schemaError" expressionFilter="!&quot;OK&quot;.equals(Var.isValid) " activateExpressionFilter="true">
-        <mapperTableEntries name="body" expression="row4.body " type="id_String" nullable="true"/>
-        <mapperTableEntries name="status" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
-      </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="schemavalid" expressionFilter="&quot;OK&quot;.equals(Var.isValid)" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="schemavalid" expressionFilter="&quot;OK&quot;.equals(Var.isValid)" activateExpressionFilter="true" activateCondensedTool="true">
         <mapperTableEntries name="body" expression="row4.body " type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="schemaError" activateCondensedTool="true" reject="true">
+        <mapperTableEntries name="body" expression="row4.body " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="body" type="id_String" nullable="true"/>
@@ -967,7 +967,19 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row15" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="schemaError" lineStyle="0" metaname="schemaError" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tLogRow_4">
+  <connection connectorName="FLOW" label="schemavalid" lineStyle="0" metaname="schemavalid" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tLogRow_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="body"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="schemavalid" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="schemaError" lineStyle="0" metaname="schemaError" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tLogRow_4">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="errorMessage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -984,18 +996,6 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="schemaError" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="schemavalid" lineStyle="0" metaname="schemavalid" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tLogRow_3">
-    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
-      <elementValue elementRef="TRACE_COLUMN" value="body"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="status"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="schemavalid" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tLogRow_3" offsetLabelX="0" offsetLabelY="0" source="tLogRow_3" target="tRouteOutput_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
