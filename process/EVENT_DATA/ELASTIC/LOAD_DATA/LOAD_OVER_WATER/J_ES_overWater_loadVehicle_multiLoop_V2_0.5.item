@@ -1046,13 +1046,14 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;//output_row.json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;//output_row.json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();&#xA;&#xA;output_row.string = output_row.head + output_row.json;&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="Extract_then_delete&lt;br>&lt;head>"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out5" name="tJavaRow_2">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="json" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1856" posY="416">
@@ -1069,6 +1070,9 @@
     <metadata connector="FLOW" name="copyOfout1">
       <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="out1">
+      <column comment="" key="false" length="-1" name="string" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
@@ -1078,9 +1082,13 @@
       <outputTables sizeState="INTERMEDIATE" name="copyOfout2" isJoinTableOf="copyOfout1">
         <mapperTableEntries name="string" expression="row12.json " type="id_String" nullable="true"/>
       </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="out1">
+        <mapperTableEntries name="string" expression="row12.string " type="id_String" nullable="true"/>
+      </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row12" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
         <mapperTableEntries name="json" type="id_String" nullable="true"/>
+        <mapperTableEntries name="string" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1797,12 +1805,17 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row10" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tJavaRow_2" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_2" target="tMap_5">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="string"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="copyOfout1" lineStyle="0" metaname="copyOfout1" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tRESTClient_1">
+  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tRESTClient_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="tRESTClient_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tJavaRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
