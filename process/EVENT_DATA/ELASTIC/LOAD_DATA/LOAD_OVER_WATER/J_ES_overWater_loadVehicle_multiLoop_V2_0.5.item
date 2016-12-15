@@ -1046,7 +1046,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="/*&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;//output_row.json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();&#xA;*/&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();&#xA;&#xA;&#xA;{&quot;index&quot; : {&quot;_index&quot; : &quot;all&quot;,&quot;_type&quot;:&quot;vehicle&quot;,  &quot;_id&quot; : &quot;5034e221-e21c-40e5-8401-89717c8cfe41&quot;}}&#xA;output_row.string = output_row.head +&quot;\r\n&quot;+ output_row.json;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="/*&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;//output_row.json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();&#xA;*/&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.head);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;vehicle&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;vehicle&quot;)).remove(&quot;head&quot;);&#xA;&#xA;ObjectMapper mapper2 = new ObjectMapper();&#xA;JsonNode root2 = mapper2.readTree(head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim());&#xA;&#xA;output_row.index = root2.path(&quot;index&quot;).path(&quot;_index&quot;).asText();&#xA;output_row.type = root2.path(&quot;index&quot;).path(&quot;_type&quot;).asText();&#xA;output_row.id = root2.path(&quot;index&quot;).path(&quot;_id&quot;).asText();&#xA;output_row.json = mapper.writeValueAsString(root);&#xA;&#xA;System.out.println(output_row.index+output_row.type+output_row.id);&#xA;System.out.println(output_row.json);"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="Extract_then_delete&lt;br>&lt;head>"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1070,7 +1070,7 @@
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="string"/>
-      <elementValue elementRef="VALUE" value=""/>
+      <elementValue elementRef="VALUE" value="((String)globalMap.get(&quot;row12.json&quot;))"/>
     </elementParameter>
     <elementParameter field="RADIO" name="USE_INTABLE" value="false"/>
     <elementParameter field="TABLE" name="INTABLE" show="false"/>
@@ -1085,7 +1085,7 @@
   </node>
   <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1376" posY="896">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTClient_3" show="false"/>
-    <elementParameter field="TEXT" name="URL" value="&quot;http://&quot;+context.ELK_Server+&quot;:&quot; + context.ELK_Port+ &quot;/_bulk&quot;"/>
+    <elementParameter field="TEXT" name="URL" value="&quot;http://&quot;+context.ELK_Server+&quot;:&quot; + context.ELK_Port+ &quot;/&quot;+((String)globalMap.get(&quot;row12.index&quot;))+&quot;/&quot;+((String)globalMap.get(&quot;row12.type&quot;))+&quot;/&quot;+((String)globalMap.get(&quot;row12.id&quot;))"/>
     <elementParameter field="TEXT" name="PATH" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="METHOD" value="PUT"/>
     <elementParameter field="CLOSED_LIST" name="CONTENT_TYPE" value="application/json"/>
@@ -1331,6 +1331,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1856" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_5" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -1362,6 +1363,7 @@
   </node>
   <node componentName="tRESTClient" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2048" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTClient_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="URL" value="&quot;http://&quot;+context.ELK_Server+&quot;:&quot; + context.ELK_Port+ &quot;/_bulk&quot;"/>
     <elementParameter field="TEXT" name="PATH" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="METHOD" value="PUT"/>
@@ -1417,6 +1419,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2240" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.CodeRetour = input_row.errorCode;&#xD;&#xA;output_row.Message = input_row.errorMessage;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1427,6 +1430,7 @@
   </node>
   <node componentName="tBufferOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2432" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tBufferOutput_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="Result_KO"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tBufferOutput_3">
@@ -1436,6 +1440,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2240" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.CodeRetour = input_row.statusCode;&#xD;&#xA;output_row.Message = input_row.string;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1446,6 +1451,7 @@
   </node>
   <node componentName="tBufferOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2432" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tBufferOutput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="Result_OK"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tBufferOutput_2">
@@ -1455,6 +1461,7 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2592" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -1482,6 +1489,7 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1984" posY="768">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -1506,7 +1514,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2080" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="((String)globalMap.get(&quot;row12.index&quot;))&#xA;((String)globalMap.get(&quot;row12.type&quot;))&#xA;((String)globalMap.get(&quot;row12.id&quot;))&#xA;((String)globalMap.get(&quot;row12.json&quot;))"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="((String)globalMap.get(&quot;row12.index&quot;))+&quot;/&quot;+((String)globalMap.get(&quot;row12.type&quot;))+&quot;/&quot;+((String)globalMap.get(&quot;row12.id&quot;))&#xA;((String)globalMap.get(&quot;row12.json&quot;))"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_1"/>
@@ -2190,18 +2198,22 @@
   </connection>
   <connection connectorName="FLOW" label="copyOfout1" lineStyle="0" metaname="copyOfout1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_5" target="tRESTClient_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out2" lineStyle="0" metaname="out2" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_5" target="tLogRow_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out2" show="false"/>
   </connection>
   <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="tRESTClient_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tRESTClient_1" target="tJavaRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FAULT" label="row2" lineStyle="0" metaname="tRESTClient_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tRESTClient_1" target="tJavaRow_4">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tJavaRow_4" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_4" target="tBufferOutput_3">
@@ -2214,14 +2226,17 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tBufferOutput_3" offsetLabelX="0" offsetLabelY="0" source="tBufferOutput_3" target="tLogRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tBufferOutput_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
   <note opaque="true" posX="288" posY="-448" sizeHeight="225" sizeWidth="929" text="Initial vehicle load in ElasticSearch (with Bulk Load mode)&#xD;&#xA;&#xD;&#xA;v0.1 (2016/09/20) - GMA : first version.&#xD;&#xA;v0.4 (03/10/2016) - SMA : Put all vehicle in the same index (all)&#xD;&#xA;">
