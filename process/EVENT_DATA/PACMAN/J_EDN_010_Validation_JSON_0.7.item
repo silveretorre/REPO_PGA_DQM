@@ -38,7 +38,7 @@
     <elementParameter field="CHECK" name="LOG4J_RUN_ACTIVATE" value="true" show="false"/>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="96" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="100" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -356,7 +356,7 @@
     <elementParameter field="CLOSED_LIST" name="LOGICAL_OP" value="&amp;&amp;"/>
     <elementParameter field="TABLE" name="CONDITIONS"/>
     <elementParameter field="CHECK" name="USE_ADVANCED" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="ADVANCED_COND" value="// code sample : use input_row to define the condition.&#xA;// input_row.columnName1.equals(&quot;foo&quot;) ||!(input_row.columnName2.equals(&quot;bar&quot;))&#xA;// replace the following expression by your own filter condition &#xA;input_row.payload != null &amp;&amp; input_row.payload.trim().length() > 0&#xA;&#x9;&#x9;&#x9;"/>
+    <elementParameter field="MEMO_JAVA" name="ADVANCED_COND" value="// code sample : use input_row to define the condition.&#xA;// input_row.columnName1.equals(&quot;foo&quot;) ||!(input_row.columnName2.equals(&quot;bar&quot;))&#xA;// replace the following expression by your own filter condition &#xA;input_row.body != null &amp;&amp; input_row.body.trim().length() > 0&#xA;&#x9;&#x9;&#x9;"/>
     <elementParameter field="TEXT" name="LABEL" value="not empty"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFilterRow_28">
@@ -372,7 +372,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="192" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;globalMap.put(&quot;fullJsonEvent&quot;,null);&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.payload);&#xA;&#xA;//Génération Process UUID&#xA;String process_uuid = Synaltic_UUID.getNewUUID();&#xA;&#xA;globalMap.put(&quot;processUuid&quot;, process_uuid);&#xA;&#xA;//context.CurrentProcessUuid=globalMap.get(&quot;&quot;);&#xA;&#xA;// Rajout de l'attribut process_uuid dans le header de l'event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;header&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_uuid&quot;, process_uuid);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;globalMap.put(&quot;fullJsonEvent&quot;,output_row.body);&#xA;&#xA;root = null;&#xA;mapper = null;&#xA;&#xA;//On réinitialise le process_type&#xA;globalMap.put(&quot;processType&quot;, null);&#xA;globalMap.put(&quot;processStatus&quot;,null);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;globalMap.put(&quot;fullJsonEvent&quot;,null);&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.body);&#xA;&#xA;//Génération Process UUID&#xA;String process_uuid = Synaltic_UUID.getNewUUID();&#xA;&#xA;globalMap.put(&quot;processUuid&quot;, process_uuid);&#xA;&#xA;//context.CurrentProcessUuid=globalMap.get(&quot;&quot;);&#xA;&#xA;// Rajout de l'attribut process_uuid dans le header de l'event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;header&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_uuid&quot;, process_uuid);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;globalMap.put(&quot;fullJsonEvent&quot;,output_row.body);&#xA;&#xA;root = null;&#xA;mapper = null;&#xA;&#xA;//On réinitialise le process_type&#xA;globalMap.put(&quot;processType&quot;, null);&#xA;globalMap.put(&quot;processStatus&quot;,null);"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="add process_uuid"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -475,7 +475,7 @@
       <column comment="" key="false" length="-1" name="event" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="false"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="headerElementName_OK">
         <mapperTableEntries name="columnName" expression="header.columnName " type="id_String" nullable="true"/>
@@ -546,7 +546,7 @@
       <column comment="" key="false" length="-1" name="event" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" type="id_String" usefulColumn="false"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="headerElementValue_KO" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="columnName" expression="headerElementName_OK.columnName " type="id_String" nullable="true"/>
@@ -716,7 +716,7 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="isValid" expression="SynalticJson.jsonIsValid(row4.body, row15.json_schema) " type="id_String"/>
       </varTables>
