@@ -520,14 +520,14 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="tcPresupuesto.EMP + &quot;_&quot; + String.valueOf(tcPresupuesto.NUMINTERNO.intValue())" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="date2007plus" expression="( null != tcPresupuesto.FECHAAPERT &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAAPERT))) ?&#xD;&#xA;(TalendDate.compareDate( tcPresupuesto.FECHAAPERT, TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2006-12-31 23:59:59&quot;) ) == 1 ) : false " type="id_Boolean"/>
-        <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : &quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : &quot;NA&quot; " type="id_String"/>
+        <mapperTableEntries name="phone_number" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? tgCliente.NUMGSM : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? tgCliente.NUMTEL1 : null " type="id_String"/>
+        <mapperTableEntries name="phone_type" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM)))? &quot;MOBILE&quot;:(null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? &quot;FIXE&quot; : null " type="id_String"/>
         <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( !( tgCliente.PROTECTSMS==null ) ? ( tgCliente.PROTECTSMS.intValue()==0 ? true : false ) : true ) : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="(null != tgCliente.NUMGSM &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMGSM )))? ( tgCliente.PROTECTNUMGSM==null ) ? true : ( tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false )  : (null != tgCliente.NUMTEL1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.NUMTEL1)))? ( tgCliente.PROTECTNUMTEL1==null ) ? true : ( tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false ) : true " type="id_Boolean"/>
@@ -536,7 +536,7 @@
         <mapperTableEntries name="process_category" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
         <mapperTableEntries name="dealership_id" type="id_String"/>
         <mapperTableEntries name="dealership_city" type="id_String"/>
-        <mapperTableEntries name="dealership_zipcode" expression="errrrr; NOT YET FINISHED!!; errrr;" type="id_String"/>
+        <mapperTableEntries name="dealership_zipcode" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_label" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;BMW&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;BMW&quot; ) " type="id_String"/>
       </varTables>
@@ -547,92 +547,92 @@
         <mapperTableEntries name="src_application_brand" expression="Var.src_application_brand " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
-        <mapperTableEntries name="src_process_id" expression="(null != Var.ID &amp;&amp; !(&quot;&quot;.equals(Var.ID)))? &#xD;&#xA;String.valueOf(Var.ID)&#xD;&#xA;: &quot;NA&quot; " type="id_String"/>
-        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="p_dealership_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="p_dealership_city" type="id_String" nullable="true"/>
-        <mapperTableEntries name="p_dealership_zipcode" type="id_String" nullable="true"/>
-        <mapperTableEntries name="p_dealership_label" type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
+        <mapperTableEntries name="person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != tgCliente.FECHANACIM &amp;&amp; !(&quot;&quot;.equals(tgCliente.FECHANACIM))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgCliente.FECHANACIM)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="license_number" expression="( null != tgCliente.PERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERMISO))) ? &#xD;&#xA;tgCliente.PERMISO&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_license" expression="( null != tgCliente.ENTREGAPERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.ENTREGAPERMISO))) ? &#xD;&#xA;tgCliente.ENTREGAPERMISO&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="license_number" expression="( null != tgCliente.PERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERMISO))) ? &#xD;&#xA;tgCliente.PERMISO&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" expression="( null != tgCliente.ENTREGAPERMISO &amp;&amp; !(&quot;&quot;.equals(tgCliente.ENTREGAPERMISO))) ? &#xD;&#xA;tgCliente.ENTREGAPERMISO&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="deceased" expression="( ( tgCliente.BAJA != null &amp;&amp; tgCliente.BAJAMOT != null ) &amp;&amp; tgCliente.BAJA.intValue() == 1 &amp;&amp; &quot;DC&quot;.equals(tgCliente.BAJAMOT) ) ? true : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="language_code" expression="( null != tyIdioma.ISO639 &amp;&amp; !(&quot;&quot;.equals(tyIdioma.ISO639))) ? &#xD;&#xA;tyIdioma.ISO639&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL.intValue() != 0 ? String.valueOf( tgCliente.DIRPORTAL.intValue() ) : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="( &#xD;&#xA;null == (tgVia.DESCRIPLARGO) || (&quot;&quot;.equals(tgVia.DESCRIPLARGO)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgCliente.DIRCALLE) || (&quot;&quot;.equals(tgCliente.DIRCALLE)) ?&#xD;&#xA;&quot;NA&quot; : tgCliente.DIRCALLE&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgCliente.DIRCALLE) || (&quot;&quot;.equals(tgCliente.DIRCALLE)) ?&#xD;&#xA;tgVia.DESCRIPLARGO : tgVia.DESCRIPLARGO+&quot; &quot;+tgCliente.DIRCALLE &#xD;&#xA;)&#xD;&#xA;).trim() " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != tgPobla.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPobla.DESCRIP))) ? &#xD;&#xA;tgPobla.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="sublocality" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea1" expression="( null != tgNumDup.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgNumDup.DESCRIP))) ? &#xD;&#xA;tgNumDup.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea2" expression="( null != tgCliente.DIRRESTO &amp;&amp; !(&quot;&quot;.equals(tgCliente.DIRRESTO))) ? &#xD;&#xA;tgCliente.DIRRESTO&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea3" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country" expression="( null != tgPais.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPais.DESCRIP))) ? &#xD;&#xA;tgPais.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="postal_code" expression="( null != tgCliente.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgCliente.CPOSTAL))) ? &#xD;&#xA;tgCliente.CPOSTAL&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="address" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_code" expression="( null != tyIdioma.ISO639 &amp;&amp; !(&quot;&quot;.equals(tyIdioma.ISO639))) ? &#xD;&#xA;tyIdioma.ISO639&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="null != tgCliente.DIRPORTAL &amp;&amp; tgCliente.DIRPORTAL.intValue() != 0 ? String.valueOf( tgCliente.DIRPORTAL.intValue() ) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="null == (tgVia.DESCRIPLARGO) || (&quot;&quot;.equals(tgVia.DESCRIPLARGO)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgCliente.DIRCALLE) || (&quot;&quot;.equals(tgCliente.DIRCALLE)) ?&#xD;&#xA;null : tgCliente.DIRCALLE&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgCliente.DIRCALLE) || (&quot;&quot;.equals(tgCliente.DIRCALLE)) ?&#xD;&#xA;tgVia.DESCRIPLARGO : (tgVia.DESCRIPLARGO+&quot; &quot;+tgCliente.DIRCALLE).trim() &#xD;&#xA;) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != tgPobla.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPobla.DESCRIP))) ? &#xD;&#xA;tgPobla.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea1" expression="( null != tgNumDup.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgNumDup.DESCRIP))) ? &#xD;&#xA;tgNumDup.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="( null != tgCliente.DIRRESTO &amp;&amp; !(&quot;&quot;.equals(tgCliente.DIRRESTO))) ? &#xD;&#xA;tgCliente.DIRRESTO&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea3" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country" expression="( null != tgPais.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPais.DESCRIP))) ? &#xD;&#xA;tgPais.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" expression="( null != tgCliente.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgCliente.CPOSTAL))) ? &#xD;&#xA;tgCliente.CPOSTAL&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="address" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="email" expression="( null != tgCliente.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgCliente.EMAIL))) ? &#xD;&#xA;tgCliente.EMAIL&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email" expression="( null != tgCliente.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgCliente.EMAIL))) ? &#xD;&#xA;tgCliente.EMAIL&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="(null!=tgCliente.PROTECTMAIL &amp;&amp; !(&quot;&quot;.equals(tgCliente.PROTECTMAIL)) &amp;&amp; tgCliente.PROTECTMAIL.intValue()==0) ? true : false " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="email_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="( null != Var.phone_number &amp;&amp; !(&quot;&quot;.equals(Var.phone_number))) ? &#xD;&#xA;Var.phone_number&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="( null != Var.phone_type  &amp;&amp; !(&quot;&quot;.equals(Var.phone_type ))) ? &#xD;&#xA;Var.phone_type &#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="Var.phone_number " type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="Var.phone_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="Var.is_reachable_sms " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="Var.is_reachable_phone " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="activity_area" expression="( null != tgSectorActividad.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgSectorActividad.DESCRIP))) ? &#xD;&#xA;tgSectorActividad.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="profession" expression="( null != tgProfesion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgProfesion.DESCRIP))) ? &#xD;&#xA;tgProfesion.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="activity_area" expression="( null != tgSectorActividad.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgSectorActividad.DESCRIP))) ? &#xD;&#xA;tgSectorActividad.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession" expression="( null != tgProfesion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgProfesion.DESCRIP))) ? &#xD;&#xA;tgProfesion.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="unemployed" expression="( null != tgCliente.PROFESION ) ? ( &quot;16&quot;.equals(tgCliente.PROFESION) ? true : false ) : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="network_name" expression="null != Var.profile_id ? &quot;FACEBOOK&quot; : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="profile_id" expression="Var.profile_id " type="id_String" nullable="true"/>
-        <mapperTableEntries name="url" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="url" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="( null != tcPresupuesto.VEHICULO &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VEHICULO))) ? &#xD;&#xA;String.valueOf(tcPresupuesto.VEHICULO.intValue())&#xD;&#xA;: &quot;0&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="v_dealership_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="v_dealership_city" type="id_String" nullable="true"/>
-        <mapperTableEntries name="v_dealership_zipcode" type="id_String" nullable="true"/>
-        <mapperTableEntries name="v_dealership_label" type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand" expression="( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="( null != tgModelo.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModelo.DESCRIP))) ? &#xD;&#xA;tgModelo.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" expression="( null != tgVersion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgVersion.DESCRIP))) ? &#xD;&#xA;tgVersion.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind" expression="( null != tgCategoria.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCategoria.DESCRIP))) ? tgCategoria.DESCRIP : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="( null != tcVeh.CHASIS &amp;&amp; !(&quot;&quot;.equals(tcVeh.CHASIS))) ? tcVeh.CHASIS : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy" expression="( null != tgCombustible.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCombustible.DESCRIP))) ? &#xD;&#xA;tgCombustible.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="color" expression="( null != tcColor.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tcColor.DESCRIP))) ? &#xD;&#xA;tcColor.DESCRIP&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="national_identification_type" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="family" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="( null != tgModelo.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModelo.DESCRIP))) ? &#xD;&#xA;tgModelo.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="( null != tgVersion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgVersion.DESCRIP))) ? &#xD;&#xA;tgVersion.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="( null != tgCategoria.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCategoria.DESCRIP))) ? tgCategoria.DESCRIP : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="( null != tcVeh.CHASIS &amp;&amp; !(&quot;&quot;.equals(tcVeh.CHASIS))) ? tcVeh.CHASIS : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="( null != tgCombustible.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCombustible.DESCRIP))) ? &#xD;&#xA;tgCombustible.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" expression="( null != tcColor.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tcColor.DESCRIP))) ? &#xD;&#xA;tcColor.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="origin_country_code" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="( null != tcVeh.KM ) ? tcVeh.KM.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="argus_brand" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_family" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_model" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_version" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_brand" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_family" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="( null != tcPresupuesto.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tcPresupuesto.CLIENTEPRESUP.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_organization_user_id" expression="( null != tcPresupuesto.VENDEDOR &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VENDEDOR))) ? tcPresupuesto.EMP+&quot;__&quot;+tcPresupuesto.VENDEDOR : &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" expression="( null != tcPresupuesto.VENDEDOR &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.VENDEDOR))) ? tcPresupuesto.EMP+&quot;__&quot;+tcPresupuesto.VENDEDOR : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;COMMERCIAL PROPOSITION&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_number" expression="( null != tcVeh.MATRIC &amp;&amp; !(&quot;&quot;.equals(tcVeh.MATRIC))) ? &#xD;&#xA;tcVeh.MATRIC&#xD;&#xA;: &quot;NA&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="( null != tcVeh.MATRIC &amp;&amp; !(&quot;&quot;.equals(tcVeh.MATRIC))) ? &#xD;&#xA;tcVeh.MATRIC&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="first_registration_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_registration_date" expression="( null != tcVeh.FECMATRICULTIMA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICULTIMA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICULTIMA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="comprop_number" expression="(null != Var.ID  &amp;&amp; !(&quot;&quot;.equals(Var.ID))) ? Var.ID : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="e_dealership_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="e_dealership_city" type="id_String" nullable="true"/>
-        <mapperTableEntries name="e_dealership_zipcode" type="id_String" nullable="true"/>
-        <mapperTableEntries name="e_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="comprop_number" expression="Var.ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="( null != tcPresupuesto.ESVO &amp;&amp; !&quot;&quot;.equals(tcPresupuesto.ESVO)) ?&#xD;&#xA;&quot;VEHICLE &quot; + &#xD;&#xD;&#xA;( tcPresupuesto.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) : &quot;VEHICULE&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="reception_delay" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reception_delay" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="offer_end_date" expression="( null != tcPresupuesto.FECHACADUCIDAD &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHACADUCIDAD))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHACADUCIDAD)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="expected_delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : &quot;NA&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="selling_dealership" expression="&quot;NA&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? tcVeh.IMPORTECOMPRA.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="selling_price_without_taxes" expression="( null != tcPresupuesto.SUBTOTAL8 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL8))) ? tcPresupuesto.SUBTOTAL8.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="selling_price_with_taxes" expression="( null != tcPresupuesto.SUBTOTAL10 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL10))) ? tcPresupuesto.SUBTOTAL10.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
