@@ -409,7 +409,7 @@
       <column comment="" defaultValue="" key="false" length="12" name="SUBTOTAL10" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="224" posY="384" sizeX="544" sizeY="32">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="224" posY="384" sizeX="672" sizeY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -534,10 +534,10 @@
         <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcPresupuesto.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcPresupuesto.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_id" type="id_String"/>
-        <mapperTableEntries name="dealership_city" type="id_String"/>
-        <mapperTableEntries name="dealership_zipcode" expression="" type="id_String"/>
-        <mapperTableEntries name="dealership_label" type="id_String"/>
+        <mapperTableEntries name="dealership_id" expression="null == (tgPtoVenta.EMP) || (&quot;&quot;.equals(tgPtoVenta.EMP)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;null : tgPtoVenta.ORGANIS&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;tgPtoVenta.EMP : (tgPtoVenta.EMP+&quot;_&quot;+tgPtoVenta.ORGANIS).trim()&#xD;&#xA;) " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ? &#xD;&#xA;tgPoblaEmp.DESCRIP&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_zipcode" expression="( null != tgEmpresa.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.CPOSTAL))) ? &#xD;&#xA;tgEmpresa.CPOSTAL&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ? &#xD;&#xA;tgOrganis.DESCRIP&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="( null != tcPresupuesto.ESVO &amp;&amp; tcPresupuesto.ESVO.intValue() == 1 ) ? &quot;BMW&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;BMW&quot; ) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.date2007plus &amp;&amp;  Var.vehNotCancelled " activateExpressionFilter="true">
@@ -758,6 +758,7 @@
       <inputTables sizeState="INTERMEDIATE" name="tcVeh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
         <mapperTableEntries name="NUMINTERNO" expression="tcPresupuesto.VEHICULO " type="id_BigDecimal"/>
+        <mapperTableEntries name="PUNTOVENTA" type="id_String" nullable="true"/>
         <mapperTableEntries name="CHASIS" type="id_String" nullable="true"/>
         <mapperTableEntries name="MATRIC" type="id_String" nullable="true"/>
         <mapperTableEntries name="COMBUSTIBLE" type="id_String" nullable="true"/>
@@ -769,6 +770,25 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCombustible" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="tcVeh.COMBUSTIBLE " type="id_String"/>
+        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgPtoVenta" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
+        <mapperTableEntries name="PUNTOVENTA" expression="tcVeh.PUNTOVENTA " type="id_String"/>
+        <mapperTableEntries name="ORGANIS" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgOrganis" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
+        <mapperTableEntries name="ORGANIS" expression="tgPtoVenta.ORGANIS " type="id_String"/>
+        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
+        <mapperTableEntries name="CPOSTAL" type="id_String" nullable="true"/>
+        <mapperTableEntries name="POBLA" type="id_BigDecimal" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="tgPoblaEmp" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="ID" expression="tgEmpresa.POBLA " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -2929,7 +2949,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.NUMINTERNO, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.CHASIS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.MATRIC, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.COMBUSTIBLE, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.STATUS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.FECMATRICPRIMERA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.FECMATRICULTIMA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.KM, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.IMPORTECOMPRA&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.NUMINTERNO, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.PUNTOVENTA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.CHASIS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.MATRIC, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.COMBUSTIBLE, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.STATUS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.FECMATRICPRIMERA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.FECMATRICULTIMA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.KM, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH.IMPORTECOMPRA&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TCVEH&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2947,6 +2967,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTERNO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PUNTOVENTA"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="CHASIS"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2975,6 +2997,9 @@
       <column comment="" key="true" length="10" name="NUMINTERNO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="3" name="PUNTOVENTA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="17" name="CHASIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2999,819 +3024,9 @@
       <column comment="" defaultValue="0" key="false" length="12" name="IMPORTECOMPRA" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="10" name="NUMSTOCK" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="PUNTOVENTA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="UBICACION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="CATEGORIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="CATEGORIACG" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="FABRANO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="FABRMES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="FABRSEMANA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECPEDIDO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECENTRADA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECENTRADAFISICA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECTARIFACOMPRA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECTARIFAVENTA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECVENTA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="MARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="MODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="VERSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="MODELOTALLER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="COLOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="TAPIZ" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="CARROCERIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PUERTAS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="NUMPEDIDO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="NUMPEDIDOFAB" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="NUMLLAVES" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="CODIGORADIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="NUMMOTOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="NUMCAJA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="4" name="SUBSTATUS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="4" name="STATUSUSUARIO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="CODIGODCS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="STATUSDCS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="PROVEEDOR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="RESERVADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVAFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVALIMITE" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVAENTREGA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="RESERVACLIENTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="RESERVAVENDEDOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="RESERVAANULADA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="TIENEPARTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="HAYPRESUPUESTO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="HAYPRESUPUESTOCOUNT" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="HAYEXPEDIENTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="HAYFACTUR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="250" name="OBSER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="HAYFACTURVENTA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="EUROTAX_ARTNR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="EUROTAX_MARNR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="EUROTAX_MODNR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="EUROTAX_TYPNR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PASOFASEPEDIDO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PASOFASESTOCK" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PASOFASEVENTA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="ESVO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="REBU" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="12" name="IMPORTEVALOR" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="VALORACION" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="12" name="IMPORTEVENTA" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="ESKM0" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="ESDEMO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="ESCORTESIA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="ESTADOVO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAGARANTIA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAGARANTIAEXTEN" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAGARANTIACHAPA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="EXPEDIENTE" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADODOCUMEN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PRERESERVA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAVCTOPROVEEDOR" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAVCTOREAL" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAPAGO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHARETIRADADOC" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="BANCODOC" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="BANCOAGENCIADOC" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="BAJA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="BAJAMOT" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="BAJAFEC" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PLANVENTAANO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="PLANVENTAMES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHALIMITCAMBIOS" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="ANOMODELO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAFIRME" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="RESERVAANTIMPORTE" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="RESERVAANTMODOPAGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVAANTFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVAANTVCTO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="250" name="RESERVAANTOBSERVA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAPREVENTRADA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="VEHICULOMAESTRO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="CODIGOLLAVESPUERTAS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="TIPOCAJA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="20" name="AUTCIRCULACION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="POTENCIADIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="POTENCIAFISCAL" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="CODEQUIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="NUMPLAZAS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="INGPINTURA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="TIPOTAPIZ" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="RADIOSERIE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="RADIOMARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="RADIOMODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RADIOCOMPACD" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="ALARMAMARCA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="ALARMAMODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="ALARMACODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="MOTORTIPO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECCOMPRA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="PRECIOPROTECT" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="PRECIOPROTECTCODE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="PRECIOPROTECTFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="DCSERROR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="DCSERRORCODE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="DCSERRORFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="STATUSDCSFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="GARANTIAVO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="NUMFACTURAPROVEE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="NUMINTERNOGROUP" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="VOKMCERTIFICADO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="VOORIGEN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="VOINCIDENTE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVALIMITAVISO1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVALIMITAVISO2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVALIMITAVISO3" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="ESESPECIAL" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="RESERVANUMRECIBO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAENTREGA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAITV" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAITVULTIMA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHACONTAMINACONTROL" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHACONTAMINAVISITA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="VENDEDORRECOMPRA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="CODIGOFABRICACION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="CORTESIACATEGORIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="COLORGENERIC" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAINICIOGARANTIA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="CILINDRADA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="VELOCIDADES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="VODESTINO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ORIGENCESIONEMP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="ORIGENCESIONNUMINTERNO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="VOPRIMERAMANO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="GANVAMPRECIO" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="GANVAMFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="IMPORTEREVENDEDOR" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="COEFMATRIC" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="50" name="ENLACEINTERFACE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="REACONDIMPORTE" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="REACONDFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="REACONDVENDEDOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="ESSERVICIO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="POTENCIAKW" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="CILINDROS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="CO2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHACONTAMINAPROXIMA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="ORIGENBUYBACK" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="HAYPROFORMA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAULTPROFORMA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="SEGMENTOMERCADO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="CONTADORKMCAMBIADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="KMANTESDELCAMBIO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHACAMBIOKM" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="TIPOSUSPENSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="TIPOTRANSMISION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="8" name="PESOMAXTOTAL" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="CARGAUTIL" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="LONGITUD1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="LONGITUD2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="ALTURA1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="VOLUMEN2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="VOLUMEN3" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="DISTANCIAEJES" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOCABINA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOCARROCERIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOCHASIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOALTERNADOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOELECTRICO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ESTADOFRENOS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO1" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO2" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO3" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO4" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO5" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO6" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO7" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO8" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO9" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO10" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO11" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO12" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO13" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO14" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO15" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO16" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2" name="USONEUMATICO17" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="CONTROLANTIPOLUCION" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="CONTROLTACOGRAFO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="INSPECCIONTECNICA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="SPOILER" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="CONTROLSPOILER" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="TACOGRAFO" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAANTPUNTEO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="RESERVAANTFECHAPUNTEO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="15" name="CODIGOTARIFA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="IVAANTICIPO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="IMPORTEIVAANT" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="RENDIMIENTOENERG" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="CHASISGARANTIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="TIPOCABINA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="RELACIONTRANS" nullable="true" pattern="" precision="3" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="PESOVEHICULAR" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="BPMORIGEN" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="IMPVENTASINIVA" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="IMPCOMPRASINIVA" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="PARTICULAS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="PESO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="6" name="VOLUMEN" nullable="true" pattern="" precision="3" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="TODOTERRENO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="13" name="CODIGONOMENCLATURA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="CODIGOCANA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAHORAINI" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAMINUTOINI" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAHORAFIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="RESERVAMINUTOFIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="PREPARADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="MARCAORIGEN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="8" name="MODELOORIGEN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="MARCAASOACTIVIDAD" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="BLOQUEOCOMIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="BLOQUEOCOMISFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="250" name="BLOQUEOCOMISMOTIVO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="BLOQUEOCOMISUSER" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="COBROVEHICULOFINALIZADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="COBROUSUARIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="COBROFECHA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="EXPORTARVO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="CONDICIONEXPORTARVO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="IDENTIFICACIONEXPORTACION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAEXPORTACION" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="VOMODIFICADO" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="PAISMATRICULA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="5" name="SOBREESTIMACIONMODIF" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="FORMAPAGOSALDO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="5" name="SMSENVIADO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="40" name="IMPBARCO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="IMPFECHALLEGADA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="VENDEDORVO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="12" name="VALORACIONCOMPRA" nullable="false" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECEXPORTVO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="BIN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="25" name="BINORIGINAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHACAMBIOBIN" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="ACKNOGENERICO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="ESTAPRIMADO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="250" name="TEXTOPRIMADO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAFINPRIMADO" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="7" name="FECHAFINTIPOVEH" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="KMFINTIPOVEH" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="12" name="PRECIOVD" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="11" name="FECHAENVIO3P" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="ACKNOINCOMPLETO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="PROMOCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="12" name="PROMOCIONPRECIO" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="11" name="PROMOCIONFECHADESDE" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="11" name="PROMOCIONFECHAHASTA" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="DATE" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="4" name="HSN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="TSN" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="CODIGOPROPIETARIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="INDLABEL" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="3" name="TARIFABLOQUEADA" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="896" posY="384">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -4129,7 +3344,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="288">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
@@ -4182,7 +3397,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="384">
+  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1376" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tReplicate_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tReplicate_1">
@@ -4285,7 +3500,7 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="416" sizeX="64" sizeY="64">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1568" posY="416" sizeX="64" sizeY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -4611,7 +3826,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="384">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1824" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -5239,7 +4454,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="480">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1824" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -5405,7 +4620,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1120" posY="288">
+  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWriteJSONField_1" show="false"/>
     <elementParameter field="COLUMN_LIST" name="JSONFIELD" value="pga_process_data"/>
     <elementParameter field="TABLE" name="ROOT" show="false">
@@ -6028,14 +5243,14 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="288">
+  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1568" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFlowToIterate_1" show="false"/>
     <elementParameter field="CHECK" name="DEFAULT_MAP" value="true"/>
     <elementParameter field="TABLE" name="MAP" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFlowToIterate_1"/>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1376" posY="288">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
@@ -6054,7 +5269,7 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="288">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1824" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
@@ -6085,6 +5300,256 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tFileOutputDelimited_1">
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="480">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_2" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPTOVENTA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.PUNTOVENTA, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA.ORGANIS&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPTOVENTA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PUNTOVENTA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPTOVENTA" name="tOracleInput_2">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="3" name="PUNTOVENTA" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="ORGANIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_21" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGORGANIS&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.ORGANIS, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS.DESCRIP&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGORGANIS&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGORGANIS" name="tOracleInput_21">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="3" name="ORGANIS" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_22" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGEMPRESA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.EMP, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.CPOSTAL, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA.POBLA&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGEMPRESA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CPOSTAL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="POBLA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGEMPRESA" name="tOracleInput_22">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CPOSTAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="POBLA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="544">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_23" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_VGOwkDLOEeaqAeV714N3sQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_ICAR_BMWMINI_ORACLE_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_ICAR_BMWMINI_ORACLE_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_ICAR_BMWMINI_ORACLE_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kud77aYVLZlROpWUN/SG1qDmQoID7pWMdK14jtH526QaBw==" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPOBLA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA.\&quot;ID\&quot;, &#xA;  &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA.DESCRIP&#xA;FROM &quot;+context.DB_ICAR_BMWMINI_ORACLE_Schema+&quot;.TGPOBLA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_ICAR_BMWMINI_ORACLE_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="ID"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPOBLA" name="tOracleInput_23">
+      <column comment="" defaultValue="0" key="true" length="10" name="ID" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="IDPROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="1" key="false" length="5" name="IMPTEXTOPROV" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIPSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="128">
@@ -7828,6 +7293,22 @@
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tFixedFlowInput_1" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_1" target="tFileOutputDelimited_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPtoVenta" lineStyle="8" metaname="tOracleInput_2" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_2" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPtoVenta" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgOrganis" lineStyle="8" metaname="tOracleInput_21" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_21" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgOrganis" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgEmpresa" lineStyle="8" metaname="tOracleInput_22" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_22" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgEmpresa" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPoblaEmp" lineStyle="8" metaname="tOracleInput_23" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_23" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPoblaEmp" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
