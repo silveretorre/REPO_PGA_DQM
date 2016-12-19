@@ -54,4 +54,124 @@ public class SynalticJson {
     		return e.getMessage();
     	}
     }
+    public static void main(String[] args){
+    	System.out.println(jsonIsValid("{
+  "pga_process_data" : {
+    
+    "event" : {
+      "ti_number" : "81605593",
+      "e_dealership_id" : "009_090",
+      "e_dealership_city" : "AIX EN PROVENCE",
+      "e_dealership_zipcode" : "13540",
+      "e_dealership_label" : "Bayern Aix",
+      "intervention_type" : "APV",
+      "intervention_price_workforce" : -54.91,
+      "intervention_price_pieces" : 0,
+      "intervention_price_with_taxes" : 65.67,
+      "taxes" : 10.76,
+      "currency" : "EUR",
+      "dealership" : "Bayern Aix",
+      "description" : "AVOIR SUR FACTURE 81603654",
+      "user_info" : "Magali GAUTIER",
+      "intervention_end_date" : "1900-01-01",
+      "intervention_start_date" : "2008-08-28",
+      "payment_mode" : "Comptant (ESP - CH - CB)",
+      "payment_type" : "Paiement Comptant",
+      "mech_model" : "SERIE 3",
+      "mech_version" : "330d",
+      "mech_color" : ""
+    }
+  }
 }
+","{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "schema for event bloc entry - process_type : TECHNICAL_INTERVENTION",
+
+    "type" : "object",
+    "properties" : {
+
+      "pga_process_data": {
+        "properties": {
+          "event": {
+            "properties": {
+              "ti_number": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "intervention_type": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+			  "intervention_price_workforce": {
+                "type": "number",
+                "minimum": 0
+              },
+			  "intervention_price_pieces": {
+                "type": "number",
+                "minimum": 0
+              },
+              "intervention_price_with_taxes": {
+                "type": "number",
+                "minimum": 0
+              },
+              "taxes": {
+                "type": "number",
+                "minimum": 0
+              },
+              "currency": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3,
+                "pattern": "[A-Z]" 
+              },
+              "dealership": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "payment_mode": {
+                "type": "string"
+              },
+			  "payment_type": {
+                "type": "string"
+              },
+			  "mech_model": {
+                "type": "string"
+              },
+			  "mech_version": {
+                "type": "string"
+              },
+			  "mech_color": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "user_info": {
+                "type": "string"
+              },
+              "intervention_end_date": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^((19|20|21)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"
+              },
+              "intervention_start_date": {
+                "type": "string",
+                "pattern": "^((19|20|21)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"
+              }
+
+            },
+            "required": ["ti_number", "intervention_type", "intervention_price_with_taxes", "taxes", "currency", "dealership", "description", "intervention_end_date", "intervention_start_date"]
+          }
+        }
+      }
+    }
+}
+"));
+    }
+}
+
