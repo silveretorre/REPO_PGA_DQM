@@ -59,7 +59,7 @@
     <contextParameter comment="" name="CurrentProcessUuid" prompt="CurrentProcessUuid?" promptNeeded="false" type="id_String" value=""/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="132" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="128" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -591,7 +591,7 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="isValid" expression="SynalticJson.jsonIsValid(row4.body, row15.json_schema) " type="id_String" nullable="true"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="schemavalid" activateCondensedTool="true" reject="true">
+      <outputTables sizeState="INTERMEDIATE" name="schemavalid" expressionFilter="&quot;OK&quot;.equals(Var.isValid) " activateExpressionFilter="true" activateCondensedTool="true">
         <mapperTableEntries name="validationMessage" expression="&quot;The schema validation for the process type &quot; +row15.process_type +&quot; is &quot;+ Var.isValid + &quot; and the Document process_uuid is &quot; + ((String)globalMap.get(&quot;processUuid&quot;)) " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="schemaError" expressionFilter="!&quot;OK&quot;.equals(Var.isValid) " activateExpressionFilter="true" activateCondensedTool="true">
