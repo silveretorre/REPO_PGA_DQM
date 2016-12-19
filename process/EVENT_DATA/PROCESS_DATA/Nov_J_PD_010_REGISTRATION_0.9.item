@@ -663,7 +663,7 @@
       <column comment="" key="false" length="255" name="rent_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="String.valueOf(siv.id_technique)" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv)) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
@@ -672,6 +672,7 @@
         <mapperTableEntries name="dealership_city" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_label" expression="" type="id_String"/>
+        <mapperTableEntries name="bname" expression="( null != siv.b1_tit_nom_rso &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_rso))) ? siv.b1_tit_nom_rso : null " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="data">
         <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
@@ -688,8 +689,8 @@
         <mapperTableEntries name="p_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ? siv.b1_tit_prenom : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ? siv.b1_tit_nom_usage : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" expression="( null != siv.b1_tit_nom_rso &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_rso))) ? siv.b1_tit_nom_rso : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ? siv.b1_tit_nom_usage : Var.bname " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="Var.bname " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != siv.b3_tit_date_naissance &amp;&amp; !(&quot;&quot;.equals(siv.b3_tit_date_naissance)) &amp;&amp; siv.b3_tit_date_naissance.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b3_tit_date_naissance))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" expression="" type="id_String" nullable="true"/>
