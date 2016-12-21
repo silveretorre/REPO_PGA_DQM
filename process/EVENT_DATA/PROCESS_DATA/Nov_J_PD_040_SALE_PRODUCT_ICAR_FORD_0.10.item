@@ -364,7 +364,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="metadata" name="data">
+    <metadata comment="" connector="FLOW" label="metadata" name="out">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -487,7 +487,7 @@
         <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ? &#xD;&#xA;tgOrganis.DESCRIP&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="( null != tcVeh.ESVO &amp;&amp; tcVeh.ESVO.intValue() == 1 ) ? &quot;FORD&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;FORD&quot; ) " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="data" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold " activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
@@ -2061,7 +2061,747 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="544">
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="448">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_2" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPTOVENTA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.PUNTOVENTA, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.ORGANIS&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="PUNTOVENTA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPTOVENTA" name="tOracleInput_2">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="3" name="PUNTOVENTA" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="ORGANIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="448">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_21" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGORGANIS&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.ORGANIS, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.DESCRIP&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGORGANIS" name="tOracleInput_21">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="3" name="ORGANIS" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="384">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_22" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGEMPRESA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.CPOSTAL, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.POBLA&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CPOSTAL"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="POBLA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGEMPRESA" name="tOracleInput_22">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CPOSTAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="POBLA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="640">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_23" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPOBLA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.\&quot;ID\&quot;, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.DESCRIP&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="ID"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TGPOBLA" name="tOracleInput_23">
+      <column comment="" defaultValue="0" key="true" length="10" name="ID" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="CODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="0" key="false" length="10" name="IDPROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="1" key="false" length="5" name="IMPTEXTOPROV" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="60" name="DESCRIPSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="544" sizeX="96" sizeY="32">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_5" show="false"/>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
+    <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_ZDk4QJRoEealdpznCUDRpA-tMap_5-PREVIEW.bmp"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
+    <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="data" name="data">
+      <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_id" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="p_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="p_dealership_city" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="p_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="p_dealership_label" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="firstname" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lastname" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="birth_name" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="birth_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="license_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="country_license" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="deceased" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="death_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="language_code" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="street_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="route" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="locality" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="sublocality" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="admarea1" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="admarea2" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="admarea3" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="country" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="postal_code" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="address" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="address_is_reachable" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="email_is_reachable" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="email_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="activity_area" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="profession" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="start_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="unemployed" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="network_name" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="profile_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="url" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vehicle_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="v_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="v_dealership_city" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="v_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="v_dealership_label" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="family" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="kind" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="national_identification_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="circulation_start_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="circulation_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="origin_country_code" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="argus_family" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="argus_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_link_person_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_link_start_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_link_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_link_organization_user_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="person_link_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="registration_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="first_registration_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_registration_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="registration_end_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_definitive_registration" nullable="true" pattern="" precision="0" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="purchase_order_number" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="e_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="e_dealership_city" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="e_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="e_dealership_label" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="product_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="buying_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="reception_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="sale_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="delivery_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="12" name="buying_price" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="selling_price_without_taxes" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="payment_mode" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="payment_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <nodeData xsi:type="MapperData">
+      <uiProperties shellMaximized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="data">
+        <mapperTableEntries name="process_type" expression="out.process_type" type="id_String"/>
+        <mapperTableEntries name="process_category" expression="out.process_category" type="id_String"/>
+        <mapperTableEntries name="src_application_name" expression="out.src_application_name" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="null != filterMetaBrand.transformed_brand ? filterMetaBrand.transformed_brand : out.src_application_brand " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="out.src_process_moment" type="id_String"/>
+        <mapperTableEntries name="load_process_moment" expression="out.load_process_moment" type="id_String"/>
+        <mapperTableEntries name="src_process_id" expression="out.src_process_id" type="id_String"/>
+        <mapperTableEntries name="person_id" expression="out.person_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_id" expression="out.p_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_city" expression="out.p_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_zipcode" expression="out.p_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_label" expression="out.p_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="out.gender" type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="out.firstname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="out.lastname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="out.birth_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="out.birth_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="license_number" expression="out.license_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" expression="out.country_license" type="id_String" nullable="true"/>
+        <mapperTableEntries name="deceased" expression="out.deceased" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="death_date" expression="out.death_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_code" expression="out.language_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" expression="out.street_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="out.route" type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="out.locality" type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" expression="out.sublocality" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea1" expression="out.admarea1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="out.admarea2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea3" expression="out.admarea3" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country" expression="out.country" type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" expression="out.postal_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="address" expression="out.address" type="id_String" nullable="true"/>
+        <mapperTableEntries name="address_is_reachable" expression="out.address_is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email" expression="out.email" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_is_reachable" expression="out.email_is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" expression="out.email_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="out.original_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="out.phone_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_sms" expression="out.is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" expression="out.is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="out.line_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="activity_area" expression="out.activity_area" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession" expression="out.profession" type="id_String" nullable="true"/>
+        <mapperTableEntries name="start_date" expression="out.start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="end_date" expression="out.end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="unemployed" expression="out.unemployed" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="network_name" expression="out.network_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profile_id" expression="out.profile_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="url" expression="out.url" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="out.vehicle_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_id" expression="out.v_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_city" expression="out.v_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_zipcode" expression="out.v_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_label" expression="out.v_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="null != filterVehBrand.transformed_brand ? filterVehBrand.transformed_brand : out.brand " type="id_String" nullable="true"/>
+        <mapperTableEntries name="family" expression="out.family" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="out.model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="out.version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="out.kind" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="out.vin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="out.energy" type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" expression="out.color" type="id_String" nullable="true"/>
+        <mapperTableEntries name="national_identification_type" expression="out.national_identification_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" expression="out.circulation_start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" expression="out.circulation_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" expression="out.origin_country_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="out.last_mileage_known" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="argus_brand" expression="out.argus_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_family" expression="out.argus_family" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" expression="out.argus_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" expression="out.argus_version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="out.person_link_person_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="out.person_link_start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_end_date" expression="out.person_link_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" expression="out.person_link_organization_user_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_type" expression="out.person_link_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="null != filterRegNum.registration_number ? null : out.registration_number " type="id_String" nullable="true"/>
+        <mapperTableEntries name="first_registration_date" expression="out.first_registration_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" expression="out.current_registration_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_end_date" expression="out.registration_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_definitive_registration" expression="out.is_definitive_registration" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="purchase_order_number" expression="out.purchase_order_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_id" expression="out.e_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_city" expression="out.e_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_zipcode" expression="out.e_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_label" expression="out.e_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="product_type" expression="out.product_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_date" expression="out.buying_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reception_date" expression="out.reception_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="sale_date" expression="out.sale_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="delivery_date" expression="out.delivery_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="out.user_info" type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership" expression="out.selling_dealership" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_price" expression="out.buying_price" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_without_taxes" expression="out.selling_price_without_taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_with_taxes" expression="out.selling_price_with_taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="taxes" expression="out.taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="currency" expression="out.currency" type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_mode" expression="out.payment_mode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_type" expression="out.payment_type" type="id_String" nullable="true"/>
+      </outputTables>
+      <inputTables sizeState="INTERMEDIATE" name="out" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="process_type" type="id_String"/>
+        <mapperTableEntries name="process_category" type="id_String"/>
+        <mapperTableEntries name="src_application_name" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" type="id_String"/>
+        <mapperTableEntries name="src_process_moment" type="id_String"/>
+        <mapperTableEntries name="load_process_moment" type="id_String"/>
+        <mapperTableEntries name="src_process_id" type="id_String"/>
+        <mapperTableEntries name="person_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="p_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="license_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" type="id_String" nullable="true"/>
+        <mapperTableEntries name="deceased" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="death_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="street_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea3" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country" type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="address" type="id_String" nullable="true"/>
+        <mapperTableEntries name="address_is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="activity_area" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession" type="id_String" nullable="true"/>
+        <mapperTableEntries name="start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="unemployed" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="network_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profile_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="url" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="v_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="family" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" type="id_String" nullable="true"/>
+        <mapperTableEntries name="national_identification_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="first_registration_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_definitive_registration" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="purchase_order_number" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_city" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_zipcode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="e_dealership_label" type="id_String" nullable="true"/>
+        <mapperTableEntries name="product_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reception_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="sale_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="delivery_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership" type="id_String" nullable="true"/>
+        <mapperTableEntries name="buying_price" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_without_taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="selling_price_with_taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="currency" type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_mode" type="id_String" nullable="true"/>
+        <mapperTableEntries name="payment_type" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="filterMetaBrand" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="original_brand" expression="out.src_application_brand " type="id_String"/>
+        <mapperTableEntries name="transformed_brand" type="id_String"/>
+        <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="filterVehBrand" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="original_brand" expression="out.brand" type="id_String"/>
+        <mapperTableEntries name="transformed_brand" type="id_String"/>
+        <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="filterRegNum" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="registration_number" expression="out.registration_number" type="id_String"/>
+        <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
+      </inputTables>
+    </nodeData>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="448">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_3" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DataSources_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DataSources_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DataSources_Database"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ - pd_filters_brand" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;pd_filters_brand&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;original_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;transformed_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="original_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transformed_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="pd_filters_brand" name="tPostgresqlInput_3">
+      <column comment="" key="true" length="255" name="original_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="transformed_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="640">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_4" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DataSources_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DataSources_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DataSources_Database"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ - pd_filters_registration_number" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;pd_filters_registration_number&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_registration_number\&quot;.\&quot;registration_number\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_registration_number\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_registration_number\&quot;&#xD;&#xA;WHERE keep = false&#xD;&#xA;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="registration_number"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="pd_filters_registration_number" name="tPostgresqlInput_4">
+      <column comment="" key="true" length="255" name="registration_number" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_5" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DataSources_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DataSources_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DataSources_Database"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ - pd_filters_brand" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;pd_filters_brand&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;original_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;transformed_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_brand\&quot;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="original_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transformed_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="pd_filters_brand" name="tPostgresqlInput_5">
+      <column comment="" key="true" length="255" name="original_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="transformed_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -2175,7 +2915,7 @@
       <column comment="" key="false" length="255" name="payment_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="filtered" rejectInnerJoin="true">
         <mapperTableEntries name="process_type" expression="data.process_type" type="id_String"/>
@@ -2388,7 +3128,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1024" posY="448">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
@@ -2441,7 +3181,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="448">
+  <node componentName="tWriteJSONField" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tWriteJSONField_1" show="false"/>
     <elementParameter field="COLUMN_LIST" name="JSONFIELD" value="pga_process_data"/>
     <elementParameter field="TABLE" name="ROOT" show="false">
@@ -3079,14 +3819,14 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="448">
+  <node componentName="tFlowToIterate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFlowToIterate_1" show="false"/>
     <elementParameter field="CHECK" name="DEFAULT_MAP" value="true"/>
     <elementParameter field="TABLE" name="MAP" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFlowToIterate_1"/>
   </node>
-  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1600" posY="448">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1792" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
@@ -3105,7 +3845,7 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="448">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1920" posY="448">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
@@ -3138,7 +3878,7 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="544">
+  <node componentName="tReplicate" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tReplicate_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="metadata" name="tReplicate_1">
@@ -3244,7 +3984,7 @@
       <column comment="" key="false" length="255" name="payment_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="576" sizeX="64" sizeY="64">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="576" sizeX="64" sizeY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -3579,7 +4319,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="544">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1920" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -4207,7 +4947,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1728" posY="640">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1920" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -4392,256 +5132,6 @@
       <column comment="" key="false" length="255" name="payment_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="448">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_2" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
-    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
-    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
-    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
-    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
-    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
-    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
-    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
-    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPTOVENTA&quot;"/>
-    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
-    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.PUNTOVENTA, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA.ORGANIS&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGPTOVENTA&quot;"/>
-    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
-    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
-    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
-    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
-    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
-    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
-    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
-    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
-    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
-    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
-    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
-    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="PUNTOVENTA"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
-      <elementValue elementRef="TRIM" value="false"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TGPTOVENTA" name="tOracleInput_2">
-      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="true" length="3" name="PUNTOVENTA" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="3" name="ORGANIS" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-  </node>
-  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="448">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_21" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
-    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
-    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
-    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
-    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
-    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
-    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
-    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
-    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGORGANIS&quot;"/>
-    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
-    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.ORGANIS, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS.DESCRIP&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGORGANIS&quot;"/>
-    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
-    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
-    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
-    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
-    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
-    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
-    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
-    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
-    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
-    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
-    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
-    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ORGANIS"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
-      <elementValue elementRef="TRIM" value="false"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TGORGANIS" name="tOracleInput_21">
-      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="true" length="3" name="ORGANIS" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-  </node>
-  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="384">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_22" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
-    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
-    <elementParameter field="TEXT" name="RAC_URL" value="context.DB_ICAR_BMWMINI_ORACLE_Server" show="false"/>
-    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
-    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
-    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.DB_ICAR_BMWMINI_ORACLE_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
-    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
-    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
-    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGEMPRESA&quot;"/>
-    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
-    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.EMP, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.CPOSTAL, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA.POBLA&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGEMPRESA&quot;"/>
-    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
-    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
-    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
-    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
-    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
-    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
-    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
-    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
-    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
-    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
-    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
-    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="CPOSTAL"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="POBLA"/>
-      <elementValue elementRef="TRIM" value="false"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TGEMPRESA" name="tOracleInput_22">
-      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="CPOSTAL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="POBLA" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-    </metadata>
-  </node>
-  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="640">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_23" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
-    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
-    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
-    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
-    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
-    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
-    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
-    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
-    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
-    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGPOBLA&quot;"/>
-    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
-    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
-    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.\&quot;ID\&quot;, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA.DESCRIP&#xD;&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TGPOBLA&quot;"/>
-    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
-    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
-    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
-    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
-    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
-    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
-    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
-    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
-    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
-    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
-    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
-    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="ID"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
-      <elementValue elementRef="TRIM" value="false"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TGPOBLA" name="tOracleInput_23">
-      <column comment="" defaultValue="0" key="true" length="10" name="ID" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="60" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="CODIGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="0" key="false" length="10" name="IDPROVIN" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="1" key="false" length="5" name="IMPTEXTOPROV" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="10" name="PAIS" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="60" name="DESCRIPSEARCH" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="192">
@@ -4947,7 +5437,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tcVehFactur" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="data" lineStyle="0" metaname="data" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMap_3">
+  <connection connectorName="FLOW" label="out" lineStyle="0" metaname="out" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMap_5">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="v_dealership_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4987,7 +5477,7 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="data" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="tgCliente" lineStyle="8" metaname="tOracleInput_3" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -5068,6 +5558,38 @@
   <connection connectorName="FLOW" label="tgModoPago" lineStyle="8" metaname="tOracleInput_25" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_25" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgModoPago" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPtoVenta" lineStyle="8" metaname="tOracleInput_2" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_2" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPtoVenta" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgOrganis" lineStyle="8" metaname="tOracleInput_21" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_21" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgOrganis" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgEmpresa" lineStyle="8" metaname="tOracleInput_22" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_22" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgEmpresa" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="tgPoblaEmp" lineStyle="8" metaname="tOracleInput_23" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_23" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPoblaEmp" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="data" lineStyle="0" metaname="data" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tMap_3">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="data" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="filterMetaBrand" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="filterMetaBrand" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="filterRegNum" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="filterRegNum" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="filterVehBrand" lineStyle="8" metaname="tPostgresqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_5" target="tMap_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="filterVehBrand" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="filtered" lineStyle="0" metaname="filtered" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tReplicate_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -5192,22 +5714,6 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_saleprod" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="tgPtoVenta" lineStyle="8" metaname="tOracleInput_2" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_2" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPtoVenta" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="tgOrganis" lineStyle="8" metaname="tOracleInput_21" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_21" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgOrganis" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="tgEmpresa" lineStyle="8" metaname="tOracleInput_22" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_22" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgEmpresa" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="tgPoblaEmp" lineStyle="8" metaname="tOracleInput_23" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_23" target="tMap_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgPoblaEmp" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
