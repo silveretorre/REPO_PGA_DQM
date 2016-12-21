@@ -677,10 +677,10 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="schemavalid">
-      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="schemaError" name="schemaError">
-      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessaga" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -688,10 +688,10 @@
         <mapperTableEntries name="isValid" expression="SynalticJson.jsonIsValid(row4.body, row15.json_schema) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="schemavalid">
-        <mapperTableEntries name="status" expression="&quot;OK&quot;.equals(Var.isValid)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="isValid" expression="&quot;OK&quot;.equals(Var.isValid)" type="id_Boolean" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="schemaError" expressionFilter="!&quot;OK&quot;.equals(Var.isValid)" activateExpressionFilter="true">
-        <mapperTableEntries name="status" expression="&quot;JSON Schema Validation Exception on bloc part &quot; + row4.bloc_part + &quot; : &quot; +Var.isValid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="errorMessaga" expression="&quot;JSON Schema Validation Exception on bloc part &quot; + row4.bloc_part + &quot; : &quot; +Var.isValid " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="body" type="id_String" nullable="true"/>
@@ -744,7 +744,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="true"/>
     <elementParameter field="MEMO" name="COMMENT" value="On cherche à récupérer le statut pour la validation d'un event. Mais un event subit 4 validations (header, person, vehicle, event)&#xD;&#xA;&#xD;&#xA;De ce fait, le statut est réinitialisé à chaque event. On cherche à savoir s'il est null ou au statut OK. Si c'est le cas, on surcharge avec le nouveau statut (true ou false). Si le statut est false (KO) on ne surcharge pas, car au moins 1 des 4 validations n'est pas bonne."/>
     <metadata connector="FLOW" name="tSetGlobalVar_2">
-      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="576" posY="736">
@@ -767,7 +767,7 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="globalMap.get(&quot;processStatus&quot;)!=null &amp;&amp; (Boolean)globalMap.get(&quot;processStatus&quot;)" activateExpressionFilter="true">
         <mapperTableEntries name="body" expression=" row5.body " type="id_String" nullable="true"/>
@@ -839,6 +839,7 @@
   </node>
   <node componentName="tKafkaConnection" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaConnection_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="context.Zookeeper_Server + &quot;:&quot; + context.zookeeper_Port"/>
     <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
@@ -892,14 +893,14 @@
     <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
     <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
     <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="errorMessaga"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="schemaError" name="tLogRow_4">
-      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorMessaga" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tPostgresqlInput_1">
@@ -917,6 +918,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tKafkaConnection_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tLibraryLoad_1" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_1" target="tLibraryLoad_3">
@@ -987,11 +989,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="param2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="headerElementValue_OK" lineStyle="0" metaname="headerElementValue_OK" offsetLabelX="28" offsetLabelY="-3" outputId="1" source="tMap_2" target="tLogRow_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="headerElementValue_OK" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="headerElementValue_KO" lineStyle="0" metaname="headerElementValue_KO" offsetLabelX="27" offsetLabelY="-9" outputId="2" source="tMap_2" target="tLogRow_2">
+  <connection connectorName="FLOW" label="headerElementValue_KO" lineStyle="0" metaname="headerElementValue_KO" offsetLabelX="27" offsetLabelY="-9" outputId="1" source="tMap_2" target="tLogRow_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="columnValue"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -1005,6 +1003,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="headerElementValue_KO" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="headerElementValue_OK" lineStyle="0" metaname="headerElementValue_OK" offsetLabelX="28" offsetLabelY="-3" outputId="2" source="tMap_2" target="tLogRow_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="headerElementValue_OK" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="setProcessType" lineStyle="0" metaname="tLogRow_1" offsetLabelX="-11" offsetLabelY="-25" source="tLogRow_1" target="tSetGlobalVar_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -1044,7 +1046,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="body"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="status"/>
+      <elementValue elementRef="TRACE_COLUMN" value="errorMessaga"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
