@@ -564,15 +564,15 @@
         <mapperTableEntries name="country" expression="( null != tgPais.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPais.DESCRIP))) ? &#xD;&#xA;tgPais.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="( null != tgCliente.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgCliente.CPOSTAL))) ? &#xD;&#xA;tgCliente.CPOSTAL&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="address_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="address_is_reachable" expression="null != tgCliente.PROTECTMAILING &amp;&amp; tgCliente.PROTECTMAILING.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email" expression="( null != tgCliente.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgCliente.EMAIL))) ? &#xD;&#xA;tgCliente.EMAIL&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="(null!=tgCliente.PROTECTMAIL &amp;&amp; !(&quot;&quot;.equals(tgCliente.PROTECTMAIL)) &amp;&amp; tgCliente.PROTECTMAIL.intValue()==0) ? true : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="Var.phone_number " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="Var.phone_type " type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_sms" expression="Var.is_reachable_sms " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_phone" expression="Var.is_reachable_phone " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="tgCliente.NUMGSM" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="&quot;MOBILE&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_sms" expression="null != tgCliente.PROTECTSMS &amp;&amp; tgCliente.PROTECTSMS.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMGSM &amp;&amp; tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" expression="( null != tgSectorActividad.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgSectorActividad.DESCRIP))) ? &#xD;&#xA;tgSectorActividad.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" expression="( null != tgProfesion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgProfesion.DESCRIP))) ? &#xD;&#xA;tgProfesion.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -581,21 +581,21 @@
         <mapperTableEntries name="network_name" expression="null != Var.profile_id ? &quot;FACEBOOK&quot; : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="profile_id" expression="Var.profile_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="marital_status_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="marital_status" type="id_String" nullable="true"/>
-        <mapperTableEntries name="language_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="profession_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro_is_reachable" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_perso" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_perso_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="mobile_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="gender_id" expression="tgCliente.CORTESIA " type="id_String" nullable="true"/>
+        <mapperTableEntries name="marital_status_id" expression="null != tgCliente.ECIVIL ? String.valueOf(tgCliente.ECIVIL.intValue()) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="marital_status" expression="tgECivil.DESCRIP " type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_id" expression="null != tgCliente.IDIOMADOCUM ? String.valueOf(tgCliente.IDIOMADOCUM.intValue()) : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="activity_area_id" expression="tgCliente.SECTORACTIVIDAD " type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession_id" expression="tgCliente.PROFESION " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_pro" expression="tgCliente.EMAILPRO " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="null != tgCliente.PROTECTMAILPROF &amp;&amp; tgCliente.PROTECTMAILPROF.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="tgCliente.NUMTEL1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMTEL1 &amp;&amp; tgCliente.PROTECTNUMTEL1.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro" expression="tgCliente.NUMTEL2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMTEL2 &amp;&amp; tgCliente.PROTECTNUMTEL2.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro" expression="tgCliente.NUMGSMPRO " type="id_String" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMGSMPRO &amp;&amp; tgCliente.PROTECTNUMGSMPRO.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="null != tgCliente.PROTECTSMS &amp;&amp; tgCliente.PROTECTSMS.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="( null != tcVeh.VEHICULOMAESTRO &amp;&amp; !(&quot;&quot;.equals(tcVeh.VEHICULOMAESTRO))) ? String.valueOf(tcVeh.VEHICULOMAESTRO) : &quot;0&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
@@ -629,13 +629,13 @@
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="argus_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand_id" expression="tcVeh.MARCA" type="id_String" nullable="true"/>
         <mapperTableEntries name="family_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="version_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model_id" expression="tcVeh.MODELO" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version_id" expression="tcVeh.VERSION" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy_id" expression="tcVeh.COMBUSTIBLE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="color_id" expression="tcVeh.COLOR" type="id_String" nullable="true"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="e_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="e_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
