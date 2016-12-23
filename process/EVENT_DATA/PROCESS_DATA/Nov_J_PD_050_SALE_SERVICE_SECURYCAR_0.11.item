@@ -629,6 +629,7 @@
         <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? concessions.Ville_Conces : null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != concessions.CP_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.CP_Conces))) ? String.format(&quot;%05d&quot;, concessions.CP_Conces) : null " type="id_String"/>
         <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? concessions.Denomination_Conces : null " type="id_String"/>
+        <mapperTableEntries name="optOut" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)" activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="&quot;SALE_SERVICE&quot;" type="id_String"/>
@@ -663,14 +664,14 @@
         <mapperTableEntries name="country" expression="( null != pays.NomPays &amp;&amp; !(&quot;&quot;.equals(pays.NomPays))) ? pays.NomPays : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="( null != tiers.CodePostal &amp;&amp; !(&quot;&quot;.equals(tiers.CodePostal))) ? String.format(&quot;%05d&quot;,tiers.CodePostal) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="address_is_reachable" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="address_is_reachable" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email" expression="( null != tiers.eMail &amp;&amp; !(&quot;&quot;.equals(tiers.eMail))) ? tiers.eMail : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_is_reachable" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_is_reachable" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="original_number" expression="tiers.TelephonePortable" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" expression="&quot;MOBILE&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_phone" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_sms" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" expression="Var.optOut " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_sms" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" expression="( null != csp.LibelleCSP &amp;&amp; !(&quot;&quot;.equals(csp.LibelleCSP))) ? csp.LibelleCSP : null " type="id_String" nullable="true"/>
@@ -687,14 +688,14 @@
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession_id" expression="String.valueOf(tiers.IdCSP)" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro_is_reachable" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="landline_perso" expression="tiers.TelephoneFixe" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_perso_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="Var.optOut " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="Var.optOut " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="( null != contratsWEB.IDVehiculeMaster &amp;&amp; !(&quot;&quot;.equals(contratsWEB.IDVehiculeMaster))) ? String.valueOf(contratsWEB.IDVehiculeMaster) : &quot;0&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
