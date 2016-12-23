@@ -620,8 +620,6 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="( null != contrats.IDWeb_Ct &amp;&amp; !&quot;&quot;.equals(contrats.IDWeb_Ct) ) ? String.valueOf(contrats.IDWeb_Ct) : &quot;0&quot; " type="id_String"/>
         <mapperTableEntries name="contract_id" expression="String.valueOf(contrats.IdPdt_Ct) + &quot;_&quot; + String.valueOf(contrats.NumContrat_Ct) " type="id_String"/>
-        <mapperTableEntries name="phone_number" expression="(null != tiers.TelephonePortable &amp;&amp; !(&quot;&quot;.equals(tiers.TelephonePortable)))? tiers.TelephonePortable : (null != tiers.TelephoneFixe &amp;&amp; !(&quot;&quot;.equals(tiers.TelephoneFixe)))? tiers.TelephoneFixe : null " type="id_String"/>
-        <mapperTableEntries name="phone_type" expression="(null != tiers.TelephonePortable &amp;&amp; !(&quot;&quot;.equals(tiers.TelephonePortable)))? &quot;MOBILE&quot; : (null != tiers.TelephoneFixe &amp;&amp; !(&quot;&quot;.equals(tiers.TelephoneFixe)))? &quot;FIXE&quot; : null " type="id_String"/>
         <mapperTableEntries name="hasName" expression="tiers.Nom != null &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))" type="id_Boolean"/>
         <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tiers.IDCivilite ? tiers.IDCivilite != 4 : true " type="id_Boolean"/>
@@ -669,8 +667,8 @@
         <mapperTableEntries name="email" expression="( null != tiers.eMail &amp;&amp; !(&quot;&quot;.equals(tiers.eMail))) ? tiers.eMail : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="Var.phone_number " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="Var.phone_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="tiers.TelephonePortable" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="&quot;MOBILE&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
@@ -682,15 +680,15 @@
         <mapperTableEntries name="network_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="profile_id" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="url" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="marital_status_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="marital_status" type="id_String" nullable="true"/>
-        <mapperTableEntries name="language_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender_id" expression="tiers.IDCivilite " type="id_String" nullable="true"/>
+        <mapperTableEntries name="marital_status_id" expression="tiers.IdStatutMarital " type="id_String" nullable="true"/>
+        <mapperTableEntries name="marital_status" expression="statusMaritaux.LibelleStatutMarital " type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_id" expression="tiers.IDLangue " type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="profession_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession_id" expression="tiers.IdCSP " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro_is_reachable" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_perso" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="tiers.TelephoneFixe" type="id_String" nullable="true"/>
         <mapperTableEntries name="landline_perso_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="landline_pro" type="id_String" nullable="true"/>
         <mapperTableEntries name="landline_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
@@ -730,9 +728,9 @@
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="argus_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand_id" expression="contrats.IdMarqueMaster_Ct " type="id_String" nullable="true"/>
         <mapperTableEntries name="family_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model_id" expression="contrats.IDModeleMaster_Ct" type="id_String" nullable="true"/>
         <mapperTableEntries name="version_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
@@ -854,6 +852,10 @@
       <inputTables sizeState="INTERMEDIATE" name="contratsWEB" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IDContratMaster" expression="contrats.IDWeb_Ct " type="id_Integer"/>
         <mapperTableEntries name="IDVehiculeMaster" type="id_Integer" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="statusMaritaux" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdStatutMarital" expression="tiers.IdStatutMarital " type="id_Integer"/>
+        <mapperTableEntries name="LibelleStatutMarital" type="id_String"/>
       </inputTables>
     </nodeData>
   </node>
@@ -4930,6 +4932,52 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="480">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_5" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_2"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="__sATIIPsEeaqxOOc4AmHWA" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_SECURYWEB_SQL_Prod_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_SECURYWEB_SQL_Prod_Port" show="false"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_SECURYWEB_SQL_Prod_Schema" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_SQL_Prod_Database" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_SQL_Prod_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTlfRETBPyHvTSPb3xheOfovYHUTSEaKQyQ==" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="__sATIIPsEeaqxOOc4AmHWA - StatutsMaritaux" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;StatutsMaritaux&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT \&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.StatutsMaritaux.IdStatutMarital,&#xA;&#x9;&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.StatutsMaritaux.\&quot;LibelléStatutMarital\&quot;&quot;&#xA;+&quot;&#xA;FROM&#x9;\&quot;&quot;+context.DB_SECURYWEB_SQL_Prod_Schema+&quot;\&quot;.StatutsMaritaux&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_SECURYWEB_SQL_Prod_AdditionalParams" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdStatutMarital"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LibelleStatutMarital"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="StatutsMaritaux" name="tMSSqlInput_5">
+      <column comment="" key="true" length="10" name="IdStatutMarital" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="LibelleStatutMarital" nullable="false" originalDbColumnName="LibelléStatutMarital" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_1" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -5798,6 +5846,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_saleserv" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="statusMaritaux" lineStyle="8" metaname="tMSSqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_5" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="statusMaritaux" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
