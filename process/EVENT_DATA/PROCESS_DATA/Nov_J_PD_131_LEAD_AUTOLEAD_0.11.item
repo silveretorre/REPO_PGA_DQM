@@ -582,13 +582,11 @@
       <column comment="" key="false" length="255" name="lead_temperature" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="app_band" expression="(null != lead.l_marque &amp;&amp; !(&quot;&quot;.equals(lead.l_marque)))? lead.l_marque :&quot;MULTI&quot; " type="id_String"/>
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="process_id" expression="new Long(lead.lead_id).toString() " type="id_String"/>
-        <mapperTableEntries name="phone_number" expression="(null != lead.p_portable &amp;&amp; !(&quot;&quot;.equals(lead.p_portable)))? lead.p_portable : (null != lead.p_telephone &amp;&amp; !(&quot;&quot;.equals(lead.p_telephone)))? lead.p_telephone : null " type="id_String"/>
-        <mapperTableEntries name="phone_type" expression="(null != lead.p_portable &amp;&amp; !(&quot;&quot;.equals(lead.p_portable)))? &quot;MOBILE&quot;:(null != lead.p_telephone &amp;&amp; !(&quot;&quot;.equals(lead.p_telephone)))? &quot;FIXE&quot; : null " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.w_statut_datetime) " type="id_String"/>
         <mapperTableEntries name="process_category" expression="lead.v_type " type="id_String"/>
         <mapperTableEntries name="dealership_id" expression="lead.X_INITIALE " type="id_String"/>
@@ -633,8 +631,8 @@
         <mapperTableEntries name="email" expression="(null != lead.p_email  &amp;&amp; !(&quot;&quot;.equals(lead.p_email)))? lead.p_email : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="(1 == lead.p_ne_pas_email)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="Var.phone_number " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="Var.phone_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="lead.p_portable" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="&quot;MOBILE&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="(1 == lead.p_ne_pas_telephone)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="(1 == lead.p_ne_pas_sms)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
@@ -653,14 +651,14 @@
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro_is_reachable" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_perso" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_perso_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="(1 == lead.p_ne_pas_email)? false : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="lead.p_telephone" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="(1 == lead.p_ne_pas_telephone)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="landline_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="(1 == lead.p_ne_pas_telephone)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="(1 == lead.p_ne_pas_telephone)? false : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="(1 == lead.p_ne_pas_sms)? false : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
