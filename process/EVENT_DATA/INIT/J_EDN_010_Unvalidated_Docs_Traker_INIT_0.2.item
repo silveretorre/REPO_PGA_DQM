@@ -736,7 +736,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="globalMap.get(&quot;processStatus&quot;)!=null &amp;&amp; (Boolean)globalMap.get(&quot;processStatus&quot;)" activateExpressionFilter="true">
-        <mapperTableEntries name="stutus" expression="&quot;The schema validation for the process type &quot; +row15.process_type +&quot; is &quot;+ Var.isValid + &quot; and the Document process_uuid is &quot; + ((String)globalMap.get(&quot;processUuid&quot;)) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="stutus" expression="&quot;The schema validation for the process type &quot; + globalMap.get(&quot;processType&quot;) +&quot; is &quot;+ ((String)globalMap.get(&quot;processStatus&quot;)) + &quot; and the Document process_uuid is &quot; + ((String)globalMap.get(&quot;processUuid&quot;)) " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="kafka_error" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="Message" expression="((String)globalMap.get(&quot;errorMessage&quot;))" type="id_String" nullable="true"/>
@@ -926,8 +926,10 @@
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="0" offsetLabelY="0" source="tKafkaInput_1" target="tFilterRow_20">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="NUM_PARTITIONS" value="context.nbThreads" show="false"/>
-    <elementParameter field="TEXT" name="PART_QUEUE_SIZE" value="100" show="false"/>
+    <elementParameter field="RADIO" name="PARTITIONER" value="true"/>
+    <elementParameter field="RADIO" name="NONE" value="false"/>
+    <elementParameter field="TEXT" name="NUM_PARTITIONS" value="context.nbThreads"/>
+    <elementParameter field="TEXT" name="PART_QUEUE_SIZE" value="100"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row6" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tReplicate_1">
@@ -1013,7 +1015,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100" show="false"/>
+    <elementParameter field="RADIO" name="DEPARTITIONER" value="true"/>
+    <elementParameter field="RADIO" name="NONE" value="false"/>
+    <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="kafka_ok" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="kafka_error" lineStyle="0" metaname="kafka_error" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_4" target="tLogRow_2">
@@ -1026,7 +1030,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100" show="false"/>
+    <elementParameter field="RADIO" name="DEPARTITIONER" value="true"/>
+    <elementParameter field="RADIO" name="NONE" value="false"/>
+    <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="kafka_error" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tLogRow_1" offsetLabelX="0" offsetLabelY="0" source="tLogRow_1" target="tFileOutputDelimited_1">
