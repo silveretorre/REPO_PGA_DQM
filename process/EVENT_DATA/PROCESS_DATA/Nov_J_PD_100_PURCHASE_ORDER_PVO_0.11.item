@@ -560,12 +560,10 @@
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="vente.VENTE_ID " type="id_String"/>
         <mapperTableEntries name="hasName" expression="( ( vente.AcheteurNom != null &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurNom)) ) || ( vente.AcheteurNomUsage != null &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurNomUsage)) )) " type="id_Boolean"/>
-        <mapperTableEntries name="phone_number" expression="(null != vente.AcheteurPortable &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurPortable)))? vente.AcheteurPortable : ( (null != vente.AcheteurTelephone1 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone1)))? vente.AcheteurTelephone1 : ( (null != vente.AcheteurTelephone2 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone2)))? vente.AcheteurTelephone2 : null ) ) " type="id_String"/>
-        <mapperTableEntries name="phone_type" expression="(null != vente.AcheteurPortable &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurPortable)))? &quot;MOBILE&quot; : ( (null != vente.AcheteurTelephone1 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone1)))? &quot;FIXE&quot; : ( (null != vente.AcheteurTelephone2 &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurTelephone2)))? &quot;FIXE&quot; : null ) ) " type="id_String"/>
         <mapperTableEntries name="is_reachable_sms" expression="(null != vente.AcheteurPortable &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurPortable)))? true : false " type="id_Boolean"/>
         <mapperTableEntries name="is_reachable_phone" expression="true" type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="(null != vente.DateVente &amp;&amp; !&quot;&quot;.equals(vente.DateVente)) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,vente.DateVente) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
@@ -613,8 +611,8 @@
         <mapperTableEntries name="email" expression="(null != vente.AcheteurEmail &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurEmail))) ? vente.AcheteurEmail : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="original_number" expression="( null != Var.phone_number &amp;&amp; !(&quot;&quot;.equals(Var.phone_number))) ? &#xD;&#xA;Var.phone_number&#xD;&#xA; : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" expression="( null != Var.phone_type  &amp;&amp; !(&quot;&quot;.equals(Var.phone_type ))) ? &#xD;&#xA;Var.phone_type &#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="original_number" expression="vente.AcheteurPortable" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" expression="&quot;MOBILE&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="Var.is_reachable_sms " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="Var.is_reachable_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
@@ -633,14 +631,14 @@
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro_is_reachable" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_perso" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_perso_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="landline_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="landline_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_pro_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_perso" expression="vente.AcheteurTelephone1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="landline_pro" expression="vente.AcheteurTelephone2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="landline_pro_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro" type="id_String" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vehicle_id" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="v_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
