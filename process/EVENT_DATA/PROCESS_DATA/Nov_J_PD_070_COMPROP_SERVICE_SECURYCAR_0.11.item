@@ -573,18 +573,12 @@
       <column comment="" key="false" length="255" name="e_dealership_label" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="service_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="comprop_date" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="24" name="comprop_guarantee_start_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="24" name="comprop_guarantee_end_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="renewal_type" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="paying_mode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="buying_price" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_without_taxes" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="currency" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="3" name="number_of_terms" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="service_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="selling_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -712,18 +706,12 @@
         <mapperTableEntries name="e_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="service_type" expression="( null != produitsContrats.NomCommercial &amp;&amp; !(&quot;&quot;.equals(produitsContrats.NomCommercial))) ? &#xD;&#xA;produitsContrats.NomCommercial : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="comprop_date" expression="( null != scrh.DatePropositionRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.DatePropositionRenouvellement))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;yyyyMMdd&quot;, scrh.DatePropositionRenouvellement))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="comprop_guarantee_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="comprop_guarantee_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="renewal_type" expression="( null != scrh.TypeRenouvellement &amp;&amp; !(&quot;&quot;.equals(scrh.TypeRenouvellement))) ? scrh.TypeRenouvellement : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="paying_mode" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != utilisateurs.Login &amp;&amp; !(&quot;&quot;.equals(utilisateurs.Login))) ? utilisateurs.Login : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_without_taxes" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="taxes" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="number_of_terms" expression="0" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="service_id" expression="contrats.IdPdt_Ct " type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" expression="contrats.Oper_Ct " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="scrh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdLigne" type="id_Integer"/>
@@ -823,8 +811,8 @@
         <mapperTableEntries name="IDContratMaster" expression="contrats.IDWeb_Ct " type="id_Integer"/>
         <mapperTableEntries name="IDVehiculeMaster" type="id_Integer" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="statusMaritaux" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="IdStatutMarital" type="id_Integer"/>
+      <inputTables sizeState="INTERMEDIATE" name="statusMaritaux" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdStatutMarital" expression="tiers.IdStatutMarital " type="id_Integer"/>
         <mapperTableEntries name="LibelleStatutMarital" type="id_String"/>
       </inputTables>
     </nodeData>
@@ -2057,18 +2045,12 @@
         <mapperTableEntries name="e_dealership_label" type="id_String" nullable="true"/>
         <mapperTableEntries name="service_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="comprop_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="comprop_guarantee_start_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="comprop_guarantee_end_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="renewal_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="paying_mode" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_without_taxes" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_with_taxes" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="taxes" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="currency" type="id_String" nullable="true"/>
-        <mapperTableEntries name="number_of_terms" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="service_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="selling_dealership_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="filterMetaBrand" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="original_brand" expression="out.src_application_brand " type="id_String"/>
