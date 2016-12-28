@@ -193,9 +193,43 @@ public class Synaltic_Search {
 		} 
     }
     
+    public static String searchPersonV2(String query, String from, String size) throws JsonProcessingException {
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+
+    	ObjectNode queryRootNode = mapper.createObjectNode();
+    	ObjectNode queryStringNode = mapper.createObjectNode();
+    	ObjectNode queryNode = mapper.createObjectNode();
+    	ObjectNode fieldsNode = mapper.createObjectNode();
+    	ObjectNode fromNode = mapper.createObjectNode();
+    	ObjectNode sizeNode = mapper.createObjectNode();
+    	ArrayNode fieldsArray = mapper.createArrayNode();
+    	
+    	queryRootNode.put("query",query);
+    	
+    	fieldsArray.add("Person.lastname");
+    	fieldsArray.add("Person.firstname");
+    	fieldsArray.add("Person.vehicles_links.vin");
+    	
+    	fieldsNode.put("fields", fieldsArray);
+    	
+    	queryStringNode.putPOJO("fields", fieldsNode);
+    	queryStringNode.put("query", queryNode);
+    	queryStringNode.put("default_operator", "AND");
+    	
+    	
+    	queryRootNode.putPOJO("query_string",queryStringNode);
+    	queryRootNode.put("size",sizeNode);
+    	queryRootNode.put("from",fromNode);
+    	
+    	return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(queryRootNode);
+    		
+    	
+    }
+    
     public static void main(String[] args){
     	try {
-			System.out.println(searchPerson("UU1HSDJ9F53816930","0","10"));
+			System.out.println(searchPersonV("UU1HSDJ9F53816930","0","10"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
