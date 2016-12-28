@@ -192,7 +192,39 @@ public class Synaltic_Search {
 			return null;
 		} 
     }  
-    
+    public static String searchEventv1(String person_uuid, String vehicle_uuid, String process_type, String from, String size) throws JsonProcessingException{
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    		
+    	ObjectNode queryRootNode = mapper.createObjectNode();
+    	ObjectNode queryNode = mapper.createObjectNode();
+    	ObjectNode boolNode = mapper.createObjectNode();
+    	ObjectNode fieldsNode1 = mapper.createObjectNode();
+    	ObjectNode fieldsNode2 = mapper.createObjectNode();
+    	ObjectNode fieldsNode3 = mapper.createObjectNode();
+    	ObjectNode matchPhraseNode = mapper.createObjectNode();
+    	ArrayNode mustArray = mapper.createArrayNode();
+    	
+    	queryNode.put("query", query);
+    	
+    	fieldsNode1.put("pga_process_data.person.person_uuid",person_uuid);
+    	fieldsNode2.put("pga_process_data.person.vehicle_uuid",vehicle_uuid);
+    	fieldsNode3.put("pga_process_data.person.process_type",process_type);
+    	
+    	matchPhraseNode.putPOJO("match_phrase",fieldsNode1);
+    	matchPhraseNode.putPOJO("match_phrase",fieldsNode2);
+    	matchPhraseNode.putPOJO("match_phrase",fieldsNode3);
+    	
+    	mustArray.addPOJO(matchPhraseNode);
+    	boolNode.put("bool",mustArray);
+    	
+    	
+    	queryRootNode.putPOJO("query",boolNode);
+    	queryRootNode.put("from",from);
+    	queryRootNode.put("size",size);
+    	 
+    	return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(queryRootNode);
+    }
     public static void main(String[] args){
     	try {
 			System.out.println(searchPerson("UU1HSDJ9F53816930","0","10"));
