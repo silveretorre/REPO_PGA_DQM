@@ -310,11 +310,13 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="var1" expression="norm_physical_person_name.firstname_std != null ? norm_physical_person_name.firstname_std + norm_physical_person_name.lastname_std : &quot;&quot;+ norm_physical_person_name.lastname_std " type="id_String"/>
+        <mapperTableEntries name="var2" expression="norm_physical_person_name.firstname_std != null ? norm_physical_person_name.lastname_std +  norm_physical_person_name.firstname_std : &quot;&quot;+ norm_physical_person_name.lastname_std " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="meta_brand_source" expression="norm_physical_person_name.meta_brand_source " type="id_String"/>
@@ -330,6 +332,7 @@
         <mapperTableEntries name="birth_date" expression="norm_physical_person_name.birth_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="email_std" expression="email.email_std " type="id_String" nullable="true"/>
         <mapperTableEntries name="prenom_nom" expression="Var.var1 != null ? Var.var1.replaceAll(&quot; &quot;,&quot;&quot;) : Var.var1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="nom_prenom" expression="Var.var2 != null ? Var.var2.replaceAll(&quot; &quot;,&quot;&quot;) : Var.var2" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="norm_physical_person_name" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -481,6 +484,7 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -502,6 +506,7 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="CONFIDENT_GROUPS" name="CONFIDENT_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -517,6 +522,7 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="UNCERTAIN_GROUPS" name="UNCERTAIN_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -532,6 +538,7 @@
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="tdqmatching:MatchingData">
       <ruleMatchers>
@@ -545,7 +552,14 @@
         <joinkeys>
           <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
           <columnMap key="HANDLE_NULL" value="nullMatchNull"/>
-          <columnMap key="CONFIDENCE_WEIGHT" value="65"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="INPUT_COLUMN" value="nom_prenom"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
+        </joinkeys>
+        <joinkeys>
+          <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
+          <columnMap key="HANDLE_NULL" value="nullMatchNull"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
           <columnMap key="INPUT_COLUMN" value="prenom_nom"/>
           <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
         </joinkeys>
@@ -618,7 +632,7 @@
         <mapperTableEntries name="matching_distances" expression="row3.MATCHING_DISTANCES" type="id_String" nullable="true"/>
         <mapperTableEntries name="dedup_rule_name" expression="((String)globalMap.get(&quot;DEDUP_RULE_NAME&quot;))" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="row3.prenom_nom " type="id_String" nullable="true"/>
-        <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_process_uuid" expression="row3.nom_prenom " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
@@ -634,6 +648,7 @@
         <mapperTableEntries name="birth_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="email_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="prenom_nom" type="id_String" nullable="true"/>
+        <mapperTableEntries name="nom_prenom" type="id_String" nullable="true"/>
         <mapperTableEntries name="GID" type="id_String" nullable="true"/>
         <mapperTableEntries name="GRP_SIZE" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="MASTER" type="id_Boolean" nullable="true"/>
@@ -912,6 +927,9 @@
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMatchGroup_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="prenom_nom"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="nom_prenom"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
