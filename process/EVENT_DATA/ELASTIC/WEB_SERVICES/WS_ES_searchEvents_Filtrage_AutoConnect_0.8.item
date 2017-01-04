@@ -980,13 +980,13 @@
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
     <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - vehicle" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - master_vehicle" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;master_vehicle&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select brand,model,version&#xD;&#xA;from master_vehicle &#xD;&#xA;where master_gid='&quot;+ ((String)globalMap.get(&quot;master_gid&quot;))+&quot;' and brand='&quot;+ ((String)globalMap.get(&quot;brand&quot;))+&quot;' and SURVIVOR is true &#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select brand,model,version&#xD;&#xA;from master_vehicle &#xD;&#xA;where master_gid='&quot;+ ((String)globalMap.get(&quot;master_gid&quot;))+&quot;' and brand='&quot;+ ((String)globalMap.get(&quot;brand&quot;))+&quot;' and \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;master_vehicle\&quot;.\&quot;SURVIVOR\&quot; is true &#xD;&#xA;&quot;&#xD;&#xA;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1006,7 +1006,13 @@
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="vehicle" name="tPostgresqlInput_2">
+    <metadata connector="FLOW" label="master_vehicle" name="tPostgresqlInput_2">
+      <column comment="" key="false" length="255" name="master_gid" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="vin_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1016,28 +1022,7 @@
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="255" name="kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -1046,58 +1031,19 @@
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="national_identification_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="origin_country_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="1" name="SURVIVOR" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="argus_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="argus_kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_talend_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2147483647" name="equipements_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_external_identifier" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="is_optional" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="40" name="meta_process_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="CONFLICT" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1126,7 +1072,7 @@
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="vehicle" name="tLogRow_3">
+    <metadata connector="FLOW" label="master_vehicle" name="tLogRow_3">
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1136,28 +1082,13 @@
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="master_gid" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="vin_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="vin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="energy" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -1166,58 +1097,19 @@
       <column comment="" key="false" length="255" name="color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="national_identification_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="29" name="circulation_start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="circulation_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="origin_country_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="10" name="last_mileage_known" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="1" name="SURVIVOR" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="argus_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="argus_kind" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_talend_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="2147483647" name="equipements_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="equipements_external_identifier" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="is_optional" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="40" name="meta_process_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="CONFLICT" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
