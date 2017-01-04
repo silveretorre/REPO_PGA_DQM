@@ -497,13 +497,6 @@
           <columnMap key="INPUT_COLUMN" value="brand"/>
           <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
         </joinkeys>
-        <joinkeys>
-          <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
-          <columnMap key="HANDLE_NULL" value="nullMatchAll"/>
-          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
-          <columnMap key="INPUT_COLUMN" value="model"/>
-          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
-        </joinkeys>
         <matchParamMap key="INTERVAL_RULE" value="0.85"/>
         <matchParamMap key="MATCHING_ALGORITHM" value="Simple VSR Matcher"/>
       </ruleMatchers>
@@ -520,7 +513,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" connector="FLOW" label="dedup_physical_person" name="dedup_registration">
+    <metadata comment="" label="dedup_vehicle" name="dedup_registration">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -559,7 +552,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="dedup_registration" activateCondensedTool="true" id="_MFPQcC1YEeaKmoVyeBW_yg - dedup_vehicle">
         <mapperTableEntries name="meta_brand_source" expression="row3.meta_brand_source" type="id_String"/>
@@ -869,13 +862,13 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlRollback_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
-  </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlCommit_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlRollback_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tMatchGroup_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -907,7 +900,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle_registration" show="false"/>
   </connection>
-  <note opaque="true" posX="640" posY="32" sizeHeight="225" sizeWidth="833" text="Deduplicate vehicle using Address as blocking key&#xD;&#xA;&#xD;&#xA;v0.1 (2016/06/23) - SMA : first version&#xA;v0.2 (2016/06/27) - CRO : - change tPostgresqloutput_1 without shared connection and without transaction&#xA;                                             management and add distinct queries on &quot;vehicle&quot; and &quot;vehicle_person_link&quot; lookup&#xA;v0.3 (2016/09/15) - CRO : - Duplicate J_DQ_03_DEDUP_040_RegistrationNumber job to create a specific version for deduplicate vehicle.">
+  <note opaque="true" posX="640" posY="32" sizeHeight="225" sizeWidth="961" text="Deduplicate vehicle using Address as blocking key&#xD;&#xA;&#xD;&#xA;v0.1 (2016/06/23) - SMA : first version&#xA;v0.2 (2016/06/27) - CRO : - change tPostgresqloutput_1 without shared connection and without transaction&#xA;                                             management and add distinct queries on &quot;vehicle&quot; and &quot;vehicle_person_link&quot; lookup&#xA;v0.3 (2016/09/15) - CRO : - Duplicate J_DQ_03_DEDUP_040_RegistrationNumber job to create a specific version for deduplicate vehicle.&#xA;v0.8 (2017/01/04) - CRO : - Remove &quot;model&quot; in key definition of tMatchGroup component .">
     <elementParameter field="RADIO" name="NOTETXT_LEFT" value="true"/>
     <elementParameter field="RADIO" name="NOTETXT_CENTER" value="false"/>
     <elementParameter field="RADIO" name="NOTELABEL_CENTER" value="false"/>
