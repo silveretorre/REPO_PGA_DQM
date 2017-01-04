@@ -411,10 +411,15 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <uiProperties shellMaximized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="var1" expression="norm_physical_person_name.firstname_std != null ? norm_physical_person_name.firstname_std + norm_physical_person_name.lastname_std : &quot;&quot;+ norm_physical_person_name.lastname_std " type="id_String"/>
+        <mapperTableEntries name="var2" expression="norm_physical_person_name.firstname_std != null ? norm_physical_person_name.lastname_std +  norm_physical_person_name.firstname_std : &quot;&quot;+ norm_physical_person_name.lastname_std" type="id_String"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="meta_brand_source" expression="norm_physical_person_name.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="norm_physical_person_name.meta_application_name " type="id_String"/>
@@ -430,6 +435,8 @@
         <mapperTableEntries name="phone_number_std" expression="phone.phone_number_std " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="phone.meta_process_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_uuid" expression="phone.meta_process_uuid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="prenom_nom" expression="Var.var1 != null ? Var.var1.replaceAll(&quot; &quot;,&quot;&quot;) : Var.var1" type="id_String" nullable="true"/>
+        <mapperTableEntries name="nom_prenom" expression="Var.var2 != null ? Var.var2.replaceAll(&quot; &quot;,&quot;&quot;) : Var.var2" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="phone" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="norm_physical_person_name.meta_brand_source " type="id_String"/>
@@ -497,6 +504,8 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -519,6 +528,8 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="CONFIDENT_GROUPS" name="CONFIDENT_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -535,6 +546,8 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="UNCERTAIN_GROUPS" name="UNCERTAIN_GROUPS">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -551,29 +564,56 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="tdqmatching:MatchingData">
       <ruleMatchers>
         <joinkeys>
-          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
-          <columnMap key="INPUT_COLUMN" value="firstname_std"/>
-          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
-          <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
-          <columnMap key="HANDLE_NULL" value="nullMatchNone"/>
-        </joinkeys>
-        <joinkeys>
-          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
-          <columnMap key="INPUT_COLUMN" value="gender_std"/>
-          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
           <columnMap key="MATCHING_TYPE" value="Exact"/>
           <columnMap key="HANDLE_NULL" value="nullMatchAll"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="INPUT_COLUMN" value="gender_std"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
         </joinkeys>
         <joinkeys>
+          <columnMap key="CONFIDENCE_WEIGHT" value="0"/>
           <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
-          <columnMap key="INPUT_COLUMN" value="lastname_std"/>
-          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="MATCHING_TYPE" value="dummy"/>
+          <columnMap key="HANDLE_NULL" value="nullMatchNone"/>
+          <columnMap key="INPUT_COLUMN" value="nom_prenom"/>
+        </joinkeys>
+        <joinkeys>
           <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
           <columnMap key="HANDLE_NULL" value="nullMatchNone"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="INPUT_COLUMN" value="prenom_nom"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
+        </joinkeys>
+        <matchParamMap key="INTERVAL_RULE" value="0.92"/>
+        <matchParamMap key="MATCHING_ALGORITHM" value="Simple VSR Matcher"/>
+      </ruleMatchers>
+      <ruleMatchers>
+        <joinkeys>
+          <columnMap key="MATCHING_TYPE" value="Exact"/>
+          <columnMap key="HANDLE_NULL" value="nullMatchAll"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="INPUT_COLUMN" value="gender_std"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
+        </joinkeys>
+        <joinkeys>
+          <columnMap key="MATCHING_TYPE" value="Jaro-Winkler"/>
+          <columnMap key="HANDLE_NULL" value="nullMatchNone"/>
+          <columnMap key="CONFIDENCE_WEIGHT" value="45"/>
+          <columnMap key="INPUT_COLUMN" value="nom_prenom"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
+        </joinkeys>
+        <joinkeys>
+          <columnMap key="CONFIDENCE_WEIGHT" value="0"/>
+          <columnMap key="CUSTOM_MATCHER" value="&quot;&quot;"/>
+          <columnMap key="MATCHING_TYPE" value="dummy"/>
+          <columnMap key="HANDLE_NULL" value="nullMatchNone"/>
+          <columnMap key="INPUT_COLUMN" value="prenom_nom"/>
         </joinkeys>
         <matchParamMap key="INTERVAL_RULE" value="0.92"/>
         <matchParamMap key="MATCHING_ALGORITHM" value="Simple VSR Matcher"/>
@@ -606,6 +646,8 @@
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="prenom_nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="nom_prenom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="0" name="GID" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="GRP_SIZE" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="MASTER" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
@@ -1201,6 +1243,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="meta_process_uuid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="prenom_nom"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="nom_prenom"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
