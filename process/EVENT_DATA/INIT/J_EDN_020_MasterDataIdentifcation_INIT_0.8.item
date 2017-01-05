@@ -404,6 +404,8 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="enrichJSON" name="enrichJSON">
+      <column comment="" key="false" length="-1" name="vehicle_uuid_Absent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="id_vehicle_Absent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -427,9 +429,11 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
+        <mapperTableEntries name="vehicle_uuid_Absent" expression="(row1.id_vehicle!= null &amp;&amp; row1.src_application_brand != null &amp;&amp; row1.src_application_name != null &amp;&amp; (dedup_vehicle.master_gid == null || &quot;&quot;.equals(dedup_vehicle.master_gid)))? &quot;Véhicule inconnu dans le référentiel&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_vehicle_Absent" expression="(row1.id_vehicle == null ||  row1.src_application_brand == null || &quot;&quot;.equals(row1.id_vehicle))? &quot;Absence d’informations sur le véhicule dans l’événement&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
@@ -632,14 +636,32 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.person_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String puis en bytes()&#xA;    &#x9;output_row.serializedValue = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut).getBytes();&#xA;&#xA;&#xA;    &#x9;"/>
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_2" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
+    <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_List"/>
+    <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_020_MasterDataIdentification_fallback&quot;"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
+    <elementParameter field="TABLE" name="KAFKA_PRODUCER_PROPERTIES"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tKafkaOutput_2">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="512">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;    &#x9;if (!&quot;fieldnotuse&quot;.equals(input_row.id_vehicle_Absent))&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;Info process data&quot;, input_row.id_vehicle_Absent);&#xA;        if (!&quot;fieldnotuse&quot;.equals(input_row.vehicle_uuid_Absent))&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;Info vcu&quot;, input_row.vehicle_uuid_Absent);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.person_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut);&#xA;&#xA;output_row.vehicle_uuid = input_row.vehicle_uuid;&#xA;output_row.person_uuid = input_row.person_uuid;&#xA;output_row.status = input_row.status;&#xA;    &#x9;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import java.util.Iterator;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
     <elementParameter field="TEXT" name="LABEL" value="enrich JSON Doc"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_1">
-      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
+    <metadata connector="FLOW" name="tJavaRow_2">
+      <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1856" posY="512">
@@ -657,21 +679,6 @@
       <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="704">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_2" show="false"/>
-    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
-    <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
-    <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_List"/>
-    <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_020_MasterDataIdentification_fallback&quot;"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
-    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
-    <elementParameter field="TABLE" name="KAFKA_PRODUCER_PROPERTIES"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tKafkaOutput_2">
-      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
-    </metadata>
-  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tPostgresqlConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
@@ -681,17 +688,17 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_2" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_2" target="tLibraryLoad_3">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3" show="false"/>
   </connection>
-  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tParallelize_1" target="tRunJob_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
-  </connection>
-  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tParallelize_1" target="tRunJob_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
-  </connection>
   <connection connectorName="SYNCHRONIZE" label="Synchronize" lineStyle="12" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" source="tParallelize_1" target="tParallelize_2">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Synchronize" show="false"/>
+  </connection>
+  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tParallelize_1" target="tRunJob_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
+  </connection>
+  <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tParallelize_1" target="tRunJob_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
   </connection>
   <connection connectorName="SYNCHRONIZE" label="Synchronize" lineStyle="12" metaname="tParallelize_2" offsetLabelX="0" offsetLabelY="0" source="tParallelize_2" target="tParallelize_3">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
@@ -717,9 +724,15 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_1">
+  <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vehicle_uuid_Absent"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="id_vehicle_Absent"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -749,7 +762,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_vehicle" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tKafkaOutput_1">
+  <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tJavaRow_2" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_2" target="tKafkaOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
