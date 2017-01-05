@@ -411,6 +411,13 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" name="badNews">
+      <column comment="" key="false" length="-1" name="serializedValue" nullable="true" pattern="" precision="-1" sourceType="" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
     <metadata connector="FLOW" name="badNewsFile">
       <column comment="" key="false" length="-1" name="process_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="src_application_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -426,11 +433,18 @@
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="vehicle_uuid_Absent" expression="(row1.id_vehicle!= null &amp;&amp; row1.src_application_brand != null &amp;&amp; row1.src_application_name != null &amp;&amp; (dedup_vehicle.master_gid == null || &quot;&quot;.equals(dedup_vehicle.master_gid)))? &quot;Véhicule inconnu dans le référentiel&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="id_vehicle_Absent" expression="(row1.id_vehicle == null ||  row1.src_application_brand == null || &quot;&quot;.equals(row1.id_vehicle) || &quot;&quot;.equals(row1.src_application_brand))? &quot;Absence d’informations sur le véhicule dans l’événement&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_vehicle_Absent" expression="(row1.id_vehicle == null ||  row1.src_application_brand == null || &quot;&quot;.equals(row1.id_vehicle))? &quot;Absence d’informations sur le véhicule dans l’événement&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="badNews" activateCondensedTool="true" reject="true">
+        <mapperTableEntries name="serializedValue" expression="row1.jsonDoc.getBytes() " type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="status" expression="&quot;KO&quot;" type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="badNewsFile" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="process_type" expression="row1.process_type " type="id_String" nullable="true"/>
@@ -725,7 +739,16 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="badNewsFile" lineStyle="0" metaname="badNewsFile" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tFileOutputDelimited_1">
+  <connection connectorName="FLOW" label="badNews" lineStyle="0" metaname="badNews" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tKafkaOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNews" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="badNewsFile" lineStyle="0" metaname="badNewsFile" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tFileOutputDelimited_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="true"/>
     <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Relative"/>
     <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value="row1"/>
