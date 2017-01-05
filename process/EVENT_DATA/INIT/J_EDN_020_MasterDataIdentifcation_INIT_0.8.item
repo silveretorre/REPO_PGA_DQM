@@ -434,7 +434,7 @@
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="vehicle_uuid_Absent" expression="(row1.id_vehicle!= null &amp;&amp; row1.src_application_brand != null &amp;&amp; row1.src_application_name != null &amp;&amp; (dedup_vehicle.master_gid == null || &quot;&quot;.equals(dedup_vehicle.master_gid)))? &quot;Véhicule inconnu dans le référentiel&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="id_vehicle_Absent" expression="(row1.id_vehicle == null ||  row1.src_application_brand == null || &quot;&quot;.equals(row1.id_vehicle) || &quot;&quot;.equals(row1.src_application_brand))? &quot;Absence d’informations sur le véhicule dans l’événement&quot; : &quot;fieldnotuse&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc" type="id_String" nullable="true"/>
+        <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc.getBytes() " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
@@ -664,7 +664,7 @@
       <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1760" posY="512">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1792" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
@@ -697,7 +697,7 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1856" posY="512">
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1888" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
