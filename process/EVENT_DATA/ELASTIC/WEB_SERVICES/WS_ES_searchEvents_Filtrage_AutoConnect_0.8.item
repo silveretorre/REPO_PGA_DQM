@@ -950,6 +950,49 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2368" posY="480">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_1" show="false"/>
+    <elementParameter field="TABLE" name="GROUPBYS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="statusCode"/>
+      <elementValue elementRef="INPUT_COLUMN" value="statusCode"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="string"/>
+      <elementValue elementRef="INPUT_COLUMN" value="string"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="process_uuid"/>
+      <elementValue elementRef="INPUT_COLUMN" value="process_uuid"/>
+    </elementParameter>
+    <elementParameter field="TABLE" name="OPERATIONS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="master_gid"/>
+      <elementValue elementRef="FUNCTION" value="list"/>
+      <elementValue elementRef="INPUT_COLUMN" value="master_gid"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="brand"/>
+      <elementValue elementRef="FUNCTION" value="count"/>
+      <elementValue elementRef="INPUT_COLUMN" value="brand"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="model"/>
+      <elementValue elementRef="FUNCTION" value="count"/>
+      <elementValue elementRef="INPUT_COLUMN" value="model"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="version"/>
+      <elementValue elementRef="FUNCTION" value="count"/>
+      <elementValue elementRef="INPUT_COLUMN" value="version"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
+    <elementParameter field="CHECK" name="USE_FINANCIAL_PRECISION" value="true"/>
+    <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
+    <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="mapout" name="tAggregateRow_1">
+      <column defaultValue="" key="false" length="0" name="statusCode" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column key="false" length="40" name="string" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="master_gid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2528" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_3" show="false"/>
     <elementParameter field="TABLE" name="VARIABLES">
@@ -1145,7 +1188,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="3040" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA;&#xA;&#xA;try {&#xA;&#xA;   //JsonNode node = mapperOut.readTree( input_row.body);&#xA;   JsonNode arraynode = mapperOut.readTree( input_row.body).get(&quot;hits&quot;).get(&quot;hits&quot;);&#xA;   if (arraynode.isArray()) {&#xA;       for (final JsonNode objNode : arraynode) {&#xA;              while(((String)globalMap.get(&quot;vehicle_uuid&quot;)).equals(mapperOut.writeValueAsString(objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;).path(&quot;vehicle_uuid&quot;)))){&#xA;              &#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;brand&quot;, ((String)globalMap.get(&quot;brand&quot;)));&#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;model&quot;, ((String)globalMap.get(&quot;model&quot;)));&#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;version&quot;, ((String)globalMap.get(&quot;version&quot;)));&#xA;               System.out.println(mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(objNode));&#xA;              }&#xA;       }&#xA;   }&#xA;     &#x9;// Le JsonNode est converti en String&#xA;     &#x9;//((ArrayNode) node.path(&quot;hits&quot;).withArray(&quot;hits&quot;)).addArray();&#xA;     &#x9;//((ArrayNode) node.path(&quot;hits&quot;).withArray(&quot;hits&quot;)).&#xA;    &#x9;output_row.body = mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(arraynode);&#xA;      &#xA;} catch (IOException e) {&#xA;    e.printStackTrace();&#xA;}&#xA;    &#xA;    &#x9;//System.out.println(output_row.body);&#xA;&#xA;        //code_erreur&#xA;        if ( row20.statusCode!= null) {&#xA;&#x9;    globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;         } else {&#xA;&#x9;          globalMap.put(&quot;code_erreur&quot;, 200);&#xA;         }&#xA;    &#x9;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA;&#xA;&#xA;try {&#xA;&#xA;   //JsonNode node = mapperOut.readTree( input_row.body);&#xA;   JsonNode arraynode = mapperOut.readTree( input_row.body).get(&quot;hits&quot;).get(&quot;hits&quot;);&#xA;   String[] masters = ((String)globalMap.get(&quot;brand&quot;)).split(&quot;,&quot;);&#xA;   String[] brands = ((String)globalMap.get(&quot;brand&quot;)).split(&quot;,&quot;);&#xA;   String[] models = ((String)globalMap.get(&quot;model&quot;)).split(&quot;,&quot;);&#xA;   String[] versions = ((String)globalMap.get(&quot;version&quot;)).split(&quot;,&quot;);&#xA;   System.out.println(masters[0]+masters[1]);&#xA;   &#xA;   /*if (arraynode.isArray()) {&#xA;       for (final JsonNode objNode : arraynode) {&#xA;              while(((String)globalMap.get(&quot;vehicle_uuid&quot;)).equals(mapperOut.writeValueAsString(objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;).path(&quot;vehicle_uuid&quot;)))){&#xA;              &#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;brand&quot;, ((String)globalMap.get(&quot;brand&quot;)));&#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;model&quot;, ((String)globalMap.get(&quot;model&quot;)));&#xA;              //((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;version&quot;, ((String)globalMap.get(&quot;version&quot;)));&#xA;               System.out.println(mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(objNode));&#xA;              }&#xA;       }&#xA;   }&#xA;     &#x9;// Le JsonNode est converti en String&#xA;     &#x9;//((ArrayNode) node.path(&quot;hits&quot;).withArray(&quot;hits&quot;)).addArray();&#xA;     &#x9;//((ArrayNode) node.path(&quot;hits&quot;).withArray(&quot;hits&quot;)).&#xA;    &#x9;output_row.body = mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(arraynode);*/&#xA;      &#xA;} catch (IOException e) {&#xA;    e.printStackTrace();&#xA;}&#xA;    &#xA;    &#x9;//System.out.println(output_row.body);&#xA;&#xA;        //code_erreur&#xA;        if ( row20.statusCode!= null) {&#xA;&#x9;    globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;         } else {&#xA;&#x9;          globalMap.put(&quot;code_erreur&quot;, 200);&#xA;         }&#xA;    &#x9;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
     <elementParameter field="TEXT" name="LABEL" value="keep_body"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1254,43 +1297,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRESTResponse_6">
       <column defaultValue="" key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2368" posY="384">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
-    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
-    <elementParameter field="RADIO" name="VERTICAL" value="true"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true"/>
-    <elementParameter field="RADIO" name="PRINT_LABEL" value="false"/>
-    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
-    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
-    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
-    <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="statusCode"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="process_uuid"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="version"/>
-      <elementValue elementRef="LENGTH" value="10"/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="mapout" name="tLogRow_3">
-      <column defaultValue="" key="false" length="0" name="statusCode" nullable="true" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="FLOW" label="POST" lineStyle="0" metaname="POST" offsetLabelX="0" offsetLabelY="0" source="tRESTRequest_1" target="tJavaRow_1">
@@ -1508,7 +1514,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row21" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="mapout" lineStyle="0" metaname="mapout" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tSetGlobalVar_3">
+  <connection connectorName="FLOW" label="mapout" lineStyle="0" metaname="mapout" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tAggregateRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="model"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -1529,6 +1535,10 @@
   <connection connectorName="FLOW" label="row18" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row18" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row27" lineStyle="0" metaname="tAggregateRow_1" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_1" target="tSetGlobalVar_3">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row27" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_3" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_3" target="tJava_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
@@ -1639,11 +1649,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_3" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
