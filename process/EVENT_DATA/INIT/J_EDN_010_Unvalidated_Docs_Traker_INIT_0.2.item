@@ -59,7 +59,7 @@
     <contextParameter comment="" name="CurrentProcessUuid" prompt="CurrentProcessUuid?" promptNeeded="false" type="id_String" value=""/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="4" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -584,7 +584,7 @@
       <column comment="" key="false" length="-1" name="isValid" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="isValid" expression="SynalticJson.jsonIsValid( row9.body ,row4.json_schema ) " type="id_String"/>
       </varTables>
@@ -726,7 +726,7 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="kafka_ok" name="kafka_ok">
-      <column comment="" key="false" length="-1" name="stutus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" name="kafka_error">
       <column comment="" key="false" length="-1" name="Message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -736,7 +736,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="kafka_ok" expressionFilter="globalMap.get(&quot;processStatus&quot;)!=null &amp;&amp; (Boolean)globalMap.get(&quot;processStatus&quot;)" activateExpressionFilter="true">
-        <mapperTableEntries name="stutus" expression="&quot;The schema validation for the process type &quot; + globalMap.get(&quot;processType&quot;) +&quot; is &quot;+ globalMap.get(&quot;processStatus&quot;) + &quot; and the Document process_uuid is &quot; + ((String)globalMap.get(&quot;processUuid&quot;)) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="serializedValue" expression="row11.body.getBytes()  " type="id_byte[]" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="kafka_error" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="Message" expression="((String)globalMap.get(&quot;errorMessage&quot;))" type="id_String" nullable="true"/>
@@ -749,6 +749,8 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="672">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="DUMMY" value="true" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -761,18 +763,20 @@
     <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
     <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
     <elementParameter field="TABLE" name="LENGTHS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="stutus"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="serializedValue"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="kafka_ok" name="tLogRow_1">
-      <column comment="" key="false" length="-1" name="stutus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="800">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="DUMMY" value="true" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -796,39 +800,6 @@
     <metadata connector="FLOW" name="tLogRow_2">
       <column comment="" key="false" length="-1" name="Message" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="2555" name="body" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="672">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
-    <elementParameter field="CHECK" name="USESTREAM" value="false"/>
-    <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.Validated_Json_File_Path + &quot;/&quot; + ((String)globalMap.get(&quot;processUuid&quot;)) + &quot;_valid.log&quot;"/>
-    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
-    <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
-    <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;\n&quot;"/>
-    <elementParameter field="CHECK" name="APPEND" value="true"/>
-    <elementParameter field="CHECK" name="INCLUDEHEADER" value="false"/>
-    <elementParameter field="CHECK" name="COMPRESS" value="false" show="false"/>
-    <elementParameter field="CHECK" name="ADVANCED_SEPARATOR" value="false"/>
-    <elementParameter field="TEXT" name="THOUSANDS_SEPARATOR" value="&quot;,&quot;" show="false"/>
-    <elementParameter field="TEXT" name="DECIMAL_SEPARATOR" value="&quot;.&quot;" show="false"/>
-    <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
-    <elementParameter field="TEXT" name="ESCAPE_CHAR" value="&quot;&quot;&quot;" show="false"/>
-    <elementParameter field="TEXT" name="TEXT_ENCLOSURE" value="&quot;&quot;&quot;" show="false"/>
-    <elementParameter field="CHECK" name="CREATE" value="true"/>
-    <elementParameter field="CHECK" name="SPLIT" value="true"/>
-    <elementParameter field="TEXT" name="SPLIT_EVERY" value="1"/>
-    <elementParameter field="CHECK" name="FLUSHONROW" value="false"/>
-    <elementParameter field="TEXT" name="FLUSHONROW_NUM" value="1" show="false"/>
-    <elementParameter field="CHECK" name="ROW_MODE" value="true"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;UTF-8&quot;"/>
-    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="UTF-8"/>
-    <elementParameter field="CHECK" name="DELETE_EMPTYFILE" value="true"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="kafka_ok" name="tFileOutputDelimited_1">
-      <column comment="" key="false" length="-1" name="stutus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="800">
@@ -893,6 +864,21 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="schemaError" name="tSetGlobalVar_3">
       <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tKafkaOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="672">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaOutput_1" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
+    <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_List"/>
+    <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_010_validation_out&quot;"/>
+    <elementParameter field="CHECK" name="COMPRESS" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="COMPRESSION" value="GZIP" show="false"/>
+    <elementParameter field="TABLE" name="KAFKA_PRODUCER_PROPERTIES"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tKafkaOutput_1">
+      <column defaultValue="" key="false" length="0" name="serializedValue" nullable="true" precision="0" sourceType="" type="id_byte[]" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tKafkaConnection_1">
@@ -1011,6 +997,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="stutus"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="serializedValue"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100" show="false"/>
@@ -1029,7 +1018,7 @@
     <elementParameter field="TEXT" name="DEPART_QUEUE_SIZE" value="100" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="kafka_error" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tLogRow_1" offsetLabelX="0" offsetLabelY="0" source="tLogRow_1" target="tFileOutputDelimited_1">
+  <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tLogRow_1" offsetLabelX="0" offsetLabelY="0" source="tLogRow_1" target="tKafkaOutput_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
