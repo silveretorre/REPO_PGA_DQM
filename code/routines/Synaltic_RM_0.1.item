@@ -38,7 +38,7 @@ public class Synaltic_RM {
      * 
      * {talendTypes} String
      * 
-     * {Category} DQ
+     * {Category} RM
      * 
      * {param} string("application_source")
      * 
@@ -72,7 +72,7 @@ public class Synaltic_RM {
      * 
      * {talendTypes} String
      * 
-     * {Category} DQ
+     * {Category} RM
      * 
      * {param} string("application_source")
      * 
@@ -93,10 +93,58 @@ public class Synaltic_RM {
     	}
     	return content_temp;
     }
+    /**
+     * 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} RM
+     * 
+     * {param} string("application_source","id_vehicle","src_application_name","master_gid")
+     * 
+     * {example} infoVcu("application_source","id_vehicle","src_application_name","master_gid") # Véhicule inconnu dans le référentiel or fieldnotuse
+     */
+    
+    public static String infoVcu(String id_vehicle, String src_application_brand, String src_application_name, String master_gid){
+    	
+    	String content_temp=null;
+    	
+    	if ((!"".equals(id_vehicle) && !"".equals(src_application_brand) && !"".equals(src_application_name)) && (!"".equals(master_gid) || master_gid==null))
+	    	return content_temp= "Véhicule inconnu dans le référentiel";
+	    	   else 
+	    		return content_temp= "fieldnotuse";
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} RM
+     * 
+     * {param} string("application_source","id_vehicle","src_application_name","master_gid")
+     * 
+     * {example} infoProcessData("application_source","id_vehicle","src_application_name") # Absence d’informations sur le véhicule dans l’événement or fieldnotuse
+     */
+    
+    public static String infoProcessData(String id_vehicle, String src_application_brand, String src_application_name){
+    	
+    	String content_temp=null;
+    	
+    	if ("".equals(id_vehicle) || "".equals(src_application_brand) || "".equals(src_application_name))
+	    	return content_temp= "Absence d’informations sur le véhicule dans l’événement";
+	    	   else 
+	    		return content_temp= "fieldnotuse";
+    }
     
     public static void main(String[] args){//PLANET_VO AUTOSPHERE_FR SIV SECURYWEB
     	
-    	String test_list_app = "AUTOSPHERE_FR";
-    	System.out.println(isOnlineOrOffline(test_list_app));
+    	String id_vehicle = "AUTOSPHERE_FR";
+    	String src_application_brand = "AUTOSPHERE_FR";
+    	String src_application_name = "AUTOSPHERE_FR";
+    	String master_gid = "";
+    	System.out.println(infoVcu(id_vehicle,src_application_brand,src_application_name,master_gid));
     }
 }
