@@ -176,7 +176,7 @@
   </parameters>
   <node componentName="tRESTRequest" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="64" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRESTRequest_1" show="false"/>
-    <elementParameter field="TEXT" name="REST_ENDPOINT" value="&quot;/services/rest/RCU/V0/searchEvents&quot;"/>
+    <elementParameter field="TEXT" name="REST_ENDPOINT" value="&quot;http://localhost:8088/services/rest/RCU/V0/searchEvents&quot;"/>
     <elementParameter field="TABLE" name="SCHEMAS">
       <elementValue elementRef="SCHEMA" value="POST"/>
       <elementValue elementRef="HTTP_VERB" value="POST"/>
@@ -843,9 +843,11 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="code_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="message" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="mapout">
         <mapperTableEntries name="statusCode" expression="row21.statusCode " type="id_Integer" nullable="true"/>
@@ -855,6 +857,8 @@
         <mapperTableEntries name="brand" expression="row18.brand " type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression="row18.model " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="row18.version " type="id_String" nullable="true"/>
+        <mapperTableEntries name="code_info" expression="row31.code_info " type="id_String" nullable="true"/>
+        <mapperTableEntries name="message" expression="row31.message " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row21" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="statusCode" type="id_Integer" nullable="true"/>
@@ -869,9 +873,13 @@
         <mapperTableEntries name="version" type="id_String" nullable="true"/>
         <globalMapKeysValues name="&quot;vehicle_uuid&quot;" expression="row21.master_gid "/>
       </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row31" activateCondensedTool="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="code_info" type="id_String" nullable="true"/>
+        <mapperTableEntries name="message" type="id_String" nullable="true"/>
+      </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2240" posY="352">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2112" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -984,6 +992,10 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="version"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="code_info"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="message"/>
+      <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
@@ -996,6 +1008,8 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="code_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="message" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2496" posY="480">
@@ -1013,6 +1027,8 @@
       <elementValue elementRef="VALUE" value="row27.model"/>
       <elementValue elementRef="KEY" value="row27.master_gid + &quot;_version&quot;"/>
       <elementValue elementRef="VALUE" value="row27.version"/>
+      <elementValue elementRef="KEY" value="row27.code_info + &quot;_message&quot;"/>
+      <elementValue elementRef="VALUE" value="row27.message"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="retour_Elastic"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1024,6 +1040,56 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="code_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="message" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2336" posY="352">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_3" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DQM_ODS_Server"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DQM_ODS_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DQM_ODS_Database"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - process_data_code_info" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;process_data_code_info&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;process_data_code_info\&quot;.\&quot;code_info\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;process_data_code_info\&quot;.\&quot;message\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;process_data_code_info\&quot;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="code_info"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="message"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="process_data_code_info" name="tPostgresqlInput_3">
+      <column comment="" key="false" length="255" name="code_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="message" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
     </metadata>
   </node>
   <node componentName="tLogCatcher" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="96" posY="-32">
@@ -1191,7 +1257,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2976" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA;&#xA;try {&#xA;&#xA;   JsonNode node = mapperOut.readTree( input_row.body); &#xA;   JsonNode arraynode = node.get(&quot;hits&quot;).get(&quot;hits&quot;);&#xA;   &#xA;   if (arraynode.isArray()) {&#xA;       for (final JsonNode objNode : arraynode) {&#xA;             &#xA;              String v_uuid = mapperOut.writeValueAsString(objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;).path(&quot;vehicle_uuid&quot;));&#xA;              if(v_uuid != null)&#xA;              v_uuid = v_uuid.replaceAll(&quot;\&quot;&quot;, &quot;&quot;);&#xA;              //System.out.println(&quot;v_uuid ==>&quot; + v_uuid);&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;brand&quot;,((String)globalMap.get( v_uuid + &quot;_brand&quot;)));&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;model&quot;, ((String)globalMap.get(v_uuid + &quot;_model&quot;)));&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;version&quot;, ((String)globalMap.get(v_uuid + &quot;_version&quot;)));&#xA;              //System.out.println(mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(objNode));&#xA;              &#xA;       }&#xA;   }&#xA;     &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(node);&#xA;      &#xA;} catch (IOException e) {&#xA;    e.printStackTrace();&#xA;}&#xA;    &#xA;    &#x9;//System.out.println(output_row.body);&#xA;&#xA;        //code_erreur&#xA;        if ( row20.statusCode!= null) {&#xA;&#x9;    globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;         } else {&#xA;&#x9;          globalMap.put(&quot;code_erreur&quot;, 200);&#xA;         }&#xA;    &#x9;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA;&#xA;try {&#xA;&#xA;   JsonNode node = mapperOut.readTree( input_row.body); &#xA;   JsonNode arraynode = node.get(&quot;hits&quot;).get(&quot;hits&quot;);&#xA;   &#xA;   if (arraynode.isArray()) {&#xA;       for (final JsonNode objNode : arraynode) {&#xA;             &#xA;              String v_uuid = mapperOut.writeValueAsString(objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;).path(&quot;vehicle_uuid&quot;));&#xA;              if(v_uuid != null)&#xA;              v_uuid = v_uuid.replaceAll(&quot;\&quot;&quot;, &quot;&quot;);&#xA;              //System.out.println(&quot;v_uuid ==>&quot; + v_uuid);&#xA;     &#xA;     &#x9;&#x9;  //Insertion des champs brand, model et verion dans les process data &#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;brand&quot;,((String)globalMap.get( v_uuid + &quot;_brand&quot;)));&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;model&quot;, ((String)globalMap.get(v_uuid + &quot;_model&quot;)));&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;version&quot;, ((String)globalMap.get(v_uuid + &quot;_version&quot;)));&#xA;              //System.out.println(mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(objNode));&#xA;              &#xA;              //Insertion du message correspondant au code info&#xA;               if(!objNode.get(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;info&quot;).isMissingNode)&#xA;               String code_info = mapperOut.writeValueAsString(objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;info&quot;));&#xA;              ((ObjectNode) objNode.path(&quot;_source&quot;).path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;info&quot;,((String)globalMap.get( code_info + &quot;_message&quot;)));&#xA;       }&#xA;   }&#xA;     &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapperOut.writerWithDefaultPrettyPrinter().writeValueAsString(node);&#xA;      &#xA;} catch (IOException e) {&#xA;    e.printStackTrace();&#xA;}&#xA;    &#xA;    &#x9;//System.out.println(output_row.body);&#xA;&#xA;        //code_erreur&#xA;        if ( row20.statusCode!= null) {&#xA;&#x9;    globalMap.put(&quot;code_erreur&quot;, input_row.statusCode);&#xA;         } else {&#xA;&#x9;          globalMap.put(&quot;code_erreur&quot;, 200);&#xA;         }&#xA;    &#x9;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
     <elementParameter field="TEXT" name="LABEL" value="keep_body"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1518,6 +1584,14 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row21" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="mapout" lineStyle="0" metaname="mapout" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tLogRow_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="message"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="code_info"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="mapout" show="false"/>
   </connection>
@@ -1531,6 +1605,10 @@
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_3" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_3" target="tJava_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row31" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row31" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tLogCatcher_1" offsetLabelX="0" offsetLabelY="0" source="tLogCatcher_1" target="tJavaRow_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
