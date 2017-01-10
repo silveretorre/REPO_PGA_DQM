@@ -279,11 +279,12 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="index" expression="&quot;{\&quot;index\&quot; : {\&quot;_index\&quot; : &quot; +&quot;\&quot;&quot; + row19.process_type + &quot;\&quot;,\&quot;_type\&quot;: &quot;+&quot;\&quot;&quot; + row19.src_application_brand + &quot;\&quot;,  \&quot;_id\&quot; : \&quot;&quot; + row19.process_uuid + &quot;\&quot;}}&quot; " type="id_String"/>
+        <mapperTableEntries name="sequence" expression="Numeric.sequence(row19.process_uuid, 1, 1) " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="copyOfload">
+      <outputTables sizeState="INTERMEDIATE" name="copyOfload" expressionFilter="Var.sequence ==1" activateExpressionFilter="true">
         <mapperTableEntries name="jsonDoc" expression="Var.index " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="copyOfload1" isJoinTableOf="copyOfload">
+      <outputTables sizeState="INTERMEDIATE" name="copyOfload1" expressionFilter="Var.sequence ==1" activateExpressionFilter="true" isJoinTableOf="copyOfload">
         <mapperTableEntries name="jsonDoc" expression="row19.jsonDoc " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row19" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
