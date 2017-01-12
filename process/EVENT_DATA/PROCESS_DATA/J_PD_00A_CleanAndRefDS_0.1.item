@@ -1725,7 +1725,7 @@
         <mapperTableEntries name="process_type" expression="filtered.process_type" type="id_String"/>
         <mapperTableEntries name="process_category" expression="filtered.process_category" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="filtered.src_application_name" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="filtered.src_application_brand" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="dealership_ref.main_brand " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="filtered.src_process_moment" type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="filtered.load_process_moment" type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="filtered.src_process_id" type="id_String"/>
@@ -1935,6 +1935,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="dealership_ref" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="ref_dealership_usualname" type="id_String" nullable="true"/>
+        <mapperTableEntries name="main_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="ref_dealership_id" expression="dealership_crossref.ref_dealership_id " type="id_String" nullable="true" operator="="/>
       </inputTables>
     </nodeData>
@@ -2782,7 +2783,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;.\&quot;ref_dealership_usualname\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;.\&quot;ref_dealership_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;.\&quot;ref_dealership_usualname\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;.\&quot;main_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;.\&quot;ref_dealership_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_ref\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2795,6 +2796,8 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_usualname"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="main_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
@@ -2802,6 +2805,9 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="dealership_ref" name="tPostgresqlInput_7">
       <column comment="" key="false" length="255" name="ref_dealership_usualname" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="main_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="ref_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
