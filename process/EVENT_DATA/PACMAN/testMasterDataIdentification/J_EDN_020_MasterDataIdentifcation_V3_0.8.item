@@ -431,6 +431,7 @@
   </node>
   <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
     <elementParameter field="TABLE" name="VALUES">
@@ -465,6 +466,7 @@
   </node>
   <node componentName="tExtractJSONFields" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tExtractJSONFields_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="READ_BY" value="XPATH"/>
     <elementParameter field="PREV_COLUMN_LIST" name="JSONFIELD" value="jsonDoc"/>
     <elementParameter field="TEXT" name="LOOP_QUERY" value="&quot;/pga_process_data&quot;"/>
@@ -537,6 +539,7 @@
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -603,6 +606,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -675,6 +679,7 @@
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1376" posY="832">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -741,6 +746,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;ObjectMapper mapperOut = new ObjectMapper();&#xA; JsonNode root = mapper.readTree(input_row.jsonDoc);&#xA; JsonNode rootOut = mapperOut.readTree(input_row.jsonDoc);&#xA;&#xA;        // Insertion d'une information en cas d'absence de valeur pour les champs id_vehicle et brand dans le document&#xA;&#x9;&#x9;if(!&quot;not_use&quot;.equals(input_row.info))&#xA;&#x9;&#x9;//System.out.println(&quot;ok&quot;);&#xA;&#x9;&#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;info&quot;, input_row.info);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;    &#x9;// Insertion du vehicle_id dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;vehicle&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).put(&quot;vehicle_uuid&quot;, input_row.vehicle_uuid);&#xA;&#xA;&#xA;    &#x9;// Insertion du person_uuid dans le document JSON et suppression des autres champs&#xA;    &#x9;for(Iterator&lt;String> i = root.path(&quot;pga_process_data&quot;).get(&quot;person&quot;).fieldNames() ; i.hasNext();){&#xA;    &#x9;&#x9;String currentNode =&#x9;i.next() ;&#xA;    &#x9;&#x9;if(!&quot;raw&quot;.equalsIgnoreCase(currentNode)) {&#xA;    &#x9;&#x9;&#x9;((ObjectNode)rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(currentNode);&#xA;    &#x9;&#x9;&#x9;}&#xA;    &#x9;}&#xA;    &#x9;((ObjectNode) rootOut.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).put(&quot;person_uuid&quot;, input_row.person_uuid);&#xA;&#xA;&#xA;&#xA;    &#x9;// Le JsonNode est converti en String&#xA;    &#x9;output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootOut);&#xA;&#xA;output_row.vehicle_uuid = input_row.vehicle_uuid;&#xA;output_row.person_uuid = input_row.person_uuid;&#xA;output_row.status = input_row.status;&#xA;    &#x9;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;//import java.util.List;&#xA;import java.util.Iterator;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;&#xA;"/>
     <elementParameter field="TEXT" name="LABEL" value="enrich JSON Doc"/>
@@ -754,6 +760,7 @@
   </node>
   <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1792" posY="992">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
       <elementValue elementRef="TYPE" value="Body"/>
@@ -779,6 +786,7 @@
   </node>
   <node componentName="tRouteFault" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="1120">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteFault_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="jsonDoc"/>
       <elementValue elementRef="TYPE" value="Body"/>
@@ -812,6 +820,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Parallelize" show="false"/>
   </connection>
   <connection connectorName="SYNCHRONIZE" label="Synchronize" lineStyle="12" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" source="tParallelize_1" target="tFixedFlowInput_2">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Synchronize" show="false"/>
   </connection>
   <connection connectorName="PARALLELIZE" label="Parallelize" lineStyle="13" metaname="tParallelize_1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tParallelize_1" target="tRunJob_2">
@@ -842,14 +851,17 @@
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tFixedFlowInput_2" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_2" target="tExtractJSONFields_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tExtractJSONFields_1" offsetLabelX="0" offsetLabelY="0" source="tExtractJSONFields_1" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedup_physical" lineStyle="8" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_physical" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="enrichJSON" lineStyle="0" metaname="enrichJSON" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_1">
@@ -865,14 +877,17 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="badNews" lineStyle="0" metaname="badNews" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tRouteFault_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNews" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedup_vehicle" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_vehicle" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tRouteOutput_2">
@@ -891,6 +906,7 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <note opaque="true" posX="128" posY="0" sizeHeight="96" sizeWidth="545" text="Job en cours d'update pour Sprint 5&#xD;&#xA;"/>
