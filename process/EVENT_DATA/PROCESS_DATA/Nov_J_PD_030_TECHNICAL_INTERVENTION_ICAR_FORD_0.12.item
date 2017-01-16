@@ -323,7 +323,7 @@
       <column comment="" key="false" length="25" name="USUARIO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="544" sizeX="800" sizeY="96">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="544" sizeX="864" sizeY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -458,9 +458,11 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="30" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref_edited" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="30" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="ttOTFac.EMP + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTERNO) + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -591,7 +593,7 @@
         <mapperTableEntries name="taxes" expression="( null != ttOTCargo.IMPIVA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPIVA))) ? &#xD;&#xA;Mathematical.ABS(ttOTCargo.IMPIVA.doubleValue())&#xD;&#xA;: 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
-        <mapperTableEntries name="description" expression="null != ttOTCargo.OBSERVACIONES &amp;&amp; !&quot;&quot;.equals(ttOTCargo.OBSERVACIONES) ? ttOTCargo.OBSERVACIONES : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="description" expression="null != ttOTLinea.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTLinea.DESCRIP) ? ttOTLinea.DESCRIP : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != tyUsuario.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tyUsuario.NOMBRE))) ? tyUsuario.NOMBRE : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_end_date" expression="( null != ttOTCab.FECHAACABADOJEFE &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAACABADOJEFE))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAACABADOJEFE)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
@@ -601,6 +603,8 @@
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="descrip_ref" expression="ttOTLinea.REFERENCIA " type="id_String" nullable="true"/>
+        <mapperTableEntries name="descrip_ref_edited" expression="ttOTLinea.REFERENCIAEDITADA " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
@@ -787,6 +791,23 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgECivil" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="tgCliente.ECIVIL " type="id_BigDecimal"/>
+        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="ttOTCargoLinea" minimized="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="ttOTCargo.EMP " type="id_String"/>
+        <mapperTableEntries name="NUMINTOT" expression="ttOTCargo.NUMINTERNO " type="id_BigDecimal"/>
+        <mapperTableEntries name="NUMINTCARGO" expression="ttOTCargo.CARGO " type="id_BigDecimal"/>
+        <mapperTableEntries name="NUMINTINTERVENCION" type="id_BigDecimal"/>
+        <mapperTableEntries name="LINEACAB" type="id_BigDecimal"/>
+        <mapperTableEntries name="LINEAITEM" type="id_BigDecimal"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="ttOTLinea" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="EMP" expression="ttOTCargoLinea.EMP " type="id_String" operator="="/>
+        <mapperTableEntries name="NUMINTOT" expression="ttOTCargoLinea.NUMINTOT " type="id_BigDecimal" operator="="/>
+        <mapperTableEntries name="NUMINTINTERVENCION" expression="ttOTCargoLinea.NUMINTINTERVENCION " type="id_BigDecimal" operator="="/>
+        <mapperTableEntries name="LINEAITEM" type="id_BigDecimal"/>
+        <mapperTableEntries name="REFERENCIA" type="id_String" nullable="true"/>
+        <mapperTableEntries name="REFERENCIAEDITADA" type="id_String" nullable="true"/>
         <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -2595,7 +2616,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="512">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -3356,7 +3377,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1216" posY="640">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -3484,6 +3505,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="descrip_ref"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="descrip_ref_edited"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -3511,6 +3542,8 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="30" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref_edited" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="30" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3532,8 +3565,165 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="30" usefulColumn="true"/>
+      <column comment="" key="false" length="30" name="descrip_ref_edited" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="30" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="992" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_3" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TTOTCARGOLINEA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTCARGO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTINTERVENCION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.LINEACAB, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.LINEAITEM&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTCARGO"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTINTERVENCION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LINEACAB"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LINEAITEM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TTOTCARGOLINEA" name="tOracleInput_3">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTOT" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTCARGO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTINTERVENCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="LINEACAB" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="LINEAITEM" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="992" posY="384">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tOracleInput_29" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tOracleConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="CONNECTION_TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_11" show="false"/>
+    <elementParameter field="TEXT" name="RAC_URL" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.ICAR_FORD_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="ORACLE_SERVICE_NAME" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.ICAR_FORD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="context.ICAR_FORD_ServiceName" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.ICAR_FORD_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
+    <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;TTOTLINEA&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.NUMINTOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.NUMINTINTERVENCION, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.LINEAITEM, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.REFERENCIA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.REFERENCIAEDITADA, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA.DESCRIP&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TTOTLINEA&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="oracle_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.ICAR_FORD_AdditionalParams" show="false"/>
+    <elementParameter field="LABEL" name="NOTE" value="*Note: Example for Additional JDBC Parameters: &quot;parameterName1=value1&amp;&amp;parameterName2=value2&quot;" show="false"/>
+    <elementParameter field="CHECK" name="IS_CONVERT_XMLTYPE" value="false"/>
+    <elementParameter field="TABLE" name="CONVERT_XMLTYPE" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15" show="false"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="EMP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTOT"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTINTERVENCION"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LINEAITEM"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="REFERENCIA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="REFERENCIAEDITADA"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="DESCRIP"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="TTOTLINEA" name="tOracleInput_29">
+      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTOT" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="NUMINTINTERVENCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="true" length="10" name="LINEAITEM" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="20" name="REFERENCIA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="25" name="REFERENCIAEDITADA" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="4000" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="192">
@@ -3846,6 +4036,12 @@
   <connection connectorName="FLOW" label="pd_event_techint" lineStyle="0" metaname="pd_event_techint" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_3">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="descrip_ref"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="descrip_ref_edited"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -6573,6 +6769,14 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgCliente" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="ttOTCargoLinea" lineStyle="8" metaname="tOracleInput_3" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_3" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="ttOTCargoLinea" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="ttOTLinea" lineStyle="8" metaname="tOracleInput_29" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_29" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="ttOTLinea" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tJavaRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
