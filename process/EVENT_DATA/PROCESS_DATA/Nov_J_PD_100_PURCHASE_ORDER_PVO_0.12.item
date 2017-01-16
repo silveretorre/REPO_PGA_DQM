@@ -588,6 +588,7 @@
       <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -605,8 +606,9 @@
         <mapperTableEntries name="bname" expression="(null != vente.AcheteurNom &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurNom))) ? vente.AcheteurNom : null " type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
+        <mapperTableEntries name="last_mileage_known" expression="( null != vente.Km ) ? vente.Km.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.hasName" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.hasName" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String" nullable="true"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
@@ -686,7 +688,7 @@
         <mapperTableEntries name="circulation_start_date" expression="( null != vente.Date1Mec &amp;&amp; !(&quot;&quot;.equals(vente.Date1Mec))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,vente.Date1Mec)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="origin_country_code" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="( null != vente.Km ) ? vente.Km.doubleValue() : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
         <mapperTableEntries name="argus_brand" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_family" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="" type="id_String" nullable="true"/>
@@ -710,7 +712,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_po" minimized="true" expressionFilter="Var.hasName" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_po" expressionFilter="Var.hasName" activateExpressionFilter="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String" nullable="true"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="retained_comprop" type="id_String" nullable="true"/>
@@ -725,6 +727,7 @@
         <mapperTableEntries name="selling_price_with_taxes" expression="(!(&quot;&quot;.equals(vente.PvTTC))) ? Mathematical.ABS(Double.parseDouble(String.valueOf(vente.PvTTC))) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="vente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VENTE_ID" type="id_String"/>
@@ -1676,6 +1679,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -1698,6 +1706,7 @@
       <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata" name="REJECT">
       <column comment="" key="false" length="255" name="join_key" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -1714,6 +1723,7 @@
       <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1753,6 +1763,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="pd_event_po" lineStyle="0" metaname="pd_event_po" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_po" show="false"/>
   </connection>
