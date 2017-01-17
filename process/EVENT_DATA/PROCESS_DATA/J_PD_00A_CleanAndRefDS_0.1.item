@@ -43,6 +43,8 @@
     <contextParameter comment="" name="contextPathFile" prompt="contextPathFile?" promptNeeded="true" repositoryContextId="_ek_E0JIXEeaGH4IQwcS6yQ" type="id_String" value="/opt/data_exchange/context/context_DEV.properties"/>
   </context>
   <parameters>
+    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx2G " show="false"/>
+    <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
@@ -919,7 +921,7 @@
         <mapperTableEntries name="person_link_end_date" expression="hpv.person_link_end_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="hpv.person_link_organization_user_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="hpv.person_link_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_number" expression="null != filterRegNum.registration_number ? null : hpv.registration_number " type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="null != filterRegNum.registration_number ? null : hpv.registration_number /* keep is always false */ " type="id_String" nullable="true"/>
         <mapperTableEntries name="first_registration_date" expression="hpv.first_registration_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="current_registration_date" expression="hpv.current_registration_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="hpv.registration_end_date" type="id_String" nullable="true"/>
@@ -1047,7 +1049,7 @@
         <mapperTableEntries name="transformed_brand" type="id_String"/>
         <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="filterRegNum" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="filterRegNum" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="registration_number" expression="hpv.registration_number" type="id_String"/>
         <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
       </inputTables>
@@ -1380,7 +1382,7 @@
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="filtered" minimized="true" expressionFilter="null != pd_filters_gender.keep ? pd_filters_gender.keep : false" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="data.master_key" type="id_String"/>
@@ -1615,7 +1617,6 @@
       <column comment="" key="false" length="255" name="join_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -1718,12 +1719,11 @@
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="refd" expressionFilter="dealership_crossref.keep " activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="filtered.master_key" type="id_String"/>
         <mapperTableEntries name="join_key" expression="filtered.join_key" type="id_String"/>
-        <mapperTableEntries name="status" expression="&quot;new&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" expression="filtered.process_type" type="id_String"/>
         <mapperTableEntries name="process_category" expression="filtered.process_category" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="filtered.src_application_name" type="id_String"/>
@@ -2036,11 +2036,6 @@
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="join_key"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -2559,7 +2554,6 @@
       <column comment="" key="false" length="255" name="join_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="status" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2668,7 +2662,6 @@
       <column comment="" key="false" length="255" name="join_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="status" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
