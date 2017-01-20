@@ -172,12 +172,18 @@
     <elementParameter field="TEXT" name="LOOP_QUERY" value="&quot;/hits/hits&quot;"/>
     <elementParameter field="TEXT" name="JSON_LOOP_QUERY" value="&quot;$.bills.bill.line[*]&quot;" show="false"/>
     <elementParameter field="TABLE" name="MAPPING">
+      <elementValue elementRef="SCHEMA_COLUMN" value="prospect_client_siv"/>
+      <elementValue elementRef="QUERY" value="&quot;_source/Person/prospect_client_siv&quot;"/>
+      <elementValue elementRef="NODECHECK" value="false"/>
+      <elementValue elementRef="ISARRAY" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="dealership_addr"/>
       <elementValue elementRef="QUERY" value="&quot;_source/Person/addresses/dealership_addr&quot;"/>
       <elementValue elementRef="NODECHECK" value="false"/>
       <elementValue elementRef="ISARRAY" value="true"/>
     </elementParameter>
     <elementParameter field="TABLE" name="MAPPING_4_JSONPATH" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="prospect_client_siv"/>
+      <elementValue elementRef="QUERY" value=""/>
       <elementValue elementRef="SCHEMA_COLUMN" value="dealership_addr"/>
       <elementValue elementRef="QUERY" value=""/>
     </elementParameter>
@@ -189,9 +195,11 @@
     <elementParameter field="TEXT" name="LABEL" value="prospect_client_siv&lt;br>dealership"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tExtractJSONFields_1">
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="dealership_addr" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="dealership_addr" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorJSONField" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -212,6 +220,8 @@
     <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
     <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
     <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="prospect_client_siv"/>
+      <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="dealership_addr"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
@@ -219,14 +229,15 @@
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tLogRow_2">
+      <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="dealership_addr" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJavaFlex" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaFlex_1" show="false"/>
     <elementParameter field="CHECK" name="DATA_AUTO_PROPAGATE" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE_START" value=""/>
-    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="&#xA;&#xA;//path(&quot;hits&quot;).path(&quot;hits&quot;).path(&quot;_source&quot;).path(&quot;Person&quot;).path(&quot;addresses&quot;);&#xA;&#xA;System.out.println(row3.dealership_addr.replaceAll(&quot;(\\[|\\])&quot;,&quot;&quot;));&#xA;String [] adresses = row3.dealership_addr.replaceAll(&quot;(\\[|\\])&quot;,&quot;&quot;).split(&quot;, &quot;);&#xA;for(String adress : adresses){&#xA;&#x9;System.out.println(&quot;adresse : &quot; +adress);&#xA;}&#xA;/*&#xA;row3.dealership_addr.replaceAll(&quot;\\[|\\]&quot;,&quot;&quot;);&#xA;&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;List&lt;String> dealership_addr = new ArrayList&lt;String>();&#xA;JsonNode contactNode = mapper.readTree(row3.dealership_addr);&#xA;JsonNode arraynode = contactNode.&#xA;   &#xA;   if (arraynode.isArray()) {&#xA;System.out.println(arraynode);&#xA;}&#xA;/*for (JsonNode node : contactNode) {&#xA;&#xA;String jsonList = mapper.writeValueAsString(node.path(&quot;addresses&quot;).path(&quot;dealership_addr&quot;));&#xA;System.out.println(jsonList);&#xA;dealership_addr.add(jsonList);&#xA;&#xA;}&#xA;&#xA;int i = dealership_addr.size();&#xA;&#xA;System.out.println(i);&#xA;&#xA;for (String elem : dealership_addr){&#xA;System.out.println(elem); &#xA;}&#xA;&#xA;if (row30.prospect_client_siv != null &amp;&amp; &quot;Client&quot;.equals(row30.prospect_client_siv.trim())) {&#xA;&#x9;if(dealership != null){&#x9;&#xA;&#x9; if (row30.dealership_addr[0] != null) {&#xA;&#x9;  for (int i=0; i&lt;row3.dealership_addr.length();i++){&#xA;&#x9;&#x9;if (java.util.Arrays.asList(dealership.split(&quot;,&quot;)).contains(row3.dealership_addr[i])) {&#xA;&#x9;&#x9;&#x9;tempArray.add(&quot;Client Concession&quot;);&#xA;&#x9;&#x9;} &#xA;&#x9;  }&#xA;&#x9;}*/"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_START" value="String user_dealership=&quot;PEUGEOT CHARMEIL,PEUGEOT CLERMONT FERRAND&quot;;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE_MAIN" value="String [] dealership_addr = row3.dealership_addr.replaceAll(&quot;(\\[|\\])&quot;,&quot;&quot;).split(&quot;, &quot;);&#xA;for(String adress : dealership_addr){&#xA;&#x9;System.out.println(&quot;adresse : &quot; +adress);&#xA;}&#xA;&#xA;if (row30.prospect_client_siv != null &amp;&amp; &quot;Client&quot;.equals(row30.prospect_client_siv.trim())) {&#xA;&#x9;if(user_dealership != null){&#x9;&#xA;&#x9; if (dealership_addr[0] != null) {&#xA;&#x9;  for (int i=0; i&lt;dealership_addr.length();i++){&#xA;&#x9;&#x9;if (java.util.Arrays.asList(user_dealership.split(&quot;,&quot;)).contains(dealership_addr[i])) {&#xA;&#x9;&#x9;&#x9;tempArray.add(&quot;Client Concession&quot;);&#xA;&#x9;&#x9;} &#xA;&#x9;  }&#xA;&#x9;}"/>
     <elementParameter field="MEMO_JAVA" name="CODE_END" value=""/>
     <elementParameter field="CHECK" name="Version_V2_0" value="false" show="false"/>
     <elementParameter field="CHECK" name="Version_V3_2" value="false" show="false"/>
@@ -309,6 +320,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="dealership_mail"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="prospect_client_siv"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
