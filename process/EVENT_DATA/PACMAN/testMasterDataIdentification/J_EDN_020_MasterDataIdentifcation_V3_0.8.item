@@ -617,14 +617,14 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
-    <metadata connector="FLOW" name="badNews">
+    <metadata connector="FLOW" name="toWaiting">
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="info" expression="Synaltic_RM.infoProcessData(row1.id_vehicle, row1.src_application_brand, row1.src_application_name,dedup_vehicle.master_gid) " type="id_String" nullable="true"/>
@@ -633,7 +633,7 @@
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="badNews" activateCondensedTool="true" reject="true">
+      <outputTables sizeState="INTERMEDIATE" name="toWaiting" activateCondensedTool="true" reject="true">
         <mapperTableEntries name="jsonDoc" expression="row1.jsonDoc " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" expression="dedup_physical.master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid" type="id_String" nullable="true"/>
@@ -775,11 +775,11 @@
       <column comment="" key="false" length="-1" name="status" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRouteFault" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="1088">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteFault_1" show="false"/>
+  <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1600" posY="1088">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_3" show="false"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="jsonDoc"/>
-      <elementValue elementRef="TYPE" value="Body"/>
+      <elementValue elementRef="TYPE" value="Header"/>
       <elementValue elementRef="VALUE" value=""/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="TYPE" value="Header"/>
@@ -793,7 +793,7 @@
     </elementParameter>
     <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tRouteFault_1">
+    <metadata connector="FLOW" name="tRouteOutput_3">
       <column comment="" key="false" length="-1" name="jsonDoc" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -865,9 +865,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="enrichJSON" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="badNews" lineStyle="0" metaname="badNews" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tRouteFault_1">
+  <connection connectorName="FLOW" label="toWaiting" lineStyle="0" metaname="toWaiting" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tRouteOutput_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="badNews" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="toWaiting" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedup_vehicle" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
