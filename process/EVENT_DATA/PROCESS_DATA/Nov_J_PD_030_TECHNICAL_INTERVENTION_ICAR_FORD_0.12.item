@@ -597,6 +597,7 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -720,7 +721,7 @@
         <mapperTableEntries name="energy_id" expression="ttOTCab.COMBUSTIBLE" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="ttOTCab.COLOR" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="ti_number" expression="( null != ttOTFac.FACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FACTURA))) ? &#xD;&#xA;String.valueOf(ttOTFac.FACTURA.intValue())&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
@@ -741,6 +742,7 @@
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
         <mapperTableEntries name="review" expression="null != ttOTIntervencion.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTIntervencion.DESCRIP) ? ttOTIntervencion.DESCRIP : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="doc_type" expression="null != ttOTCargo.IMPFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPFACTURA)) &amp;&amp; ttOTCargo.IMPFACTURA.doubleValue() &lt; 0 ? &quot;CREDIT&quot; : &quot;INVOICE&quot; " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
@@ -3296,6 +3298,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="doc_type"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -3406,6 +3413,7 @@
       <column comment="" key="false" length="255" name="kind_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="energy_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata" name="REJECT">
       <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3510,6 +3518,7 @@
       <column comment="" key="false" length="255" name="kind_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="energy_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -3647,6 +3656,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="doc_type"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -3675,6 +3689,7 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3697,6 +3712,7 @@
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -4200,6 +4216,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ttOTFac" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="pd_all_hpv" lineStyle="0" metaname="pd_all_hpv" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="doc_type"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv" show="false"/>
   </connection>
@@ -4215,6 +4236,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="review"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="doc_type"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
