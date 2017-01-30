@@ -596,9 +596,10 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="4096" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="ttOTFac.EMP + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTERNO) + &quot;_&quot; + String.valueOf(ttOTFac.NUMINTFAC)" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
@@ -615,7 +616,7 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="last_mileage_known" expression="null != ttOTCab.ULTOTKM ? ttOTCab.ULTOTKM.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed " activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -729,7 +730,7 @@
         <mapperTableEntries name="taxes" expression="( null != ttOTCargo.IMPIVA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPIVA))) ? &#xD;&#xA;Mathematical.ABS(ttOTCargo.IMPIVA.doubleValue())&#xD;&#xA;: 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
-        <mapperTableEntries name="description" expression="null != ttOTIntervencion.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTIntervencion.DESCRIP) ? ttOTIntervencion.DESCRIP : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="description" expression="null != ttOTCargo.OBSERVACIONES &amp;&amp; !&quot;&quot;.equals(ttOTCargo.OBSERVACIONES) ? ttOTCargo.OBSERVACIONES : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != tyUsuario.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tyUsuario.NOMBRE))) ? tyUsuario.NOMBRE : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_end_date" expression="( null != ttOTCab.FECHAACABADOJEFE &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAACABADOJEFE))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAACABADOJEFE)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
@@ -739,6 +740,7 @@
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="review" expression="null != ttOTIntervencion.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTIntervencion.DESCRIP) ? ttOTIntervencion.DESCRIP : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
@@ -3640,6 +3642,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="review"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -3667,6 +3674,7 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3688,6 +3696,7 @@
       <column comment="" key="false" length="255" name="mech_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="mech_color" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="4096" name="review" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -4203,6 +4212,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="descrip_ref_edited"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="review"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
