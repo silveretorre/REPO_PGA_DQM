@@ -9,7 +9,7 @@
     <contextParameter comment="" name="DB_DQM_ODS_Schema" prompt="DB_DQM_ODS_Schema?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_DQM_ODS_Server" prompt="DB_DQM_ODS_Server?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_String" value="167.114.227.214"/>
     <contextParameter comment="" name="ELK_Port" prompt="ELK_Port?" promptNeeded="false" repositoryContextId="_ixeKMIYgEeag-KE4v9trHg" type="id_String" value="9200"/>
-    <contextParameter comment="" name="ELK_Server" prompt="ELK_Server?" promptNeeded="false" repositoryContextId="_ixeKMIYgEeag-KE4v9trHg" type="id_String" value="149.202.181.216"/>
+    <contextParameter comment="" name="ELK_Server" prompt="ELK_Server?" promptNeeded="false" repositoryContextId="_ixeKMIYgEeag-KE4v9trHg" type="id_String" value="149.202.181.24"/>
     <contextParameter comment="" name="ValeurFiltreDM" prompt="ValeurFiltreDM?" promptNeeded="false" type="id_String" value="$$$"/>
     <contextParameter comment="" name="vehicle_uuid" prompt="vehicle_uuid?" promptNeeded="false" type="id_String" value="5034e221-e21c-40e5-8401-89717c8cfe41"/>
     <contextParameter comment="" name="contextPathFile" prompt="contextPathFile?" promptNeeded="true" repositoryContextId="_ek_E0JIXEeaGH4IQwcS6yQ" type="id_String" value="/opt/data_exchange/context/context_DEV.properties"/>
@@ -1215,6 +1215,13 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlRollback_1"/>
   </node>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="32" posY="-416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;----------------------VEHICLE-LOAD-TO-ELK------------------------&quot;);"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJava_1"/>
+  </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tWarn_1" offsetLabelX="0" offsetLabelY="0" source="tWarn_1" target="tPostgresqlInput_5">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
@@ -1864,6 +1871,9 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlRow_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlRow_1" target="tPostgresqlCommit_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk10" show="false"/>
   </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_1" offsetLabelX="0" offsetLabelY="0" source="tJava_1" target="tLibraryLoad_4">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk14" show="false"/>
+  </connection>
   <note opaque="true" posX="288" posY="-448" sizeHeight="225" sizeWidth="929" text="Initial vehicle load in ElasticSearch (with Bulk Load mode)&#xD;&#xA;&#xD;&#xA;v0.1 (2016/09/20) - GMA : first version.&#xD;&#xA;v0.4 (03/10/2016) - SMA : Put all vehicle in the same index (all)&#xD;&#xA;">
     <elementParameter field="RADIO" name="NOTETXT_LEFT" value="true"/>
     <elementParameter field="RADIO" name="NOTETXT_CENTER" value="false"/>
@@ -1919,6 +1929,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
