@@ -1832,6 +1832,12 @@
       <column comment="" key="false" length="255" name="lead_temperature" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="lead_veh_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lead_veh_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="5592405" name="lead_search_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lead_fund_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lead_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="17" name="event_last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" name="leadclosing">
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -2188,9 +2194,10 @@
       <column comment="" key="false" length="255" name="lead_clos_statut_datetime" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="17" name="event_last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="comprop" minimized="true" expressionFilter="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;.equals(refd.process_type)" activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="refd.process_type" type="id_String"/>
@@ -2531,6 +2538,12 @@
         <mapperTableEntries name="linked_vehicle" expression="pd_event_lead.linked_vehicle" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_lifespan" expression="pd_event_lead.lead_lifespan" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_temperature" expression="pd_event_lead.lead_temperature" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_brand" expression="pd_event_lead.lead_veh_brand " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_model" expression="pd_event_lead.lead_veh_model " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" expression="pd_event_lead.lead_search_com " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" expression="pd_event_lead.lead_fund_com " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_id" expression="pd_event_lead.lead_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="event_last_mileage_known" expression="pd_event_lead.last_mileage_known " type="id_Double" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="leadclosing" minimized="true" expressionFilter="&quot;LEAD_CLOSING&quot;.equals(refd.process_type)" activateExpressionFilter="true">
         <mapperTableEntries name="process_type" expression="refd.process_type" type="id_String"/>
@@ -2651,6 +2664,7 @@
         <mapperTableEntries name="lead_clos_libel" expression="pd_event_leadclosing.lead_clos_libel" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_description" expression="pd_event_leadclosing.lead_clos_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_statut_datetime" expression="pd_event_leadclosing.lead_clos_statut_datetime" type="id_String" nullable="true"/>
+        <mapperTableEntries name="event_last_mileage_known" expression="pd_event_leadclosing.last_mileage_known " type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="refd" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_key" type="id_String"/>
@@ -2799,6 +2813,12 @@
         <mapperTableEntries name="linked_vehicle" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_lifespan" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_temperature" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" type="id_Double" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="pd_event_leadclosing" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="join_key" expression="refd.join_key " type="id_String"/>
@@ -2821,6 +2841,7 @@
         <mapperTableEntries name="lead_clos_libel" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_statut_datetime" type="id_String" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" type="id_Double" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -2845,7 +2866,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;join_key\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;user_info\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_landline\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_mobile\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_status\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_dealership\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_subject\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_product\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_service\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_vehicle\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_lifespan\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_temperature\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;join_key\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;user_info\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_landline\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;prospect_mobile\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_status\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_dealership\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_subject\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_product\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_service\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;linked_vehicle\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_lifespan\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_temperature\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_veh_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_veh_model\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_search_com\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_fund_com\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;lead_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;.\&quot;last_mileage_known\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_lead\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2886,11 +2907,26 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="lead_temperature"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_veh_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_veh_model"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_search_com"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_fund_com"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata comment="" connector="FLOW" label="pd_event_lead" name="pd_event_lead" type="TABLE">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="prospect_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="lead_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -2935,25 +2971,22 @@
       <column comment="" key="false" length="255" name="lead_temperature" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="prospect_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="lead_veh_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="lead_veh_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="lead_veh_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="lead_veh_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="5592405" name="lead_search_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="5592405" name="lead_search_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="lead_fund_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="lead_fund_com" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="lead_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="lead_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="17" name="last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="false">
+      <column comment="" key="false" length="17" name="last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -2979,7 +3012,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;join_key\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;id_prospect\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;user_info\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_landline\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_mobile\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_status\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_dealership\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_subject\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_product\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_service\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_vehicle\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_lifespan\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_temperature\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_statut_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_libel\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_statut_datetime\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;join_key\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;id_prospect\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;user_info\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_landline\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;prospect_mobile\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_status\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_dealership\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_subject\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_product\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_service\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;linked_vehicle\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_lifespan\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_temperature\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_statut_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_libel\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;lead_clos_statut_datetime\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;.\&quot;last_mileage_known\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_event_leadclosing\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3029,6 +3062,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="lead_clos_description"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="lead_clos_statut_datetime"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -3094,7 +3129,7 @@
       <column comment="" key="false" length="255" name="lead_clos_statut_datetime" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="17" name="last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="false">
+      <column comment="" key="false" length="17" name="last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -6056,10 +6091,35 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="compropserv" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="lead" lineStyle="0" metaname="lead" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tWriteJSONField_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="event_last_mileage_known"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_veh_model"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_fund_com"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_veh_brand"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_search_com"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lead_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="lead" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="leadclosing" lineStyle="0" metaname="leadclosing" offsetLabelX="0" offsetLabelY="0" outputId="4" source="tMap_1" target="tWriteJSONField_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="event_last_mileage_known"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="leadclosing" show="false"/>
   </connection>
