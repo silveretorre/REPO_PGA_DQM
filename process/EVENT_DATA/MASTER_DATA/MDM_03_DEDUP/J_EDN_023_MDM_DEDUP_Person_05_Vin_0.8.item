@@ -169,7 +169,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select &#xD;&#xA;&#x9;meta_brand_source,&#xD;&#xA;&#x9;meta_application_name,&#xD;&#xA;&#x9;meta_id_source,&#xD;&#xA;&#x9;vin_norm&#xD;&#xA;from norm_vehicle_vin &#xA;where vin_norm = &#xA;&#x9;(&#xA;&#x9;&#x9;select v.vin_norm &#xA;&#x9;&#x9;from norm_vehicle_vin v&#xD;&#xA;&#x9;&#x9;inner join vehicle_person_link l using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;&#x9;&#x9;inner join norm_physical_person_name n on l.meta_brand_source = n.meta_brand_source and l.meta_application_name = n.meta_application_name and l.id_physical_person = n.meta_id_source&#xA;&#x9;&#x9;inner join \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot; p on l.meta_brand_source = p.meta_brand_source and l.meta_application_name = p.meta_application_name and l.id_physical_person = p.meta_id_source&#xD;&#xA;&#x9;&#x9;where p.to_consume is true&#xA;&#x9;&#x9;and p.to_deduplicate is true&#xA;&#x9;&#x9;and&#x9;p.to_consolidate is false&#xA;&#x9;&#x9;and&#x9;p.to_golden_constitute is false&#xA;&#x9;&#x9;and p.to_send_to_elk is false&#xA;&#x9;)&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;&#xD;&#xA;select &#xD;&#xA;&#x9;meta_brand_source,&#xD;&#xA;&#x9;meta_application_name,&#xD;&#xA;&#x9;meta_id_source,&#xD;&#xA;&#x9;vin_norm&#xD;&#xA;from norm_vehicle_vin &#xA;where vin_norm in &#xA;&#x9;(&#xA;&#x9;&#x9;select v.vin_norm &#xA;&#x9;&#x9;from norm_vehicle_vin v&#xD;&#xA;&#x9;&#x9;inner join vehicle_person_link l using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;&#x9;&#x9;inner join norm_physical_person_name n on l.meta_brand_source = n.meta_brand_source and l.meta_application_name = n.meta_application_name and l.id_physical_person = n.meta_id_source&#xA;&#x9;&#x9;inner join \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot; p on l.meta_brand_source = p.meta_brand_source and l.meta_application_name = p.meta_application_name and l.id_physical_person = p.meta_id_source&#xD;&#xA;&#x9;&#x9;where p.to_consume is true&#xA;&#x9;&#x9;and p.to_deduplicate is true&#xA;&#x9;&#x9;and&#x9;p.to_consolidate is false&#xA;&#x9;&#x9;and&#x9;p.to_golden_constitute is false&#xA;&#x9;&#x9;and p.to_send_to_elk is false&#xA;&#x9;)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -652,7 +652,7 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata comment="" label="dedup_physical_person" name="dedup_registration">
+    <metadata comment="" connector="FLOW" label="dedup_physical_person" name="dedup_registration">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -691,7 +691,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="dedup_registration" activateCondensedTool="true" id="_MFPQcC1YEeaKmoVyeBW_yg - dedup_physical_person">
         <mapperTableEntries name="meta_brand_source" expression="row3.meta_brand_source" type="id_String"/>
