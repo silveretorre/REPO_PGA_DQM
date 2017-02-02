@@ -3382,6 +3382,39 @@
       <column comment="" key="false" length="-1" name="Person" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2560" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="index"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="type"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="id"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="json"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="out5" name="tLogRow_1">
+      <column comment="" key="false" length="-1" name="index" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="json" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="2656" posY="800">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_5" show="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="/*&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.Person);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;Person&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;Person&quot;)).remove(&quot;head&quot;);&#xA;&#xA;output_row.jsonFull = mapper.writeValueAsString(root);&#xA;output_row.head = head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim();&#xA;&#xA;// JSONObject input_row.Person = new JSONObject();&#xA;// String str = (String)input_row.Person.remove(&quot;head&quot;);&#xA;// output_row.jsonFull = str;&#xA;// output_row.head = &quot;head&quot;;&#xA;*/&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.Person);&#xA;&#xA;// Extraction de la valeur de head&#xA;String head = root.path(&quot;Person&quot;).path(&quot;head&quot;).asText();&#xA;&#xA;// Suppression de la balise head&#xA;((ObjectNode) root.path(&quot;Person&quot;)).remove(&quot;head&quot;);&#xA;&#xA;ObjectMapper mapper2 = new ObjectMapper();&#xA;JsonNode root2 = mapper2.readTree(head.replaceAll(&quot;#&quot;, &quot;\&quot;&quot;).trim());&#xA;&#xA;output_row.index = root2.path(&quot;index&quot;).path(&quot;_index&quot;).asText();&#xA;output_row.type = root2.path(&quot;index&quot;).path(&quot;_type&quot;).asText();&#xA;output_row.id = root2.path(&quot;index&quot;).path(&quot;_id&quot;).asText();&#xA;output_row.json = mapper.writeValueAsString(root);"/>
@@ -4274,7 +4307,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout_1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row45" lineStyle="0" metaname="tHMap_1" offsetLabelX="0" offsetLabelY="0" source="tHMap_1" target="tJavaRow_5">
+  <connection connectorName="FLOW" label="row45" lineStyle="0" metaname="tHMap_1" offsetLabelX="0" offsetLabelY="0" source="tHMap_1" target="tLogRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="Person"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4282,6 +4315,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row45" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tLogRow_1" offsetLabelX="0" offsetLabelY="0" source="tLogRow_1" target="tJavaRow_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tJavaRow_5" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_5" target="tFlowToIterate_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
