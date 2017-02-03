@@ -614,17 +614,32 @@ public static String standardizeRegistrationNumber(String RN){
  * 
  */
 
-public static Boolean isValidVin(String vin){
+public static Boolean isValidVin(String vin, Date firstRegistrationDate){
 	
-	if(vin != null && !"".equals(vin)){
-		if(vin.length() == 17 ){
-			String lastNumbers = vin.substring(13, 17);
+	if (firstRegistrationDate == null) {
+		
+		return false;
+	}
+	
+	if (firstRegistrationDate.after(TalendDate.parseDate("yyyy-MM-dd", "1981-01-01"))) {
+		
+		if(vin != null && !"".equals(vin)){
+			
+			if(vin.length() == 17 ){
+				
+				String lastNumbers = vin.substring(13, 17);
+				
 				if(isNumeric(lastNumbers)==true){
+						
 					return true;
 				}
+			}
 		}
+		
+		return false; 
 	}
-	return false; 
+	
+	return true;
 }
 
 /**
@@ -642,12 +657,6 @@ public static Boolean isValidVin(String vin){
 
 public static String standardizeVin(String vin, Date firstRegistrationDate){
 	
-//	String startDate = "1981-01-01";
-//	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//	Date startDate = df.parse(startDate);
-	
-	
-	
 	if (firstRegistrationDate != null && firstRegistrationDate.after(TalendDate.parseDate("yyyy-MM-dd", "1981-01-01"))) {
 		
 		if(vin != null && !"".equals(vin)){
@@ -655,8 +664,11 @@ public static String standardizeVin(String vin, Date firstRegistrationDate){
 				return vin.replaceAll("O", "0").replaceAll("Q", "0").replaceAll("I", "1");
 				
 			}
+			
 			return vin;
 		}
+		
+		return null;
 	}
 	
 	return vin;
