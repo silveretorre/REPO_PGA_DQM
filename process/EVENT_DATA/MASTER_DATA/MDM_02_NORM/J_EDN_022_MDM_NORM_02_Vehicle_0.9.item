@@ -1105,7 +1105,7 @@
       <column comment="" key="false" length="255" name="meta_process_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="standardizeVin" expression="Synaltic_DQ.standardizeVin(row2.vin) " type="id_String"/>
         <mapperTableEntries name="isValidVin" expression="Synaltic_DQ.isValidVin(Var.standardizeVin) " type="id_Boolean"/>
@@ -1122,8 +1122,8 @@
         <mapperTableEntries name="version" expression="row2.version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="row2.kind" type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="row2.vin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin_norm" expression="Var.isValidVin == true ? row2.vin : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin_std" expression="Var.isValidVin == true ? row2.vin : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin_norm" expression="Var.isValidVin == true ? Var.standardizeVin : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin_std" expression="Var.isValidVin == true ? Var.standardizeVin : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="row2.energy" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="row2.color" type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="row2.national_identification_type" type="id_String" nullable="true"/>
@@ -2046,6 +2046,13 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlRollback_2"/>
   </node>
+  <node componentName="tPostgresqlRollback" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_3" show="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="Connection_OpenClose_DB_ODS_1_tPostgresqlConnection_1"/>
+    <elementParameter field="CHECK" name="CLOSE" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tPostgresqlRollback_3"/>
+  </node>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="meta_process_type"/>
@@ -2094,6 +2101,9 @@
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlRow_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tPostgresqlRollback_3">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="copyOfout" lineStyle="0" metaname="copyOfout" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tPostgresqlOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -2165,6 +2175,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
