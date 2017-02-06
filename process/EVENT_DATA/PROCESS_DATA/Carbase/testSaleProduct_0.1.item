@@ -873,16 +873,18 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="id" expression="bid_vn_vo.ORIGINE_CD + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,bid_vn_vo.VENTE_DT) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
+        <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
+        <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
-        <mapperTableEntries name="master_key" type="id_String"/>
-        <mapperTableEntries name="join_key" type="id_String"/>
-        <mapperTableEntries name="process_type" type="id_String"/>
-        <mapperTableEntries name="process_category" type="id_String"/>
-        <mapperTableEntries name="src_application_name" type="id_String"/>
+        <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
+        <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
+        <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
+        <mapperTableEntries name="process_category" expression="" type="id_String"/>
+        <mapperTableEntries name="src_application_name" expression="&quot;CARBASE&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="" type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.id " type="id_String"/>
         <mapperTableEntries name="raw_dealership_id" type="id_String" nullable="true"/>
@@ -982,9 +984,9 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_even_saleprod">
-        <mapperTableEntries name="join_key" type="id_String"/>
-        <mapperTableEntries name="purchase_order_number" type="id_String" nullable="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="pd_even_saleprod" minimized="true">
+        <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
+        <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="reception_date" type="id_String" nullable="true"/>
