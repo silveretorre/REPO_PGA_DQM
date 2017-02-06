@@ -955,8 +955,13 @@
         <mapperTableEntries name="vehicule_energie_id" expression="lm_veh.v_fk_vehicule_energie_id " type="id_Long" operator="="/>
         <mapperTableEntries name="e_libelle" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="lm_user" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="user_id" type="id_Long"/>
+      <inputTables sizeState="INTERMEDIATE" name="lm_workflow" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="w_table" expression="&quot;lm_user&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="w_cle" type="id_String" nullable="true"/>
+        <mapperTableEntries name="w_fk_lead_id" expression="lead.lead_id " type="id_Long" operator="="/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="lm_user" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="user_id" expression="lm_workflow.w_cle " type="id_Long" operator="="/>
         <mapperTableEntries name="u_nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="u_prenom" type="id_String" nullable="true"/>
       </inputTables>
@@ -2257,6 +2262,56 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_8" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_UI1aEJ0PEeaah_R-XPcsaQ" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMysqlConnection_1"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_AUTOLEAD_FR_LEAD_Server" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_AUTOLEAD_FR_LEAD_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_AUTOLEAD_FR_LEAD_Database" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_AUTOLEAD_FR_LEAD_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudkZ59fAnXW8wfzX/V+0PT1RBSTY/ZTb2D1ygZoS4qddw==" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;lm_workflow&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `lm_workflow`.`w_table`, &#xA;  `lm_workflow`.`w_cle`, &#xA;  `lm_workflow`.`w_fk_lead_id`&#xA;FROM `lm_workflow`&#xD;&#xA;WHERE w_table = 'lm_user'&#xD;&#xA;and w_fk_workflow_statut_id in (3,18,12,13)&#xD;&#xA;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="mysql_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_AUTOLEAD_FR_LEAD_AdditionalParams" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="ENABLE_STREAM" value="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="w_table"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="w_cle"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="w_fk_lead_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="lm_workflow" name="tMysqlInput_8">
+      <column comment="" key="false" length="45" name="w_table" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="45" name="w_cle" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="w_fk_lead_id" nullable="false" pattern="" precision="0" sourceType="BIGINT" type="id_Long" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_1" show="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1" show="false"/>
@@ -2607,6 +2662,10 @@
   <connection connectorName="FLOW" label="lm_user" lineStyle="8" metaname="tMysqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_7" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="lm_user" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="lm_workflow" lineStyle="8" metaname="tMysqlInput_8" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_8" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="lm_workflow" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="tRowGenerator_1" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_1" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
