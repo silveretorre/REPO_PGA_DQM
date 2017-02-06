@@ -203,9 +203,8 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRouteInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="256">
+  <node componentName="tRouteInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteInput_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
       <elementValue elementRef="VALUE" value="&quot;${in.body}&quot;"/>
@@ -213,6 +212,18 @@
     <elementParameter field="TEXT" name="LABEL" value="Extraction_body"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRouteInput_2">
+      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="64">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
+    <elementParameter field="TABLE" name="VARIABLES">
+      <elementValue elementRef="KEY" value="&quot;myJson&quot;"/>
+      <elementValue elementRef="VALUE" value="row4.body"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="body_dans_GlobalVar"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tSetGlobalVar_2">
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -423,8 +434,9 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="896" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;output_row.jsonFull = input_row.jsonFull;&#xA;//&#xA;// lowercase the name&#xA;output_row.process_type = input_row.process_type.toLowerCase();&#xA;System.out.println(output_row.process_type);&#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;output_row.jsonFull = input_row.jsonFull;&#xA;//&#xA;// lowercase the name&#xA;output_row.process_type = input_row.process_type.toLowerCase();&#xA;//System.out.println(output_row.process_type);&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="LABEL" value="toLowerCase"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_4">
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -560,11 +572,25 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label);&#xA;&#xA;// Insertion de la description de l'évenement sub process_type&#xA;//((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA;//output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label);&#xA;&#xA;// Insertion de la description de l'évenement sub process_type&#xA;//((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA; output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;//System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="Traitements_du_JSON"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="JsonDoc" name="tJavaRow_2">
+      <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="576">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
+    <elementParameter field="TABLE" name="VALUES">
+      <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
+      <elementValue elementRef="TYPE" value="Header"/>
+      <elementValue elementRef="VALUE" value=""/>
+    </elementParameter>
+    <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
+    <elementParameter field="TEXT" name="LABEL" value="JSON_traité_dans_body"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="JsonDoc" name="tRouteOutput_1">
       <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -640,19 +666,22 @@
       <column comment="" key="false" length="300" name="process_sub_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="-64">
+  <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
   <node componentName="tKafkaConnection" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaConnection_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="context.Zookeeper_Server + &quot;:&quot; + context.zookeeper_Port"/>
     <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="32" posY="64">
+  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="OUTPUT_TYPE" value="STRING"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1"/>
@@ -683,8 +712,9 @@
       <column key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="64">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="512" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_3" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;output_row.body = input_row.payload;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -692,33 +722,13 @@
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="64">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
-    <elementParameter field="TABLE" name="VARIABLES">
-      <elementValue elementRef="KEY" value="&quot;myJson&quot;"/>
-      <elementValue elementRef="VALUE" value="row4.body"/>
-    </elementParameter>
-    <elementParameter field="TEXT" name="LABEL" value="body_dans_GlobalVar"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tSetGlobalVar_2">
-      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="576">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="TABLE" name="VALUES">
-      <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
-      <elementValue elementRef="TYPE" value="Header"/>
-      <elementValue elementRef="VALUE" value=""/>
-    </elementParameter>
-    <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
-    <elementParameter field="TEXT" name="LABEL" value="JSON_traité_dans_body"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="JsonDoc" name="tRouteOutput_1">
-      <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
+  <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tRouteInput_2" offsetLabelX="0" offsetLabelY="0" source="tRouteInput_2" target="tSetGlobalVar_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_2" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_2" target="tLibraryLoad_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
+  </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_1" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_1" target="tLibraryLoad_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
@@ -799,7 +809,6 @@
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJavaRow_2" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_2" target="tRouteOutput_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="RUN_IF" label="If" lineStyle="6" metaname="tJava_1" offsetLabelX="0" offsetLabelY="0" source="tJava_1" target="tJavaFlex_1">
@@ -812,18 +821,13 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tKafkaConnection_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="0" offsetLabelY="0" source="tKafkaInput_1" target="tJavaRow_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_3" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_3" target="tSetGlobalVar_2">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
-  </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_2" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_2" target="tLibraryLoad_1">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
@@ -905,11 +909,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
