@@ -895,7 +895,7 @@
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -978,7 +978,7 @@
         <mapperTableEntries name="circulation_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; &quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
@@ -1002,7 +1002,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_even_saleprod">
+      <outputTables sizeState="INTERMEDIATE" name="pd_even_saleprod" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="&quot;VEHICLE &quot; + &#xD;&#xA;( bid_vn_vo.ORIGINE_CD == &quot;VN&quot; ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) " type="id_String" nullable="true"/>
@@ -1039,10 +1039,10 @@
         <mapperTableEntries name="total_to_be_deducted" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_maintenance_guarantee" type="id_Double" nullable="true"/>
         <mapperTableEntries name="credit_repurchase" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; &quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="doc_type" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? &quot;INVOICE&quot;:&quot;NULL&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_vn_vo" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_vn_vo" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
         <mapperTableEntries name="ORIGINE_CD" type="id_String"/>
         <mapperTableEntries name="SOCIETE_CD" type="id_String"/>
@@ -1151,7 +1151,7 @@
         <mapperTableEntries name="SITE_CD" expression="bid_vn_vo.SITE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="SITE_LB" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
         <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="TYPE_PROSPECT_CD" type="id_String"/>
