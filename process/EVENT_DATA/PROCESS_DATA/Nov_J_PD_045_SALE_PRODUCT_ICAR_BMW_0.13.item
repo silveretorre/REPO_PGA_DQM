@@ -1060,7 +1060,7 @@
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String"/>
-        <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) " type="id_Boolean"/>
+        <mapperTableEntries name="is_sale" expression="null != tcVehFactur.TIPOFACTURA &amp;&amp; ( &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) || &quot;VA&quot;.equals(tcVehFactur.TIPOFACTURA) ) " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="( null != tcVeh.STATUS &amp;&amp; !(&quot;&quot;.equals(tcVeh.STATUS)) &amp;&amp; tcVeh.STATUS.intValue() == 30) ? true : false " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != tcVehFactur.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tcVehFactur.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="( null != tcVeh.ESVO &amp;&amp; tcVeh.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
@@ -1073,7 +1073,7 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="last_mileage_known" expression="( null != tcVeh.KM ) ? tcVeh.KM.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -1218,7 +1218,7 @@
         <mapperTableEntries name="sub_total_maintenance_guarantee" expression="( null != tcVehFactur.SUBTOTAL19 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL19))) ? Mathematical.ABS(tcVehFactur.SUBTOTAL19.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="credit_repurchase" expression="( null != tcVehFactur.SUBTOTAL20 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL20))) ? Mathematical.ABS(tcVehFactur.SUBTOTAL20.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="doc_type" expression="null != tcVehFactur.SUBTOTAL14 &amp;&amp; !(&quot;&quot;.equals(tcVehFactur.SUBTOTAL14)) &amp;&amp; tcVehFactur.SUBTOTAL14.doubleValue() &lt; 0 ? &quot;CREDIT&quot; : &quot;INVOICE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="doc_type" expression="null != tcVehFactur.TIPOFACTURA ? ( &quot;VE&quot;.equals(tcVehFactur.TIPOFACTURA) ? &quot;INVOICE&quot; : ( &quot;VA&quot;.equals(tcVehFactur.TIPOFACTURA) ? &quot;CREDIT&quot; : null ) ) : null " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="tcVehFactur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
