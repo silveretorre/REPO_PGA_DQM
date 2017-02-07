@@ -356,7 +356,7 @@
     <elementParameter field="TEXT" name="OOZIE_NAME_NODE_END_POINT" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_JOB_TRACKER_ENDPOINT" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_END_POINT" value="" show="false"/>
-    <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true" show="false"/>
+    <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="false" show="false"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true" show="false"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_UNIT_SIZE" value="25000"/>
@@ -1054,6 +1054,9 @@
       <column comment="" key="false" length="255" name="raw_dealership_city" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_label" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_stage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_reason" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
@@ -1211,7 +1214,7 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="boolUnqualified" expression="(( propsect.status == 12 ||  propsect.status == 15 ||  propsect.status == 50 ||  propsect.status == 60 ) &amp;&amp; ( TalendDate.compareDate(propsect.date_insc,TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2016-09-06 14:15:15&quot;)) &lt; 0 ) ) || ( TalendDate.compareDate(propsect.date_insc,TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2016-09-06 14:15:15&quot;)) >= 0 ) " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.hasName &amp;&amp; Var.isPGA ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.hasName &amp;&amp; Var.isPGA ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="Var.boolUnqualified ? &quot;LEAD_UNQUALIFIED&quot; : &quot;LEAD&quot; " type="id_String"/>
@@ -1225,6 +1228,9 @@
         <mapperTableEntries name="raw_dealership_city" expression="Var.boolUnqualified ? null : Var.dealership_city " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_zipcode" expression="Var.boolUnqualified ? null : Var.dealership_zipcode " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="Var.boolUnqualified ? null : Var.dealership_label " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_stage" expression="Var.hasName &amp;&amp; Var.isPGA ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_reason" expression="&quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;isPGA: &quot; + ( Var.isPGA ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="(null != propsect.civil  &amp;&amp; !(&quot;&quot;.equals(propsect.civil)))? propsect.civil : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="(null != propsect.prenom  &amp;&amp; !(&quot;&quot;.equals(propsect.prenom)))? propsect.prenom : null" type="id_String" nullable="true"/>
@@ -1955,6 +1961,21 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status_type"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status_stage"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status_reason"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -2421,6 +2442,9 @@
       <column comment="" key="false" length="255" name="raw_dealership_city" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_label" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_stage" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_reason" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2525,6 +2549,9 @@
       <column comment="" key="false" length="255" name="raw_dealership_city" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_zipcode" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_label" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_stage" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="status_reason" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
