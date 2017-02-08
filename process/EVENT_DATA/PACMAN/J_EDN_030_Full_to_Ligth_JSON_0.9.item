@@ -403,10 +403,8 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="992" posY="640">
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
-    <elementParameter field="CHECK" name="DUMMY" value="true" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -432,17 +430,6 @@
       <column comment="" key="false" length="-1" name="process_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1152" posY="640">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_4" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;output_row.jsonFull = input_row.jsonFull;&#xA;//&#xA;// lowercase the name&#xA;output_row.process_type = input_row.process_type.toLowerCase();&#xA;//System.out.println(output_row.process_type);&#xA;&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
-    <elementParameter field="TEXT" name="LABEL" value="toLowerCase"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_4">
-      <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
@@ -456,28 +443,26 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="JsonDoc" name="out8">
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="reference_field" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="300" name="process_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="300" name="process_sub_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out8">
         <mapperTableEntries name="jsonFull" expression="row11.jsonFull " type="id_String" nullable="true"/>
-        <mapperTableEntries name="process_label" expression="row8.destination_process_type " type="id_String" nullable="true"/>
-        <mapperTableEntries name="process_sub_label" expression="row8.destination_sub_proces_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="reference_field" expression="row8.reference_field " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_label" expression="row8.process_label " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row11" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="jsonFull" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row8" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row8" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="CACHE_OR_RELOAD">
         <mapperTableEntries name="process_type" expression="row11.process_type " type="id_String" operator="="/>
-        <mapperTableEntries name="type_event_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="type_event_code" type="id_String" nullable="true"/>
-        <mapperTableEntries name="sub_type_event_key" type="id_String"/>
-        <mapperTableEntries name="sub_type_event_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="sub_type_event_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reference_field" type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_label" type="id_String" nullable="true"/>
+        <globalMapKeysValues name="&quot;process_type&quot;" expression="row11.process_type "/>
       </inputTables>
     </nodeData>
   </node>
@@ -499,9 +484,9 @@
     <elementParameter field="TABLE" name="LENGTHS" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="jsonFull"/>
       <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="process_label"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="reference_field"/>
       <elementValue elementRef="LENGTH" value="10"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="process_sub_label"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="process_label"/>
       <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
@@ -509,13 +494,13 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="JsonDoc" name="tLogRow_2">
       <column comment="" key="false" length="-1" name="jsonFull" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="reference_field" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="300" name="process_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="300" name="process_sub_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label);&#xA;&#xA;// Insertion de la description de l'évenement sub process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA; output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;//System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;String attribut = mapper.writeValueAsString(root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(input_row.reference_field));&#xA;if(attribut != null)&#xA;attribut = attribut.replaceAll(&quot;\&quot;&quot;, &quot;&quot;);&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label + attribut);&#xA;&#xA;// Insertion de la description de l'évenement sub process_type&#xA;//((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA; output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;//System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="Traitements_du_JSON"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -538,7 +523,7 @@
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="512">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
@@ -552,13 +537,13 @@
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
     <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - param_process_type" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;param_process_type&quot;"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - param_auto_connect" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;param_auto_connect&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;type_event_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;type_event_code\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;sub_type_event_key\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;sub_type_event_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;.\&quot;sub_type_event_code\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_process_type\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;reference_field\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_label\&quot;, &#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;&#xD;&#xA;where   \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;= '&quot;+((String)globalMap.get(&quot;process_type&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -571,36 +556,27 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="process_type"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="type_event_description"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="reference_field"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="type_event_code"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="sub_type_event_key"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="sub_type_event_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="sub_type_event_code"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="process_label"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="param_process_type" name="tPostgresqlInput_1">
+    <metadata connector="FLOW" label="param_auto_connect" name="tPostgresqlInput_2">
       <column comment="" key="true" length="50" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="300" name="type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="4" name="process_type_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="reference_field" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="true" length="50" name="sub_type_event_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="300" name="process_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="300" name="sub_type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="50" name="sub_type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="300" name="functional_comment" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -790,23 +766,16 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tLogRow_3" offsetLabelX="0" offsetLabelY="0" source="tLogRow_3" target="tJavaRow_4">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tJavaRow_4" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_4" target="tMap_1">
-    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
-      <elementValue elementRef="TRACE_COLUMN" value="jsonFull"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="process_type"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-    </elementParameter>
+  <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tLogRow_3" offsetLabelX="0" offsetLabelY="0" source="tLogRow_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out8" lineStyle="0" metaname="out8" offsetLabelX="3" offsetLabelY="-2" source="tMap_1" target="tLogRow_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="reference_field"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out8" show="false"/>
   </connection>
@@ -818,7 +787,7 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row8" lineStyle="8" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_1">
+  <connection connectorName="FLOW" label="row8" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8" show="false"/>
   </connection>
