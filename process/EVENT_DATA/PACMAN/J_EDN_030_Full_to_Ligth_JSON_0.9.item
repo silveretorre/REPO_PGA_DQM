@@ -41,7 +41,7 @@
     <contextParameter comment="" name="DB_DQM_ODS_Password" prompt="DB_DQM_ODS_Password?" promptNeeded="false" repositoryContextId="_tL69cC1YEeaKmoVyeBW_yg" type="id_Password" value=""/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="32" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="128" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="128" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -153,7 +153,7 @@
     <routinesParameter id="_RCEvIC1eEeaLyJhW7Qb09g" name="TalendString"/>
     <routinesParameter id="_UadFUDLyEeaEEL-tk_jd4A" name="Synaltic_DQ"/>
   </parameters>
-  <node componentName="tFileInputDelimited" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="384">
+  <node componentName="tFileInputDelimited" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="LABEL" name="FILENAMETEXT" value="&quot;When the input source is a stream or a zip file,footer and random shouldn't be bigger than 0.&quot;"/>
@@ -203,8 +203,9 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRouteInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="64">
+  <node componentName="tRouteInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="444" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteInput_2" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
       <elementValue elementRef="VALUE" value="&quot;${in.body}&quot;"/>
@@ -212,18 +213,6 @@
     <elementParameter field="TEXT" name="LABEL" value="Extraction_body"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRouteInput_2">
-      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-    </metadata>
-  </node>
-  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="64">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
-    <elementParameter field="TABLE" name="VARIABLES">
-      <elementValue elementRef="KEY" value="&quot;myJson&quot;"/>
-      <elementValue elementRef="VALUE" value="row4.body"/>
-    </elementParameter>
-    <elementParameter field="TEXT" name="LABEL" value="body_dans_GlobalVar"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tSetGlobalVar_2">
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
@@ -460,7 +449,7 @@
         <mapperTableEntries name="jsonFull" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row8" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="CACHE_OR_RELOAD">
+      <inputTables sizeState="INTERMEDIATE" name="row8" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" expression="row11.process_type " type="id_String" operator="="/>
         <mapperTableEntries name="reference_field" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_label" type="id_String" nullable="true"/>
@@ -502,7 +491,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;String attribut = mapper.writeValueAsString(root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(input_row.reference_field));&#xA;if(attribut != null){&#xA;attribut = attribut.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label +&quot; &quot;+ attribut);&#xA;}&#xA;else{&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label);&#xA;}&#xA;// Insertion de la description de l'évenement sub process_type&#xA;//((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA; output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;//System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode root = mapper.readTree(input_row.jsonFull);&#xA;&#xA;&#xA;&#xA;// récuperation du process type&#xA; //String process_type = root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(&quot;process_type&quot;);&#xA; //if (process_type != null)&#xA; //process_type = process_type.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA; &#xA;String attribut = mapper.writeValueAsString(root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(input_row.reference_field));&#xA;if(attribut != null){&#xA;attribut = attribut.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).toLowerCase();&#xA;// Insertion de la description de l'évenement process_type&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label +&quot; &quot;+ attribut);&#xA;}&#xA;else{&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_label&quot;, input_row.process_label);&#xA;}&#xA;// Insertion de la description de l'évenement sub process_type&#xA;//((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;process_sub_label&quot;, input_row.process_sub_label);&#xA;&#xA;// Insertion du lien vers le fichier JSON post-normalisation dans Hadoop&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;header&quot;)).put(&quot;src_full_json&quot;, ((String)globalMap.get(&quot;row3.fileRep&quot;)));&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;event&quot;)).remove(&quot;raw&quot;);&#xA;&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;vehicle&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;vehicle&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;// Normalisation : suppression du noeud raw dans le noeud event&#xA;if (root.path(&quot;pga_process_data&quot;).hasNonNull(&quot;person&quot;)) {&#xA;&#x9;((ObjectNode) root.path(&quot;pga_process_data&quot;).path(&quot;person&quot;)).remove(&quot;raw&quot;);&#xA;}&#xA;&#xA;// Le JsonNode est converti en String&#xA; //output_row.body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);&#xA;System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="LABEL" value="Traitements_du_JSON"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -524,14 +513,12 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - param_auto_connect" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;param_auto_connect&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;reference_field\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_label\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;&#xD;&#xA;where   \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;= '&quot;+((String)globalMap.get(&quot;process_type&quot;))+&quot;'&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;reference_field\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_label\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;&#xD;&#xA;/*where   \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_connect\&quot;.\&quot;process_type\&quot;= '&quot;+((String)globalMap.get(&quot;process_type&quot;))+&quot;'*/&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -555,32 +542,18 @@
       <column comment="" key="true" length="50" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="4" name="process_type_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="50" name="reference_field" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="300" name="process_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="4" name="process_type_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="300" name="functional_comment" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-    </metadata>
-  </node>
-  <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1888" posY="640">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
-    <elementParameter field="TABLE" name="VALUES">
-      <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
-      <elementValue elementRef="TYPE" value="Body"/>
-      <elementValue elementRef="VALUE" value=""/>
-    </elementParameter>
-    <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
-    <elementParameter field="TEXT" name="LABEL" value="JSON_traité_dans_body"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="JsonDoc" name="tRouteOutput_1">
-      <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="896" posY="768">
@@ -657,27 +630,24 @@
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
   <node componentName="tKafkaConnection" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="256" posY="-64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaConnection_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="context.Zookeeper_Server + &quot;:&quot; + context.zookeeper_Port"/>
     <elementParameter field="TEXT" name="BROKER_LIST" value="context.KafkaBroker_Server + &quot;:&quot; + context.KafkaBroker_Port"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="-64">
+  <node componentName="tKafkaInput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-64" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CLOSED_LIST" name="OUTPUT_TYPE" value="STRING"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tKafkaConnection_1"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_VERSION" value="KAFKA_0_8_2_0" show="false"/>
     <elementParameter field="TEXT" name="ZOOKEEPER_CONNECT" value="&quot;zk1:port1,zk2:port2,...&quot;" show="false"/>
     <elementParameter field="TEXT" name="KAFKA_TOPIC" value="&quot;EDN_030_Full_to_Ligth_in&quot;"/>
-    <elementParameter field="TEXT" name="GROUP_ID" value="context.Kafka_groupID +&quot;__FAM_014&quot;"/>
+    <elementParameter field="TEXT" name="GROUP_ID" value="context.Kafka_groupID +&quot;__FAM_015&quot;"/>
     <elementParameter field="CHECK" name="RESET_OFFSET" value="false"/>
     <elementParameter field="CLOSED_LIST" name="AUTO_OFFSET_RESET" value="SMALLEST"/>
     <elementParameter field="CLOSED_LIST" name="KAFKA_OFFSET_STORAGE" value="ZOOKEEPER"/>
@@ -701,9 +671,8 @@
       <column key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="-64">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="-3" offsetLabelY="0" posX="64" posY="64">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_3" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;output_row.body = input_row.payload;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -711,13 +680,33 @@
       <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tRouteInput_2" offsetLabelX="0" offsetLabelY="0" source="tRouteInput_2" target="tSetGlobalVar_2">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
-  </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_2" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_2" target="tLibraryLoad_1">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
-  </connection>
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="13" offsetLabelY="-5" posX="256" posY="64">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_2" show="false"/>
+    <elementParameter field="TABLE" name="VARIABLES">
+      <elementValue elementRef="KEY" value="&quot;myJson&quot;"/>
+      <elementValue elementRef="VALUE" value="row4.body"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="body_dans_GlobalVar"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tSetGlobalVar_2">
+      <column key="false" length="0" name="body" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tRouteOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1888" posY="640">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="TABLE" name="VALUES">
+      <elementValue elementRef="SCHEMA_COLUMN" value="body"/>
+      <elementValue elementRef="TYPE" value="Body"/>
+      <elementValue elementRef="VALUE" value=""/>
+    </elementParameter>
+    <elementParameter field="LABEL" name="NOTICE" value="The &quot;Name&quot; with &quot;Body&quot; type will be ignored"/>
+    <elementParameter field="TEXT" name="LABEL" value="JSON_traité_dans_body"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="JsonDoc" name="tRouteOutput_1">
+      <column comment="" key="false" length="-1" name="body" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_1" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_1" target="tLibraryLoad_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
@@ -787,6 +776,7 @@
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJavaRow_2" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_2" target="tRouteOutput_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
@@ -803,13 +793,18 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tKafkaConnection_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tKafkaInput_1" offsetLabelX="0" offsetLabelY="0" source="tKafkaInput_1" target="tJavaRow_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJavaRow_3" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_3" target="tSetGlobalVar_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tSetGlobalVar_2" offsetLabelX="0" offsetLabelY="0" source="tSetGlobalVar_2" target="tLibraryLoad_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
@@ -891,6 +886,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tKafkaInput_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRouteOutput_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
