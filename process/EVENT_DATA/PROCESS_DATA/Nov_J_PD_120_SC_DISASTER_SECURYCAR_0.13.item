@@ -788,6 +788,8 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="dec_regnum" expression="( null != scrh.VehiculeImmatNum_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.VehiculeImmatNum_CtSin))) ? scrh.VehiculeImmatNum_CtSin : null " type="id_String"/>
         <mapperTableEntries name="sys_regnum" expression="( null != contrats.VehiculeImmatNum_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmatNum_Ct)) &amp;&amp; !(&quot;AA100AA&quot;.equalsIgnoreCase(contrats.VehiculeImmatNum_Ct)) ) ? contrats.VehiculeImmatNum_Ct : null " type="id_String"/>
+        <mapperTableEntries name="hasName" expression="tiers.Nom != null &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))" type="id_Boolean"/>
+        <mapperTableEntries name="isPhysicalPerson" expression="null != tiers.IDCivilite ? tiers.IDCivilite != 4 : true " type="id_Boolean"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.groupePGA ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
@@ -804,8 +806,8 @@
         <mapperTableEntries name="raw_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.groupePGA ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_reason" expression="&quot;groupePGA: &quot; + ( Var.groupePGA ? &quot;YES&quot; : &quot;NO&quot;)" type="id_String"/>
+        <mapperTableEntries name="status_stage" expression="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;groupePGA: &quot; + ( Var.groupePGA ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="scrh.IdTypeSin_CtSin + &quot;_&quot; + Var.ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != scrh.PropCivilite_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropCivilite_CtSin))) ? scrh.PropCivilite_CtSin : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="" type="id_String" nullable="true"/>
