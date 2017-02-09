@@ -1180,7 +1180,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;gender\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;gender\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;keep\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;.\&quot;transformed_gender\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_gender\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1197,6 +1197,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transformed_gender"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1208,6 +1210,9 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2147483647" name="transformed_gender" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1472,7 +1477,7 @@
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="keep" expression="null != pd_filters_gender.keep ? pd_filters_gender.keep : false" type="id_Boolean"/>
       </varTables>
@@ -1494,7 +1499,7 @@
         <mapperTableEntries name="status_stage" expression="Var.keep ? &quot;GENDER_FILTER_OK&quot; : &quot;GENDER_FILTER_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;keep: &quot; + ( null == pd_filters_gender.keep ? &quot;UNKNOWN GENDER&quot; : (Var.keep ? &quot;TRUE&quot; : &quot;FALSE&quot;) ) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="data.person_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="gender" expression="data.gender" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gender" expression="pd_filters_gender.transformed_gender " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="data.firstname" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="data.lastname" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="data.birth_name" type="id_String" nullable="true"/>
@@ -1710,10 +1715,11 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="pd_filters_gender" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="pd_filters_gender" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="src_application_name" expression="data.src_application_name " type="id_String"/>
         <mapperTableEntries name="gender" expression="data.gender " type="id_String"/>
         <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="transformed_gender" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -2825,7 +2831,7 @@
       <column comment="" key="false" length="1" name="passed" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="src_process_moment_OK" expression="null != refd.src_process_moment&#xD;&#xA;&amp;&amp;&#xD;&#xA;(TalendDate.compareDate(TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,refd.src_process_moment),TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,&quot;1900-01-01&quot;)) >= 0 )&#xD;&#xD;&#xA;&amp;&amp;&#xD;&#xD;&#xA;(TalendDate.compareDate(TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,refd.src_process_moment),TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,&quot;2200-01-01&quot;)) &lt; 0 ) " type="id_Boolean"/>
         <mapperTableEntries name="load_process_moment_OK" expression="null != refd.load_process_moment&#xD;&#xA;&amp;&amp;&#xD;&#xA;(TalendDate.compareDate(TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,refd.load_process_moment),TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,&quot;1900-01-01&quot;)) >= 0 )&#xD;&#xD;&#xA;&amp;&amp;&#xD;&#xD;&#xA;(TalendDate.compareDate(TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,refd.load_process_moment),TalendDate.parseDate(&quot;yyyy-MM-dd&quot;,&quot;2200-01-01&quot;)) &lt; 0 ) " type="id_Boolean"/>
