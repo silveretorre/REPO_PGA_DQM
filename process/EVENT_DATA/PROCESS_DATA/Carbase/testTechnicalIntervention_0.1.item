@@ -543,8 +543,8 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="id" expression="bid_vn_vo.ORIGINE_CD + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
+        <mapperTableEntries name="id" expression="bid_entete_facture.ORIGINE_CD + &quot;_&quot; + bid_entete_facture.ETAT_CD + &quot;_&quot; + bid_entete_facture.SOCIETE_CD + &quot;_&quot; + bid_entete_facture.NUM_DOC_CD + &quot;_&quot; + bid_entete_facture.NUM_OR_CD " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_entete_facture.DOC_DT)) " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="&quot;CLIENT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) &amp;&amp; &quot;1&quot;.equals(bid_tiers_prospect.PROFIL_CLIENT_CD) " type="id_Boolean"/>
@@ -552,11 +552,11 @@
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
-        <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
-        <mapperTableEntries name="process_category" expression="bid_vn_vo.ORIGINE_CD " type="id_String"/>
+        <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
+        <mapperTableEntries name="process_category" expression="&quot;APV&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;CARBASE&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;INCONNUE&quot;" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
@@ -660,7 +660,7 @@
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="pd_event_techint">
-        <mapperTableEntries name="join_key" type="id_String"/>
+        <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="ti_number" type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_price_workforce" type="id_Double" nullable="true"/>
@@ -713,17 +713,17 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="bid_site" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
-        <mapperTableEntries name="SITE_CD" expression="bid_vn_vo.SITE_CD " type="id_String" operator="="/>
+        <mapperTableEntries name="SOCIETE_CD" expression="bid_entete_facture.SOCIETE_CD " type="id_String" operator="="/>
+        <mapperTableEntries name="SITE_CD" expression="bid_entete_facture.SITE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="SITE_LB" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
+        <mapperTableEntries name="SOCIETE_CD" expression="bid_entete_facture.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="TYPE_PROSPECT_CD" type="id_String"/>
         <mapperTableEntries name="PROFIL_CLIENT_CD" type="id_String" nullable="true"/>
-        <mapperTableEntries name="PROFIL_PAYEUR_CD" type="id_String" nullable="true"/>
-        <mapperTableEntries name="TIERS_NB" expression="bid_vn_vo.NUM_CLIENT_CD " type="id_String" operator="="/>
+        <mapperTableEntries name="PROFIL_PAYEUR_CD" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="TIERS_NB" expression="bid_entete_facture.NUM_CLIENT_CD " type="id_String" operator="="/>
         <mapperTableEntries name="NOM1_LB" type="id_String" nullable="true"/>
         <mapperTableEntries name="NOM2_LB" type="id_String" nullable="true"/>
         <mapperTableEntries name="ADRESSE1_DN" type="id_String" nullable="true"/>
@@ -756,7 +756,7 @@
         <mapperTableEntries name="VENDEUR_LB" type="id_String" nullable="true"/>
         <mapperTableEntries name="ACTIVITE_CD" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_element_facture" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_element_facture" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
         <mapperTableEntries name="ORIGINE_CD" type="id_String"/>
         <mapperTableEntries name="ETAT_CD" type="id_String"/>
