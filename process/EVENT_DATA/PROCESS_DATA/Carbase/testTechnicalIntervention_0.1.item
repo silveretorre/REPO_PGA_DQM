@@ -544,14 +544,14 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="id" expression="bid_entete_facture.ORIGINE_CD + &quot;_&quot; + bid_entete_facture.ETAT_CD + &quot;_&quot; + bid_entete_facture.SOCIETE_CD + &quot;_&quot; + bid_entete_facture.NUM_DOC_CD + &quot;_&quot; + bid_entete_facture.NUM_OR_CD " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_entete_facture.DOC_DT)) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != bid_entete_facture.DOC_DT &amp;&amp; !(&quot;&quot;.equals(bid_entete_facture.DOC_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_entete_facture.DOC_DT)) : &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="&quot;CLIENT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) &amp;&amp; &quot;1&quot;.equals(bid_tiers_prospect.PROFIL_CLIENT_CD) " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="bid_tiers_prospect.NOM1_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="(&quot;FACTURE&quot;.equals(bid_entete_facture.ETAT_CD) || Double.parseDouble(bid_entete_facture.SOLDE_FACT_AM) >= 0) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -658,7 +658,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="ti_number" expression="bid_entete_facture.ORIGINE_CD + &quot;_&quot; + bid_entete_facture.ETAT_CD + &quot;_&quot; + bid_entete_facture.SOCIETE_CD + &quot;_&quot; + bid_entete_facture.NUM_DOC_CD + &quot;_&quot; + bid_entete_facture.NUM_OR_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
