@@ -551,7 +551,7 @@
         <mapperTableEntries name="hasName" expression="bid_tiers_prospect.NOM1_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="(&quot;FACTURE&quot;.equals(bid_entete_facture.ETAT_CD) || Double.parseDouble(bid_entete_facture.SOLDE_FACT_AM) >= 0) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -664,14 +664,14 @@
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_price_workforce" expression="" type="id_Double" nullable="true"/>
         <mapperTableEntries name="intervention_price_pieces" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="intervention_price_with_taxes" expression="bid_entete_facture.MONTANT_TOTAL_NET_AM " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_with_taxes" expression="( null != bid_entete_facture.MONTANT_TOTAL_NET_AM &amp;&amp; !(&quot;&quot;.equals(bid_entete_facture.MONTANT_TOTAL_NET_AM)))?&#xD;&#xA;Double.parseDouble(bid_entete_facture.MONTANT_TOTAL_NET_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="taxes" type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="bid_site.SITE_LB " type="id_String" nullable="true"/>
         <mapperTableEntries name="description" expression="(null != bid_element_facture.ELEMENT_DN &amp;&amp; !(&quot;&quot;.equalsIgnoreCase(bid_element_facture.ELEMENT_DN))) ? bid_element_facture.ELEMENT_DN : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="(bid_conseiller.CONSEILLER_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_conseiller.CONSEILLER_LB))) ? bid_conseiller.CONSEILLER_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="intervention_start_date" expression="bid_element_facture.OR_DT " type="id_String" nullable="true"/>
+        <mapperTableEntries name="intervention_start_date" expression="(null != bid_element_facture.OR_DT &amp;&amp; !(&quot;&quot;.equals(bid_element_facture.OR_DT))) ?  TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_element_facture.OR_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_model" expression="(bid_vn_vo.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.TYPE_MODELE_LB))) ? bid_vn_vo.TYPE_MODELE_LB : null " type="id_String" nullable="true"/>
@@ -679,7 +679,7 @@
         <mapperTableEntries name="mech_color" expression="(bid_veh_en_parc.COULEUR_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_LB))) ? bid_veh_en_parc.COULEUR_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="review" expression="&quot;NON DISPONIBLE&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="doc_type" expression="bid_entete_facture.TYPE_DOC_LB " type="id_String" nullable="true"/>
+        <mapperTableEntries name="doc_type" expression="&quot;FACTURE&quot;.equals(bid_entete_facture.TYPE_DOC_LB) ? &quot;INVOICE&quot; : (&quot;AVOIR&quot;.equals(bid_entete_facture.TYPE_DOC_LB) ? &quot;CREDIT&quot; : (&quot;ANNULATION&quot;.equals(bid_entete_facture.TYPE_DOC_LB) ? &quot;CANCELED&quot; : null)) " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="bid_entete_facture" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
