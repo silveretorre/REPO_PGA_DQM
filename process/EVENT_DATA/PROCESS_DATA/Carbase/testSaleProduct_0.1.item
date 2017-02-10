@@ -895,7 +895,7 @@
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -965,7 +965,7 @@
         <mapperTableEntries name="mobile_pro" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="false" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="bid_vn_vo.SOCIETE_CD +&quot;_&quot; + bid_vn_vo.SITE_CD +&quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="(bid_vn_vo.SOCIETE_CD == null &amp;&amp; bid_vn_vo.SITE_CD == null &amp;&amp; bid_vn_vo.NUM_INT_DMS_CD == null) ? &quot;0&quot; : bid_vn_vo.SOCIETE_CD +&quot;_&quot; + bid_vn_vo.SITE_CD +&quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="(bid_marque.MARQUE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_marque.MARQUE_LB))) ? bid_marque.MARQUE_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="(bid_vn_vo.GAMME_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.GAMME_LB))) ? bid_vn_vo.GAMME_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression="(bid_vn_vo.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.TYPE_MODELE_LB))) ? bid_vn_vo.TYPE_MODELE_LB : null " type="id_String" nullable="true"/>
@@ -1002,7 +1002,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_saleprod">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_saleprod" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="&quot;VEHICLE &quot; + &#xD;&#xA;( bid_vn_vo.ORIGINE_CD == &quot;VN&quot; ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) " type="id_String" nullable="true"/>
