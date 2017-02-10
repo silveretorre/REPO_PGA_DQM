@@ -239,13 +239,15 @@
         <mapperTableEntries name="IdIndividu_Source" type="id_String" nullable="true"/>
         <mapperTableEntries name="CodeConcession" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dedup_pers_inner_contact_orga" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dedup_pers_inner_contact_orga" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD" innerJoin="true">
         <mapperTableEntries name="id_dealership" expression="row1.CodeConcession " type="id_String" operator="="/>
         <mapperTableEntries name="master_gid" expression="row1.IdIndividu_Source " type="id_String" operator="="/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" type="id_String" nullable="true"/>
+        <globalMapKeysValues name="&quot;indivudu_source&quot;" expression="row1.IdIndividu_Source "/>
+        <globalMapKeysValues name="&quot;code_concession&quot;" expression="row1.CodeConcession "/>
       </inputTables>
     </nodeData>
   </node>
@@ -268,7 +270,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;id_dealership,&#xD;&#xA;d.master_gid,&#xD;&#xA;m.firstname_norm,&#xD;&#xA;m.lastname_norm,&#xD;&#xA;m.gender_norm,&#xD;&#xA;m.birth_date&#xD;&#xA;FROM dedup_physical_person_consolidation d&#xD;&#xA;inner join physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join master_physical_person m&#xD;&#xA;on m.master_gid = concat(d.meta_brand_source,'_',d.master_gid)&#xD;&#xA;WHERE  m.\&quot;SURVIVOR\&quot; is true&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;id_dealership,&#xD;&#xA;d.master_gid,&#xD;&#xA;m.firstname_norm,&#xD;&#xA;m.lastname_norm,&#xD;&#xA;m.gender_norm,&#xD;&#xA;m.birth_date&#xD;&#xA;FROM dedup_physical_person_consolidation d&#xD;&#xA;inner join physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join master_physical_person m&#xD;&#xA;on m.master_gid = concat(d.meta_brand_source,'_',d.master_gid)&#xD;&#xA;WHERE  m.\&quot;SURVIVOR\&quot; is true  and   id_dealership = '&quot;+((String)globalMap.get(&quot;code_concession&quot;))+&quot;' and d.master_gid = '&quot;+((String)globalMap.get(&quot;indidvidu_source&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -373,7 +375,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
   </node>
-  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_1" target="tMap_1">
+  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="21" offsetLabelY="-1" source="tFileInputDelimited_1" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="CodeConcession"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
