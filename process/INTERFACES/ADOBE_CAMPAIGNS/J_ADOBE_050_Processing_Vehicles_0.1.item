@@ -262,7 +262,7 @@
         <mapperTableEntries name="CodeConcession" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row2" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row2" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="CACHE_OR_RELOAD">
         <mapperTableEntries name="master_gid" expression="row1.vehicle_uuid " type="id_String" operator="="/>
         <mapperTableEntries name="brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="model" type="id_String" nullable="true"/>
@@ -277,6 +277,7 @@
         <mapperTableEntries name="end_date" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="meta_update_date" type="id_Date" nullable="true"/>
+        <globalMapKeysValues name="&quot;master&quot;" expression="row1.vehicle_uuid "/>
       </inputTables>
     </nodeData>
   </node>
@@ -348,7 +349,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xD;&#xA;  master_gid, &#xD;&#xA;  brand, &#xD;&#xA;  model, &#xD;&#xA;  version, &#xD;&#xA;  kind, &#xD;&#xA;  color, &#xD;&#xA;  circulation_start_date, &#xD;&#xA;  circulation_end_date,&#xD;&#xA;  vin_norm,&#xD;&#xA;  vl.transaction_type,&#xD;&#xA;  vl.start_date,&#xD;&#xA;  vl.end_date,&#xD;&#xA;  vl.meta_creation_date,&#xD;&#xA;  vl.meta_update_date&#xD;&#xA;from master_vehicle m&#xD;&#xA;left outer join dedup_vehicle_consolidation&#xD;&#xA;using (master_gid)&#xD;&#xA;left outer join vehicle_person_link vl&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where m.&quot;SURVIVOR&quot; is true&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select&#xD;&#xA;  master_gid, &#xD;&#xA;  brand, &#xD;&#xA;  model, &#xD;&#xA;  version, &#xD;&#xA;  kind, &#xD;&#xA;  color, &#xD;&#xA;  circulation_start_date, &#xD;&#xA;  circulation_end_date,&#xD;&#xA;  vin_norm,&#xD;&#xA;  vl.transaction_type,&#xD;&#xA;  vl.start_date,&#xD;&#xA;  vl.end_date,&#xD;&#xA;  vl.meta_creation_date,&#xD;&#xA;  vl.meta_update_date&#xD;&#xA;from master_vehicle m&#xD;&#xA;left outer join dedup_vehicle_consolidation&#xD;&#xA;using (master_gid)&#xD;&#xA;left outer join vehicle_person_link vl&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where m.&quot;SURVIVOR&quot; is true and master_gid ='&quot;+((String)globalMap.get(&quot;master&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
