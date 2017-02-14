@@ -34,7 +34,7 @@
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="96" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="128" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_HADOOP_DISTRIBUTION" value="" show="false"/>
@@ -486,8 +486,8 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.person_uuid = ((String)globalMap.get(&quot;out1.person_uuid&quot;));&#xA;output_row.ref_dealership_id = ((String)globalMap.get(&quot;out1.ref_dealership_id&quot;));&#xA;output_row.vehicle_uuid = ((String)globalMap.get(&quot;out1.vehicle_uuid&quot;));&#xA;output_row.process_uuid = ((String)globalMap.get(&quot;out1.process_uuid&quot;));&#xA;output_row.process_category = ((String)globalMap.get(&quot;out1.process_category&quot;));&#xA;output_row.src_process_moment = ((String)globalMap.get(&quot;out1.src_process_moment&quot;));&#xA;output_row.type_event_code = ((String)globalMap.get(&quot;out1.type_event_code&quot;));&#xA;output_row.sub_type_event_code = ((String)globalMap.get(&quot;out1.sub_type_event_code&quot;));&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode node = mapper.readTree(input_row.file);&#xA;&#xA;if (((String)globalMap.get(&quot;out1.reference_field&quot;)) != null){&#xA;String sub_type_event_code=null;&#xA;if (&quot;process_category&quot;.equals( ((String)globalMap.get(&quot;out1.reference_field&quot;)) ){&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;else{&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;output_row.sub_type_event_code = sub_type_event_code;&#xA;}&#xA;&#xA;&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.person_uuid = ((String)globalMap.get(&quot;out1.person_uuid&quot;));&#xA;output_row.ref_dealership_id = ((String)globalMap.get(&quot;out1.ref_dealership_id&quot;));&#xA;output_row.vehicle_uuid = ((String)globalMap.get(&quot;out1.vehicle_uuid&quot;));&#xA;output_row.process_uuid = ((String)globalMap.get(&quot;out1.process_uuid&quot;));&#xA;output_row.process_category = ((String)globalMap.get(&quot;out1.process_category&quot;));&#xA;output_row.src_process_moment = ((String)globalMap.get(&quot;out1.src_process_moment&quot;));&#xA;output_row.type_event_code = ((String)globalMap.get(&quot;out1.type_event_code&quot;));&#xA;output_row.sub_type_event_code = ((String)globalMap.get(&quot;out1.sub_type_event_code&quot;));&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode node = mapper.readTree(input_row.file);&#xA;String sub_type_event_code = null;&#xA;&#xA;if (((String)globalMap.get(&quot;out1.reference_field&quot;)) != null){&#xA;if (&quot;process_category&quot;.equals(((String)globalMap.get(&quot;out1.reference_field&quot;)))){&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;else{&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;output_row.sub_type_event_code = sub_type_event_code;&#xA;}&#xA;&#xA;&#xA;"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
       <column comment="" key="false" length="255" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -591,6 +591,30 @@
       <column key="false" length="50" name="sub_type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tLibraryLoad" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="-64">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_1" show="false"/>
+    <elementParameter field="MODULE_LIST" name="LIBRARY" value="&quot;jackson-core-2.5.3.jar&quot;"/>
+    <elementParameter field="TABLE" name="HOTLIBS"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="LABEL" value="Chargement_librairies&lt;br>Jackson_partie_1"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
+  <node componentName="tLibraryLoad" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="-64">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_2" show="false"/>
+    <elementParameter field="MODULE_LIST" name="LIBRARY" value="&quot;jackson-databind-2.5.3.jar&quot;"/>
+    <elementParameter field="TABLE" name="HOTLIBS"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="LABEL" value="Chargement_librairies&lt;br>Jackson_partie_2"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
+  <node componentName="tLibraryLoad" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="-64">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_3" show="false"/>
+    <elementParameter field="MODULE_LIST" name="LIBRARY" value="&quot;jackson-annotations-2.5.3.jar&quot;"/>
+    <elementParameter field="TABLE" name="HOTLIBS"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="LABEL" value="Chargement_librairies&lt;br>Jackson_partie_3"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_1" target="tLogRow_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="file_name"/>
@@ -668,6 +692,12 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out2" show="false"/>
   </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_1" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_1" target="tLibraryLoad_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLibraryLoad_2" offsetLabelX="0" offsetLabelY="0" source="tLibraryLoad_2" target="tLibraryLoad_3">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
+  </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Connection_OpenClose_DB_ODS_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
@@ -675,6 +705,21 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_2" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
