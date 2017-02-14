@@ -166,7 +166,7 @@
   <node componentName="tFileInputDelimited" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_1" show="false"/>
     <elementParameter field="LABEL" name="FILENAMETEXT" value="&quot;When the input source is a stream or a zip file,footer and random shouldn't be bigger than 0.&quot;"/>
-    <elementParameter field="FILE" name="FILENAME" value="&quot;C:/Users/fadamou/Documents/pga_workspace/data_exchange/event_data/Interfaces/Adobe_campaigns/Incoming_mesages/working_file.csv&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/Incoming_mesages/working_file.csv&quot;"/>
     <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
@@ -257,6 +257,8 @@
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="352" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="CHECK" name="DUMMY" value="true" show="false"/>
     <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
     <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
     <elementParameter field="RADIO" name="VERTICAL" value="false"/>
@@ -321,6 +323,7 @@
       <column comment="" key="false" length="-1" name="file_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="reference_field" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column key="true" length="50" name="dealership_id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="sub_type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
@@ -336,6 +339,7 @@
         <mapperTableEntries name="file_name" expression="row2.file_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="reference_field" expression="row3.reference_field " type="id_String" nullable="true"/>
         <mapperTableEntries name="type_event_code" expression="row3.type_event_code " type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_id" expression="row3.dealership_id " type="id_String"/>
         <mapperTableEntries name="sub_type_event_code" expression="row3.sub_type_event_code " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -437,7 +441,7 @@
   <node componentName="tFileInputDelimited" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileInputDelimited_2" show="false"/>
     <elementParameter field="LABEL" name="FILENAMETEXT" value="&quot;When the input source is a stream or a zip file,footer and random shouldn't be bigger than 0.&quot;"/>
-    <elementParameter field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;out1.file_name&quot;))"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/Incoming_mesages/&quot; + ((String)globalMap.get(&quot;out1.file_name&quot;))"/>
     <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;&quot;"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
@@ -486,7 +490,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.person_uuid = ((String)globalMap.get(&quot;out1.person_uuid&quot;));&#xA;output_row.ref_dealership_id = ((String)globalMap.get(&quot;out1.ref_dealership_id&quot;));&#xA;output_row.vehicle_uuid = ((String)globalMap.get(&quot;out1.vehicle_uuid&quot;));&#xA;output_row.process_uuid = ((String)globalMap.get(&quot;out1.process_uuid&quot;));&#xA;output_row.process_category = ((String)globalMap.get(&quot;out1.process_category&quot;));&#xA;output_row.src_process_moment = ((String)globalMap.get(&quot;out1.src_process_moment&quot;));&#xA;output_row.type_event_code = ((String)globalMap.get(&quot;out1.type_event_code&quot;));&#xA;output_row.sub_type_event_code = ((String)globalMap.get(&quot;out1.sub_type_event_code&quot;));&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode node = mapper.readTree(input_row.file);&#xA;String sub_type_event_code = null;&#xA;&#xA;if (((String)globalMap.get(&quot;out1.reference_field&quot;)) != null){&#xA;if (&quot;process_category&quot;.equals(((String)globalMap.get(&quot;out1.reference_field&quot;)))){&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;else{&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;output_row.sub_type_event_code = sub_type_event_code;&#xA;}&#xA;&#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="output_row.person_uuid = ((String)globalMap.get(&quot;out1.person_uuid&quot;));&#xA;output_row.ref_dealership_id = ((String)globalMap.get(&quot;out1.dealership_id&quot;));&#xA;output_row.vehicle_uuid = ((String)globalMap.get(&quot;out1.vehicle_uuid&quot;));&#xA;output_row.process_uuid = ((String)globalMap.get(&quot;out1.process_uuid&quot;));&#xA;output_row.process_category = ((String)globalMap.get(&quot;out1.process_category&quot;));&#xA;output_row.src_process_moment = ((String)globalMap.get(&quot;out1.src_process_moment&quot;));&#xA;output_row.type_event_code = ((String)globalMap.get(&quot;out1.type_event_code&quot;));&#xA;output_row.sub_type_event_code = ((String)globalMap.get(&quot;out1.sub_type_event_code&quot;));&#xA;&#xA;ObjectMapper mapper = new ObjectMapper();&#xA;JsonNode node = mapper.readTree(input_row.file);&#xA;String sub_type_event_code = null;&#xA;&#xA;if (((String)globalMap.get(&quot;out1.reference_field&quot;)) != null){&#xA;output_row.ref_dealership_id = ((String)globalMap.get(&quot;out1.ref_dealership_id&quot;));&#xA;if (&quot;process_category&quot;.equals(((String)globalMap.get(&quot;out1.reference_field&quot;)))){&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;header&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;else{&#xA;sub_type_event_code = node.path(&quot;pga_process_data&quot;).path(&quot;event&quot;).path(((String)globalMap.get(&quot;out1.reference_field&quot;))).textValue();&#xA;}&#xA;output_row.sub_type_event_code = sub_type_event_code;&#xA;}&#xA;&#xA;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;import com.fasterxml.jackson.core.JsonGenerationException;&#xA;import com.fasterxml.jackson.databind.JsonMappingException;&#xA;import com.fasterxml.jackson.databind.JsonNode;&#xA;import com.fasterxml.jackson.databind.ObjectMapper;&#xA;import com.fasterxml.jackson.databind.node.ObjectNode;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
@@ -631,6 +635,9 @@
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tFlowToIterate_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="sub_type_event_code"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="dealership_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
