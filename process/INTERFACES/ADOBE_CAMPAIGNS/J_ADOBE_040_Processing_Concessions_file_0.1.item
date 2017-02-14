@@ -179,7 +179,7 @@
     <elementParameter field="TABLE" name="TRIMSELECT">
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="CodeConcession"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="CHECK_FIELDS_NUM" value="false"/>
@@ -191,7 +191,7 @@
     <elementParameter field="TABLE" name="DECODE_COLS" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="DECODE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="CodeConcession"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="DECODE" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="DESTINATION" value="" show="false"/>
@@ -200,11 +200,11 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFileInputDelimited_1">
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="CodeConcession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="CodeConcession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -256,7 +256,7 @@
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="GroupeID" expression="row2.groupeid " type="id_String" nullable="true"/>
         <mapperTableEntries name="MarqueID" expression="row2.marqueid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Code" expression="row1.CodeConcession " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Code" expression="row1.ref_dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="UsualLabel" expression="row2.ref_dealership_usualname " type="id_String" nullable="true"/>
         <mapperTableEntries name="OfficialLabel" expression="row2.ref_dealership_legalname " type="id_String" nullable="true"/>
         <mapperTableEntries name="Email" expression="row2.email " type="id_String" nullable="true"/>
@@ -285,11 +285,11 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
-        <mapperTableEntries name="CodeConcession" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ref_dealership_id" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row2" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="CACHE_OR_RELOAD">
         <mapperTableEntries name="ref_dealership_usualname" type="id_String" nullable="true"/>
-        <mapperTableEntries name="ref_dealership_id" expression="row1.CodeConcession " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="ref_dealership_id" expression="row1.ref_dealership_id " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="ref_dealership_legalname" type="id_String" nullable="true"/>
         <mapperTableEntries name="main_city" type="id_String" nullable="true"/>
         <mapperTableEntries name="email" type="id_String" nullable="true"/>
@@ -316,7 +316,7 @@
         <mapperTableEntries name="groupeid" type="id_String" nullable="true"/>
         <mapperTableEntries name="marqueid" type="id_String" nullable="true"/>
         <mapperTableEntries name="openinghours_apv" type="id_String" nullable="true"/>
-        <globalMapKeysValues name="&quot;code_concession&quot;" expression="row1.CodeConcession "/>
+        <globalMapKeysValues name="&quot;code_concession&quot;" expression="row1.ref_dealership_id "/>
       </inputTables>
     </nodeData>
   </node>
@@ -600,10 +600,23 @@
     <metadata connector="FLOW" name="tFileDelete_1"/>
   </node>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_1" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="person_uuid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tFileOutputDelimited_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="main_brand"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="CodeConcession"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
