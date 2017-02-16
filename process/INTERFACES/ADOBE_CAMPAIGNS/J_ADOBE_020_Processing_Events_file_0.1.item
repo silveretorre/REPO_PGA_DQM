@@ -511,7 +511,7 @@
       <column comment="" key="true" length="255" name="IdIndividuSource" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="true" length="50" name="CodeConcession" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="IdVehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="IdEvent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="true" length="255" name="IdEvent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="ProcessCategory" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="TypeEvent" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="SubTypeEvent" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -519,17 +519,26 @@
       <column comment="" key="false" length="-1" name="EventAmount" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="out2">
-        <mapperTableEntries name="IdIndividuSource" expression="row5.person_uuid " type="id_String"/>
-        <mapperTableEntries name="CodeConcession" expression="row5.ref_dealership_id " type="id_String"/>
-        <mapperTableEntries name="IdVehicle" expression="row5.vehicle_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="IdEvent" expression="row5.process_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="ProcessCategory" expression="row5.process_category " type="id_String" nullable="true"/>
-        <mapperTableEntries name="TypeEvent" expression="row5.type_event_code " type="id_String" nullable="true"/>
-        <mapperTableEntries name="SubTypeEvent" expression="row5.sub_type_event_code " type="id_String" nullable="true"/>
-        <mapperTableEntries name="EventDate" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,row5.src_process_moment) " type="id_Date" nullable="true"/>
+      <uiProperties shellMaximized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="uuid_pers" expression="(row5.person_uuid != null) ? row5.person_uuid  : &quot;&quot; " type="id_String"/>
+        <mapperTableEntries name="dealership" expression="(row5.ref_dealership_id  != null) ? row5.ref_dealership_id  :  &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="uuid_veh" expression="(row5.vehicle_uuid != null) ? row5.vehicle_uuid : &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="process_uuid" expression="(row5.process_uuid  != null) ? row5.process_uuid : &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="category" expression="(row5.process_category != null) ? row5.process_category : &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="code" expression="(row5.type_event_code != null) ? row5.type_event_code  :&quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="sub_code" expression="(row5.sub_type_event_code != null)? row5.sub_type_event_code : &quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="process_moment" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,row5.src_process_moment) " type="id_String"/>
+      </varTables>
+      <outputTables sizeState="INTERMEDIATE" name="out2" expressionFilter="Numeric.sequence(Var.uuid_pers +&quot;_&quot;+ Var.dealership +&quot;_&quot;+ Var.process_uuid ,1,1)==1" activateExpressionFilter="true">
+        <mapperTableEntries name="IdIndividuSource" expression="Var.uuid_pers " type="id_String"/>
+        <mapperTableEntries name="CodeConcession" expression="Var.dealership " type="id_String"/>
+        <mapperTableEntries name="IdVehicle" expression="Var.uuid_veh " type="id_String" nullable="true"/>
+        <mapperTableEntries name="IdEvent" expression="Var.process_uuid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="ProcessCategory" expression="Var.category  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="TypeEvent" expression="Var.code " type="id_String" nullable="true"/>
+        <mapperTableEntries name="SubTypeEvent" expression="Var.sub_code " type="id_String" nullable="true"/>
+        <mapperTableEntries name="EventDate" expression="Var.process_moment " type="id_Date" nullable="true"/>
         <mapperTableEntries name="EventAmount" expression="200.000" type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row5" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -578,7 +587,7 @@
       <column comment="" key="true" length="255" name="IdIndividuSource" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="true" length="50" name="CodeConcession" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="IdVehicle" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="IdEvent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="true" length="255" name="IdEvent" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="ProcessCategory" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="TypeEvent" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column key="false" length="50" name="SubTypeEvent" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
