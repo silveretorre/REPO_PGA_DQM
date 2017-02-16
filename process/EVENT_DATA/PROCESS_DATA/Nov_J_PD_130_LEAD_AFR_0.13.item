@@ -858,7 +858,7 @@
         <mapperTableEntries name="lead_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="lead" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="lead" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="lead_id" type="id_Long"/>
         <mapperTableEntries name="l_source_id" type="id_String"/>
         <mapperTableEntries name="l_fk_vehicule_id" type="id_Long" nullable="true"/>
@@ -913,6 +913,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="lm_veh" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vehicule_id" expression="lead.l_fk_vehicule_id" type="id_Long"/>
+        <mapperTableEntries name="v_type" type="id_String"/>
         <mapperTableEntries name="v_immatriculation" type="id_String" nullable="true"/>
         <mapperTableEntries name="v_fk_vehicule_marque_id" expression="" type="id_Long" nullable="true"/>
         <mapperTableEntries name="v_fk_vehicule_modele_id" type="id_Long" nullable="true"/>
@@ -1994,7 +1995,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="352">
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_UI1aEJ0PEeaah_R-XPcsaQ" show="false"/>
@@ -2012,7 +2013,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `lm_vehicule`.`vehicule_id`, &#xA;  `lm_vehicule`.`v_immatriculation`, &#xA;  `lm_vehicule`.`v_fk_vehicule_marque_id`, &#xA;  `lm_vehicule`.`v_fk_vehicule_modele_id`, &#xA;  `lm_vehicule`.`v_version`, &#xA;  `lm_vehicule`.`v_fk_vehicule_energie_id`, &#xD;&#xA; `lm_vehicule`.`v_fk_vehicule_transmission_id`,&#xA;  `lm_vehicule`.`v_kilometrage`, &#xA;  `lm_vehicule`.`v_couleur`, &#xA;  `lm_vehicule`.`v_fk_vehicule_categorie_id`, &#xA;  `lm_vehicule`.`v_immatriculation_date`, &#xA;  `lm_vehicule`.`v_cleargus`&#xA;FROM `lm_vehicule`&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `lm_vehicule`.`vehicule_id`, &#xD;&#xA; `lm_vehicule`.`v_type`,&#xA;  `lm_vehicule`.`v_immatriculation`, &#xA;  `lm_vehicule`.`v_fk_vehicule_marque_id`, &#xA;  `lm_vehicule`.`v_fk_vehicule_modele_id`, &#xA;  `lm_vehicule`.`v_version`, &#xA;  `lm_vehicule`.`v_fk_vehicule_energie_id`, &#xA;  `lm_vehicule`.`v_fk_vehicule_transmission_id`, &#xA;  `lm_vehicule`.`v_kilometrage`, &#xA;  `lm_vehicule`.`v_couleur`, &#xA;  `lm_vehicule`.`v_fk_vehicule_categorie_id`, &#xA;  `lm_vehicule`.`v_immatriculation_date`, &#xA;  `lm_vehicule`.`v_cleargus`&#xA;FROM `lm_vehicule`&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2024,6 +2025,8 @@
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="vehicule_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="v_type"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="v_immatriculation"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2052,6 +2055,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tMysqlInput_2">
       <column comment="" defaultValue="" key="false" length="10" name="vehicule_id" nullable="false" pattern="" precision="0" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="v_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="v_immatriculation" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="v_fk_vehicule_marque_id" nullable="true" pattern="" precision="0" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="v_fk_vehicule_modele_id" nullable="true" pattern="" precision="0" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
