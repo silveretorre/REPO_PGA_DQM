@@ -780,7 +780,7 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row14.meta_brand_source == null &amp;&amp; row14.meta_application_name == null &amp;&amp; row14.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="row82" expressionFilter="Numeric.sequence(out3.brand  +&quot;_&quot; + out3.vehicle_uuid ,1,1)==1" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="row82" expressionFilter="Numeric.sequence(out3.brand  +&quot;_&quot; + out3.vehicle_uuid ,1,1)==1">
         <mapperTableEntries name="META_ID" expression="out3.META_ID" type="id_String"/>
         <mapperTableEntries name="meta_brand_source" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out3.meta_brand_source.toLowerCase())" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(row13.meta_application_name)" type="id_String"/>
@@ -1201,7 +1201,7 @@
         <nodes name="argus_kind" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.2" xpath="row81/argus_kind"/>
         <nodes name="argus_model" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.3" xpath="row81/argus_model"/>
         <nodes name="argus_version" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.4" xpath="row81/argus_version"/>
-        <nodes name="brand" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.5 //@node.29/@nodeData/@connections.25" xpath="row81/brand"/>
+        <nodes name="brand" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.5 //@node.29/@nodeData/@connections.25" filterOutGoingConnections="//@node.29/@nodeData/@connections.26" xpath="row81/brand"/>
         <nodes name="circulation_end_date" type="id_Date" outgoingConnections="//@node.29/@nodeData/@connections.6" xpath="row81/circulation_end_date"/>
         <nodes name="circulation_start_date" type="id_Date" outgoingConnections="//@node.29/@nodeData/@connections.7" xpath="row81/circulation_start_date"/>
         <nodes name="color" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.8" xpath="row81/color"/>
@@ -1211,7 +1211,7 @@
         <nodes name="model" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.12" xpath="row81/model"/>
         <nodes name="national_identification_type" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.13" xpath="row81/national_identification_type"/>
         <nodes name="origin_country_code" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.14" xpath="row81/origin_country_code"/>
-        <nodes name="vehicle_uuid" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.0 //@node.29/@nodeData/@connections.15" xpath="row81/vehicle_uuid"/>
+        <nodes name="vehicle_uuid" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.0 //@node.29/@nodeData/@connections.15" filterOutGoingConnections="//@node.29/@nodeData/@connections.27" xpath="row81/vehicle_uuid"/>
         <nodes name="version" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.21" xpath="row81/version"/>
         <nodes name="vin" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.16" xpath="row81/vin"/>
         <nodes name="REGISTRATION_NUMBER_ID" type="id_String" outgoingConnections="//@node.29/@nodeData/@connections.22" xpath="row81/REGISTRATION_NUMBER_ID" nullable="false"/>
@@ -1219,7 +1219,7 @@
         <nodes name="registration_date" type="id_Date" outgoingConnections="//@node.29/@nodeData/@connections.18" xpath="row81/registration_date"/>
         <nodes name="end_date" type="id_Date" outgoingConnections="//@node.29/@nodeData/@connections.19" xpath="row81/end_date"/>
       </inputTrees>
-      <outputTrees activateCondensedTool="true" name="out6">
+      <outputTrees expressionFilter="Numeric.sequence(row81.brand +&quot;_&quot;+ row81.vehicle_uuid,1,1)" activateExpressionFilter="true" activateCondensedTool="true" name="out6" filterIncomingConnections="//@node.29/@nodeData/@connections.26 //@node.29/@nodeData/@connections.27">
         <nodes name="vehicle" expression="" type="id_Document" xpath="out6/vehicle" pattern="">
           <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicles" expression="" type="id_String" xpath="out6.vehicle:/vehicles" main="true">
             <children xsi:type="TalendXMLMap:OutputTreeNode" name="vehicle" expression="" type="id_String" xpath="out6.vehicle:/vehicles/vehicle" loop="true" main="true">
@@ -1280,6 +1280,8 @@
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.29/@nodeData/@inputTrees.0/@nodes.0" target="//@node.29/@nodeData/@varTables.0/@nodes.0"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.29/@nodeData/@varTables.0/@nodes.0" target="//@node.29/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.0/@children.20"/>
       <connections xsi:type="TalendXMLMap:Connection" source="//@node.29/@nodeData/@inputTrees.0/@nodes.8" target="//@node.29/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.0/@children.23"/>
+      <connections xsi:type="TalendXMLMap:FilterConnection" source="//@node.29/@nodeData/@inputTrees.0/@nodes.8" target="//@node.29/@nodeData/@outputTrees.0"/>
+      <connections xsi:type="TalendXMLMap:FilterConnection" source="//@node.29/@nodeData/@inputTrees.0/@nodes.18" target="//@node.29/@nodeData/@outputTrees.0"/>
     </nodeData>
   </node>
   <node componentName="tHMap" componentVersion="1.0" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="416">
