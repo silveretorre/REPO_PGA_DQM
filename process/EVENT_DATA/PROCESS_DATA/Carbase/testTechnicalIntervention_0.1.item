@@ -547,7 +547,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="id" expression="bid_entete_facture.ORIGINE_CD + &quot;_&quot; + bid_entete_facture.ETAT_CD + &quot;_&quot; + bid_entete_facture.SOCIETE_CD + &quot;_&quot; + bid_entete_facture.NUM_DOC_CD + &quot;_&quot; + bid_entete_facture.NUM_OR_CD " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="( null != bid_entete_facture.DOC_DT &amp;&amp; !(&quot;&quot;.equals(bid_entete_facture.DOC_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_entete_facture.DOC_DT)) : &quot;1900-01-01&quot; " type="id_String"/>
@@ -557,7 +557,7 @@
         <mapperTableEntries name="hasName" expression="bid_tiers_prospect.NOM1_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) " type="id_Boolean"/>
         <mapperTableEntries name="isClosed" expression="(&quot;FACTURE&quot;.equals(bid_entete_facture.ETAT_CD) || Double.parseDouble(bid_entete_facture.SOLDE_FACT_AM) >= 0) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp" minimized="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;TECHNICAL_INTERVENTION&quot;" type="id_String"/>
@@ -664,14 +664,14 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="ti_number" expression="bid_entete_facture.ORIGINE_CD + &quot;_&quot; + bid_entete_facture.ETAT_CD + &quot;_&quot; + bid_entete_facture.SOCIETE_CD + &quot;_&quot; + bid_entete_facture.NUM_DOC_CD + &quot;_&quot; + bid_entete_facture.NUM_OR_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="intervention_price_workforce" expression="" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="intervention_price_pieces" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_workforce" expression="somme" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="intervention_price_pieces" expression="somme" type="id_Double" nullable="true"/>
         <mapperTableEntries name="intervention_price_with_taxes" expression="( null != bid_entete_facture.MONTANT_TOTAL_NET_AM &amp;&amp; !(&quot;&quot;.equals(bid_entete_facture.MONTANT_TOTAL_NET_AM)))?&#xD;&#xA;Double.parseDouble(bid_entete_facture.MONTANT_TOTAL_NET_AM) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="taxes" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="taxes" expression="somme" type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="bid_site.SITE_LB " type="id_String" nullable="true"/>
         <mapperTableEntries name="description" expression="(null != bid_element_facture.ELEMENT_DN &amp;&amp; !(&quot;&quot;.equalsIgnoreCase(bid_element_facture.ELEMENT_DN))) ? bid_element_facture.ELEMENT_DN : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
