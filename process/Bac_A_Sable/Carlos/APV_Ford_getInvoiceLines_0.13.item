@@ -540,13 +540,15 @@
         <mapperTableEntries name="NUMINTOT" expression="ttOTFac.NUMINTERNO " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="NUMINTCARGO" expression="ttOTFac.NUMINTCARGO " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="NUMINTINTERVENCION" type="id_BigDecimal"/>
+        <mapperTableEntries name="LINEACAB" type="id_BigDecimal"/>
+        <mapperTableEntries name="LINEAITEM" type="id_BigDecimal"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="ttOTLinea" minimized="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="ttOTLinea" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="ttOTCargoLinea.EMP " type="id_String" operator="="/>
         <mapperTableEntries name="NUMINTOT" expression="ttOTCargoLinea.NUMINTOT " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="NUMINTINTERVENCION" expression="ttOTCargoLinea.NUMINTINTERVENCION " type="id_BigDecimal" operator="="/>
-        <mapperTableEntries name="LINEACAB" type="id_BigDecimal"/>
-        <mapperTableEntries name="LINEAITEM" type="id_BigDecimal"/>
+        <mapperTableEntries name="LINEACAB" expression="ttOTCargoLinea.LINEACAB " type="id_BigDecimal" operator="="/>
+        <mapperTableEntries name="LINEAITEM" expression="ttOTCargoLinea.LINEAITEM " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="TIPOCAB" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="TIPOLINEA" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="TIPOMENU" type="id_BigDecimal" nullable="true"/>
@@ -583,7 +585,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTCARGO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTINTERVENCION&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA&#xD;&#xA;/*WHERE NUMINTOT = 174494 AND NUMINTINTERVENCION = 211078*/&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.EMP, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTOT, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTCARGO, &#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.NUMINTINTERVENCION,&#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.LINEACAB, &#xD;&#xA;  &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA.LINEAITEM&#xA;FROM &quot;+context.ICAR_FORD_Schema+&quot;.TTOTCARGOLINEA&#xD;&#xA;/*WHERE NUMINTOT = 174494 AND NUMINTINTERVENCION = 211078*/&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -606,23 +608,21 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="NUMINTINTERVENCION"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LINEACAB"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="LINEAITEM"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="NO_NULL_VALUES" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="TTOTCARGOLINEA" name="tOracleInput_3">
-      <column comment="" key="true" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="true" length="10" name="NUMINTOT" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="true" length="10" name="NUMINTCARGO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="true" length="10" name="NUMINTINTERVENCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
+    <metadata connector="FLOW" name="tOracleInput_3">
+      <column comment="" key="false" length="3" name="EMP" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="NUMINTOT" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="NUMINTCARGO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="NUMINTINTERVENCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="LINEACAB" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="10" name="LINEAITEM" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="320">
