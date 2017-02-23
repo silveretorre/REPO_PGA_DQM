@@ -693,16 +693,16 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="id" expression="bid_vn_vo.ORIGINE_CD + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
+        <mapperTableEntries name="id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.SITE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
-        <mapperTableEntries name="isPhysicalPerson" expression="&quot;CLIENT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) &amp;&amp; &quot;1&quot;.equals(bid_tiers_prospect.PROFIL_CLIENT_CD) " type="id_Boolean"/>
-        <mapperTableEntries name="hasName" expression="bid_tiers_prospect.NOM1_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) " type="id_Boolean"/>
+        <mapperTableEntries name="isPhysicalPerson" expression="(&quot;CLIENT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) &amp;&amp; &quot;1&quot;.equals(bid_tiers_prospect.PROFIL_CLIENT_CD)) ||  &quot;PROSPECT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD " type="id_Boolean"/>
+        <mapperTableEntries name="hasName" expression="(null == (bid_tiers_prospect.NOM1_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) ? ((null == (bid_tiers_prospect.NOM2_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM2_LB)) ? false : true) : true) " type="id_Boolean"/>
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -712,17 +712,17 @@
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.id " type="id_String"/>
-        <mapperTableEntries name="raw_dealership_id" expression="bid_site.SOCIETE_CD + &quot;_&quot; + bid_site.SITE_CD " type="id_String" nullable="true"/>
+        <mapperTableEntries name="raw_dealership_id" expression="bid_site.serveur + &quot;_&quot; + bid_site.SOCIETE_CD + &quot;_&quot; + bid_site.SITE_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_city" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_zipcode" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="(bid_site.SITE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_site.SITE_LB))) ? bid_site.SITE_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_stage" expression="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.is_sale &amp;&amp;  Var.is_sold ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;is_sale: &quot; + ( Var.is_sale ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;is_sold: &quot; + ( Var.is_sold ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_id" expression="bid_tiers_prospect.SOCIETE_CD +&quot;_&quot; + bid_tiers_prospect.TIERS_NB " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="bid_tiers_prospect.serveur + &quot;_&quot; + bid_tiers_prospect.SOCIETE_CD + &quot;_&quot; + bid_tiers_prospect.TIERS_NB " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="&quot;ND&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="bid_tiers_prospect.PRENOM_LB " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="(null == (bid_tiers_prospect.NOM2_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM2_LB)) ? bid_tiers_prospect.NOM1_LB : bid_tiers_prospect.NOM1_LB +&quot; &quot; + bid_tiers_prospect.NOM2_LB " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="(null == (bid_tiers_prospect.NOM1_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM1_LB)) ? ((null == (bid_tiers_prospect.NOM2_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM2_LB)) ? null : bid_tiers_prospect.NOM2_LB) : ((bid_tiers_prospect.NOM2_LB) || &quot;&quot;.equals(bid_tiers_prospect.NOM2_LB) ? bid_tiers_prospect.NOM1 : bid_tiers_prospect.NOM1_LB +&quot; &quot; + bid_tiers_prospect.NOM2_LB) " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" type="id_String" nullable="true"/>
@@ -763,7 +763,7 @@
         <mapperTableEntries name="language_id" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="email_pro" type="id_String" nullable="true"/>
+        <mapperTableEntries name="email_pro" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro_is_reachable" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="landline_perso" expression="(bid_tiers_prospect.TEL_MOBILE_LB  != null &amp;&amp; !(&quot;&quot;.equals(bid_tiers_prospect.TEL_MOBILE_LB ))) ? bid_tiers_prospect.TEL_MOBILE_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="landline_perso_is_reachable_by_phone" expression="false" type="id_Boolean" nullable="true"/>
@@ -772,11 +772,11 @@
         <mapperTableEntries name="mobile_pro" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="false" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="(bid_vn_vo.SOCIETE_CD == null &amp;&amp; bid_vn_vo.SITE_CD == null &amp;&amp; bid_vn_vo.NUM_INT_DMS_CD == null) ? &quot;0&quot; : bid_vn_vo.SOCIETE_CD +&quot;_&quot; + bid_vn_vo.SITE_CD +&quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="(bid_vn_vo.SOCIETE_CD == null &amp;&amp; bid_vn_vo.SITE_CD == null &amp;&amp; bid_vn_vo.NUM_INT_DMS_CD == null) ? &quot;0&quot; : bid_vn_vo.serveur +&quot;_&quot; + bid_vn_vo.SOCIETE_CD +&quot;_&quot; + bid_vn_vo.SITE_CD +&quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="(bid_marque.MARQUE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_marque.MARQUE_LB))) ? bid_marque.MARQUE_LB : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="family" expression="(bid_vn_vo.GAMME_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.GAMME_LB))) ? bid_vn_vo.GAMME_LB : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="family" expression="(bid_vn_vo.GAMME_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.GAMME_LB)) &amp;&amp; !(&quot;-1&quot;.equals(bid_vn_vo.GAMME_LB))) ? bid_vn_vo.GAMME_LB : (!(&quot;-1&quot;.equals(bid_veh_en_parc.GAMME_LB))? bid_veh_en_parc.GAMME_LB : null) " type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression="(bid_vn_vo.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.TYPE_MODELE_LB))) ? bid_vn_vo.TYPE_MODELE_LB : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" expression="(bid_veh_en_parc.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB))) ? bid_veh_en_parc.TYPE_MODELE_LB : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="(bid_veh_en_parc.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB))) ? bid_veh_en_parc.TYPE_MODELE_LB : null &#xD;&#xA;&#xD;&#xA;(bid_veh_en_parc.TYPE_MODELE_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.TYPE_MODELE_CD)) &amp;&amp; !(&quot;+&quot;.equals(bid_veh_en_parc.TYPE_MODELE_CD))&amp;&amp; !(&quot;*&quot;.equals(bid_veh_en_parc.TYPE_MODELE_CD)) &amp;&amp; !(&quot;.&quot;.equals(bid_veh_en_parc.TYPE_MODELE_CD))) ? &#xD;&#xA;((bid_veh_en_parc.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB)) &amp;&amp; !(&quot;*&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB)) &amp;&amp; !(&quot;.&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB))) ?&#xD;&#xA; bid_veh_en_parc.TYPE_MODELE_CD + &quot; &quot; + bid_veh_en_parc.TYPE_MODELE_LB : (bid_veh_en_parc.TYPE_MODELE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB)) &amp;&amp; !(&quot;*&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB)) &amp;&amp; !(&quot;.&quot;.equals(bid_veh_en_parc.TYPE_MODELE_LB)) ? bid_veh_en_parc.TYPE_MODELE_CD : null) : " type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="(bid_vn_vo.GENRE_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.GENRE_CD))) ? bid_vn_vo.GENRE_CD : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="(bid_vn_vo.CHASSIS_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.CHASSIS_CD))) ? bid_vn_vo.CHASSIS_CD : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="(bid_veh_en_parc.CARBURANT_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.CARBURANT_CD))) ? bid_veh_en_parc.CARBURANT_CD : null " type="id_String" nullable="true"/>
@@ -784,19 +784,19 @@
         <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" expression="(null != bid_veh_en_parc.MEC_DT &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.MEC_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_veh_en_parc.MEC_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="origin_country_code" type="id_String" nullable="true"/>
+        <mapperTableEntries name="origin_country_code" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="argus_brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_family" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="bid_tiers_prospect.serveur + &quot;_&quot; + bid_tiers_prospect.SOCIETE_CD + &quot;_&quot; + bid_tiers_prospect.TIERS_NB " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_start_date" expression="( null != bid_vn_vo.VENTE_CLIENT_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.VENTE_CLIENT_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_CLIENT_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;UNKNOWN&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_number" expression="(bid_veh_en_parc.NUM_IMMAT_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.NUM_IMMAT_CD))) ? bid_veh_en_parc.NUM_IMMAT_CD : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="first_registration_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="first_registration_date" expression="(null != bid_veh_en_parc.MEC_DT &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.MEC_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_veh_en_parc.MEC_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_registration_date" expression="&quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
@@ -814,7 +814,7 @@
         <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="&quot;VEHICLE &quot; + &#xD;&#xA;( bid_vn_vo.ORIGINE_CD == &quot;VN&quot; ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) " type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_date" expression="( null != bid_vn_vo.ACHAT_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.ACHAT_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.ACHAT_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="reception_date" expression="entree stock" type="id_String" nullable="true"/>
+        <mapperTableEntries name="reception_date" expression="( null != bid_vn_vo.ENTREE_STOCK_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.ENTREE_STOCK_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.ENTREE_STOCK_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="sale_date" expression="( null != bid_vn_vo.VENTE_CLIENT_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.VENTE_CLIENT_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_CLIENT_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="delivery_date" expression="( null != bid_vn_vo.LIVRAISON_REELLE_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.LIVRAISON_REELLE_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.LIVRAISON_REELLE_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="(bid_vendeur.VENDEUR_LB != null &amp;&amp; ! (&quot;&quot;.equals(bid_vendeur.VENDEUR_LB))) ? bid_vendeur.VENDEUR_LB : null " type="id_String" nullable="true"/>
@@ -823,7 +823,7 @@
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_id" expression="(bid_vendeur.SOCIETE_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_vendeur.SOCIETE_CD))) ?&#xD;&#xA;bid_vendeur.SOCIETE_CD + &quot;_&quot; + bid_vendeur.SITE_CD + &quot;_&quot; + bid_vendeur.VENDEUR_CD : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" expression="(bid_vendeur.SOCIETE_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_vendeur.SOCIETE_CD))) ?&#xD;&#xA;bid_vendeur.serveur + &quot;_&quot; + bid_vendeur.SOCIETE_CD + &quot;_&quot; + bid_vendeur.SITE_CD + &quot;_&quot; + bid_vendeur.VENDEUR_CD : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode_id" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="sub_total_vehicle" expression="(null != bid_vn_vo.V_PV_CATALOG_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_CATALOG_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_CATALOG_AM) : 0.0 " type="id_Double" nullable="true"/>
@@ -833,7 +833,7 @@
         <mapperTableEntries name="sub_total_workshop_fees" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_campaign_discount" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_sales_discount" expression="(null != bid_vn_vo.V_REMISE_VENTE_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_REMISE_VENTE_AM)) ?  Double.parseDouble(bid_vn_vo.V_REMISE_VENTE_AM) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_partial_without_taxes" expression="(null != bid_vn_vo.V_PV_FACT_HT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_HT_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_HT_AM) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_partial_without_taxes" expression="(null != bid_vn_vo.V_PV_FACT_HT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_HT_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_HT_AM)-(Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM + Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM) : 0.0 &#xD;&#xA;&#xD;&#xA;Mathematical.SSUB(20,10)Mathematical.SADD(&quot;10&quot;,&quot;10&quot;) " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TVA_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TVA_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_TVA_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_partial_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_registration_fees" expression="0.0" type="id_Double" nullable="true"/>
@@ -849,7 +849,7 @@
         <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="doc_type" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? &quot;INVOICE&quot;:&quot;NULL&quot; " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_vn_vo" minimized="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_vn_vo" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
         <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
         <mapperTableEntries name="ORIGINE_CD" type="id_String"/>
@@ -953,16 +953,16 @@
         <mapperTableEntries name="TAUX_TVA_AM" type="id_String" nullable="true"/>
         <mapperTableEntries name="LIBELLE_TVA_LB" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_site" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_site" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serveur" expression="bid_vn_vo.serveur " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="SITE_CD" expression="bid_vn_vo.SITE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="SITE_LB" expression="" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_tiers_prospect" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serveur" expression="bid_vn_vo.serveur " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="TYPE_PROSPECT_CD" type="id_String"/>
         <mapperTableEntries name="PROFIL_CLIENT_CD" type="id_String" nullable="true"/>
@@ -986,16 +986,16 @@
         <mapperTableEntries name="TOP_VIP_LB" type="id_String" nullable="true"/>
         <mapperTableEntries name="TOP_SMS_LB" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_marque" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_marque" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serveur" expression="bid_vn_vo.serveur " type="id_String" nullable="true"/>
         <mapperTableEntries name="MARQUE_CD" expression="bid_vn_vo.MARQUE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="RACINE_CHASSIS_CD" type="id_String" nullable="true"/>
         <mapperTableEntries name="MARQUE_LB" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_veh_en_parc" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_veh_en_parc" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serveur" expression="bid_vn_vo.serveur " type="id_String" nullable="true"/>
         <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="MARQUE_CD" type="id_String" nullable="true"/>
         <mapperTableEntries name="NUM_CHASSIS_CD" expression="bid_vn_vo.CHASSIS_CD " type="id_String" operator="="/>
@@ -1019,9 +1019,9 @@
         <mapperTableEntries name="CAROSSERIE_LB" type="id_String" nullable="true"/>
         <mapperTableEntries name="PORTE_NB" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="bid_vendeur" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="bid_vendeur" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IntegrationDate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="serveur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="serveur" expression="bid_vn_vo.serveur " type="id_String" nullable="true"/>
         <mapperTableEntries name="SOCIETE_CD" expression="bid_vn_vo.SOCIETE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="SITE_CD" expression="bid_vn_vo.SITE_CD " type="id_String" operator="="/>
         <mapperTableEntries name="VENDEUR_CD" expression="bid_vn_vo.VENDEUR_CD " type="id_String" operator="="/>
