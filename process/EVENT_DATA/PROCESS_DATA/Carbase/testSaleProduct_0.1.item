@@ -702,7 +702,7 @@
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp" minimized="true">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -830,20 +830,20 @@
         <mapperTableEntries name="sub_total_transportation_fees" expression="(null != bid_vn_vo.V_PV_TRANSPORT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_TRANSPORT_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_TRANSPORT_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_carmaker_options" expression="(null != bid_vn_vo.V_PV_OPTION_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_OPTION_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_OPTION_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_dealership_options" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_workshop_fees" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_workshop_fees" expression="&quot;VO&quot;.equals(bid_vn_vo.ORIGINE_CD) ? Mathematical.SADD(Double.parseDouble(bid_vn_vo.FRE_PRA_AM), Double.parseDouble(bid_vn_vo.FRE_MO_AM), Double.parseDouble(bid_vn_vo.FRE_TRAV_EXT_AM),Double.parseDouble(bid_vn_vo.FRE_ETAT_DIVERS_AM)) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_campaign_discount" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_sales_discount" expression="(null != bid_vn_vo.V_REMISE_VENTE_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_REMISE_VENTE_AM)) ?  Double.parseDouble(bid_vn_vo.V_REMISE_VENTE_AM) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_partial_without_taxes" expression="(null != bid_vn_vo.V_PV_FACT_HT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_HT_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_HT_AM)-(Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM + Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM) : 0.0 &#xD;&#xA;&#xD;&#xA;Mathematical.SSUB(20,10)Mathematical.SADD(&quot;10&quot;,&quot;10&quot;) " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TVA_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TVA_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_TVA_AM) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_partial_with_taxes" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_registration_fees" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_partial_without_taxes" expression="(null != bid_vn_vo.V_PV_FACT_HT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_HT_AM)) ?  Mathematical.SSUB(Double.parseDouble(bid_vn_vo.V_PV_FACT_HT_AM), Mathematical.SADD(Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM), Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM))) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TVA_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TVA_AM)) ?  Mathematical.SSUB(Double.parseDouble(bid_vn_vo.V_PV_FACT_TVA_AM), Mathematical.SADD(Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM), Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM))) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_partial_with_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TTC_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TTC_AM)) ?  Mathematical.SSUB(Double.parseDouble(bid_vn_vo.V_PV_FACT_TTC_AM), Mathematical.SADD(Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM), Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM))) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_registration_fees" expression="(null != bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_scrapping_bonus" expression="0.0" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_disbursements" expression="(null != bid_vn_vo.PA_RD_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.PA_RD_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.PA_RD_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_disbursements" expression="(null != bid_vn_vo.V_PV_RD_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_RD_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="total_to_be_payed" expression="(null != bid_vn_vo.V_PV_FACT_TTC_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TTC_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_TTC_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="down_payment" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vehicle_recovery_bonus" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="funding" expression="(null != bid_vn_vo.V_MONT_FINANCE_VENTE_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_MONT_FINANCE_VENTE_AM)) ?  Double.parseDouble(bid_vn_vo.V_MONT_FINANCE_VENTE_AM) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="total_to_be_deducted" expression="0.0" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="total_to_be_deducted" expression="(null != bid_vn_vo.V_MONT_FINANCE_VENTE_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_MONT_FINANCE_VENTE_AM)) ?  Double.parseDouble(bid_vn_vo.V_MONT_FINANCE_VENTE_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_maintenance_guarantee" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="credit_repurchase" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != bid_veh_en_parc.KMS_NB &amp;&amp; !&quot;&quot;.equals(bid_veh_en_parc.KMS_NB)) ? Double.parseDouble(bid_veh_en_parc.KMS_NB) : 0.0 " type="id_Double" nullable="true"/>
