@@ -415,10 +415,10 @@
       <column comment="" key="false" length="1" name="EmailReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="OptinEmail" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Mobile" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="1" name="MobileReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="OptinMobile" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="OptinSMS" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Phone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="1" name="PhoneReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="OptinPhone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="StreetNumber" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Route" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Locality" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -447,11 +447,11 @@
         <mapperTableEntries name="Email" expression="emails.email_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="EmailReachable" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="OptinEmail" expression="emails.is_reachable " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="Mobile" expression="(&quot;MOBILE&quot;.equals(Mobile_Phone.phone_type))? Mobile_Phone.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="MobileReachable" expression="(&quot;MOBILE&quot;.equals(Mobile_Phone.phone_type))? Mobile_Phone.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="Mobile" expression=" Mobile_Phone.phone_number_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="OptinMobile" expression="Mobile_Phone.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="OptinSMS" expression="Mobile_Phone.is_reachable_by_sms " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="Phone" expression="(&quot;FIXED_LINE&quot;.equals(Mobile_Phone.phone_type))?  Mobile_Phone.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="PhoneReachable" expression="(&quot;FIXED_LINE&quot;.equals(Mobile_Phone.phone_type))?  Mobile_Phone.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="Phone" expression="Fixed_Phone.phone_number_norm " type="id_String" nullable="true"/>
+        <mapperTableEntries name="OptinPhone" expression="Fixed_Phone.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="StreetNumber" expression="addresses.street_number_short " type="id_String" nullable="true"/>
         <mapperTableEntries name="Route" expression="addresses.routes_short " type="id_String" nullable="true"/>
         <mapperTableEntries name="Locality" expression="addresses.locality_short_norm " type="id_String" nullable="true"/>
@@ -517,12 +517,10 @@
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="Mobile_Phone.meta_id_source "/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="Fixed_Phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_creation_date" type="id_Date"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" expression="addresses.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="addresses.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="addresses.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="param" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -973,10 +971,10 @@
       <column comment="" key="false" length="1" name="EmailReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="OptinEmail" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Mobile" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="1" name="MobileReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="OptinMobile" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="OptinSMS" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Phone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="1" name="PhoneReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="1" name="OptinPhone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="StreetNumber" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Route" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="Locality" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -984,7 +982,7 @@
       <column comment="" key="false" length="255" name="Country" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="PostalCode" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="PostalAdressReachable" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="OptinPostal" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" defaultValue="true" key="false" length="-1" name="OptinPostal" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="OptainGlobal" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="Birthdate" nullable="true" pattern="&quot;dd-MM-yyyy HH:mm:ss&quot;" precision="-1" sourceType="VARCHAR" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="DeceasedDate" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -1086,7 +1084,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_creation_date\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_sms\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_phone\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;='FIXED_LINE'&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_phone\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;='FIXED_LINE'&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1101,13 +1099,9 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="meta_creation_date"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="phone_number_norm"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_sms"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_phone"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1122,7 +1116,7 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
+      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
@@ -1152,7 +1146,7 @@
       <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+      <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
@@ -1360,6 +1354,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup_pers_inner_contact_orga" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out2" lineStyle="0" metaname="out2" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tFileOutputDelimited_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="OptinMobile"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out2" show="false"/>
   </connection>
