@@ -447,11 +447,11 @@
         <mapperTableEntries name="Email" expression="emails.email_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="EmailReachable" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="OptinEmail" expression="emails.is_reachable " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="Mobile" expression="(&quot;MOBILE&quot;.equals(phones.phone_type))? phones.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="MobileReachable" expression="(&quot;MOBILE&quot;.equals(phones.phone_type))? phones.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="OptinSMS" expression="phones.is_reachable_by_sms " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="Phone" expression="(&quot;FIXED_LINE&quot;.equals(phones.phone_type))?  phones.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="PhoneReachable" expression="(&quot;FIXED_LINE&quot;.equals(phones.phone_type))?  phones.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="Mobile" expression="(&quot;MOBILE&quot;.equals(Mobile_Phone.phone_type))? Mobile_Phone.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="MobileReachable" expression="(&quot;MOBILE&quot;.equals(Mobile_Phone.phone_type))? Mobile_Phone.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="OptinSMS" expression="Mobile_Phone.is_reachable_by_sms " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="Phone" expression="(&quot;FIXED_LINE&quot;.equals(Mobile_Phone.phone_type))?  Mobile_Phone.phone_number_norm : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="PhoneReachable" expression="(&quot;FIXED_LINE&quot;.equals(Mobile_Phone.phone_type))?  Mobile_Phone.is_reachable_by_phone : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="StreetNumber" expression="addresses.street_number_short " type="id_String" nullable="true"/>
         <mapperTableEntries name="Route" expression="addresses.routes_short " type="id_String" nullable="true"/>
         <mapperTableEntries name="Locality" expression="addresses.locality_short_norm " type="id_String" nullable="true"/>
@@ -488,12 +488,11 @@
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="out1.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="out1.meta_id_source "/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="phones" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="emails.meta_brand_source " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_application_name" expression="emails.meta_application_name " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_id_source" expression="emails.meta_id_source " type="id_String" operator="="/>
+      <inputTables sizeState="INTERMEDIATE" name="Mobile_Phone" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" type="id_String"/>
+        <mapperTableEntries name="meta_application_name" type="id_String"/>
+        <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
         <globalMapKeysValues name="&quot;meta_brand_source&quot;" expression="emails.meta_brand_source "/>
@@ -501,9 +500,9 @@
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="emails.meta_id_source "/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="addresses" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="phones.meta_brand_source " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_application_name" expression="phones.meta_application_name " type="id_String" operator="="/>
-        <mapperTableEntries name="meta_id_source" expression="phones.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="Mobile_Phone.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="Mobile_Phone.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="Mobile_Phone.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="street_number_short" type="id_String" nullable="true"/>
         <mapperTableEntries name="routes_short" type="id_String" nullable="true"/>
         <mapperTableEntries name="locality_short_norm" type="id_String" nullable="true"/>
@@ -513,9 +512,18 @@
         <mapperTableEntries name="postal_code_short_std" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
-        <globalMapKeysValues name="&quot;meta_brand_source&quot;" expression="phones.meta_brand_source "/>
-        <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="phones.meta_application_name "/>
-        <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="phones.meta_id_source "/>
+        <globalMapKeysValues name="&quot;meta_brand_source&quot;" expression="Mobile_Phone.meta_brand_source "/>
+        <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="Mobile_Phone.meta_application_name "/>
+        <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="Mobile_Phone.meta_id_source "/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="Fixed_Phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="addresses.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="addresses.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="addresses.meta_id_source " type="id_String" operator="="/>
+        <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="phone_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="param" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" expression="out1.process_type " type="id_String" operator="="/>
@@ -629,7 +637,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="288">
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1504" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_3" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -643,12 +651,14 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - norm_physical_person_phone" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_phone&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_sms\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_phone\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_sms\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_phone\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;='MOBILE'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -667,8 +677,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="phone_number_norm"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="phone_type"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_sms"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_phone"/>
@@ -684,21 +692,6 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
       <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -706,6 +699,9 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="id_physical_person" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -717,7 +713,19 @@
       <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
@@ -1057,6 +1065,123 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1312" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_6" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="Connection_OpenClose_DB_ODS_1_tPostgresqlConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="V9_X" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DQM_ODS_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DQM_ODS_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DQM_ODS_Database" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;norm_physical_person_phone&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_number_norm\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_sms\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;is_reachable_by_phone\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;norm_physical_person_phone\&quot;.\&quot;phone_type\&quot;=='FIXED_LINE'&#xD;&#xA; &quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="phone_number_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="phone_type"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_sms"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable_by_phone"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="WHERE meta_brand_source = '&quot;+((String)globalMap.get(&quot;meta_brand_source&quot;))+&quot;' and meta_application_name = '&quot;+((String)globalMap.get(&quot;meta_application_name&quot;))+&quot;'  and meta_id_source = '&quot;+((String)globalMap.get(&quot;meta_id_source&quot;))+&quot;' "/>
+    <metadata connector="FLOW" label="norm_physical_person_phone" name="tPostgresqlInput_6">
+      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="phone_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable_by_sms" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_reachable_by_phone" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="meta_update_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="id_physical_person" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="id_organization_user" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="original_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="phone_number_std" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="hasCorrectCountryCode" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="is_valid" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="line_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="29" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="ErrorMessage" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="40" name="meta_process_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <node componentName="tFileDelete" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="128">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
     <elementParameter field="FILE" name="FILENAME" value="&quot;C:/talend/6.6.1/Talend-Studio-20151214_1327-V6.1.1/workspace/in.csv&quot;" show="false"/>
@@ -1240,9 +1365,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="emails" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="phones" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_2">
+  <connection connectorName="FLOW" label="Mobile_Phone" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="phones" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Mobile_Phone" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="addresses" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -1251,6 +1376,10 @@
   <connection connectorName="FLOW" label="param" lineStyle="8" metaname="tPostgresqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_5" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="param" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="Fixed_Phone" lineStyle="8" metaname="tPostgresqlInput_6" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_6" target="tMap_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Fixed_Phone" show="false"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileDelete_1" offsetLabelX="0" offsetLabelY="0" source="tFileDelete_1" target="tFileInputDelimited_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
