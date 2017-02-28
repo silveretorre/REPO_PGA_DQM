@@ -438,7 +438,7 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="birthdate" expression="(out1.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))==0)? null : out1.birth_date " type="id_Date"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="out2" expressionFilter="Numeric.sequence(out1.IdIndividu_Source  +&quot;_&quot;+ ((param.dealership_id.indexOf(&quot;[&quot;)==-1)? param.dealership_id : out1.CodeConcession),1,1)==1" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="out2" expressionFilter="Numeric.sequence(out1.IdIndividu_Source  +&quot;_&quot;+ ((param.dealership_id.indexOf(&quot;[&quot;)==-1)? param.dealership_id : out1.CodeConcession),1,1)==1">
         <mapperTableEntries name="IdIndividu_Source" expression="out1.IdIndividu_Source" type="id_String" nullable="true"/>
         <mapperTableEntries name="CodeConcession" expression="(param.dealership_id.indexOf(&quot;[&quot;)==-1)? param.dealership_id : out1.CodeConcession " type="id_String" nullable="true"/>
         <mapperTableEntries name="Nom" expression="out1.firstname_norm" type="id_String" nullable="true"/>
@@ -478,7 +478,7 @@
         <mapperTableEntries name="meta_id_source" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="emails" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="emails" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="out1.meta_brand_source  " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out1.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out1.meta_id_source " type="id_String" operator="="/>
@@ -488,10 +488,10 @@
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="out1.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="out1.meta_id_source "/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="Mobile_Phone" activateCondensedTool="true" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="meta_id_source" type="id_String"/>
+      <inputTables sizeState="INTERMEDIATE" name="Mobile_Phone" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="meta_brand_source" expression="emails.meta_brand_source " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_application_name" expression="emails.meta_application_name " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="emails.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" type="id_Boolean" nullable="true"/>
@@ -499,7 +499,7 @@
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="emails.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="emails.meta_id_source "/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="addresses" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="addresses" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="Mobile_Phone.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="Mobile_Phone.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="Mobile_Phone.meta_id_source " type="id_String" operator="="/>
@@ -515,7 +515,7 @@
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="Mobile_Phone.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="Mobile_Phone.meta_id_source "/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="Fixed_Phone" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="Fixed_Phone" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="addresses.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="addresses.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="addresses.meta_id_source " type="id_String" operator="="/>
@@ -524,12 +524,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="param" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" expression="out1.process_type " type="id_String" operator="="/>
-        <mapperTableEntries name="type_event_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="type_event_code" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership_id" type="id_String"/>
-        <mapperTableEntries name="sub_type_event_description" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="sub_type_event_code" type="id_String" nullable="true"/>
-        <mapperTableEntries name="event_amount" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1006,7 +1001,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;type_event_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;type_event_code\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;dealership_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;sub_type_event_description\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;sub_type_event_code\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;event_amount\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;process_type\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;.\&quot;dealership_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;param_auto_campaign\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1019,17 +1014,7 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="process_type"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="type_event_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="type_event_code"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="dealership_id"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="sub_type_event_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="sub_type_event_code"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="event_amount"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -1038,22 +1023,22 @@
       <column comment="" key="true" length="50" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="300" name="type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="300" name="type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="true" length="50" name="dealership_id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="300" name="sub_type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="300" name="sub_type_event_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="sub_type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="sub_type_event_code" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="20" name="event_amount" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="20" name="event_amount" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
