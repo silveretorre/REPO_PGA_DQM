@@ -942,45 +942,43 @@
       <column comment="" key="false" length="255" name="energy_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
-    <metadata connector="FLOW" name="pd_event_comprop">
+    <metadata connector="FLOW" name="pd_event_testdrive">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="comprop_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="product_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="reception_delay" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="offer_end_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="expected_delivery_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="buying_price" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_without_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="completed" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="automatically_generated" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="delayed" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_hour" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_minute" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_hour" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_minute" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="subject" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="4095" name="notes" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cancelled" nullable="true" pattern="" precision="-1" sourceType="" type="id_Boolean" originalLength="2" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="tgAgendaTarea.EMP + &quot;_&quot; + String.valueOf(tgAgendaTarea.NUMINTERNO.intValue())" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tgCliente.PERJURIDICA &amp;&amp; !(&quot;&quot;.equals(tgCliente.PERJURIDICA)) &amp;&amp; tgCliente.PERJURIDICA.intValue() == 0 " type="id_Boolean"/>
         <mapperTableEntries name="hasName" expression="tgCliente.APELLIDO1 != null &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1)) " type="id_Boolean"/>
         <mapperTableEntries name="profile_id" expression="( null != tgClienteEmail.PROTECTEMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.PROTECTEMAILFACEBOOK)) &amp;&amp; (tgClienteEmail.PROTECTEMAILFACEBOOK.intValue()==0) ) ?&#xD;&#xA;(( null != tgClienteEmail.EMAILFACEBOOK &amp;&amp; !(&quot;&quot;.equals(tgClienteEmail.EMAILFACEBOOK))) ? tgClienteEmail.EMAILFACEBOOK : null ) : null " type="id_String"/>
-        <mapperTableEntries name="vehNotCancelled" expression="null != tcVeh.STATUS &amp;&amp; tcVeh.STATUS.intValue() != -1 " type="id_Boolean"/>
-        <mapperTableEntries name="src_process_moment" expression="( null != tgAgendaTarea.FECHAPRESUP &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.FECHAPRESUP))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tgAgendaTarea.FECHAPRESUP)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
-        <mapperTableEntries name="process_category" expression="( null != tgAgendaTarea.ESVO &amp;&amp; tgAgendaTarea.ESVO.intValue() == 1 ) ? &quot;VO&quot; : &quot;VN&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_id" expression="null == (tgPtoVenta.EMP) || (&quot;&quot;.equals(tgPtoVenta.EMP)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;&quot;DEF_025&quot; : tgPtoVenta.ORGANIS&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgPtoVenta.ORGANIS) || (&quot;&quot;.equals(tgPtoVenta.ORGANIS)) ?&#xD;&#xA;tgPtoVenta.EMP : (tgPtoVenta.EMP+&quot;_&quot;+tgPtoVenta.ORGANIS).trim()&#xD;&#xA;) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != tgAgendaTarea.FECHACREACION &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.FECHACREACION))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,tgAgendaTarea.FECHACREACION)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="process_category" expression="&quot;ACTION_DMS&quot;" type="id_String"/>
+        <mapperTableEntries name="dealership_id" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ? &#xD;&#xA;tgPoblaEmp.DESCRIP&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != tgEmpresa.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.CPOSTAL))) ? &#xD;&#xA;tgEmpresa.CPOSTAL&#xD;&#xA;: null " type="id_String"/>
-        <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ? &#xD;&#xA;tgOrganis.DESCRIP&#xD;&#xA;: null " type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="( null != tgAgendaTarea.ESVO &amp;&amp; tgAgendaTarea.ESVO.intValue() == 1 ) ? &quot;BMW&quot; : ( ( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: &quot;BMW&quot; ) " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="&quot;BMW&quot;" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString() " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString() " type="id_String"/>
-        <mapperTableEntries name="last_mileage_known" expression="( null != tcVeh.KM ) ? tcVeh.KM.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
-        <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
+        <mapperTableEntries name="process_type" expression="&quot;TEST_DRIVE" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;ICAR&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="Var.src_application_brand " type="id_String"/>
@@ -992,9 +990,9 @@
         <mapperTableEntries name="raw_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;vehNotCancelled: &quot; + ( Var.vehNotCancelled ? &quot;YES&quot; : &quot;NO&quot;)" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_id" expression="( null != tgAgendaTarea.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tgAgendaTarea.CLIENTEPRESUP.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_stage" expression="Var.isPhysicalPerson &amp;&amp;  Var.hasName ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="( null != tgAgendaTarea.AQUIEN &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.AQUIEN))) ? &#xD;&#xA;String.valueOf( tgAgendaTarea.AQUIEN.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != tgCortesia.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCortesia.DESCRIP))) ? &#xD;&#xA;tgCortesia.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="( null != tgCliente.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tgCliente.NOMBRE))) ? &#xD;&#xA;tgCliente.NOMBRE&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname" expression="( null != tgCliente.APELLIDO1 &amp;&amp; !(&quot;&quot;.equals(tgCliente.APELLIDO1))) ? &#xD;&#xA;tgCliente.APELLIDO1&#xD;&#xA;: null " type="id_String" nullable="true"/>
@@ -1047,58 +1045,58 @@
         <mapperTableEntries name="mobile_pro" expression="tgCliente.NUMGSMPRO " type="id_String" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMGSMPRO &amp;&amp; tgCliente.PROTECTNUMGSMPRO.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="null != tgCliente.PROTECTSMS &amp;&amp; tgCliente.PROTECTSMS.intValue()==0 ? true : false" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="( null != tgAgendaTarea.VEHICULO &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.VEHICULO))) ? &#xD;&#xA;Var.ID + &quot;_&quot; + String.valueOf(tgAgendaTarea.VEHICULO.intValue())&#xD;&#xA;: &quot;0&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand" expression="( null != tgMarca.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgMarca.DESCRIP))) ? &#xD;&#xA;tgMarca.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="&quot;0&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="( null != tgModelo.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModelo.DESCRIP))) ? &#xD;&#xA;tgModelo.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version" expression="( null != tgVersion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgVersion.DESCRIP))) ? &#xD;&#xA;tgVersion.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind" expression="( null != tgCategoria.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCategoria.DESCRIP))) ? tgCategoria.DESCRIP : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="( null != tcVeh.CHASIS &amp;&amp; !(&quot;&quot;.equals(tcVeh.CHASIS))) ? tcVeh.CHASIS : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy" expression="( null != tgCombustible.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgCombustible.DESCRIP))) ? &#xD;&#xA;tgCombustible.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="color" expression="( null != tcColor.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tcColor.DESCRIP))) ? &#xD;&#xA;tcColor.DESCRIP&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="circulation_start_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="circulation_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="origin_country_code" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="last_mileage_known" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="argus_brand" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_family" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="( null != tgAgendaTarea.CLIENTEPRESUP &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.CLIENTEPRESUP))) ? &#xD;&#xA;String.valueOf( tgAgendaTarea.CLIENTEPRESUP.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="( null != tgVehCliente.FECHA &amp;&amp; !(&quot;&quot;.equals(tgVehCliente.FECHA))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgVehCliente.FECHA) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="( null != tgAgendaTarea.AQUIEN &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.AQUIEN))) ? &#xD;&#xA;String.valueOf( tgAgendaTarea.AQUIEN.intValue() )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="( null != tgAgendaTarea.INICIOFECHA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.INICIOFECHA))) ? TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgAgendaTarea.INICIOFECHA) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_organization_user_id" expression="( null != tgAgendaTarea.VENDEDOR &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.VENDEDOR))) ? tgAgendaTarea.EMP+&quot;__&quot;+tgAgendaTarea.VENDEDOR : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_type" expression="( null != tgVehCliente.TIPORELACION ) ? (tgVehCliente.TIPORELACION.equals(&quot;P&quot;) ? &quot;OWNER&quot; : ( tgVehCliente.TIPORELACION.equals(&quot;L&quot;) ? &quot;PAID FOR&quot; : ( tgVehCliente.TIPORELACION.equals(&quot;S&quot;) ? &quot;OWNER (COMPANY)&quot; : ( tgVehCliente.TIPORELACION.equals(&quot;X&quot;) ? &quot;FORMER OWNER&quot; : &quot;UNKNOWN&quot; )))) : &quot;UNKNOWN&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_number" expression="( null != tcVeh.MATRIC &amp;&amp; !(&quot;&quot;.equals(tcVeh.MATRIC))) ? &#xD;&#xA;tcVeh.MATRIC&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="first_registration_date" expression="( null != tcVeh.FECMATRICPRIMERA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICPRIMERA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICPRIMERA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="current_registration_date" expression="( null != tcVeh.FECMATRICULTIMA &amp;&amp; !(&quot;&quot;.equals(tcVeh.FECMATRICULTIMA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcVeh.FECMATRICULTIMA)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" expression="( null != tgAgendaTarea.DEQUIEN &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.DEQUIEN))) ? tgAgendaTarea.EMP+&quot;__&quot;+tgAgendaTarea.DEQUIEN : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_type" expression="&quot;DID_TEST_DRIVE&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="first_registration_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="argus_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="brand_id" expression="tgAgendaTarea.MARCA " type="id_String" nullable="true"/>
+        <mapperTableEntries name="brand_id" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="family_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model_id" expression="tgAgendaTarea.MODELO " type="id_String" nullable="true"/>
-        <mapperTableEntries name="version_id" expression="tgAgendaTarea.VERSION " type="id_String" nullable="true"/>
-        <mapperTableEntries name="kind_id" expression="tgAgendaTarea.CATEGORIA " type="id_String" nullable="true"/>
-        <mapperTableEntries name="energy_id" expression="tcVeh.COMBUSTIBLE " type="id_String" nullable="true"/>
-        <mapperTableEntries name="color_id" expression="tgAgendaTarea.COLOR " type="id_String" nullable="true"/>
+        <mapperTableEntries name="model_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="version_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="kind_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="energy_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="color_id" expression="" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_comprop" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_testdrive" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
-        <mapperTableEntries name="comprop_number" expression="Var.ID" type="id_String" nullable="true"/>
-        <mapperTableEntries name="product_type" expression="( null != tgAgendaTarea.ESVO &amp;&amp; !&quot;&quot;.equals(tgAgendaTarea.ESVO)) ?&#xD;&#xA;&quot;VEHICLE &quot; + &#xD;&#xA;( tgAgendaTarea.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) : &quot;VEHICULE&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="reception_delay" type="id_String" nullable="true"/>
-        <mapperTableEntries name="offer_end_date" expression="( null != tgAgendaTarea.FECHACADUCIDAD &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.FECHACADUCIDAD))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tgAgendaTarea.FECHACADUCIDAD)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="expected_delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" expression="tgVendedor.EMP + &quot;_&quot; + tgVendedor.VENDEDOR " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="( null != tgVendedor.EMAIL &amp;&amp; !(&quot;&quot;.equals(tgVendedor.EMAIL))) ? tgVendedor.EMAIL : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? Mathematical.ABS(tcVeh.IMPORTECOMPRA.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_without_taxes" expression="( null != tgAgendaTarea.SUBTOTAL8 &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.SUBTOTAL8))) ? Mathematical.ABS(tgAgendaTarea.SUBTOTAL8.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="selling_price_with_taxes" expression="( null != tgAgendaTarea.SUBTOTAL10 &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.SUBTOTAL10))) ? Mathematical.ABS(tgAgendaTarea.SUBTOTAL10.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="taxes" expression="( null != tgAgendaTarea.SUBTOTAL9 &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.SUBTOTAL9))) ? Mathematical.ABS(tgAgendaTarea.SUBTOTAL9.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="completed" expression="( null != tgAgendaTarea.COMPLETADA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.COMPLETADA)) &amp;&amp; (tgAgendaTarea.COMPLETADA.intValue()==1) ) " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="automatically_generated" expression="( null != tgAgendaTarea.AUTOMATICA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.AUTOMATICA)) &amp;&amp; (tgAgendaTarea.AUTOMATICA.intValue()==1) ) " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="delayed" expression="( null != tgAgendaTarea.APLAZADA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.APLAZADA)) &amp;&amp; (tgAgendaTarea.APLAZADA.intValue()==1) ) " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="start_hour" expression="null != tgAgendaTarea.INICIOHORA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.INICIOHORA)) ? tgAgendaTarea.INICIOHORA.intValue() : 0 " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="start_minute" expression="null != tgAgendaTarea.INICIOMINUTO &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.INICIOMINUTO)) ? tgAgendaTarea.INICIOMINUTO.intValue() : 0 " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="end_hour" expression="null != tgAgendaTarea.FINALHORA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.FINALHORA)) ? tgAgendaTarea.FINALHORA.intValue() : 0 " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="end_minute" expression="null != tgAgendaTarea.FINALMINUTO &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.FINALMINUTO)) ? tgAgendaTarea.FINALMINUTO.intValue() : 0" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="subject" expression="tgAgendaTarea.ASUNTO " type="id_String" nullable="true"/>
+        <mapperTableEntries name="notes" expression="tgAgendaTarea.OBSERVA " type="id_String" nullable="true"/>
+        <mapperTableEntries name="cancelled" expression="( null != tgAgendaTarea.ANULADA &amp;&amp; !(&quot;&quot;.equals(tgAgendaTarea.ANULADA)) &amp;&amp; (tgAgendaTarea.ANULADA.intValue()==1) ) " type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgAgendaTarea" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" type="id_String"/>
@@ -1119,7 +1117,7 @@
         <mapperTableEntries name="ANULADA" type="id_BigDecimal" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="CODIGO" expression="tgAgendaTarea.CLIENTEPRESUP " type="id_BigDecimal"/>
+        <mapperTableEntries name="CODIGO" expression="tgAgendaTarea.AQUIEN " type="id_BigDecimal"/>
         <mapperTableEntries name="PERJURIDICA" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="CORTESIA" type="id_String" nullable="true"/>
         <mapperTableEntries name="APELLIDO1" type="id_String" nullable="true"/>
@@ -1198,7 +1196,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgVendedor" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tgAgendaTarea.EMP " type="id_String"/>
-        <mapperTableEntries name="VENDEDOR" expression="tgAgendaTarea.VENDEDOR " type="id_String"/>
+        <mapperTableEntries name="VENDEDOR" expression="tgAgendaTarea.DEQUIEN" type="id_String"/>
         <mapperTableEntries name="EMAIL" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -3200,27 +3198,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="comprop_number"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="product_type"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="reception_delay"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="offer_end_date"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="expected_delivery_date"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="user_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -3235,32 +3213,52 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="buying_price"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="completed"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="selling_price_without_taxes"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="automatically_generated"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="selling_price_with_taxes"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="delayed"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="taxes"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="start_hour"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="currency"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="start_minute"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="last_mileage_known"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="end_hour"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="end_minute"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="subject"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="notes"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="cancelled"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -3274,35 +3272,35 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlOutput_3">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="comprop_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="product_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="reception_delay" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="offer_end_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="expected_delivery_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="buying_price" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_without_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="completed" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="automatically_generated" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="delayed" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_hour" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_minute" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_hour" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_minute" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="subject" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="4095" name="notes" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cancelled" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="comprop_number" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="product_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="reception_delay" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="offer_end_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="expected_delivery_date" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_info" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="selling_dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="buying_price" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_without_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="selling_price_with_taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="12" name="taxes" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="currency" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="completed" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="automatically_generated" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="delayed" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_hour" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="start_minute" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_hour" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="end_minute" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" originalLength="2" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="subject" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="4095" name="notes" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="4096" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cancelled" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" originalLength="2" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -3934,14 +3932,14 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="pd_event_comprop" lineStyle="0" metaname="pd_event_comprop" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_3">
+  <connection connectorName="FLOW" label="pd_event_testdrive" lineStyle="0" metaname="pd_event_testdrive" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_3">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="last_mileage_known"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_comprop" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_testdrive" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="tgCliente" lineStyle="8" metaname="tOracleInput_3" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_3" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
