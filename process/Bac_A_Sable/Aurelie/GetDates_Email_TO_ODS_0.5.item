@@ -460,7 +460,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_link_organization_user_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_process_moment\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;load_process_moment\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;email\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_link_organization_user_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -474,6 +474,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="src_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="src_application_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="src_process_moment"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="load_process_moment"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_id"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -489,6 +493,12 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -624,12 +634,12 @@
         <mapperTableEntries name="meta_consumed" expression="Var.meta_consumed " type="id_Boolean"/>
         <mapperTableEntries name="meta_id_source" expression="Var.person_id " type="id_String"/>
         <mapperTableEntries name="id_physical_person" expression="Var.person_id " type="id_String" nullable="true"/>
-        <mapperTableEntries name="id_organization_user" expression="perso.person_link_organization_user_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_organization_user" expression="pro.person_link_organization_user_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="email" expression="pro.email_pro " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable" expression="email_ods.is_reachable " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="email_ods.email_type " type="id_String" nullable="true"/>
-        <mapperTableEntries name="creation_date" expression="MODIFYYYYYY" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="update_date" expression="MODIFYYYYYY" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="creation_date" expression="null != pro.src_process_moment ? TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, pro.src_process_moment) : null " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="update_date" expression="null != pro.load_process_moment ? TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, pro.load_process_moment) : null " type="id_Date" nullable="true"/>
         <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
       </outputTables>
@@ -645,8 +655,8 @@
         <mapperTableEntries name="email" expression="perso.email " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable" expression="email_ods.is_reachable " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email_type" expression="email_ods.email_type " type="id_String" nullable="true"/>
-        <mapperTableEntries name="creation_date" expression="MODIFYYYYYY" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="update_date" expression="MODIFYYYYYY" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="creation_date" expression="null != perso.src_process_moment ? TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, perso.src_process_moment) : null " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="update_date" expression="null != perso.load_process_moment ? TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, perso.load_process_moment) : null " type="id_Date" nullable="true"/>
         <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
       </outputTables>
@@ -660,15 +670,19 @@
         <mapperTableEntries name="email_type" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="perso" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="src_application_name" expression="email_ods.meta_application_name " type="id_String" operator="="/>
-        <mapperTableEntries name="src_application_brand" expression="email_ods.meta_brand_source " type="id_String" operator="="/>
-        <mapperTableEntries name="person_id" expression="email_ods.meta_id_source " type="id_String" nullable="true" operator="="/>
-        <mapperTableEntries name="email" expression="email_ods.email " type="id_String" nullable="true" operator="="/>
-        <mapperTableEntries name="person_link_organization_user_id" expression="email_ods.id_organization_user " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="src_application_name" expression="email_ods.meta_application_name " type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="email_ods.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" type="id_String"/>
+        <mapperTableEntries name="load_process_moment" type="id_String"/>
+        <mapperTableEntries name="person_id" expression="email_ods.meta_id_source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="email" expression="email_ods.email " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" expression="email_ods.id_organization_user " type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="pro" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="src_application_name" expression="email_ods.meta_application_name " type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="email_ods.meta_brand_source " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" type="id_String"/>
+        <mapperTableEntries name="load_process_moment" type="id_String"/>
         <mapperTableEntries name="person_id" expression="email_ods.meta_id_source " type="id_String" nullable="true"/>
         <mapperTableEntries name="email_pro" expression="email_ods.email " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" expression="email_ods.id_organization_user " type="id_String" nullable="true"/>
@@ -1116,7 +1130,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;email_pro\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_link_organization_user_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_application_brand\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;src_process_moment\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;load_process_moment\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;email_pro\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;.\&quot;person_link_organization_user_id\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_all_hpv_refd\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1130,6 +1144,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="src_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="src_application_brand"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="src_process_moment"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="load_process_moment"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_id"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1145,6 +1163,12 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="person_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
