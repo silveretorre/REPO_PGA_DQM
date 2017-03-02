@@ -823,8 +823,8 @@
         <mapperTableEntries name="process_id" expression="new Long(lead.lead_id).toString() " type="id_String"/>
         <mapperTableEntries name="phone_number" expression="(null != lead.p_portable &amp;&amp; !(&quot;&quot;.equals(lead.p_portable)))? lead.p_portable : (null != lead.p_telephone &amp;&amp; !(&quot;&quot;.equals(lead.p_telephone)))? lead.p_telephone : null " type="id_String"/>
         <mapperTableEntries name="phone_type" expression="(null != lead.p_portable &amp;&amp; !(&quot;&quot;.equals(lead.p_portable)))? &quot;MOBILE&quot;:(null != lead.p_telephone &amp;&amp; !(&quot;&quot;.equals(lead.p_telephone)))? &quot;FIXE&quot; : null " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.w_statut_datetime) " type="id_String"/>
-        <mapperTableEntries name="process_category" expression="lead.v_type " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="null != lead.w_statut_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.w_statut_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="process_category" expression="null != lead.v_type ? lead.v_type : &quot;UNKNOWN&quot; " type="id_String"/>
         <mapperTableEntries name="dealership_id" expression="(null == (lead.X_INITIALE) || &quot;&quot;.equals(lead.X_INITIALE)) ? &quot;DEF_133&quot; : lead.X_INITIALE " type="id_String"/>
         <mapperTableEntries name="dealership_city" expression="lead.ville " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="lead.codepostal " type="id_String"/>
@@ -832,7 +832,7 @@
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="!(&quot;NC&quot;.equals(Var.app_band)) &amp;&amp; Numeric.sequence(&quot;s1&quot;,1,1) &lt;= 10">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="!(&quot;NC&quot;.equals(Var.app_band)) &amp;&amp; Numeric.sequence(&quot;s1&quot;,1,1) &lt;= 10">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;LEAD_FOLLOWUP&quot;" type="id_String"/>
