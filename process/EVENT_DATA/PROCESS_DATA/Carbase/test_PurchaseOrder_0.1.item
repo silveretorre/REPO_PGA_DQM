@@ -81,7 +81,7 @@
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx6G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="60" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -723,7 +723,7 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.SITE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
+        <mapperTableEntries name="src_process_moment" expression="( null != bid_vn_vo.VENTE_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.VENTE_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT))  : &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="isPhysicalPerson" expression="(&quot;CLIENT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) &amp;&amp; &quot;1&quot;.equals(bid_tiers_prospect.PROFIL_CLIENT_CD)) ||  &quot;PROSPECT&quot;.equals(bid_tiers_prospect.TYPE_PROSPECT_CD) " type="id_Boolean"/>
@@ -839,7 +839,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_po" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_po">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="retained_comprop" expression="Var.id " type="id_String" nullable="true"/>
