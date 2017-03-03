@@ -743,7 +743,7 @@
       <column comment="" key="false" length="255" name="doc_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.SITE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
@@ -871,7 +871,7 @@
         <mapperTableEntries name="delivery_date" expression="( null != bid_vn_vo.LIVRAISON_REELLE_DT &amp;&amp; !(&quot;&quot;.equals(bid_vn_vo.LIVRAISON_REELLE_DT))) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.LIVRAISON_REELLE_DT)) : &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_info" expression="(bid_vendeur.VENDEUR_LB != null &amp;&amp; ! (&quot;&quot;.equals(bid_vendeur.VENDEUR_LB))) ? bid_vendeur.VENDEUR_LB : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression="(bid_site.SITE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_site.SITE_LB))) ? bid_site.SITE_LB : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="buying_price_with_taxes" expression="(null != bid_vn_vo.PA_FACT_TTC_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.PA_FACT_TTC_AM)) ?  Double.parseDouble(bid_vn_vo.PA_FACT_TTC_AM) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="buying_price_with_taxes" expression="(null = bid_vn_vo.PA_FACT_TTC_AM || &quot;&quot;.equals(bid_vn_vo.PA_FACT_TTC_AM)) ?&#xD;&#xA;(&quot;VN&quot;.equals(bid_vn_vo.ORIGINE_CD)) ? !&quot;0&quot;.equals((Mathematical.SADD(Mathematical.SADD(bid_vn_vo.PA_CATALOG_AM, bid_vn_vo.PA_TRANSPORT_AM),Mathematical.SADD(bid_vn_vo.PA_OPTION_AM, bid_vn_vo.PA_DIVERS_AM)))) ? Mathematical.SADD(Mathematical.SADD(bid_vn_vo.PA_CATALOG_AM, bid_vn_vo.PA_TRANSPORT_AM),Mathematical.SADD(bid_vn_vo.PA_OPTION_AM, bid_vn_vo.PA_DIVERS_AM)) : 0.0 : (!&quot;0&quot;.equals(bid_vn_vo.PA_CATALOG_AM) &amp;&amp; !null = bid_vn_vo.PA_CATALOG_AM ? Double.parseDouble(bid_vn_vo.PA_CATALOG_AM) : 0.0):Double.parseDouble(bid_vn_vo.PA_FACT_TTC_AM) " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" type="id_String" nullable="true"/>
@@ -888,7 +888,7 @@
         <mapperTableEntries name="sub_total_partial_without_taxes" expression="null != bid_vn_vo.V_PV_FACT_HT_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_HT_AM) ?  Double.valueOf(Mathematical.SSUB(bid_vn_vo.V_PV_FACT_HT_AM, String.valueOf(Mathematical.SADD(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM, bid_vn_vo.V_PV_RD_DEBOURS_AM)))) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TVA_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TVA_AM)) ?  Double.valueOf(Mathematical.SSUB(bid_vn_vo.V_PV_FACT_TVA_AM, String.valueOf(Mathematical.SADD(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM, bid_vn_vo.V_PV_RD_DEBOURS_AM)))) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_partial_with_taxes" expression="(null != bid_vn_vo.V_PV_FACT_TTC_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TTC_AM)) ?  Double.valueOf(Mathematical.SSUB(bid_vn_vo.V_PV_FACT_TTC_AM, String.valueOf(Mathematical.SADD(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM, bid_vn_vo.V_PV_RD_DEBOURS_AM)))) : 0.0 " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="sub_total_registration_fees" expression="(null != bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_RD_HORS_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="sub_total_registration_fees" expression="(null != bid_vn_vo.V_PV_RD_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_RD_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_scrapping_bonus" expression="0.0" type="id_Double" nullable="true"/>
         <mapperTableEntries name="sub_total_disbursements" expression="(null != bid_vn_vo.V_PV_RD_DEBOURS_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_RD_DEBOURS_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_RD_DEBOURS_AM) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="total_to_be_payed" expression="(null != bid_vn_vo.V_PV_FACT_TTC_AM &amp;&amp; !&quot;&quot;.equals(bid_vn_vo.V_PV_FACT_TTC_AM)) ?  Double.parseDouble(bid_vn_vo.V_PV_FACT_TTC_AM) : 0.0 " type="id_Double" nullable="true"/>
