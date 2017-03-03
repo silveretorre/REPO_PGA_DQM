@@ -219,8 +219,8 @@
     <elementParameter field="CHECK" name="KAFKA_DUAL_COMMIT_CHECK" value="true" show="false"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT_OFFSET" value="true"/>
     <elementParameter field="TEXT" name="KAFKA_COMMIT_INTERVAL" value="5000"/>
-    <elementParameter field="CHECK" name="USE_BATCH_MAX_DURATION" value="false"/>
-    <elementParameter field="TEXT" name="BATCH_MAX_DURATION" value="600000" show="false"/>
+    <elementParameter field="CHECK" name="USE_BATCH_MAX_DURATION" value="true"/>
+    <elementParameter field="TEXT" name="BATCH_MAX_DURATION" value="120000"/>
     <elementParameter field="CHECK" name="USE_BATCH_MAX_SIZE" value="false"/>
     <elementParameter field="TEXT" name="BATCH_MAX_SIZE" value="10000" show="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_MESSAGE_TIMEOUT" value="true"/>
@@ -336,7 +336,7 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="info" expression="Synaltic_RM.infoProcessData(row1.id_vehicle, row1.src_application_brand, row1.src_application_name,dedup_vehicle.master_gid) " type="id_String" nullable="true"/>
@@ -558,7 +558,7 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="toWaiting" expressionFilter="physical_person.to_consume == true" activateExpressionFilter="true">
         <mapperTableEntries name="body" expression="toWaiting_Or_ToReject.jsonDoc " type="id_String" nullable="true"/>
@@ -683,6 +683,9 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="physical_person" name="tPostgresqlInput_3">
+      <column comment="" defaultValue="false" key="false" length="1" name="to_consume" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -741,9 +744,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" defaultValue="false" key="false" length="1" name="to_consume" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" defaultValue="false" key="false" length="1" name="to_deduplicate" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
