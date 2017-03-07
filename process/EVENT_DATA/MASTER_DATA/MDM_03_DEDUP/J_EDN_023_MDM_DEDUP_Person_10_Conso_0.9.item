@@ -1518,7 +1518,7 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
-    <metadata connector="FLOW" label="dedup_vehicle_consolidation" name="out2">
+    <metadata connector="FLOW" label="dedup_vehicle_consolidation" name="duplicate_of_source">
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1561,11 +1561,11 @@
         <mapperTableEntries name="meta_process_uuid" expression="row12.meta_process_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="isduplicateof" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="update_duplicateOf">
+      <outputTables sizeState="INTERMEDIATE" name="update_duplicateOf" expressionFilter="row12.meta_brand_source != null &amp;&amp; row12.meta_application_name != null &amp;&amp; row12.meta_id_source != null" activateExpressionFilter="true">
         <mapperTableEntries name="master_gid" expression="row13.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="isduplicateof" expression="row13.master_gid " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="out2" expressionFilter="row12.meta_brand_source == null &amp;&amp; row12.meta_application_name == null &amp;&amp; row12.meta_id_source == null" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="duplicate_of_source" expressionFilter="row12.meta_brand_source == null &amp;&amp; row12.meta_application_name == null &amp;&amp; row12.meta_id_source == null" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="row13.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row13.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="row13.meta_id_source " type="id_String"/>
@@ -2652,9 +2652,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="update_duplicateOf" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="out2" lineStyle="0" metaname="out2" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_6" target="tPostgresqlOutput_6">
+  <connection connectorName="FLOW" label="duplicate_of_source" lineStyle="0" metaname="duplicate_of_source" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_6" target="tPostgresqlOutput_6">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out2" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="duplicate_of_source" show="false"/>
   </connection>
   <connection connectorName="UNIQUE" label="row14" lineStyle="0" metaname="tUniqRow_2" offsetLabelX="0" offsetLabelY="0" source="tUniqRow_2" target="tPostgresqlOutput_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
