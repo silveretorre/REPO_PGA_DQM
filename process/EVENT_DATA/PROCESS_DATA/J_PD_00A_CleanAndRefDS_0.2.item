@@ -2142,7 +2142,7 @@
       <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="keepRecord" expression="null != dealership_crossref.keep ? dealership_crossref.keep : false " type="id_Boolean"/>
       </varTables>
@@ -2381,6 +2381,7 @@
       <inputTables sizeState="INTERMEDIATE" name="dealership_crossref" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="src_application_name" expression="filtered.src_application_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="src_dealership_id" expression="filtered.raw_dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_dealership_name" expression="filtered.raw_dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="ref_dealership_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
       </inputTables>
@@ -2410,7 +2411,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;src_dealership_id\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;ref_dealership_id\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;src_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;src_dealership_id\&quot;, &#xD;&#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;src_dealership_name\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;ref_dealership_id\&quot;, &#xA;  \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_CrossRef_Database+&quot;\&quot;.\&quot;&quot;+context.DB_CrossRef_Schema+&quot;\&quot;.\&quot;dealership_crossref\&quot;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2425,6 +2426,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="src_dealership_id"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="src_dealership_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
@@ -2432,19 +2435,12 @@
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="dealership_crossref" name="tPostgresqlInput_6">
-      <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="src_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="255" name="ref_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
-        <additionalField key="Comment" value=""/>
-      </column>
+    <metadata connector="FLOW" name="tPostgresqlInput_6">
+      <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_dealership_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="ref_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="128">
