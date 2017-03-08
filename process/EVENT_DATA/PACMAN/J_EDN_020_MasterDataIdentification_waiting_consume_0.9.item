@@ -336,7 +336,7 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="enrichJSON" expressionFilter="dedup_physical.master_gid != null " activateExpressionFilter="true">
         <mapperTableEntries name="info" expression="Synaltic_RM.infoProcessData(row1.id_vehicle, row1.src_application_brand, row1.src_application_name,dedup_vehicle.master_gid) " type="id_String" nullable="true"/>
@@ -345,7 +345,7 @@
         <mapperTableEntries name="vehicle_uuid" expression="dedup_vehicle.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="status" expression="&quot;OK&quot;" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="toWaiting_Or_ToReject" activateCondensedTool="true" reject="true">
+      <outputTables sizeState="INTERMEDIATE" name="toWaiting_Or_ToReject" activateCondensedTool="true" reject="true" rejectInnerJoin="true">
         <mapperTableEntries name="src_application_name" expression="row1.src_application_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="src_application_brand" expression="row1.src_application_brand " type="id_String" nullable="true"/>
         <mapperTableEntries name="id_person" expression="row1.id_person " type="id_String" nullable="true"/>
@@ -361,7 +361,7 @@
         <mapperTableEntries name="id_person" type="id_String" nullable="true"/>
         <mapperTableEntries name="jsonDoc" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dedup_physical" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD">
+      <inputTables sizeState="INTERMEDIATE" name="dedup_physical" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD" innerJoin="true">
         <mapperTableEntries name="meta_brand_source" expression="row1.src_application_brand " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="row1.src_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="row1.id_person " type="id_String"/>
