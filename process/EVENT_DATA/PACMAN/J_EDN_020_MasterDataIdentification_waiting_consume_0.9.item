@@ -558,7 +558,7 @@
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="toWaiting" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="body" expression="toWaiting_Or_ToReject.jsonDoc " type="id_String" nullable="true"/>
@@ -576,7 +576,10 @@
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="physical_person" activateCondensedTool="true" matchingMode="ALL_ROWS" lookupMode="RELOAD" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="physical_person" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD" innerJoin="true">
+        <mapperTableEntries name="meta_brand_source" expression=" toWaiting_Or_ToReject.src_application_brand " type="id_String"/>
+        <mapperTableEntries name="meta_application_name" expression="toWaiting_Or_ToReject.src_application_name" type="id_String" operator="="/>
+        <mapperTableEntries name="meta_id_source" expression="toWaiting_Or_ToReject.id_person " type="id_String" operator="="/>
         <mapperTableEntries name="to_consume" type="id_Boolean"/>
         <globalMapKeysValues name="&quot;SRC_application_name&quot;" expression="toWaiting_Or_ToReject.src_application_name "/>
         <globalMapKeysValues name="&quot;SRC_application_brand&quot;" expression="toWaiting_Or_ToReject.src_application_brand "/>
@@ -659,12 +662,14 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DQM_ODS_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DQM_ODS_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kudN3ofj9SIhGwoMYw5PCG82FwxYu268ig0=" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg - physical_person" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;physical_person&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot;.\&quot;to_consume\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot;&#xA;WHERE \&quot;meta_brand_source\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_brand_source&quot;) + &quot;' &#xA;AND \&quot;meta_application_name\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_application_name&quot;) + &quot;'&#xA;AND \&quot;meta_id_source\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_id_person&quot;) + &quot;'&quot;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;meta_brand_source\&quot;,&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;meta_application_name\&quot;,&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;meta_id_source\&quot;,&#xA;  \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot;.\&quot;to_consume\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person\&quot;&#xA;WHERE \&quot;meta_brand_source\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_brand_source&quot;) + &quot;' &#xA;AND \&quot;meta_application_name\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_application_name&quot;) + &quot;'&#xA;AND \&quot;meta_id_source\&quot; = '&quot; + (String)globalMap.get(&quot;SRC_id_person&quot;) + &quot;'&quot;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -675,19 +680,22 @@
     <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000" show="false"/>
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN">
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="to_consume"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="physical_person" name="tPostgresqlInput_3">
-      <column comment="" defaultValue="false" key="false" length="1" name="to_consume" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
-        <additionalField key="Comment" value=""/>
-      </column>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="29" name="meta_creation_date" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="false">
@@ -699,7 +707,7 @@
       <column comment="" key="false" length="1" name="meta_consumed" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+      <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="gender" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
@@ -742,6 +750,9 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" defaultValue="false" key="false" length="1" name="to_consume" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" defaultValue="false" key="false" length="1" name="to_deduplicate" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="false">
