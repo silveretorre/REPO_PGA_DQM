@@ -1287,7 +1287,7 @@
         <mapperTableEntries name="energy_id" expression="input.energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="input.color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_wrong_lastname" expressionFilter="!(StringHandling.LEN(input.lastname) >= 3 || null != pd_filters_lastname.lastname)" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_wrong_lastname" minimized="true" expressionFilter="!(StringHandling.LEN(input.lastname) >= 3 || null != pd_filters_lastname.lastname)" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="input.master_key" type="id_String"/>
         <mapperTableEntries name="join_key" expression="input.join_key" type="id_String"/>
         <mapperTableEntries name="process_type" expression="input.process_type" type="id_String"/>
@@ -1416,8 +1416,8 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="pd_filters_lastname" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="lastname" expression="input.lastname &#xD;&#xA;&#xD;&#xA;/*convertir en mayúsculas y transliterar para sacar los acentos*/ " type="id_String" nullable="true"/>
+      <inputTables sizeState="INTERMEDIATE" name="pd_filters_lastname" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="lastname" expression="StringHandling.UPCASE(TalendString.removeAccents(input.lastname)) " type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
