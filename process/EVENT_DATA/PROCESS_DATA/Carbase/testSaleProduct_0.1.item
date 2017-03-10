@@ -745,7 +745,7 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.SITE_CD + &quot;_&quot; + bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
+        <mapperTableEntries name="id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.ORIGINE_CD + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; +   bid_vn_vo.CHASSIS_CD + &quot;_&quot; + bid_vn_vo.NUM_INT_DMS_CD " type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.parseDate(&quot;ddMMyyyy&quot;,bid_vn_vo.VENTE_DT)) " type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
@@ -754,7 +754,7 @@
         <mapperTableEntries name="is_sale" expression="&quot;F&quot;.equals(bid_vn_vo.TYPE_FACTURE_CD) ? true:false " type="id_Boolean"/>
         <mapperTableEntries name="is_sold" expression="&quot;VENDU&quot;.equals(bid_vn_vo.STATUT_VEH_DN) || &quot;LIVRE&quot;.equals(bid_vn_vo.STATUT_VEH_DN) ? true : false " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_temp">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_PRODUCT&quot;" type="id_String"/>
@@ -764,7 +764,7 @@
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.id " type="id_String"/>
-        <mapperTableEntries name="raw_dealership_id" expression="bid_site.serveur + &quot;_&quot; + bid_site.SOCIETE_CD + &quot;_&quot; + bid_site.SITE_CD " type="id_String" nullable="true"/>
+        <mapperTableEntries name="raw_dealership_id" expression="bid_vn_vo.serveur + &quot;_&quot; + bid_vn_vo.SOCIETE_CD + &quot;_&quot; + bid_vn_vo.SITE_CD " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_city" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_zipcode" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="(bid_site.SITE_LB != null &amp;&amp; !(&quot;&quot;.equals(bid_site.SITE_LB))) ? bid_site.SITE_LB : null " type="id_String" nullable="true"/>
@@ -861,7 +861,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="(bid_veh_en_parc.COULEUR_CD != null &amp;&amp; !(&quot;&quot;.equals(bid_veh_en_parc.COULEUR_CD))) ? bid_veh_en_parc.COULEUR_CD : null " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_saleprod">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_saleprod" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.id " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="&quot;VEHICLE &quot; + &#xD;&#xA;( bid_vn_vo.ORIGINE_CD == &quot;VN&quot; ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) " type="id_String" nullable="true"/>
