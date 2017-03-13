@@ -206,7 +206,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source, &#xD;&#xA;n.meta_application_name,&#xD;&#xA;p.id_dealership&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join public.norm_physical_person_name n &#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xA;inner join test_unitaire  as t on (&#xA;&#x9;n.meta_brand_source = t.meta_brand_source and &#xA;    n.meta_application_name = t.meta_application_name and &#xA;    n.meta_id_source = t.meta_id_source and&#xA;    t.\&quot;isActive\&quot; is true and&#xA;    t.\&quot;type\&quot; = 'person' and&#xA;    t.functional_context = 'GOLDEN_RECORDS'&#xA;)&#xD;&#xA;&quot;&#xD;&#xA;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date,&#xD;&#xA;n.meta_application_name,&#xD;&#xA;p.id_dealership&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join public.norm_physical_person_name n &#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xA;inner join test_unitaire  as t on (&#xA;&#x9;n.meta_brand_source = t.meta_brand_source and &#xA;    n.meta_application_name = t.meta_application_name and &#xA;    n.meta_id_source = t.meta_id_source and&#xA;    t.\&quot;isActive\&quot; is true and&#xA;    t.\&quot;type\&quot; = 'person' and&#xA;    t.functional_context = 'GOLDEN_RECORDS'&#xA;)&#xD;&#xA;&quot;&#xD;&#xA;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -221,6 +221,14 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_brand_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="firstname_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lastname_norm"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="birth_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="id_dealership"/>
@@ -232,8 +240,12 @@
     <metadata connector="FLOW" name="tPostgresqlInput_2">
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="id_dealership" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_application_name" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="256" posY="352">
@@ -252,7 +264,7 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out">
         <mapperTableEntries name="group_identifier" expression="row1.meta_brand_source+&quot;_&quot;+row1.master_gid+&quot;_&quot;+row1.id_dealership " type="id_String"/>
@@ -261,8 +273,12 @@
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
-        <mapperTableEntries name="meta_application_name" type="id_String"/>
-        <mapperTableEntries name="id_dealership" type="id_String"/>
+        <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="meta_application_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_dealership" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -441,7 +457,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="group_identifier" expression="row6.group_identifier " type="id_String" nullable="true"/>
@@ -718,6 +734,20 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="firstname_norm"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="birth_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="lastname_norm"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="gender_norm"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
