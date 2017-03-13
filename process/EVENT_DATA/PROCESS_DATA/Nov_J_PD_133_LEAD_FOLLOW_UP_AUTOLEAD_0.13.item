@@ -816,7 +816,7 @@
       <column comment="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" type="id_Double" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="app_band" expression="(null != lead.l_marque &amp;&amp; !(&quot;&quot;.equals(lead.l_marque)))? lead.l_marque :&quot;MULTI&quot; " type="id_String"/>
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
@@ -960,12 +960,12 @@
         <mapperTableEntries name="lead_follow_up_objet" expression="lead.a_objet " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_start_date" expression="null != lead.a_debut_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_debut_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_end_date" expression="null != lead.a_fin_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_fin_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_description_1" expression="lead.a_resume " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_description_1" expression="StringHandling.LEN(lead.a_resume)&lt;1048575 ? lead.a_resume : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_description_2" expression="lead.a_compte_rendu " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_type" expression="lead.t_libelle2 " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="lead" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="lead" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="lead_id" type="id_Long"/>
         <mapperTableEntries name="l_source_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_fk_vehicule_id" type="id_Long" nullable="true"/>
