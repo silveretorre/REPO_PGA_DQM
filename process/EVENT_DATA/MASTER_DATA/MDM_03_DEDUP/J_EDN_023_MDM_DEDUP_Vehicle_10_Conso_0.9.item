@@ -343,7 +343,7 @@
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter="Numeric.sequence(&quot;vehicle_&quot; + members_of_gid2.meta_brand_source + &quot;-&quot; + members_of_gid2.meta_application_name + &quot;-&quot; + members_of_gid2.meta_id_source,1,1) == 1&#xD;&#xA;" activateExpressionFilter="true">
         <mapperTableEntries name="gid" expression="dedup_vehicle.gid " type="id_String" nullable="true"/>
@@ -674,7 +674,7 @@
       <column comment="" key="false" length="40" name="isduplicateof" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="master_gid" expression="conso.master_gid != null ? conso.master_gid : Synaltic_UUID.getNewUUID()" type="id_String"/>
       </varTables>
@@ -1373,7 +1373,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="upsert_greater_1" expressionFilter="row12.meta_brand_source != null &amp;&amp; row12.meta_application_name != null &amp;&amp; row12.meta_id_source != null" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="row12.meta_brand_source" type="id_String"/>
@@ -2235,10 +2235,9 @@
         <mapperTableEntries name="meta_process_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="isduplicateof" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row9" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="row9" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="master_gid" expression="row11.master_gid " type="id_String" nullable="true" operator="="/>
-        <globalMapKeysValues name="&quot;row11.master_gid&quot;" expression="row11.master_gid "/>
       </inputTables>
     </nodeData>
   </node>
@@ -2261,7 +2260,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select count(1) as grp_size,&#xA; master_gid&#xA;from dedup_vehicle_consolidation&#xA;join vehicle using(meta_brand_source, meta_application_name, meta_id_source)&#xA;WHERE master_gid = '&quot; +(String)globalMap.get(&quot;row11.master_gid&quot;)+ &quot;'&#xA;group by master_gid&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select count(*) as grp_size,&#xA; master_gid&#xA;from dedup_vehicle_consolidation&#xA;join vehicle using(meta_brand_source, meta_application_name, meta_id_source)&#xA;WHERE to_consume is true&#xA;AND to_normalize is true&#xA;AND to_deduplicate is true&#xA;AND to_consolidate is true&#xA;AND to_golden_constitute is false&#xA;AND to_send_to_elk is false&#xA;group by master_gid&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
