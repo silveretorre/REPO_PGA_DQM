@@ -343,7 +343,7 @@
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter="Numeric.sequence(&quot;vehicle_&quot; + members_of_gid2.meta_brand_source + &quot;-&quot; + members_of_gid2.meta_application_name + &quot;-&quot; + members_of_gid2.meta_id_source,1,1) == 1&#xD;&#xA;" activateExpressionFilter="true">
         <mapperTableEntries name="gid" expression="dedup_vehicle.gid " type="id_String" nullable="true"/>
@@ -675,17 +675,13 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="master_gid" expression="conso.master_gid != null ? conso.master_gid : (out1.gid.equals(Var.prev_gid) ? Var.prev_master_gid :Synaltic_UUID.getNewUUID())" type="id_String"/>
-        <mapperTableEntries name="prev_gid" expression="out1.gid " type="id_String"/>
-        <mapperTableEntries name="prev_master_gid" expression="Var.master_gid " type="id_String"/>
-      </varTables>
+      <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="dedup_with_uuid">
         <mapperTableEntries name="gid" expression="out1.gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out1.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out1.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out1.meta_id_source " type="id_String"/>
-        <mapperTableEntries name="master_gid" expression="Var.master_gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="conso.master_gid  " type="id_String" nullable="true"/>
         <mapperTableEntries name="gid_member" expression="out1.gid_member " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="conso.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="out1.meta_process_type " type="id_String" nullable="true"/>
@@ -705,7 +701,7 @@
         <mapperTableEntries name="meta_brand_source" expression="out1.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out1.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out1.meta_id_source " type="id_String"/>
-        <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="meta_process_type" type="id_String" nullable="true"/>
@@ -863,29 +859,35 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out4" name="out4">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="out5" name="out5">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="out6" name="out6">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out4" expressionFilter="row4.master_gid_count != null &amp;&amp; row4.master_gid_count == 0" activateExpressionFilter="true">
-        <mapperTableEntries name="master_gid" expression="row4.master_gid_principal " type="id_String" nullable="true"/>
+        <mapperTableEntries name="gid" expression="row4.gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="Synaltic_UUID.getNewUUID()" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row4.grp_size" type="id_Integer" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="out5" expressionFilter="row4.master_gid_count != null &amp;&amp; row4.master_gid_count > 1" activateExpressionFilter="true">
+        <mapperTableEntries name="gid" expression="row4.gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="master_gid" expression="row4.master_gid_principal " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row4.grp_size" type="id_Integer" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="out6" expressionFilter="row4.master_gid_count != null &amp;&amp; row4.master_gid_count == 1" activateExpressionFilter="true">
+        <mapperTableEntries name="gid" expression="row4.gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="master_gid" expression="row4.master_gid_principal " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row4.grp_size" type="id_Integer" nullable="true"/>
       </outputTables>
@@ -910,6 +912,7 @@
     <elementParameter field="TEXT" name="LABEL" value="PasDeMaster"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out4" name="tHashOutput_2">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -927,6 +930,7 @@
     <elementParameter field="TEXT" name="LABEL" value="PlusieursMaster"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out5" name="tHashOutput_3">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -944,6 +948,7 @@
     <elementParameter field="TEXT" name="LABEL" value="UnMasterTrouve"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out6" name="tHashOutput_4">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -976,6 +981,7 @@
     <elementParameter field="CHECK" name="RELEASE_CACHE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tHashInput_7">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1018,13 +1024,13 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="insert_case_0">
         <mapperTableEntries name="meta_brand_source" expression="row2.meta_brand_source" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_application_name" expression="row2.meta_application_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_id_source" expression="row2.meta_id_source" type="id_String" nullable="true"/>
-        <mapperTableEntries name="master_gid" expression="row2.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="row5.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="gid_member" expression="row2.gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row5.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="row2.meta_process_type" type="id_String" nullable="true"/>
@@ -1043,12 +1049,13 @@
         <mapperTableEntries name="isduplicateof" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row5" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="master_gid" expression="row2.master_gid " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="gid" expression="row2.gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="320">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_1" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_MFPQcC1YEeaKmoVyeBW_yg" show="false"/>
@@ -1219,6 +1226,7 @@
     <elementParameter field="CHECK" name="RELEASE_CACHE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tHashInput_5">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1246,13 +1254,13 @@
       <column comment="" key="false" length="40" name="isduplicateof" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out">
         <mapperTableEntries name="meta_brand_source" expression="row6.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row6.meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="row6.meta_id_source" type="id_String"/>
-        <mapperTableEntries name="master_gid" expression="row6.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="row10.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="gid_member" expression="row6.gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row10.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="row6.meta_process_type" type="id_String" nullable="true"/>
@@ -1272,7 +1280,8 @@
         <mapperTableEntries name="isduplicateof" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row10" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="master_gid" expression="row6.master_gid " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="gid" expression="row6.gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -2000,6 +2009,7 @@
     <elementParameter field="CHECK" name="RELEASE_CACHE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tHashInput_6">
+      <column comment="" key="false" length="255" name="gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="master_gid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="grp_size" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -2045,13 +2055,13 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="upsert_case_1">
         <mapperTableEntries name="meta_brand_source" expression="row8.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row8.meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="row8.meta_id_source" type="id_String"/>
-        <mapperTableEntries name="master_gid" expression="row8.master_gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="row7.master_gid  " type="id_String" nullable="true"/>
         <mapperTableEntries name="gid_member" expression="row8.gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row7.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="meta_process_type" expression="row8.meta_process_type" type="id_String" nullable="true"/>
@@ -2071,7 +2081,8 @@
         <mapperTableEntries name="isduplicateof" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row7" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="master_gid" expression="row8.master_gid " type="id_String" nullable="true" operator="="/>
+        <mapperTableEntries name="gid" expression="row8.gid" type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -2499,7 +2510,7 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tHashInput_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="members_of_gid" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
+  <connection connectorName="FLOW" label="members_of_gid" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="-50" offsetLabelY="1" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="members_of_gid" show="false"/>
   </connection>
@@ -2527,11 +2538,11 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="gid2" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_1">
+  <connection connectorName="FLOW" label="gid2" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="10" offsetLabelY="-30" source="tPostgresqlInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="gid2" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="members_of_gid2" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_4" target="tMap_1">
+  <connection connectorName="FLOW" label="members_of_gid2" lineStyle="8" metaname="tPostgresqlInput_4" offsetLabelX="50" offsetLabelY="5" source="tPostgresqlInput_4" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="members_of_gid2" show="false"/>
   </connection>
@@ -2600,14 +2611,29 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out4" lineStyle="0" metaname="out4" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_3" target="tHashOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out4" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out5" lineStyle="0" metaname="out5" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tHashOutput_3">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out5" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out6" lineStyle="0" metaname="out6" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_3" target="tHashOutput_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out6" show="false"/>
   </connection>
@@ -2654,6 +2680,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="8" metaname="tHashInput_7" offsetLabelX="0" offsetLabelY="0" source="tHashInput_7" target="tMap_6">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
@@ -2680,6 +2711,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row10" lineStyle="8" metaname="tHashInput_5" offsetLabelX="0" offsetLabelY="0" source="tHashInput_5" target="tMap_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row10" show="false"/>
   </connection>
@@ -2757,6 +2793,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="8" metaname="tHashInput_6" offsetLabelX="0" offsetLabelY="0" source="tHashInput_6" target="tMap_5">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="gid"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
   </connection>
