@@ -1390,9 +1390,10 @@
       <column comment="" key="false" length="5592405" name="lead_fund_com" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="1024" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="lead_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="5592405" name="lead_src_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="5592405" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="app_band" expression="(null != ce_marque.nom &amp;&amp; !(&quot;&quot;.equals(ce_marque.nom)))? ce_marque.nom :&quot;MULTI&quot; " type="id_String"/>
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
@@ -1564,6 +1565,7 @@
         <mapperTableEntries name="lead_fund_com" expression="(null != propsect.fin_com  &amp;&amp; !(&quot;&quot;.equals(propsect.fin_com)))? TalendString.removeAccents(propsect.fin_com) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="lead_src_com" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="propsect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idpropsect" type="id_Long"/>
@@ -3185,6 +3187,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_src_com"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -3215,6 +3222,7 @@
       <column comment="" key="false" length="5592405" name="lead_fund_com" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="1024" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="lead_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="5592405" name="lead_src_com" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="5592405" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="lead_process_type" name="REJECT">
       <column comment="" key="false" length="255" name="join_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3239,6 +3247,7 @@
       <column comment="" key="false" length="5592405" name="lead_fund_com" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="1024" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="lead_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="12" usefulColumn="true"/>
       <column comment="" key="false" length="12" name="last_mileage_known" nullable="true" pattern="" precision="3" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="5592405" name="lead_src_com" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="5592405" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -3355,6 +3364,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_leadunq" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="pd_event_lead" lineStyle="0" metaname="pd_event_lead" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tPostgresqlOutput_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="lead_src_com"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_lead" show="false"/>
   </connection>
