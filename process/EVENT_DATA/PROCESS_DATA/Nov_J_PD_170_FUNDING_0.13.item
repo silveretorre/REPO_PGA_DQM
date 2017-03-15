@@ -757,8 +757,6 @@
     <elementParameter field="TEXT" name="DBNAME" value="context.DB_PGAFi_REC_Database"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_PGAFi_REC_Login"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kueH21N+Jun/r0tPpJAAYbapOsd87CQMDZI="/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_wwjMMAfdEeezZJR8682REA - Dossier" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;Dossier&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -838,7 +836,7 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="Dossier" name="tMSSqlInput_2">
-      <column comment="" key="true" length="36" name="Id" nullable="false" pattern="" precision="0" sourceType="VARBINARY" type="id_Object" usefulColumn="true">
+      <column comment="" key="true" length="36" name="Id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="IdDossier" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
@@ -1054,11 +1052,9 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="ID" expression="String.valueOf(contrats.IdContrat_Ct) " type="id_String"/>
-        <mapperTableEntries name="contract_id" expression="String.valueOf(contrats.IdPdt_Ct) + &quot;_&quot; + String.valueOf(contrats.NumContrat_Ct) " type="id_String"/>
-        <mapperTableEntries name="hasName" expression="tiers.Nom != null &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))" type="id_Boolean"/>
-        <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
-        <mapperTableEntries name="isPhysicalPerson" expression="null != tiers.IDCivilite ? tiers.IDCivilite != 4 : true " type="id_Boolean"/>
+        <mapperTableEntries name="ID" expression="dossier.Id " type="id_String"/>
+        <mapperTableEntries name="contract_id" expression="dossier.NumeroContrat " type="id_String"/>
+        <mapperTableEntries name="hasName" expression="dossier.NomEmprunteur != null &amp;&amp; !(&quot;&quot;.equals(dossier.NomEmprunteur)) " type="id_Boolean"/>
         <mapperTableEntries name="src_process_moment" expression="( null != contrats.DateIntegration_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DateIntegration_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,contrats.DateIntegration_Ct)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_id" expression="" type="id_String"/>
@@ -1075,7 +1071,7 @@
         <mapperTableEntries name="process_type" expression="&quot;FUNDING&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;PGA_FI&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="( null != marquesCE.Description  &amp;&amp; !(&quot;&quot;.equals(marquesCE.Description )) ) ? marquesCE.Description  : &quot;MULTI&quot; " type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
@@ -1084,8 +1080,8 @@
         <mapperTableEntries name="raw_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;groupePGA: &quot; + ( Var.groupePGA ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
+        <mapperTableEntries name="status_stage" expression="Var.hasName ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_reason" expression="&quot;hasName: &quot; + ( Var.groupePGA ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="String.valueOf(tiers.IDTiers)" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="" type="id_String" nullable="true"/>
@@ -1179,8 +1175,8 @@
       <outputTables sizeState="INTERMEDIATE" name="pd_event_funding" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dossier" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="Id" type="id_Object"/>
+      <inputTables sizeState="INTERMEDIATE" name="dossier" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="Id" type="id_String"/>
         <mapperTableEntries name="IdDossier" type="id_Integer"/>
         <mapperTableEntries name="IdConcession" type="id_Integer"/>
         <mapperTableEntries name="IdMarqueBien" type="id_Integer"/>
