@@ -1093,6 +1093,9 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
+    <metadata connector="FLOW" name="saleprod_master_key">
+      <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
     <metadata connector="FLOW" name="saleprod">
       <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="process_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -1501,9 +1504,6 @@
       <column comment="" key="false" length="17" name="event_last_mileage_known" nullable="true" pattern="" precision="17" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="doc_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
-    <metadata connector="FLOW" name="saleprod_master_key">
-      <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-    </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
@@ -1627,6 +1627,9 @@
         <mapperTableEntries name="renewal_on_time" expression="pd_event_renewserv.renewal_on_time" type="id_String" nullable="true"/>
         <mapperTableEntries name="date_last_comprop" expression="pd_event_renewserv.date_last_comprop" type="id_String" nullable="true"/>
         <mapperTableEntries name="amount_of_mails" expression="pd_event_renewserv.amount_of_mails" type="id_Integer" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="saleprod_master_key" expressionFilter="&quot;SALE_PRODUCT&quot;.equals(refd.process_type)" activateExpressionFilter="true">
+        <mapperTableEntries name="master_key" expression="refd.master_key " type="id_String"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="saleprod" minimized="true" expressionFilter="&quot;SALE_PRODUCT&quot;.equals(refd.process_type)" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="refd.master_key " type="id_String"/>
@@ -1767,9 +1770,6 @@
         <mapperTableEntries name="credit_repurchase" expression="pd_event_saleprod.credit_repurchase" type="id_Double" nullable="true"/>
         <mapperTableEntries name="event_last_mileage_known" expression="pd_event_saleprod.last_mileage_known " type="id_Double" nullable="true"/>
         <mapperTableEntries name="doc_type" expression="pd_event_saleprod.doc_type " type="id_String" nullable="true"/>
-      </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="saleprod_master_key" expressionFilter="&quot;SALE_PRODUCT&quot;.equals(refd.process_type)" activateExpressionFilter="true">
-        <mapperTableEntries name="master_key" expression="refd.master_key " type="id_String"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="refd" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_key" type="id_String"/>
@@ -4118,12 +4118,16 @@
       <column comment="" key="false" length="255" name="pga_process_data" nullable="true" pattern="" precision="0" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="192">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;globalMap.put(&quot;SP_MK&quot;, input_row.master_key);&#xA;&#xA;"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+  <node componentName="tSetGlobalVar" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="800" posY="192">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSetGlobalVar_1" show="false"/>
+    <elementParameter field="TABLE" name="VARIABLES">
+      <elementValue elementRef="KEY" value="&quot;SP_MK&quot;"/>
+      <elementValue elementRef="VALUE" value="saleprod_master_key.master_key"/>
+    </elementParameter>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tJavaRow_1"/>
+    <metadata connector="FLOW" name="tSetGlobalVar_1">
+      <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+    </metadata>
   </node>
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
@@ -4180,7 +4184,11 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="renewserv" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="saleprod" lineStyle="0" metaname="saleprod" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tWriteJSONField_4">
+  <connection connectorName="FLOW" label="saleprod_master_key" lineStyle="0" metaname="saleprod_master_key" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tSetGlobalVar_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="saleprod_master_key" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="saleprod" lineStyle="0" metaname="saleprod" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tWriteJSONField_4">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="event_last_mileage_known"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4197,10 +4205,6 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="saleprod" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="saleprod_master_key" lineStyle="0" metaname="saleprod_master_key" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tJavaRow_1">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="saleprod_master_key" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="pd_event_renewserv" lineStyle="8" metaname="tPostgresqlInput_8" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_8" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
