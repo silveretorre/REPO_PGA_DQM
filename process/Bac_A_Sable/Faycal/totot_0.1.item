@@ -399,7 +399,7 @@
     <elementParameter field="RADIO" name="USE_INLINECONTENT" value="true"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
-    <elementParameter field="MEMO" name="INLINECONTENT" value="PEUGEOT;a5ab0126-f95b-4899-900a-8a2c30a48282;LAND ROVER FONTAINEBLEAU&#xD;&#xA;PEUGEOT;a5ab0126-f95b-4899-900a-8a2c30a48282;&#xD;&#xA;RENAULT;6018a396-3c1a-4d61-b68c-a0692ac0b6bb;RENAULT VILLEMOMBLE&#xD;&#xA;RENAULT;6018a396-3c1a-4d61-b68c-a0692ac0b6bb;RENAULT HENIN&#xD;&#xA;AUDI;6018a396-3c1a-4d61-b68c-a0692acb;&#xD;&#xA;RENAULT;6018a396-3c1a-4d61-b68c-a0692ac0b6bb;&#xD;&#xA;"/>
+    <elementParameter field="MEMO" name="INLINECONTENT" value="FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN;ICAR;&#xD;&#xA;FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN;PLANET_VO;&#xD;&#xA;FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN&#xD;&#xA;FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN&#xD;&#xA;FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN&#xD;&#xA;FORD_F001_a5ab0126-f95b-4899-900a-8a2c30a48282;FORD HENIN&#xD;&#xA;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFixedFlowInput_2">
       <column comment="" key="false" length="-1" name="brand" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -447,6 +447,42 @@
     <elementParameter field="TABLE" name="OPERATIONS"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out_1" name="tRuleSurvivorship_1">
+      <column comment="" key="false" length="-1" name="brand" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="gid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="dealership" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="0" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="640">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_3" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="brand"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="gid"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="dealership"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="SURVIVOR"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CONFLICT"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="out_1" name="tLogRow_3">
       <column comment="" key="false" length="-1" name="brand" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="gid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="dealership" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -530,6 +566,10 @@
   <connection connectorName="FLOW" label="copyOfout_1" lineStyle="0" metaname="copyOfout_1" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tRuleSurvivorship_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="copyOfout_1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tRuleSurvivorship_1" offsetLabelX="0" offsetLabelY="0" source="tRuleSurvivorship_1" target="tLogRow_3">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
