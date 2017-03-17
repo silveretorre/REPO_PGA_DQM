@@ -569,7 +569,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_brand_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_application_name\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;meta_id_source\&quot;, &#xA;  \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;.\&quot;master_gid\&quot;,&#xD;&#xA;\&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person_contact_organization\&quot;.\&quot;id_dealership\&quot;&#xA;FROM \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;dedup_physical_person_consolidation\&quot;&#xD;&#xA;INNER JOIN \&quot;&quot;+context.DB_DQM_ODS_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DQM_ODS_Schema+&quot;\&quot;.\&quot;physical_person_contact_organization\&quot;&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -587,6 +587,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="master_gid"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="id_dealership"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -607,6 +609,7 @@
         <additionalField key="Comment" value=""/>
         <additionalField key="Content Type" value="Nominal"/>
       </column>
+      <column comment="" key="false" length="-1" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gid_member" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -637,10 +640,10 @@
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="dealership_list" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="meta_brand_source" expression="dedupl.meta_brand_source == null ? &quot;&quot; : dedupl.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="dedupl.meta_application_name == null ? &quot;&quot; : dedupl.meta_application_name" type="id_String"/>
@@ -655,7 +658,7 @@
         <mapperTableEntries name="head" expression="&quot;{#index# : {#_index# :#person#,#_type#:#&quot; + row37.master_gid.substring(0,row37.master_gid.indexOf(&quot;_&quot;)).toLowerCase() + &quot;#, #_id# :#&quot; + dedupl.master_gid + &quot;#}}&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="row37.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="row37.online_offline " type="id_String" nullable="true"/>
-        <mapperTableEntries name="dealership" expression="row9.dealership " type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" expression="row9.dealership_list " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row37" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
@@ -669,15 +672,16 @@
         <mapperTableEntries name="CONFLICT" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="dedupl" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
-        <mapperTableEntries name="meta_brand_source" expression="row37.master_gid.substring(0,row37.master_gid.indexOf(&quot;_&quot;))" type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" expression="row37.master_gid.split(&quot;_&quot;)[0] " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="" type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="" type="id_String"/>
-        <mapperTableEntries name="master_gid" expression="row37.master_gid.substring(row37.master_gid.indexOf(&quot;_&quot;) + 1,row37.master_gid.length()) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="row37.master_gid.split(&quot;_&quot;)[2] " type="id_String" nullable="true"/>
+        <mapperTableEntries name="id_dealership" expression="row37.master_gid.split(&quot;_&quot;)[1] " type="id_String" nullable="true" operator="="/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row9" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="row37.master_gid.substring(0,row37.master_gid.indexOf(&quot;_&quot;))" type="id_String"/>
         <mapperTableEntries name="master_gid" expression="row37.master_gid.substring(row37.master_gid.indexOf(&quot;_&quot;) + 1,row37.master_gid.length()) " type="id_String"/>
-        <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -691,7 +695,7 @@
     <metadata connector="FLOW" name="tHashInput_1">
       <column comment="" key="true" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="master_gid" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="dealership_list" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="768" posY="1408" sizeX="192" sizeY="32">
@@ -713,7 +717,7 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="dealership_list" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -728,7 +732,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out7">
         <mapperTableEntries name="head" expression="out6.head " type="id_String" nullable="true"/>
@@ -737,7 +741,7 @@
         <mapperTableEntries name="meta_application_name" expression="out6.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out6.meta_id_source " type="id_String"/>
         <mapperTableEntries name="person_uuid" expression="out6.person_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="dealership" expression="out6.dealership " type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" expression="out6.dealership_list" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" expression="person_name.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="person_name.firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="person_name.lastname_norm" type="id_String" nullable="true"/>
@@ -760,7 +764,7 @@
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
-        <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="person_name" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="meta_brand_source" expression="out6.META_ID.substring(0,out6.META_ID.indexOf(&quot;_&quot;)) " type="id_String" operator="="/>
@@ -1142,7 +1146,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="address.meta_brand_source ==null &amp;&amp; address.meta_application_name ==null &amp;&amp; address.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -1153,7 +1157,7 @@
         <mapperTableEntries name="meta_application_name" expression="out7.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out7.meta_id_source " type="id_String"/>
         <mapperTableEntries name="person_uuid" expression="out7.person_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="dealership_list" expression="out7.dealership " type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" expression="out7.dealership_list" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" expression="out7.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="out7.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="out7.lastname_norm " type="id_String" nullable="true"/>
@@ -1198,7 +1202,7 @@
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
-        <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
+        <mapperTableEntries name="dealership_list" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
@@ -1656,7 +1660,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row42.meta_brand_source ==null &amp;&amp; row42.meta_application_name ==null &amp;&amp; row42.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -1935,7 +1939,7 @@
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="mails.meta_brand_source ==null &amp;&amp; mails.meta_application_name ==null &amp;&amp; mails.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -4012,7 +4016,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT d.master_gid,d.meta_brand_source,dealership&#xD;&#xA;FROM master_physical_person m&#xD;&#xA;left outer join&#xD;&#xA;dedup_physical_person_consolidation d&#xD;&#xA;on m.master_gid=concat(d.meta_brand_source,'_',d.master_gid)&#xD;&#xA;left outer join&#xD;&#xA;physical_person_contact_organization&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where  m.\&quot;SURVIVOR\&quot; is true&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT d.master_gid,d.meta_brand_source,dealership&#xD;&#xA;FROM master_physical_person m&#xD;&#xA;left outer join&#xD;&#xA;dedup_physical_person_consolidation d&#xD;&#xA;on concat(split_part(m.master_gid,'_',1),'_',split_part(m.master_gid,'_',3)) =concat(d.meta_brand_source,'_',d.master_gid)&#xD;&#xA;left outer join&#xD;&#xA;physical_person_contact_organization&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where  m.&quot;SURVIVOR&quot; is true&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -4202,6 +4206,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row37" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="dedupl" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_2" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="id_dealership"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedupl" show="false"/>
   </connection>
@@ -4232,7 +4241,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="prospect_client_siv"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="dealership"/>
+      <elementValue elementRef="TRACE_COLUMN" value="dealership_list"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
