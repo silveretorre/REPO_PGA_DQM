@@ -541,8 +541,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg=" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ - pd_all_hpv_refd" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;pd_all_hpv_refd&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -1413,9 +1411,10 @@
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="1" name="extract_json" nullable="true" pattern="" precision="0" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="json">
         <mapperTableEntries name="master_key" expression="row1.master_key" type="id_String"/>
@@ -1523,6 +1522,7 @@
         <mapperTableEntries name="kind_id" expression="row1.kind_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="energy_id" expression="row1.energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="row1.color_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="extract_json" expression="false" type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_key" type="id_String"/>
@@ -2189,6 +2189,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="extract_json"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -2510,6 +2515,7 @@
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="1" name="extract_json" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" originalLength="1" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="pd_all_hpv_refd" name="REJECT">
       <column comment="" key="true" length="255" name="master_key" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -2825,6 +2831,7 @@
       <column comment="" key="false" length="255" name="color_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="1" name="extract_json" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2926,6 +2933,9 @@
   <connection connectorName="FLOW" label="json" lineStyle="0" metaname="json" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tPostgresqlOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="country_code"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="extract_json"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
