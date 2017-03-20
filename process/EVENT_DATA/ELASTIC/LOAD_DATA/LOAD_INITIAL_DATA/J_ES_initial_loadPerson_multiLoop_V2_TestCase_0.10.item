@@ -650,7 +650,6 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="person_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -667,9 +666,8 @@
         <mapperTableEntries name="meta_brand_source" expression="Var.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="Var.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="Var.meta_id_source " type="id_String"/>
-        <mapperTableEntries name="person_uuid" expression="dedupl.master_gid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="row37.master_gid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="head" expression="&quot;{#index# : {#_index# :#person#,#_type#:#&quot; + row37.master_gid.substring(0,row37.master_gid.indexOf(&quot;_&quot;)).toLowerCase() + &quot;#, #_id# :#&quot; + dedupl.master_gid + &quot;#}}&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_uuid" expression="row37.master_gid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="head" expression="&quot;{#index# : {#_index# :#person#,#_type#:#&quot; + row37.brand.toLowerCase() + &quot;#, #_id# :#&quot; + row37.master_gid  + &quot;#}}&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="row37.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="row37.online_offline " type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="row9.dealership " type="id_String" nullable="true"/>
@@ -727,7 +725,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="out7">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -747,11 +744,10 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out7">
         <mapperTableEntries name="head" expression="out6.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out6.META_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out6.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out6.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out6.meta_id_source " type="id_String"/>
@@ -775,14 +771,13 @@
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="person_name" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out6.META_ID.substring(0,out6.META_ID.indexOf(&quot;_&quot;)) " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="out6.meta_brand_source " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out6.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out6.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="gender_norm" expression="" type="id_String" nullable="true"/>
@@ -1117,7 +1112,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="out8">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1161,13 +1155,12 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="address.meta_brand_source ==null &amp;&amp; address.meta_application_name ==null &amp;&amp; address.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out8">
         <mapperTableEntries name="head" expression="out7.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out7.META_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out7.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out7.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out7.meta_id_source " type="id_String"/>
@@ -1212,7 +1205,6 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out7" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -1232,7 +1224,7 @@
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="address" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out7.META_ID.split(&quot;_&quot;)[0] " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="out7.meta_brand_source" type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out7.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out7.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="id_physical_person" type="id_String" nullable="true"/>
@@ -1261,7 +1253,7 @@
         <globalMapKeysValues name="&quot;id_source&quot;" expression="out7.meta_id_source "/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="dealership" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out7.META_ID.split(&quot;_&quot;)[0] " type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" expression="out7.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out7.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out7.meta_id_source " type="id_String"/>
         <mapperTableEntries name="dealership" expression="" type="id_String" nullable="true"/>
@@ -1282,7 +1274,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="out9">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1334,13 +1325,12 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="phones.meta_brand_source ==null &amp;&amp; phones.meta_application_name ==null &amp;&amp; phones.meta_id_source == null ? &quot;1&quot; : &quot;0&quot;" type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out9">
         <mapperTableEntries name="head" expression="out8.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out8.META_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out8.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out8.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out8.meta_id_source " type="id_String"/>
@@ -1393,7 +1383,6 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out8" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -1437,7 +1426,7 @@
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="phones" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out8.META_ID.split(&quot;_&quot;)[0] " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="out8.meta_brand_source" type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out8.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out8.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
@@ -1533,7 +1522,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="out10">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1589,13 +1577,12 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="row42.meta_brand_source ==null &amp;&amp; row42.meta_application_name ==null &amp;&amp; row42.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out10">
         <mapperTableEntries name="head" expression="out9.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out9.META_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out9.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out9.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out9.meta_id_source " type="id_String"/>
@@ -1652,7 +1639,6 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out9" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -1704,7 +1690,7 @@
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row42" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out9.META_ID.split(&quot;_&quot;)[0]" type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="out9.meta_brand_source" type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out9.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out9.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="network_name" expression="" type="id_String"/>
@@ -1806,7 +1792,6 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="out11">
       <column comment="" key="false" length="-1" name="head" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="META_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="meta_id_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1868,13 +1853,12 @@
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="mails.meta_brand_source ==null &amp;&amp; mails.meta_application_name ==null &amp;&amp; mails.meta_id_source == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out11">
         <mapperTableEntries name="head" expression="out10.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out10.META_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="out10.meta_brand_source " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out10.meta_application_name " type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="out10.meta_id_source " type="id_String"/>
@@ -1937,7 +1921,6 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out10" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -1993,7 +1976,7 @@
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="mails" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="meta_brand_source" expression="out10.META_ID.split(&quot;_&quot;)[0] " type="id_String" operator="="/>
+        <mapperTableEntries name="meta_brand_source" expression="out10.meta_brand_source" type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="out10.meta_application_name " type="id_String" operator="="/>
         <mapperTableEntries name="meta_id_source" expression="out10.meta_id_source " type="id_String" operator="="/>
         <mapperTableEntries name="id_organization_user" expression="" type="id_String" nullable="true"/>
@@ -2153,13 +2136,13 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="master_vehicle.master_gid == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out12">
         <mapperTableEntries name="head" expression="out11.head " type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" expression="out11.META_ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="META_ID" expression="out11.meta_brand_source +&quot;_&quot;+ out11.person_uuid " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.meta_brand_source)" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.meta_application_name)" type="id_String"/>
         <mapperTableEntries name="meta_id_source" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.meta_id_source)" type="id_String"/>
@@ -2233,7 +2216,6 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out11" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="head" type="id_String" nullable="true"/>
-        <mapperTableEntries name="META_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
         <mapperTableEntries name="meta_id_source" type="id_String"/>
@@ -2294,15 +2276,12 @@
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="norm_vehicle_registration_2" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="CACHE_OR_RELOAD">
+      <inputTables sizeState="INTERMEDIATE" name="norm_vehicle_registration_2" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="registration_number_norm" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="meta_brand_source" expression="out11.META_ID.split(&quot;_&quot;)[0]" type="id_String"/>
+        <mapperTableEntries name="meta_brand_source" expression="out11.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="out11.meta_application_name " type="id_String"/>
         <mapperTableEntries name="id_vehicle" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_id_source" expression="out11.meta_id_source " type="id_String" nullable="true"/>
-        <globalMapKeysValues name="&quot;brand_source&quot;" expression="out11.META_ID.split(&quot;_&quot;)[0]"/>
-        <globalMapKeysValues name="&quot;application_name&quot;" expression="out11.meta_application_name "/>
-        <globalMapKeysValues name="&quot;id_source&quot;" expression="out11.meta_id_source "/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="master_vehicle" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="CACHE_OR_RELOAD">
         <mapperTableEntries name="master_gid" type="id_String"/>
