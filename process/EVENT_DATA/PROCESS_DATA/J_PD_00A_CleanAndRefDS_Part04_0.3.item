@@ -1171,12 +1171,13 @@
       <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="keepRecord" expression="null != dealership_crossref.keep ? dealership_crossref.keep : false " type="id_Boolean"/>
         <mapperTableEntries name="latest_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
+        <mapperTableEntries name="knownInRef" expression="null != dealership_ref.main_brand " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="refd" minimized="true" expressionFilter="Var.keepRecord " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="refd" minimized="true" expressionFilter="Var.keepRecord &amp;&amp; Var.knownInRef" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="filtered.master_key" type="id_String"/>
         <mapperTableEntries name="join_key" expression="filtered.join_key" type="id_String"/>
         <mapperTableEntries name="process_type" expression="filtered.process_type" type="id_String"/>
@@ -1191,8 +1192,8 @@
         <mapperTableEntries name="src_dealership_label" expression="filtered.raw_dealership_label" type="id_String" nullable="true"/>
         <mapperTableEntries name="ref_dealership_id" expression="dealership_crossref.ref_dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="filtered.status_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.keepRecord ? &quot;DEALERSHIP CROSSREF OK&quot; : &quot;DEALERSHIP CROSSREF REJECTED&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_reason" expression="&quot;keepRecord: &quot; + ( null == dealership_crossref.keep ? &quot;UNKNOWN DEALERSHIP&quot; : (Var.keepRecord ? &quot;TRUE&quot; : &quot;FALSE&quot;) ) " type="id_String"/>
+        <mapperTableEntries name="status_stage" expression="Var.keepRecord &amp;&amp; Var.knownInRef ? &quot;DEALERSHIP CROSSREF OK&quot; : &quot;DEALERSHIP CROSSREF REJECTED&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_reason" expression="&quot;keepRecord: &quot; + (Var.keepRecord ? &quot;TRUE | &quot; : &quot;FALSE | &quot;) + &quot;knownInRef: &quot; + (Var.knownInRef ? &quot;TRUE&quot; : &quot;FALSE&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="filtered.person_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="filtered.gender" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="filtered.firstname" type="id_String" nullable="true"/>
@@ -1283,7 +1284,7 @@
         <mapperTableEntries name="energy_id" expression="filtered.energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="filtered.color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="wrongCE" minimized="true" expressionFilter="!Var.keepRecord" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="wrongCE" minimized="true" expressionFilter="!(Var.keepRecord &amp;&amp; Var.knownInRef)" activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="filtered.master_key" type="id_String"/>
         <mapperTableEntries name="join_key" expression="filtered.join_key" type="id_String"/>
         <mapperTableEntries name="process_type" expression="filtered.process_type" type="id_String"/>
