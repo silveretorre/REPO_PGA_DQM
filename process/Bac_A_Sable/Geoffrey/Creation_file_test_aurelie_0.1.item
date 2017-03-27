@@ -134,11 +134,11 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="id"/>
       <elementValue elementRef="VALUE" value="Numeric.sequence(&quot;s1&quot;,1,1).toString()"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="nom"/>
-      <elementValue elementRef="VALUE" value="&quot;mathe&quot;"/>
+      <elementValue elementRef="VALUE" value="&quot;tititi&quot;"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="prenom"/>
-      <elementValue elementRef="VALUE" value="&quot;Geof&quot;"/>
+      <elementValue elementRef="VALUE" value="&quot;tototo&quot;"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="telephone"/>
-      <elementValue elementRef="VALUE" value="&quot;0610737321&quot;"/>
+      <elementValue elementRef="VALUE" value="&quot;06XXXXXXXX&quot;"/>
     </elementParameter>
     <elementParameter field="RADIO" name="USE_INTABLE" value="false"/>
     <elementParameter field="TABLE" name="INTABLE" show="false"/>
@@ -147,6 +147,7 @@
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;" show="false"/>
     <elementParameter field="MEMO" name="INLINECONTENT" value="" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Envoie de données test"/>
     <metadata connector="FLOW" name="tFixedFlowInput_1">
       <column comment="" key="false" length="-1" name="id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="nom" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -160,6 +161,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false" show="false"/>
     <elementParameter field="CHECK" name="KEEP_ORDER_FOR_DOCUMENT" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Nous créons un document xml contenant les données"/>
     <metadata connector="FLOW" label="out" name="out">
       <column comment="" key="false" length="-1" name="Person" nullable="true" pattern="" precision="-1" sourceType="" type="id_Document" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -193,6 +195,8 @@
     <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon le schémas d'entrée et de sortie&#xA;// code sample:&#xA;//&#xA;// multiply by 2 the row identifier&#xA;// output_row.id = input_row.id * 2;&#xA;//&#xA;// lowercase the name&#xA;// output_row.name = input_row.name.toLowerCase();&#xA;&#xA;output_row.id = input_row.id;&#xA;JSONObject xmlJSONObj = XML.toJSONObject(input_row.Person.toString());&#xA;output_row.Person = xmlJSONObj.toString();&#xA;//String jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import org.json.XML;&#xA;import org.json.JSONObject;&#xA;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="INFORMATION" value="true"/>
+    <elementParameter field="MEMO" name="COMMENT" value="Nous faisons passer l'id et nous transformons le document xml en un document json"/>
     <metadata connector="FLOW" label="out" name="tJavaRow_1">
       <column comment="" key="false" length="-1" name="Person" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -346,8 +350,10 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
   </connection>
   <subjob>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="TEXT" name="SUBJOB_TITLE" value="Ce flux permet de convertir les données en xml puis en json, nous itérons ensuite sur chaque ligne pour créer un fichier par enregistrement"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
