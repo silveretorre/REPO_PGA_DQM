@@ -1964,7 +1964,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="master_vehicle.master_gid == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -2114,7 +2114,7 @@
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="out11.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="out11.meta_id_source "/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="master_vehicle" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="RELOAD">
+      <inputTables sizeState="INTERMEDIATE" name="master_vehicle" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="RELOAD">
         <mapperTableEntries name="master_gid" type="id_String"/>
         <mapperTableEntries name="vin_norm" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" type="id_String" nullable="true"/>
@@ -2148,7 +2148,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xD;&#xA;  master_vehicle.master_gid, &#xD;&#xA;  master_vehicle.vin_norm, &#xD;&#xA;  master_vehicle.brand, &#xD;&#xA;  master_vehicle.model, &#xD;&#xA;  master_vehicle.version,&#xD;&#xA;  dvc.mbs,&#xD;&#xA;  dvc.man,&#xD;&#xA;  dvc.iv&#xD;&#xA;FROM master_vehicle INNER JOIN (SELECT &#xD;&#xA;  dedup_vehicle_consolidation.meta_brand_source mbs, &#xD;&#xA;  dedup_vehicle_consolidation.meta_application_name man, &#xD;&#xA;  dedup_vehicle_consolidation.meta_id_source iv, &#xD;&#xA;  dedup_vehicle_consolidation.master_gid mg&#xD;&#xA;  FROM dedup_vehicle_consolidation&#xD;&#xA;  WHERE meta_brand_source = '&quot;+((String)globalMap.get(&quot;meta_brand_source&quot;))+&quot;'&#xD;&#xA;  AND meta_application_name = '&quot;+((String)globalMap.get(&quot;meta_application_name&quot;))+&quot;'&#xD;&#xA;  AND meta_id_source = '&quot;+((String)globalMap.get(&quot;meta_id_source&quot;))+&quot;') dvc&#xD;&#xA;ON master_vehicle.master_gid = dvc.mg&#xD;&#xA;WHERE  master_vehicle.\&quot;SURVIVOR\&quot; = true&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xD;&#xA;  master_vehicle.master_gid, &#xD;&#xA;  master_vehicle.vin_norm, &#xD;&#xA;  master_vehicle.brand, &#xD;&#xA;  master_vehicle.model, &#xD;&#xA;  master_vehicle.version,&#xD;&#xA;  dvc.mbs,&#xD;&#xA;  dvc.man,&#xD;&#xA;  dvc.iv&#xD;&#xA;FROM master_vehicle INNER JOIN (SELECT &#xD;&#xA;  dedup_vehicle_consolidation.meta_brand_source mbs, &#xD;&#xA;  dedup_vehicle_consolidation.meta_application_name man, &#xD;&#xA;  dedup_vehicle_consolidation.meta_id_source iv, &#xD;&#xA;  dedup_vehicle_consolidation.master_gid mg&#xD;&#xA;  FROM dedup_vehicle_consolidation) dvc&#xD;&#xA;ON master_vehicle.master_gid = dvc.mg&#xD;&#xA;WHERE  master_vehicle.\&quot;SURVIVOR\&quot; = true  &#xD;&#xA;AND dvc.mbs = '&quot;+((String)globalMap.get(&quot;meta_brand_source&quot;))+&quot;'&#xD;&#xA;AND dvc.man = '&quot;+((String)globalMap.get(&quot;meta_application_name&quot;))+&quot;'&#xD;&#xA;AND dvc.iv = '&quot;+((String)globalMap.get(&quot;meta_id_source&quot;))+&quot;'&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
