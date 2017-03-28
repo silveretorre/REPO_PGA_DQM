@@ -7,6 +7,12 @@
     <contextParameter comment="" name="DB_CrossRef_Port" prompt="DB_CrossRef_Port?" promptNeeded="false" repositoryContextId="_V2EdcNijEeajqv70KgJxJw" type="id_String" value="5432"/>
     <contextParameter comment="" name="DB_CrossRef_Login" prompt="DB_CrossRef_Login?" promptNeeded="false" repositoryContextId="_V2EdcNijEeajqv70KgJxJw" type="id_String" value="dquser"/>
     <contextParameter comment="" name="DB_CrossRef_Password" prompt="DB_CrossRef_Password?" promptNeeded="false" repositoryContextId="_V2EdcNijEeajqv70KgJxJw" type="id_Password" value="rajbuDJHj3kR4LtPzzy5uw=="/>
+    <contextParameter comment="" name="DB_AMC_Schema" prompt="DB_AMC_Schema?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="public"/>
+    <contextParameter comment="" name="DB_AMC_Login" prompt="DB_AMC_Login?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc"/>
+    <contextParameter comment="" name="DB_AMC_Server" prompt="DB_AMC_Server?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="167.114.227.214"/>
+    <contextParameter comment="" name="DB_AMC_Password" prompt="DB_AMC_Password?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="Syn@ltic!2016"/>
+    <contextParameter comment="" name="DB_AMC_Port" prompt="DB_AMC_Port?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="5432"/>
+    <contextParameter comment="" name="DB_AMC_Database" prompt="DB_AMC_Database?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc_dev"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
@@ -210,6 +216,9 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata comment="" label="dealership_crossref" name="crossref">
+      <column comment="" key="true" length="10" name="id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -239,18 +248,19 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="crossref" activateCondensedTool="true" id="_RE1jENijEeajqv70KgJxJw - dealership_crossref">
+        <mapperTableEntries name="id" expression="Numeric.sequence(&quot;s1&quot;,1114,1) " type="id_Integer"/>
         <mapperTableEntries name="src_application_name" expression="&quot;CARBASE&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_dealership_id" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_dealership_name" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_dealership_city" type="id_String" nullable="true"/>
-        <mapperTableEntries name="ref_dealership_id" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="ref_startdate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="ref_enddate" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="lastcheckdate" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="src_dealership_id" expression="row1.raw_dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_dealership_name" expression="row1.raw_dealership_label " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_dealership_city" expression="row1.raw_dealership_city " type="id_String" nullable="true"/>
+        <mapperTableEntries name="ref_dealership_id" expression="&quot;CAR&quot; +String.format(&quot;%03d&quot;,String.valueOf(Numeric.sequence(&quot;s2&quot;,1,1))) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="ref_startdate" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2007-01-01 00:00:00&quot;) " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="ref_enddate" expression="" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="keep" expression="true" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="lastcheckdate" expression="" type="id_Date" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="raw_dealership_id" type="id_String" nullable="true"/>
@@ -292,6 +302,11 @@
     <elementParameter field="TABLE" name="ADD_COLS"/>
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="src_application_name"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -344,7 +359,10 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="pd_all_hpv_refd" name="tPostgresqlOutput_1">
+    <metadata connector="FLOW" label="dealership_crossref" name="tPostgresqlOutput_1">
+      <column comment="" key="true" length="10" name="id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -373,7 +391,10 @@
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
-    <metadata connector="REJECT" label="pd_all_hpv_refd" name="REJECT">
+    <metadata connector="REJECT" label="dealership_crossref" name="REJECT">
+      <column comment="" key="true" length="10" name="id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
       <column comment="" key="false" length="255" name="src_application_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
