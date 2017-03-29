@@ -21,7 +21,7 @@
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx2G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="32" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -168,7 +168,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date,&#xD;&#xA;p.id_dealership&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join public.physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -193,8 +193,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="birth_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="id_dealership"/>
-      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -206,7 +204,6 @@
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="id_dealership" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="288" posY="320">
@@ -225,10 +222,10 @@
       <column comment="" key="false" length="100" name="meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out">
-        <mapperTableEntries name="group_identifier" expression="row1.meta_brand_source+&quot;_&quot;+ row1.id_dealership +&quot;_&quot;+ row1.master_gid " type="id_String"/>
+        <mapperTableEntries name="group_identifier" expression="row1.meta_brand_source+&quot;_&quot;+ row1.master_gid " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row1.meta_application_name " type="id_String"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -239,7 +236,6 @@
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="id_dealership" type="id_String"/>
       </inputTables>
     </nodeData>
   </node>
@@ -339,7 +335,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date,&#xD;&#xA;p.id_dealership&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;inner join public.physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;order by   d.master_gid, d.meta_brand_source,p.id_dealership&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;order by   d.master_gid, d.meta_brand_source&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -364,8 +360,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="birth_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="id_dealership"/>
-      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -379,7 +373,6 @@
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="birth_date" nullable="true" pattern="&quot;yyyy-MM-dd&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tHashInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="480">
@@ -417,7 +410,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="group_identifier" expression="row6.group_identifier " type="id_String" nullable="true"/>
@@ -437,11 +430,10 @@
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="id_dealership" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row6" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="grp_size" expression="" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="group_identifier" expression="dedup_physical_person_consolidation.meta_brand_source +&quot;_&quot;+ dedup_physical_person_consolidation.id_dealership +&quot;_&quot;+ dedup_physical_person_consolidation.master_gid " type="id_String" operator="="/>
+        <mapperTableEntries name="group_identifier" expression="dedup_physical_person_consolidation.meta_brand_source  +&quot;_&quot;+ dedup_physical_person_consolidation.master_gid " type="id_String" operator="="/>
         <mapperTableEntries name="meta_application_name" type="id_String"/>
       </inputTables>
     </nodeData>
@@ -600,7 +592,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="brand" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -611,12 +602,11 @@
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="master_physical_person">
-        <mapperTableEntries name="master_gid" expression="row4.group_identifier.split(&quot;_&quot;)[2] " type="id_String" nullable="true"/>
+        <mapperTableEntries name="master_gid" expression="row4.group_identifier.split(&quot;_&quot;)[1] " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="row4.group_identifier.split(&quot;_&quot;)[0] " type="id_String" nullable="true"/>
-        <mapperTableEntries name="id_dealership" expression="row4.group_identifier.split(&quot;_&quot;)[1] " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" expression="row4.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="row4.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="row4.lastname_norm " type="id_String" nullable="true"/>
@@ -681,11 +671,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="false"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="id_dealership"/>
-      <elementValue elementRef="UPDATE_KEY" value="true"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="false"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="gender_norm"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -738,7 +723,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="brand" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -753,7 +737,6 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="brand" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="id_dealership" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="lastname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
