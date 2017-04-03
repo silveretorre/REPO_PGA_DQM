@@ -757,8 +757,6 @@
     <elementParameter field="TEXT" name="DBNAME" value="context.DB_PGAFi_REC_Database" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_PGAFi_REC_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kueH21N+Jun/r0tPpJAAYbapOsd87CQMDZI=" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_wwjMMAfdEeezZJR8682REA - Dossier" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;Dossier&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -838,7 +836,7 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="Dossier" name="tMSSqlInput_2">
-      <column comment="" key="true" length="36" name="Id" nullable="false" pattern="" precision="0" sourceType="VARBINARY" type="id_Object" usefulColumn="true">
+      <column comment="" key="true" length="36" name="Id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="IdDossier" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
@@ -1066,7 +1064,7 @@
         <mapperTableEntries name="optOut" expression="" type="id_Boolean"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
-        <mapperTableEntries name="person_id" type="id_String"/>
+        <mapperTableEntries name="person_id" expression="dossier.Id " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
@@ -1088,14 +1086,14 @@
         <mapperTableEntries name="person_id" expression="Var.person_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="dossier.NomEmprunteur " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != tiers.DateNaissance &amp;&amp; !(&quot;&quot;.equals(tiers.DateNaissance))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tiers.DateNaissance)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="deceased" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="language_code" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="route" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="locality" expression="" type="id_String" nullable="true"/>
@@ -1138,13 +1136,13 @@
         <mapperTableEntries name="mobile_pro" type="id_String" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_phone" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="mobile_pro_is_reachable_by_sms" expression="Var.optOut " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="vehicle_id" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_id" expression="dossier.NumeroContrat " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="dossier.DescriptionBien " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vin" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vin" expression="dossier.NumeroChassis " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
@@ -1159,9 +1157,9 @@
         <mapperTableEntries name="person_link_person_id" expression="Var.person_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_start_date" expression="( null != contrats.DateSouscription_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.DateSouscription_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,contrats.DateSouscription_Ct)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_organization_user_id" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_type" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_number" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_organization_user_id" expression="String.valueOf(dossier.IdCollaborateur)" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_type" expression="&quot;HAS FUNDING FOR&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="registration_number" expression="dossier.NumeroImmat " type="id_String" nullable="true"/>
         <mapperTableEntries name="first_registration_date" expression="( null != contrats.VehiculeImmat1Date_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmat1Date_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,contrats.VehiculeImmat1Date_Ct)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_registration_date" expression="( null != contrats.VehiculeImmatDate_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeImmatDate_Ct))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,contrats.VehiculeImmatDate_Ct)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -1179,7 +1177,7 @@
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="dossier" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="Id" type="id_Object"/>
+        <mapperTableEntries name="Id" type="id_String"/>
         <mapperTableEntries name="IdDossier" type="id_Integer"/>
         <mapperTableEntries name="IdConcession" type="id_Integer"/>
         <mapperTableEntries name="IdMarqueBien" type="id_Integer"/>
