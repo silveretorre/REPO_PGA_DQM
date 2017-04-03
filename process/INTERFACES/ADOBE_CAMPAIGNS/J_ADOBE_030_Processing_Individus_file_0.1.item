@@ -35,7 +35,7 @@
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx12G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="664" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="452" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -357,7 +357,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT&#xD;&#xA;m.id_dealership,&#xD;&#xA;m.master_gid,&#xD;&#xA;m.firstname_norm,&#xD;&#xA;m.lastname_norm,&#xD;&#xA;m.gender_norm,&#xD;&#xA;m.birth_date,&#xD;&#xA;meta_brand_source,&#xD;&#xA;meta_application_name,&#xD;&#xA;meta_id_source&#xD;&#xA;FROM dedup_physical_person_consolidation d&#xD;&#xA;inner join master_physical_person m&#xD;&#xA;on m.master_gid = d.master_gid and  m.brand = d.meta_brand_source&#xD;&#xA;WHERE  m.\&quot;SURVIVOR\&quot; is true&quot;&#xD;&#xA;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT&#xD;&#xA;p.id_dealership,&#xD;&#xA;m.master_gid,&#xD;&#xA;m.firstname_norm,&#xD;&#xA;m.lastname_norm,&#xD;&#xA;m.gender_norm,&#xD;&#xA;m.birth_date,&#xD;&#xA;meta_brand_source,&#xD;&#xA;meta_application_name,&#xD;&#xA;meta_id_source&#xD;&#xA;FROM dedup_physical_person_consolidation d&#xD;&#xA;inner join master_physical_person m&#xD;&#xA;on m.master_gid = d.master_gid and  m.brand = d.meta_brand_source&#xD;&#xA;inner join physical_person_contact_organization p&#xD;&#xA;using (meta_brand_source, meta_application_name, meta_id_source)&#xD;&#xA;WHERE  m.\&quot;SURVIVOR\&quot; is true&quot;&#xD;&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -518,7 +518,7 @@
       <column comment="" key="false" length="-1" name="ID_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="birthdate" expression="(out1.birth_date != null &amp;&amp; out1.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))==0)? null : out1.birth_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="concession" expression="(param.dealership_id.indexOf(&quot;[&quot;)==-1)? param.dealership_id : (out1.lead_source != null &amp;&amp; (!&quot;AUTOLEAD&quot;.equals(out1.meta_app_name) || !&quot;Site Concession&quot;.equals(out1.lead_source)))? &quot;AFR001&quot; :  out1.CodeConcession  " type="id_String" nullable="true"/>
