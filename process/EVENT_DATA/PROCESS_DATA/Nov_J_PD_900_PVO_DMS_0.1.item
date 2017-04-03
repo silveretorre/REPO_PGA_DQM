@@ -14,6 +14,7 @@
     <contextParameter comment="" name="DB_CrossRef_Schema" prompt="DB_CrossRef_Schema?" promptNeeded="false" repositoryContextId="_V2EdcNijEeajqv70KgJxJw" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_CrossRef_Login" prompt="DB_CrossRef_Login?" promptNeeded="false" repositoryContextId="_V2EdcNijEeajqv70KgJxJw" type="id_String" value="dquser"/>
     <contextParameter comment="" name="nbDearlership" prompt="nbDearlership?" promptNeeded="false" type="id_Integer" value="0"/>
+    <contextParameter comment="" name="OffsetDearlership" prompt="OffsetDearlership?" promptNeeded="false" type="id_String" value=""/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
@@ -379,13 +380,20 @@
     <elementParameter field="RADIO" name="FORLOOP" value="true"/>
     <elementParameter field="RADIO" name="WHILELOOP" value="false"/>
     <elementParameter field="TEXT" name="FROM" value="1"/>
-    <elementParameter field="TEXT" name="TO" value="10"/>
+    <elementParameter field="TEXT" name="TO" value="context.nbDearlership"/>
     <elementParameter field="TEXT" name="STEP" value="1"/>
     <elementParameter field="CHECK" name="INCREASE" value="true"/>
     <elementParameter field="TEXT" name="DECLARATION" value="int i=0" show="false"/>
     <elementParameter field="TEXT" name="CONDITION" value="i&lt;10" show="false"/>
     <elementParameter field="TEXT" name="ITERATION" value="i++" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+  </node>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="128">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="int offset = ((Integer)globalMap.get(&quot;tLoop_1_CURRENT_VALUE&quot;)) -1;&#xA;String strOffset = String.valueOf(offset);&#xA;context.OffsetDearlership = strOffset;&#xA;&#xA;System.out.println(&quot;Dearlership It : &quot; + strOffset);"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJava_1"/>
   </node>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tPostgresqlRow_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlRow_1" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -402,6 +410,11 @@
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJavaRow_1" offsetLabelX="0" offsetLabelY="0" source="tJavaRow_1" target="tLoop_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
+  </connection>
+  <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tLoop_1" offsetLabelX="0" offsetLabelY="0" source="tLoop_1" target="tJava_1">
+    <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
+    <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFTPConnection_1" show="false"/>
