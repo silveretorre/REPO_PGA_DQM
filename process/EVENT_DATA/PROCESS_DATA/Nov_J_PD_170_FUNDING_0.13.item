@@ -1050,13 +1050,13 @@
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="NumeroContrat" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdTypeOffre" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeDemarche" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeBareme" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdPartenaire" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdEtatVehicule" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="Taux" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="DureeContrat" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="EstAssurable" nullable="false" pattern="" precision="0" sourceType="BIT" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionTotale" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionEligible" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1182,19 +1182,19 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_funding" minimized="true" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_funding" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="NumeroContrat" expression="dossier.NumeroContrat " type="id_String" nullable="true"/>
         <mapperTableEntries name="IdTypeOffre" expression="dossier.IdTypeOffre " type="id_Integer"/>
-        <mapperTableEntries name="IdTypeDemarche" expression="dossier.IdTypeDemarche " type="id_Integer"/>
-        <mapperTableEntries name="IdTypeBareme" expression="dossier.IdTypeBareme " type="id_Integer"/>
         <mapperTableEntries name="IdPartenaire" expression="dossier.IdPartenaire " type="id_Integer"/>
         <mapperTableEntries name="IdEtatVehicule" expression="dossier.IdEtatVehicule " type="id_Integer"/>
         <mapperTableEntries name="Taux" expression="dossier.Taux " type="id_String" nullable="true"/>
         <mapperTableEntries name="DureeContrat" expression="dossier.DureeContrat " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="EstAssurable" expression="dossier.EstAssurable " type="id_Boolean"/>
+        <mapperTableEntries name="ProductionTotale" expression="dossier.ProductionTotale " type="id_String" nullable="true"/>
+        <mapperTableEntries name="ProductionEligible" expression="dossier.ProductionEligible " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dossier" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dossier" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="Id" type="id_String"/>
         <mapperTableEntries name="IdDossier" type="id_Integer"/>
         <mapperTableEntries name="IdConcession" type="id_Integer"/>
@@ -1243,6 +1243,12 @@
         <mapperTableEntries name="Id" expression="dossier.IdGenreVehicule " type="id_Integer"/>
         <mapperTableEntries name="Libelle" type="id_String"/>
         <mapperTableEntries name="Description" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="dossierPrestation" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdDossier" type="id_String"/>
+        <mapperTableEntries name="IdPrestation" type="id_String"/>
+        <mapperTableEntries name="Libelle" type="id_String" nullable="true"/>
+        <mapperTableEntries name="CodePrestation" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1294,16 +1300,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="IdTypeDemarche"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="IdTypeBareme"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="IdPartenaire"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1329,6 +1325,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ProductionTotale"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ProductionEligible"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -1340,25 +1346,25 @@
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="NumeroContrat" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdTypeOffre" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeDemarche" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeBareme" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdPartenaire" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdEtatVehicule" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="Taux" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="DureeContrat" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="EstAssurable" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionTotale" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionEligible" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="NumeroContrat" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdTypeOffre" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeDemarche" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="IdTypeBareme" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdPartenaire" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="IdEtatVehicule" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="Taux" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="DureeContrat" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="EstAssurable" nullable="false" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionTotale" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ProductionEligible" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2145,7 +2151,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="224">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_1" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
@@ -2194,7 +2200,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="224">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_3" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
@@ -2238,7 +2244,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="224">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="512" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_4" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
@@ -2282,7 +2288,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="224">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_5" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
@@ -2331,6 +2337,52 @@
       <column comment="" key="false" length="200" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+    </metadata>
+  </node>
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_6" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_wwjMMAfdEeezZJR8682REA" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_PGAFi_REC_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_PGAFi_REC_Port" show="false"/>
+    <elementParameter field="TEXT" name="DB_SCHEMA" value="context.DB_PGAFi_REC_Schema" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_PGAFi_REC_Database" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_PGAFi_REC_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kueH21N+Jun/r0tPpJAAYbapOsd87CQMDZI=" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;DossierPrestation&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select &#xD;&#xA;dbo.DossierPrestation.IdDossier,&#xD;&#xA;dbo.DossierPrestation.IdPrestation,&#xD;&#xA;dbo.Prestation.Libelle,&#xD;&#xA;dbo.Prestation.Code as CodePrestation&#xD;&#xA;from dbo.DossierPrestation&#xD;&#xA;left join dbo.Prestation&#xD;&#xA;on dbo.Prestation.Id = dbo.DossierPrestation.IdPrestation &#xD;&#xA;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="id_MSSQL" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_PGAFi_REC_AdditionalParams" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdDossier"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdPrestation"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="Libelle"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="CodePrestation"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tMSSqlInput_6">
+      <column comment="" key="false" length="36" name="IdDossier" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="IdPrestation" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="Libelle" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="CodePrestation" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tMSSqlConnection_3">
@@ -2427,6 +2479,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="IdPartenaire"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="ProductionEligible"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="ProductionTotale"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_funding" show="false"/>
@@ -2446,6 +2504,10 @@
   <connection connectorName="FLOW" label="genreVeh" lineStyle="8" metaname="tMSSqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_5" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="genreVeh" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="dossierPrestation" lineStyle="8" metaname="tMSSqlInput_6" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_6" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dossierPrestation" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
