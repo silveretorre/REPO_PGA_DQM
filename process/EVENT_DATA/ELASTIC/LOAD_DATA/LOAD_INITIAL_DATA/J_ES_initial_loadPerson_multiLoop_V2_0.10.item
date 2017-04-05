@@ -2299,7 +2299,7 @@
         <mapperTableEntries name="email_type" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.email_type)" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership_email" expression="out11.dealership" type="id_String" nullable="true"/>
         <mapperTableEntries name="VEHICLE_LINK_ID" expression="&quot;1&quot;.equals(Var.test_null) ? context.ValeurFiltreDM : &quot;&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="start_date" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="start_date" expression="norm_vehicle_registration_2.start_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle.brand)" type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle.model)" type="id_String" nullable="true"/>
         <mapperTableEntries name="RegistrationNumber" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(norm_vehicle_registration_2.registration_number_norm)" type="id_String" nullable="true"/>
@@ -2379,6 +2379,7 @@
         <mapperTableEntries name="id_vehicle" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_id_source" expression="out11.meta_id_source " type="id_String" nullable="true"/>
         <mapperTableEntries name="link_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="start_date" type="id_Date" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="master_vehicle" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String"/>
@@ -2411,7 +2412,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT norm_vehicle_registration.registration_number_norm,&#xD;&#xA;&#x9;vpl.mbs,&#xD;&#xA;&#x9;vpl.man,&#xD;&#xA;&#x9;vpl.iv,&#xD;&#xA;    vpl.mis,&#xD;&#xA;    vpl.link_type&#xD;&#xA;FROM norm_vehicle_registration FULL JOIN &#xD;&#xA;&#x9;(SELECT &#xD;&#xA;&#x9;distinct(meta_brand_source, meta_application_name, id_vehicle),&#xD;&#xA;&#x9;  vehicle_person_link.meta_brand_source mbs, &#xD;&#xA;&#x9;  vehicle_person_link.meta_application_name man,  &#xD;&#xA;&#x9;  vehicle_person_link.id_vehicle iv,&#xD;&#xA;&#x9;  vehicle_person_link.meta_id_source mis,&#xD;&#xA;      vehicle_person_link.transaction_type link_type&#xD;&#xA;&#x9;FROM vehicle_person_link) vpl&#xD;&#xA;ON norm_vehicle_registration.meta_brand_source = vpl.mbs&#xD;&#xA;AND norm_vehicle_registration.meta_application_name = vpl.man&#xD;&#xA;AND norm_vehicle_registration.meta_id_source = vpl.iv&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT norm_vehicle_registration.registration_number_norm,&#xD;&#xA;&#x9;vpl.mbs,&#xD;&#xA;&#x9;vpl.man,&#xD;&#xA;&#x9;vpl.iv,&#xD;&#xA;    vpl.mis,&#xD;&#xA;    vpl.link_type,&#xD;&#xA;    vpl.start_date&#xD;&#xA;FROM norm_vehicle_registration FULL JOIN &#xD;&#xA;&#x9;(SELECT &#xD;&#xA;&#x9;distinct(meta_brand_source, meta_application_name, id_vehicle),&#xD;&#xA;&#x9;  vehicle_person_link.meta_brand_source mbs, &#xD;&#xA;&#x9;  vehicle_person_link.meta_application_name man,  &#xD;&#xA;&#x9;  vehicle_person_link.id_vehicle iv,&#xD;&#xA;&#x9;  vehicle_person_link.meta_id_source mis,&#xD;&#xA;      vehicle_person_link.transaction_type link_type,&#xD;&#xA;      vehicle_person_link.start_date start_date&#xD;&#xA;&#x9;FROM vehicle_person_link) vpl&#xD;&#xA;ON norm_vehicle_registration.meta_brand_source = vpl.mbs&#xD;&#xA;AND norm_vehicle_registration.meta_application_name = vpl.man&#xD;&#xA;AND norm_vehicle_registration.meta_id_source = vpl.iv&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2434,6 +2435,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="link_type"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="start_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -2452,6 +2455,7 @@
       </column>
       <column comment="" key="false" length="-1" name="meta_id_source" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="link_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="start_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2304" posY="1248" sizeX="64" sizeY="32">
@@ -4442,6 +4446,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="link_type"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="start_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
