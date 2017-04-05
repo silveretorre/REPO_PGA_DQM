@@ -720,7 +720,7 @@
       <column comment="" key="false" length="75" name="provenance" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="65535" name="proj_comment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="65535" name="proj_comment" nullable="false" pattern="" precision="0" sourceType="BLOB" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="trait_type" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -1001,7 +1001,7 @@
       <column comment="" key="false" length="5592405" name="lead_src_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="5592405" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="app_band" expression="(null != ce_marque.nom &amp;&amp; !(&quot;&quot;.equals(ce_marque.nom)))? ce_marque.nom :&quot;MULTI&quot; " type="id_String"/>
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
@@ -1144,8 +1144,8 @@
         <mapperTableEntries name="lead_lifespan" expression="&quot;15 days&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_temperature" expression="(null != propsect.trait_interet  &amp;&amp; !(&quot;&quot;.equals(propsect.trait_interet)))? propsect.trait_interet : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? TalendString.removeAccents(propsect.proj_comment) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_veh_model" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? new String(propsect.proj_comment, &quot;latin1&quot;) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_fund_com" expression="(null != propsect.fin_com  &amp;&amp; !(&quot;&quot;.equals(propsect.fin_com)))? TalendString.removeAccents(propsect.fin_com) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
@@ -1169,13 +1169,13 @@
         <mapperTableEntries name="lead_temperature" expression="(null != propsect.trait_interet  &amp;&amp; !(&quot;&quot;.equals(propsect.trait_interet)))? propsect.trait_interet : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? TalendString.removeAccents(propsect.proj_comment) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? new String(propsect.proj_comment, &quot;latin1&quot;) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_fund_com" expression="(null != propsect.fin_com  &amp;&amp; !(&quot;&quot;.equals(propsect.fin_com)))? TalendString.removeAccents(propsect.fin_com) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
         <mapperTableEntries name="lead_src_com" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="propsect" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="propsect" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idpropsect" type="id_Long"/>
         <mapperTableEntries name="email" type="id_String" nullable="true"/>
         <mapperTableEntries name="date_insc" type="id_Date" nullable="true"/>
@@ -1193,7 +1193,7 @@
         <mapperTableEntries name="concession" type="id_String" nullable="true"/>
         <mapperTableEntries name="objet" type="id_String"/>
         <mapperTableEntries name="provenance" type="id_String"/>
-        <mapperTableEntries name="proj_comment" type="id_String"/>
+        <mapperTableEntries name="proj_comment" type="id_byte[]"/>
         <mapperTableEntries name="trait_type" type="id_String"/>
         <mapperTableEntries name="trait_interet" type="id_String"/>
         <mapperTableEntries name="fin_pres" type="id_String"/>
