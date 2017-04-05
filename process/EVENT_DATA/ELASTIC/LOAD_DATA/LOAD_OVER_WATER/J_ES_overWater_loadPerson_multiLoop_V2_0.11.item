@@ -396,7 +396,7 @@
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="meta_brand_source" expression="dedupl.meta_brand_source == null ? &quot;&quot; : dedupl.meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="dedupl.meta_application_name == null ? &quot;&quot; : dedupl.meta_application_name" type="id_String"/>
@@ -490,7 +490,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out7">
         <mapperTableEntries name="head" expression="out6.head " type="id_String" nullable="true"/>
@@ -1849,7 +1849,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT norm_vehicle_registration.registration_number_norm,&#xD;&#xA;&#x9;vpl.mbs,&#xD;&#xA;&#x9;vpl.man,&#xD;&#xA;&#x9;vpl.iv,&#xD;&#xA;    vpl.mis&#xD;&#xA;FROM norm_vehicle_registration Full JOIN &#xD;&#xA;&#x9;(SELECT &#xD;&#xA;&#x9;distinct(meta_brand_source, meta_application_name, id_vehicle),&#xD;&#xA;&#x9;  vehicle_person_link.meta_brand_source mbs, &#xD;&#xA;&#x9;  vehicle_person_link.meta_application_name man,  &#xD;&#xA;&#x9;  vehicle_person_link.id_vehicle iv,&#xD;&#xA;&#x9;  vehicle_person_link.meta_id_source mis&#xD;&#xA;&#x9;FROM vehicle_person_link&#xD;&#xA;    WHERE  vehicle_person_link.meta_brand_source = '&quot;+((String)globalMap.get(&quot;meta_brand_source&quot;))+&quot;'&#xD;&#xA;    AND vehicle_person_link.meta_application_name = '&quot;+((String)globalMap.get(&quot;meta_application_name&quot;))+&quot;'&#xD;&#xA;    AND vehicle_person_link.meta_id_source = '&quot;+((String)globalMap.get(&quot;meta_id_source&quot;))+&quot;') vpl&#xD;&#xA;    ON norm_vehicle_registration.meta_brand_source = vpl.mbs&#xD;&#xA;    AND norm_vehicle_registration.meta_application_name = vpl.man&#xD;&#xA;    AND norm_vehicle_registration.meta_id_source = vpl.iv&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT norm_vehicle_registration.registration_number_norm,&#xD;&#xA;&#x9;vpl.mbs,&#xD;&#xA;&#x9;vpl.man,&#xD;&#xA;&#x9;vpl.iv,&#xD;&#xA;    vpl.mis,&#xD;&#xA;    vpl.link_type&#xD;&#xA;FROM norm_vehicle_registration Full JOIN &#xD;&#xA;&#x9;(SELECT &#xD;&#xA;&#x9;distinct(meta_brand_source, meta_application_name, id_vehicle),&#xD;&#xA;&#x9;  vehicle_person_link.meta_brand_source mbs, &#xD;&#xA;&#x9;  vehicle_person_link.meta_application_name man,  &#xD;&#xA;&#x9;  vehicle_person_link.id_vehicle iv,&#xD;&#xA;&#x9;  vehicle_person_link.meta_id_source mis,&#xD;&#xA;      vehicle_person_link.transaction_type link_type&#xD;&#xA;&#x9;FROM vehicle_person_link&#xD;&#xA;    WHERE  vehicle_person_link.meta_brand_source = '&quot;+((String)globalMap.get(&quot;meta_brand_source&quot;))+&quot;'&#xD;&#xA;    AND vehicle_person_link.meta_application_name = '&quot;+((String)globalMap.get(&quot;meta_application_name&quot;))+&quot;'&#xD;&#xA;    AND vehicle_person_link.meta_id_source = '&quot;+((String)globalMap.get(&quot;meta_id_source&quot;))+&quot;') vpl&#xD;&#xA;    ON norm_vehicle_registration.meta_brand_source = vpl.mbs&#xD;&#xA;    AND norm_vehicle_registration.meta_application_name = vpl.man&#xD;&#xA;    AND norm_vehicle_registration.meta_id_source = vpl.iv&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1870,6 +1870,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="link_type"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -1887,6 +1889,7 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="-1" name="meta_id_source" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="link_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="2112" posY="96" sizeX="256" sizeY="32">
@@ -1976,7 +1979,7 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="test_null" expression="master_vehicle.master_gid == null ? &quot;1&quot; : &quot;0&quot; " type="id_String"/>
       </varTables>
@@ -2049,7 +2052,7 @@
         <mapperTableEntries name="RegistrationNumber" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(norm_vehicle_registration_2.registration_number_norm)" type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle.vin_norm)" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle.master_gid)" type="id_String"/>
-        <mapperTableEntries name="link_type" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="link_type" expression="norm_vehicle_registration_2.link_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(master_vehicle.version)" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression=" org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.prospect_client_siv)" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.online_offline)" type="id_String" nullable="true"/>
@@ -2122,6 +2125,7 @@
         <mapperTableEntries name="meta_application_name" expression="out11.meta_application_name " type="id_String"/>
         <mapperTableEntries name="id_vehicle" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_id_source" expression="out11.meta_id_source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="link_type" type="id_String" nullable="true"/>
         <globalMapKeysValues name="&quot;meta_brand_source&quot;" expression="out11.meta_brand_source "/>
         <globalMapKeysValues name="&quot;meta_application_name&quot;" expression="out11.meta_application_name "/>
         <globalMapKeysValues name="&quot;meta_id_source&quot;" expression="out11.meta_id_source "/>
@@ -4176,6 +4180,9 @@
   <connection connectorName="FLOW" label="norm_vehicle_registration_2" lineStyle="8" metaname="tPostgresqlInput_9" offsetLabelX="-25" offsetLabelY="15" source="tPostgresqlInput_9" target="tMap_7">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="link_type"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
