@@ -18,24 +18,18 @@ package beans;
  * 
  * 5. {example} gives a example for the Function. it is optional.
  */
-public class __TEMPLATE__ {
+import org.apache.camel.Exchange;
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 
-    /**
-     * helloExample: not return value, only print "hello" + message.
-     * 
-     * 
-     * {talendTypes} String
-     * 
-     * {Category} User Defined
-     * 
-     * {param} string("world") input: The string need to be printed.
-     * 
-     * {example} helloExemple("world") # hello world !.
-     */
-    public static void helloExample(String message) {
-        if (message == null) {
-            message = "World"; //$NON-NLS-1$
-        }
-        System.out.println("Hello " + message + " !"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-}
+public class Data_Science_Docs implements AggregationStrategy{
+
+		public Exchange aggregate(Exchange oldEx, Exchange newEx) {
+			if(oldEx==null){
+				return newEx;
+			}
+			String oldBody = oldEx.getIn().getBody(String.class);
+			String newBody = newEx.getIn().getBody(String.class);
+			newEx.getIn().setBody(oldBody+"synaticseparator"+newBody);
+			return newEx;
+		}
+	}
