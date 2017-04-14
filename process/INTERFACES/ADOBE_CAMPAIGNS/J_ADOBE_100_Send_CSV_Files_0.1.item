@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default">
+<talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:TalendXMLMap="http://www.talend.org/xmlmap" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default">
   <context confirmationNeeded="false" name="Default">
     <contextParameter comment="" name="DB_AMC_Schema" prompt="DB_AMC_Schema?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="public"/>
     <contextParameter comment="" name="DB_AMC_Login" prompt="DB_AMC_Login?" promptNeeded="false" repositoryContextId="_sxAoMDfOEea3mfQzj681kA" type="id_String" value="talend_amc"/>
@@ -163,30 +163,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaFlex_1"/>
   </node>
-  <node componentName="tFileList" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="160">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileList_1" show="false"/>
-    <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.rootFull_JsonPath + &quot;/Interfaces/Adobe_campaigns/toSend_Files/&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="LIST_MODE" value="FILES"/>
-    <elementParameter field="CHECK" name="INCLUDSUBDIR" value="false"/>
-    <elementParameter field="CLOSED_LIST" name="CASE_SENSITIVE" value="YES"/>
-    <elementParameter field="CHECK" name="ERROR" value="false"/>
-    <elementParameter field="CHECK" name="GLOBEXPRESSIONS" value="true"/>
-    <elementParameter field="TABLE" name="FILES">
-      <elementValue elementRef="FILEMASK" value="&quot;*.csv&quot;"/>
-    </elementParameter>
-    <elementParameter field="RADIO" name="ORDER_BY_NOTHING" value="true"/>
-    <elementParameter field="RADIO" name="ORDER_BY_FILENAME" value="false"/>
-    <elementParameter field="RADIO" name="ORDER_BY_FILESIZE" value="false"/>
-    <elementParameter field="RADIO" name="ORDER_BY_MODIFIEDDATE" value="false"/>
-    <elementParameter field="RADIO" name="ORDER_ACTION_ASC" value="true"/>
-    <elementParameter field="RADIO" name="ORDER_ACTION_DESC" value="false"/>
-    <elementParameter field="CHECK" name="IFEXCLUDE" value="false"/>
-    <elementParameter field="TEXT" name="EXCLUDEFILEMASK" value="&quot;*.txt&quot;" show="false"/>
-    <elementParameter field="CHECK" name="FORMAT_FILEPATH_TO_SLASH" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="Adobe_files"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-  </node>
-  <node componentName="tFTPPut" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="352" posY="160">
+  <node componentName="tFTPPut" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="128">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFTPPut_1" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tFTPConnection_1"/>
@@ -199,7 +176,7 @@
     <elementParameter field="CLOSED_LIST" name="AUTH_METHOD" value="PASSWORD" show="false"/>
     <elementParameter field="FILE" name="PRIVATEKEY" value="&quot;/.ssh/id_dsa&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASSPHRASE" value="wiXuUBxiyoc5L4zXsOuoEQ==" show="false"/>
-    <elementParameter field="DIRECTORY" name="LOCALDIR" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;))"/>
+    <elementParameter field="DIRECTORY" name="LOCALDIR" value="context.rootFull_JsonPath + &quot;/Interfaces/Adobe_campaigns/toSend_Files/&quot;"/>
     <elementParameter field="TEXT" name="REMOTEDIR" value="&quot;/&quot;"/>
     <elementParameter field="CHECK" name="MOVE_TO_THE_CURRENT_DIRECTORY" value="true"/>
     <elementParameter field="FILE" name="KEYSTORE_FILE" value="&quot;&quot;" show="false"/>
@@ -211,7 +188,10 @@
     <elementParameter field="CLOSED_LIST" name="FTPSOVERWRITE" value="always" show="false"/>
     <elementParameter field="LABEL" name="NOTE_CUSTOMER" value="Note: File can not be renamed while using &quot;append&quot; mode in SFTP" show="false"/>
     <elementParameter field="CHECK" name="PERL5_REGEX" value="false"/>
-    <elementParameter field="TABLE" name="FILES"/>
+    <elementParameter field="TABLE" name="FILES">
+      <elementValue elementRef="FILEMASK" value="&quot;*.csv&quot;"/>
+      <elementValue elementRef="NEWNAME" value="&quot;&quot;"/>
+    </elementParameter>
     <elementParameter field="CLOSED_LIST" name="CONNECT_MODE" value="PASSIVE" show="false"/>
     <elementParameter field="CLOSED_LIST" name="SECURITY_MODE" value="IMPLICIT" show="false"/>
     <elementParameter field="CHECK" name="USE_ENCODING" value="false" show="false"/>
@@ -227,7 +207,57 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFTPPut_1"/>
   </node>
-  <node componentName="tESBConsumer" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="288">
+  <node componentName="tFixedFlowInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="320">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
+    <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
+    <elementParameter field="RADIO" name="USE_SINGLEMODE" value="true"/>
+    <elementParameter field="TABLE" name="VALUES">
+      <elementValue elementRef="SCHEMA_COLUMN" value="session_token"/>
+      <elementValue elementRef="VALUE" value="&quot;PgaWebServices/p64w3b53rv1c35&quot;"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="workflow_id"/>
+      <elementValue elementRef="VALUE" value="&quot;pga_import_VCU&quot;"/>
+    </elementParameter>
+    <elementParameter field="RADIO" name="USE_INTABLE" value="false"/>
+    <elementParameter field="TABLE" name="INTABLE" show="false"/>
+    <elementParameter field="RADIO" name="USE_INLINECONTENT" value="false"/>
+    <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;" show="false"/>
+    <elementParameter field="MEMO" name="INLINECONTENT" value="" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tFixedFlowInput_1">
+      <column comment="" key="false" length="-1" name="session_token" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="workflow_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tXMLMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="288" posY="320">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tXMLMap_1" show="false"/>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false" show="false"/>
+    <elementParameter field="CHECK" name="KEEP_ORDER_FOR_DOCUMENT" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="Start_Session">
+      <column defaultValue="" key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
+    </metadata>
+    <nodeData xsi:type="TalendXMLMap:XmlMapData">
+      <inputTrees name="row3" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+        <nodes name="session_token" type="id_String" outgoingConnections="//@node.4/@nodeData/@connections.0" xpath="row3/session_token"/>
+        <nodes name="workflow_id" type="id_String" outgoingConnections="//@node.4/@nodeData/@connections.1" xpath="row3/workflow_id"/>
+      </inputTrees>
+      <outputTrees name="Start_Session">
+        <nodes name="payload" expression="" type="id_Document" xpath="Start_Session/payload">
+          <children xsi:type="TalendXMLMap:OutputTreeNode" name="tns:Start" type="id_String" xpath="Start_Session.payload:/tns:Start">
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="tns" type="id_String" xpath="Start_Session.payload:/tns:Start/xmlns:tns" nodeType="NAME_SPACE" defaultValue="urn:xtk:workflow"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="tns:sessiontoken" expression="row3.session_token" type="id_String" incomingConnections="//@node.4/@nodeData/@connections.0" xpath="Start_Session.payload:/tns:Start/tns:sessiontoken" loop="true"/>
+            <children xsi:type="TalendXMLMap:OutputTreeNode" name="tns:strWorkflowId" expression="row3.workflow_id" type="id_String" incomingConnections="//@node.4/@nodeData/@connections.1" xpath="Start_Session.payload:/tns:Start/tns:strWorkflowId"/>
+          </children>
+        </nodes>
+      </outputTrees>
+      <varTables name="Var" minimized="true"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.4/@nodeData/@inputTrees.0/@nodes.0" target="//@node.4/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.1"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.4/@nodeData/@inputTrees.0/@nodes.1" target="//@node.4/@nodeData/@outputTrees.0/@nodes.0/@children.0/@children.2"/>
+    </nodeData>
+  </node>
+  <node componentName="tESBConsumer" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tESBConsumer_1" show="false"/>
     <elementParameter field="EXTERNAL" name="SERVICE_CONFIGURATION" value=""/>
     <elementParameter field="CHECK" name="SERVICE_LOCATOR" value="false"/>
@@ -237,7 +267,7 @@
     <elementParameter field="LABEL" name="AUTHENTICATION_LABEL" value="" show="false"/>
     <elementParameter field="CHECK" name="AUTH_PROPAGATE" value="false" show="false"/>
     <elementParameter field="CHECK" name="NEED_AUTH" value="true"/>
-    <elementParameter field="CLOSED_LIST" name="AUTH_TYPE" value="TOKEN"/>
+    <elementParameter field="CLOSED_LIST" name="AUTH_TYPE" value="BASIC"/>
     <elementParameter field="CLOSED_LIST" name="PROPAGATE_TYPE" value="U_P" show="false"/>
     <elementParameter field="LABEL" name="PROPAGATE_U_P_LABEL" value="" show="false"/>
     <elementParameter field="LABEL" name="PROPAGATE_CERT_LABEL" value="" show="false"/>
@@ -251,15 +281,15 @@
     <elementParameter field="CHECK" name="USE_BUSINESS_CORRELATION" value="false"/>
     <elementParameter field="TEXT" name="CORRELATION_VALUE" value="&quot;&quot;" show="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
-    <elementParameter field="TEXT" name="ESB_ENDPOINT" value="&quot;http://localhost:8090/services/Integration_Fichiers_ADC&quot;"/>
-    <elementParameter field="TEXT" name="ENDPOINT" value="&quot;C:/talend/6.6.1/Talend-Studio-20151214_1327-V6.1.1/workspace/PGA_DQM/services/Adobe_Campaign/Integration_Fichiers_ADC_0.1.wsdl&quot;" show="false"/>
-    <elementParameter field="TEXT" name="SERVICE_NS" value="http://www.talend.org/service/" show="false"/>
-    <elementParameter field="TEXT" name="SERVICE_NAME" value="Integration_Fichiers_ADC" show="false"/>
-    <elementParameter field="TEXT" name="PORT_NS" value="http://www.talend.org/service/" show="false"/>
-    <elementParameter field="TEXT" name="PORT_NAME" value="Integration_Fichiers_ADCPort" show="false"/>
-    <elementParameter field="TEXT" name="METHOD_NS" value="http://www.talend.org/service/" show="false"/>
-    <elementParameter field="TEXT" name="METHOD" value="Integration_Fichiers_ADCOperation(Integration_Fichiers_ADCOperationRequest):Integration_Fichiers_ADCOperationResponse" show="false"/>
-    <elementParameter field="TEXT" name="SOAP_ACTION" value="http://www.talend.org/service/Integration_Fichiers_ADCOperation" show="false"/>
+    <elementParameter field="TEXT" name="ESB_ENDPOINT" value="&quot;https://pga-mkt-stage1.campaign.adobe.com/nl/jsp/soaprouter.jsp&quot;"/>
+    <elementParameter field="TEXT" name="ENDPOINT" value="&quot;C:/Users/fadamou/Documents/pga_workspace/data_exchange/event_data/Interfaces/Adobe_campaigns/Description_Language.wsdl&quot;" show="false"/>
+    <elementParameter field="TEXT" name="SERVICE_NS" value="urn:xtk:workflow" show="false"/>
+    <elementParameter field="TEXT" name="SERVICE_NAME" value="XtkWorkflow" show="false"/>
+    <elementParameter field="TEXT" name="PORT_NS" value="urn:xtk:workflow" show="false"/>
+    <elementParameter field="TEXT" name="PORT_NAME" value="workflowMethodsSoap" show="false"/>
+    <elementParameter field="TEXT" name="METHOD_NS" value="urn:xtk:workflow" show="false"/>
+    <elementParameter field="TEXT" name="METHOD" value="Start(Start):StartResponse" show="false"/>
+    <elementParameter field="TEXT" name="SOAP_ACTION" value="xtk:workflow#Start" show="false"/>
     <elementParameter field="TEXT" name="COMMUNICATION_STYLE" value="request-response" show="false"/>
     <elementParameter field="CHECK" name="LOG_MESSAGES" value="false"/>
     <elementParameter field="CHECK" name="FOLLOW_REDIRECTS" value="false"/>
@@ -278,7 +308,7 @@
     <elementParameter field="TEXT" name="PROXY_PORT" value="8080" show="false"/>
     <elementParameter field="TEXT" name="PROXY_USERNAME" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PROXY_PASSWORD" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="TEXT" name="WSDL_CONTENT" value="eJwL8GZmEWHg4OBgyOjv9WJAApxAnJuYmadXXpySszUsOv+ygUidntD/g5+sS9n1laNmsGUICZkf&#xD;&#xA;nFAx2ycpyLtTtubO1r/fZe5fMtH2vT5t+TX1+z/Pvf389FXV1StPHCUmRD39kmS12GWF0/SgUMu/&#xD;&#xA;heW/H02K21/5700WZ+rcqY+2h1xSEul41HviJXuqa+oO47v3TyXpTXz579lfay8d86kb5guy6uoL&#xD;&#xA;WG3fdlYiWm968OnshadWmokyJ8qlKEqozuhoOnP05YaAM66HE7vmO3y+Zm3h0L6Ni081znEna+y+&#xD;&#xA;Txumb77J+vvny8fl8lqNsVs+6tzpCnzDp7jQvuwu14fsLQkHdHbY7RT3MJzpY9O8wlV5imzm9+lh&#xD;&#xA;LK/NP6YrHnBrcwh8sWzt0Vd8k7ufJbC3h7qm3xEN0JqjYvXsSnVE864FaxYnWlc0fQy8kND3ZrkI&#xD;&#xA;h+4p/zlrnfZu+L/+yIu3oQIlh9icOA85JjKsP2Lo+yHqs4qu+UqNP937xf4WWLfXFHXNVq22Mn29&#xD;&#xA;4zfrkRZ/zYXCr25q30iz29IQJv06zTLo4HWO2+dilr9ovzb/jnBjyNtDk2Zc9ZxatYzRuuuPxK+5&#xD;&#xA;QRwxzNGfXm63MN1y/XF80M7ZqUs885m1ck/XnrSb1WY9ebdBwnVToSm7IiwYFRc+5IqJq+Yvr1+3&#xD;&#xA;+/0/CYvzE2rjpJm279Fcs7/kezzbY8cbepql29ap74qZzJpwa+uR3KOv992fUdSXaB2hXhhlO/PI&#xD;&#xA;reP3JG6nt5slT+8Q5lY1vFMXq8rJx3bi9KUHckpb9X5c+zBn4bzsDTefvvmqw8v/z3Jv7yaz6qX3&#xD;&#xA;J3s8iIvL+fHF6XF8gDc7x/cr5iccmBgYtgNTVoA3I5MIAyLhIctxMqADeDIM8GZlAwkwAqE5kC5n&#xD;&#xA;AvEAZtU2GQ==&#xD;&#xA;" show="false"/>
+    <elementParameter field="TEXT" name="WSDL_CONTENT" value="eJwBAwz881BLAwQUAAgICACSUY5KAAAAAAAAAAAAAAAACQAAAG1haW4ud3NkbO1dS3PjNhK+b9X+&#xD;&#xA;B5VyHnOcvWyp7EmlbCflir0zGU3i3LZoEpa5pgiGhCzp3y/Ah0SRANndJD22hdtwTDa6v6/x6m5A&#xD;&#xA;Zz9tluHkmSVpwKPz6enJx+mERR73g2hxPv3j2y8f/j396dM//3Hms4cgCoR8K50IN1kw8R93ydLY&#xD;&#xA;9dj5dJVEs414mq158vQQ8vV0IqVG6fn0UYh45jip98iWbnoi/zflbnzCk4WzTv3QKV6c7V9dr9cn&#xD;&#xA;639lb/z48eOp89ftzTz7unxVfQcXLJQWBvVm6pNuUerJmUoMJpMzsY1Zmv1TPkgB2TcTFrIli8Qv&#xD;&#xA;PFlesgd3FYrz6d8rNwweAuZPAXApgNOZx5dxyDbfZBuTSL59Pr3KBRd/T9nfK8kNy5/caDuJE+6x&#xD;&#xA;NL3gkZCvSUtDdzN11N+dw9edA+m5gELroqm51FI0FdG1XH64dDefPW+VyHZPp5NlEFWecqGpVE56&#xD;&#xA;jOBPLJI4SHny/2apSKR35XqipInkrkDs2teL6zTb2TVoBOGrpEl6OesCw6G08MVddUt+7zBnIIwK&#xD;&#xA;81zw+NhRVhiMCvJvQRgeO8gKg1FBlsLtyLyDYVSoL0LmRqujHzcKGMYdn4PlKnTF0c+EJQ6jgn3n&#xD;&#xA;PjHr1jkKLwD0Nzd9evNgI8Upm699+bra8iSDiPzZE8FzILZq3zSiQyjNX2ICP0avGJ3CCrajcngp&#xD;&#xA;H7NBWm7tLYkDk1gFd1QWrzbMW72DNQdG3H2xwpAK3nK/QuA952qdR5D4G2Nx0RUGkHbDF/PfbwyS&#xD;&#xA;enpWQTjUqbC6x+rVu11MMbdAROmsDNsNaMN1JEc6KeJ1O69aAIitEQrruDTSdw7cDWz+/a9M/OmG&#xD;&#xA;gZ/B98VN5H8KlqSv23m+z6q0J1MGpEcbcny+LKL9Yw04X1kcbq2n9BZZ77S9hF088sAbaw0t+R45&#xD;&#xA;GC/X6HeBeDzSkUi9WTF9pH6rQflFQniW2LGJ1QI9Lrexu44ssWMT20R5tHVDWK4lq/AE4xlytTkq&#xD;&#xA;h6nsVgbYW3w397vavGEHPCqHy11EeI+jesfb9IYvPBVXzyw62lDtMFuixI3S4HBEG3k+RY24Fxmr&#xD;&#xA;whQZGsqHRl1n/crEDV8Eb3/o6h9FyXAYcbzRjTMoEdLcnKveeCpRF+koQM7fi0MhxbUwMxCi41Ye&#xD;&#xA;Jcvb1EuW31gqrpcxT0Q5lP/3z9PXzWUQ1WedoVcireCMTctn7ltScNCMTcn8wfcsJ0hsxg0XMSHb&#xD;&#xA;vnSFe7somr7aCBYp9I6dlDZsxlru8JXoNAuH0gO/TRcD7AOShCdGSUMifbV5X16IEZefNypPTb2A&#xD;&#xA;W9fAtm49mlt/ZUsuWLjNa6b89+PfLwHSW/HLl3OnsvRO4fV+fOlVj5VayK1n5jDdsXu2sQtICCzW&#xD;&#xA;ZaSwhLn+fJU8s23Rg1+1r7gje0odjbFchEVJIBvwx/Z8n6VeEtyzu/nlzetmdu2n4R9fb0bx8SoK&#xD;&#xA;YzGaBlJQdlvBZdZaXE37DE3rgkUscQWbf/75y4Uq7X3V1LpxcOGG4XfAZSyyC4sGqytQr2fjzafs&#xD;&#xA;igxHSc3vyDhbSircBTMY+Hkl8ms15Juxm5Q4xJVEYdFMrmQbQJkQR0kptCia1ulRHHC9jlCtV04H&#xD;&#xA;YxorSrmxtmqOLqBMbIuZYw3vSk5gFDOsZpAqtSwVUcpoK+uwuhjrIDGq1H0bqYRuTEUh0awFwsKg&#xD;&#xA;Lxmk0EEkYNA+gu2v4CQVRsPqyTisQqZTdZj2i+OVSD4qN1ag2BccOySXt7xgmilLDZBNVSs1kE5m&#xD;&#xA;zMngx+HW1FfP/o51sI7qVYw22X1A2PYblwgRPBvbpuYWEkyr+xPn2Ib1Z9UpgyuaZs0NFYT1z67e&#xD;&#xA;D+fzmtOPyNVGd1gYjQg21kwd8pFY1Q+p9xwPrjYDjAiHBcVk6rRBU/yaERD4RoNGAmkQUEyu1weX&#xD;&#xA;tvwSWdHea/3W4gLcGoMw6DcuBcRNNHG4RS+gihOY+LkF2dL+ZiBMU/U4IxbQtjglms1+mxb9yUT0&#xD;&#xA;2gXZ7O4SSHKXqmXc+3QpTaUEUq1sYUyYRRt1lcPOD73m9c40XZ8Og6RLl+WgLTtJw0N5cxFy22Mq&#xD;&#xA;D8TvetpqMAmLfsr623DREHLjqbspAKsJ4MIB9PyER6N2ZBzTYjWfgW3YlAvB9wbaBqxHONbkxIRA&#xD;&#xA;E6TwdqiZpdcg2lIX1nOeJ63hhglWzAkhsTklIFYZc2gROMrArUJqeHA5vWfkWRV0L2jeUdojKEFM&#xD;&#xA;zjSu58EuHcszZujQl+5wGnIuIi3adOe00DtmSmJhmMwONfY10MChC4/0z7LkJ+2Rs5ExkEyYjkBn&#xD;&#xA;Dki9k9IpsY2pC7yRLZX3ng+w+sNnIUz3emFtxhJdv+icskfEb1NJOZe2iFGv9UxLCR5SP132mqBa&#xD;&#xA;V2EgdV2OJKpeqEWaBLExlOoh//YGFTyqdKUQWf7qyi0Tj9xP59zdR8B4rNLoEsXqYq/8q/x7EMUr&#xD;&#xA;MSmkV9Z2FeWd7J39J3wl9N9U+Xbyt/aPpR4mxQ5CSHrF6pEpiGKNTBxasWpO1gTYQaIXhtfhqhSt&#xD;&#xA;VXXI1mtVmwcgWtWHUbRWtUy5XrFmEh6imybBiVavVvGkV69ZTAVRT7Psx3tare7D4G3NohKQx2nS&#xD;&#xA;pWgND8Prev0acXuIds0YBlG36haxTb/aJhSuYz3YRu0j3Yrqt8uIvtJbVV0CVq+rIcsLUdZUE4TW&#xD;&#xA;trZe1ivaXIpDdNTUPFLVq2f+O9RsFBkg1NVFA9Bqd6zQ9ep3bw4gZgACzITeV0lFmvrdYYYT1uNq&#xD;&#xA;UWfCMsOYuWtZphmTheBFmzmgQJ6/UFZ0Vaxi5rYhbTFXfxoMaS04BVnRXsI2hAn70ArYiIOIDtGM&#xD;&#xA;w8obmiEAxSmK9tuz1Ldshn2LZkcI2rvowqmUAfwg6GAcsesRDeAQ3Yi74vkFaaiJuYBYHkJD0IkB&#xD;&#xA;w3YCeHABtMmAFnhTDOxKShvNA+TFgcZBUooU0zqrjI22QUqdgcaBItSUvtNZTGbsT5CKNmAfA8Un&#xD;&#xA;+1lnqOsBWGcuLkJb15JN7mddV6EiwExA/STaXkiNcT/DWytXAVZ3ldKiTe6svaLY23a6y2hkx8Ey&#xD;&#xA;oGVdoXm0OabyLb0dLbViEAPaajPRmuvi+nqtDckDiMameiC0tqYzcHqNWw7cQbRuO8varvmZU+Yj&#xD;&#xA;8sf7IPKDaNGSnKic023LXajfqZ+V0lKxDRWD3FtlB3snQl3nq1pu/cH77Lfu1d+zk8D63lkLWWfN&#xD;&#xA;7l9Sj2q25tH5tPob9z/k3zUUc2os7R53FnF/O1ml8pswkLsjN5xOWORxZeU8l9VlT/m6U21MT/KL&#xD;&#xA;td433wNFPf/Ook5DvZbMgru6/MxiTsO8lqqDYp59ZjGnYd5MREJhL7+0yNOQb+ZYociXX1rkachr&#xD;&#xA;0sfg8b381GJPw76RGIciX3xoce+Dey2XjsM++9jiT8NfX8yAnGstAz0YMNRoQCk4+NxyQOOgWXkC&#xD;&#xA;hb/80iLfC3lNUQ2SgZ0EywSNie46ISgjJkmWGRoz9ZIn+OysvrOo01Bvr+dCxZhrUiwjREa6ytOw&#xD;&#xA;u2XLyzC8tJbagUnRSLGMDMbIQeVgD06kHMtKD1aoLFjUiajrajyhyO+/tejT0NcUryK2EcWPaFrs&#xD;&#xA;aeMNHfu5xb5nFg1YcAwlpF2eZYnMEqBqGsGRUZpliMwQpPgbQZFZnOWIxhGwhB0x95jFWY4G4Mhc&#xD;&#xA;iE/iqC7OcjQAR4DjBCSyjHItawOw1nUWgkSZXqjli8xXx1kOBElaSZYZGjMtx1KglDREWC5oXBgO&#xD;&#xA;2kB5OPjcckDjoOX4EJSHhgjLBYCLM6c4tJQ/pSx5Drzysra/xNNdAe/uoJMa/9uOSxXiOk9MlVa7&#xD;&#xA;vp+wNJ2E3HNzVpWVqTQzXrgflk/iQyrcBTs98dxl7AaL6MT1+T078fjSiULnf2mc2Z5IK1lyIh/3&#xD;&#xA;h6eys16FlYVhn9RPJvrsIYgC1Zj6pcT/A1BLBwjSIpcUfwsAAIW1AABQSwECFAAUAAgICACSUY5K&#xD;&#xA;0iKXFH8LAACFtQAACQAAAAAAAAAAAAAAAAAAAAAAbWFpbi53c2RsUEsFBgAAAAABAAEANwAAALYL&#xD;&#xA;AAAAAHGa48M=&#xD;&#xA;" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tESBConsumer_1">
       <column defaultValue="" key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
@@ -287,21 +317,134 @@
       <column defaultValue="" key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
     </metadata>
     <metadata connector="FAULT" name="FAULT">
-      <column defaultValue="" key="false" length="1024" name="faultCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="1024" name="faultString" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="1024" name="faultActor" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="1024" name="faultNode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column defaultValue="" key="false" length="1024" name="faultRole" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultString" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultActor" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultNode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultRole" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="0" name="faultDetail" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tXMLMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="704" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tXMLMap_2" show="false"/>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false" show="false"/>
+    <elementParameter field="CHECK" name="KEEP_ORDER_FOR_DOCUMENT" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="out1" name="out1">
+      <column comment="" key="false" length="-1" name="StartResult" nullable="true" precision="-1" sourceType="id_String" type="id_String" usefulColumn="true"/>
+    </metadata>
+    <nodeData xsi:type="TalendXMLMap:XmlMapData">
+      <inputTrees name="row1" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+        <nodes name="payload" expression="" type="id_Document" xpath="row1/payload">
+          <children name="tns:StartResponse" expression="" type="id_String" xpath="row1.payload:/tns:StartResponse" main="true">
+            <children name="tns" type="id_String" xpath="row1.payload:/tns:StartResponse/xmlns:tns" nodeType="NAME_SPACE" defaultValue="urn:xtk:workflow"/>
+            <children name="StartResult" type="id_String" outgoingConnections="//@node.6/@nodeData/@connections.0" xpath="row1.payload:/tns:StartResponse/StartResult" loop="true" main="true"/>
+          </children>
+        </nodes>
+      </inputTrees>
+      <outputTrees name="out1">
+        <nodes name="StartResult" expression="[row1.payload:/tns:StartResponse/StartResult]" type="id_String" incomingConnections="//@node.6/@nodeData/@connections.0" xpath="out1/StartResult"/>
+      </outputTrees>
+      <varTables name="Var" minimized="true"/>
+      <connections xsi:type="TalendXMLMap:Connection" source="//@node.6/@nodeData/@inputTrees.0/@nodes.0/@children.0/@children.1" target="//@node.6/@nodeData/@outputTrees.0/@nodes.0"/>
+    </nodeData>
+  </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="864" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="StartResult"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="Response"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="out1" name="tLogRow_1">
+      <column comment="" key="false" length="-1" name="StartResult" nullable="true" precision="-1" sourceType="id_String" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="704" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_2" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="true"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="false"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultCode"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultString"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultActor"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultNode"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultRole"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="faultDetail"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="Error"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tLogRow_2">
+      <column key="false" length="1024" name="faultCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultString" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultActor" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultNode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column key="false" length="1024" name="faultRole" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="0" name="faultDetail" nullable="true" precision="0" sourceType="" type="id_Document" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFTPConnection_1" offsetLabelX="0" offsetLabelY="0" source="tFTPConnection_1" target="tJavaFlex_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
-  <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="0" offsetLabelY="0" source="tFileList_1" target="tFTPPut_1">
-    <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
-    <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1" show="false"/>
+  <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tFixedFlowInput_1" offsetLabelX="0" offsetLabelY="0" source="tFixedFlowInput_1" target="tXMLMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="session_token"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="workflow_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="Start_Session" lineStyle="0" metaname="Start_Session" offsetLabelX="0" offsetLabelY="0" source="tXMLMap_1" target="tESBConsumer_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="Start_Session" show="false"/>
+  </connection>
+  <connection connectorName="RESPONSE" label="row1" lineStyle="0" metaname="RESPONSE" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tESBConsumer_1" target="tXMLMap_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
+  </connection>
+  <connection connectorName="FAULT" label="row2" lineStyle="0" metaname="FAULT" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tESBConsumer_1" target="tLogRow_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tXMLMap_2" target="tLogRow_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="out1" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFTPConnection_1" show="false"/>
@@ -314,12 +457,12 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileList_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFTPPut_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tESBConsumer_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
