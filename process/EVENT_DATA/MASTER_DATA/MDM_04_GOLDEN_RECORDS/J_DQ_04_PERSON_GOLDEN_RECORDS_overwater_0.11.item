@@ -410,14 +410,14 @@
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="group_identifier" expression="row6.group_identifier " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" expression="dedup_physical_person_consolidation.gender_norm == null || dedup_physical_person_consolidation.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="dedup_physical_person_consolidation.firstname_norm == null || dedup_physical_person_consolidation.firstname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.firstname_norm&#xD;&#xA;" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="dedup_physical_person_consolidation.lastname_norm == null || dedup_physical_person_consolidation.lastname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.lastname_norm&#xD;&#xA;&#xD;&#xA;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_date" expression="(dedup_physical_person_consolidation.birth_date != null &amp;&amp; !&quot;&quot;.equals(dedup_physical_person_consolidation.birth_date)) ? &#xD;&#xA;&#x9;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,dedup_physical_person_consolidation.birth_date)&#xD;&#xA;:&#xD;&#xA;&#x9;null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="(dedup_physical_person_consolidation.birth_date != null &amp;&amp; !&quot;&quot;.equals(dedup_physical_person_consolidation.birth_date) &amp;&amp; dedup_physical_person_consolidation.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))!=0) ? &#xD;&#xA;&#x9;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,dedup_physical_person_consolidation.birth_date)&#xD;&#xA;:&#xD;&#xA;&#x9;null " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row6.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="Synaltic_RM.getPersonType(row6.meta_application_name) " type="id_String"/>
         <mapperTableEntries name="online_offline" expression="Synaltic_RM.isOnlineOrOffline(row6.meta_application_name) " type="id_String" nullable="true"/>
@@ -517,7 +517,7 @@
       <elementValue elementRef="RELATION" value="SEQ"/>
       <elementValue elementRef="RULE_NAME" value="&quot;4_birthDate&quot;"/>
       <elementValue elementRef="INPUT_COLUMN" value="birth_date"/>
-      <elementValue elementRef="FUNCTION" value="MostCommon"/>
+      <elementValue elementRef="FUNCTION" value="MostAncient"/>
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="birth_date"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
@@ -537,14 +537,14 @@
       <elementValue elementRef="IGNORE_NULL" value="true"/>
     </elementParameter>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_c6RosBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="5_Prosp" value="_dHuO0BuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="6_Online" value="_dju1YBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="4_birthDate" value="_d7spcBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="2_Lastname" value="_eWE4UBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="3_Gender" value="_eo1cQBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="1_Firstname" value="_e9I4UBuOEeeg7vyToehyVA" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="SurvivorFlow" value="_fPDuwBuOEeeg7vyToehyVA" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_XbjVsCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="5_Prosp" value="_XrLtICQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="6_Online" value="_YeZ50CQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="4_birthDate" value="_ZKdukCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="2_Lastname" value="_Z8qAgCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="3_Gender" value="_aqmEkCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="1_Firstname" value="_b4lhsCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="SurvivorFlow" value="_clbZkCQfEee1XdgH7RCp6Q" show="false"/>
     <metadata connector="FLOW" name="tRuleSurvivorship_1">
       <column comment="" key="false" length="-1" name="group_identifier" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -602,7 +602,7 @@
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="master_physical_person">
         <mapperTableEntries name="master_gid" expression="row4.group_identifier.split(&quot;_&quot;)[1] " type="id_String" nullable="true"/>
@@ -1002,7 +1002,7 @@
       <elementValue elementRef="RELATION" value="SEQ"/>
       <elementValue elementRef="RULE_NAME" value="&quot;4_birthDate&quot;"/>
       <elementValue elementRef="INPUT_COLUMN" value="birth_date"/>
-      <elementValue elementRef="FUNCTION" value="MostCommon"/>
+      <elementValue elementRef="FUNCTION" value="MostAncient"/>
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="birth_date"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
