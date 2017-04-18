@@ -411,13 +411,15 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="birth_date" expression="(dedup_physical_person_consolidation.birth_date != null &amp;&amp; !&quot;&quot;.equals(dedup_physical_person_consolidation.birth_date) &amp;&amp; dedup_physical_person_consolidation.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))!=0) ? &#xD;&#xA;&#x9;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,dedup_physical_person_consolidation.birth_date)&#xD;&#xA;:&#xD;&#xA;&#x9;null " type="id_Date"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1">
         <mapperTableEntries name="group_identifier" expression="row6.group_identifier " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_norm" expression="dedup_physical_person_consolidation.gender_norm == null || dedup_physical_person_consolidation.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.gender_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" expression="dedup_physical_person_consolidation.firstname_norm == null || dedup_physical_person_consolidation.firstname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.firstname_norm&#xD;&#xA;" type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="dedup_physical_person_consolidation.lastname_norm == null || dedup_physical_person_consolidation.lastname_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.lastname_norm&#xD;&#xA;&#xD;&#xA;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_date" expression="(dedup_physical_person_consolidation.birth_date != null &amp;&amp; !&quot;&quot;.equals(dedup_physical_person_consolidation.birth_date) &amp;&amp; dedup_physical_person_consolidation.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))!=0) ? &#xD;&#xA;&#x9;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,dedup_physical_person_consolidation.birth_date)&#xD;&#xA;:&#xD;&#xA;&#x9;null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_date" expression="Var.birth_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row6.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="Synaltic_RM.getPersonType(row6.meta_application_name) " type="id_String"/>
         <mapperTableEntries name="online_offline" expression="Synaltic_RM.isOnlineOrOffline(row6.meta_application_name) " type="id_String" nullable="true"/>
