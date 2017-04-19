@@ -725,16 +725,20 @@
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
-      <varTables sizeState="INTERMEDIATE" name="Var"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="gender" expression="dedup_physical_person_consolidation.gender_norm == null || dedup_physical_person_consolidation.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.gender_norm " type="id_String"/>
+        <mapperTableEntries name="pros_cl_siv" expression="Synaltic_RM.getPersonType(row6.meta_application_name) " type="id_String"/>
+        <mapperTableEntries name="on_off" expression="Synaltic_RM.isOnlineOrOffline(row6.meta_application_name) " type="id_String"/>
+      </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1">
-        <mapperTableEntries name="gender_norm" expression="dedup_physical_person_consolidation.gender_norm " type="id_String"/>
+        <mapperTableEntries name="gender_norm" expression="Var.gender " type="id_String"/>
         <mapperTableEntries name="firstname_norm" expression="dedup_physical_person_consolidation.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="dedup_physical_person_consolidation.lastname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="dedup_physical_person_consolidation.birth_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row6.grp_size " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="group_identifier" expression="row6.group_identifier " type="id_String" nullable="true"/>
-        <mapperTableEntries name="prospect_client_siv" expression="Synaltic_RM.getPersonType(row6.meta_application_name) " type="id_String"/>
-        <mapperTableEntries name="online_offline" expression="Synaltic_RM.isOnlineOrOffline(row6.meta_application_name) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="prospect_client_siv" expression="Var.pros_cl_siv " type="id_String"/>
+        <mapperTableEntries name="online_offline" expression="Var.on_off " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="dedup_physical_person_consolidation" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" type="id_String" nullable="true"/>
@@ -824,7 +828,7 @@
       <elementValue elementRef="RELATION" value="SEQ"/>
       <elementValue elementRef="RULE_NAME" value="&quot;3_Gender&quot;"/>
       <elementValue elementRef="INPUT_COLUMN" value="gender_norm"/>
-      <elementValue elementRef="FUNCTION" value="MostCommon"/>
+      <elementValue elementRef="FUNCTION" value="Longest"/>
       <elementValue elementRef="VALUE" value="&quot;&quot;"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="gender_norm"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
@@ -851,14 +855,14 @@
       <elementValue elementRef="IGNORE_NULL" value="true"/>
     </elementParameter>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_4xwFYCQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="5_Prosp" value="_5CU4ACQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="6_Online" value="_51_woCQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="4_birthDate" value="_6kU2QCQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="2_Lastname" value="_7RVtQCQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="3_Gender" value="_729i0CQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="1_Firstname" value="_8dLOQCQfEee1XdgH7RCp6Q" show="false"/>
-    <elementParameter field="SURVIVOR_RELATION" name="SurvivorFlow" value="_9NcNkCQfEee1XdgH7RCp6Q" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="drools" value="_TbVYwCT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="5_Prosp" value="_VSr78CT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="6_Online" value="_V8npwCT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="4_birthDate" value="_Wg1xICT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="2_Lastname" value="_XLG2ICT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="3_Gender" value="_XwL5ICT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="1_Firstname" value="_YTFK0CT0Eee4HKlkzUirCQ" show="false"/>
+    <elementParameter field="SURVIVOR_RELATION" name="SurvivorFlow" value="_Y6P4gCT0Eee4HKlkzUirCQ" show="false"/>
     <metadata connector="FLOW" name="tRuleSurvivorship_1">
       <column comment="" key="false" length="100" name="gender_norm" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="firstname_norm" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
