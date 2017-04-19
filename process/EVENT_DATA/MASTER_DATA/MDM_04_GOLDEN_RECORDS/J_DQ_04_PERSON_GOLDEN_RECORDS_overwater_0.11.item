@@ -850,7 +850,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;d.meta_id_source,&#xD;&#xA;d.grp_size,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;order by   d.master_gid, d.meta_brand_source&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct&#xD;&#xA;d.master_gid,&#xD;&#xA;d.meta_brand_source,&#xD;&#xA;d.meta_application_name,&#xD;&#xA;d.meta_id_source,&#xD;&#xA;d.gid_member,&#xD;&#xA;d.grp_size,&#xD;&#xA;n.gender_norm ,&#xD;&#xA;n.firstname_norm, &#xD;&#xA;n.lastname_norm, &#xD;&#xA;n.birth_date&#xD;&#xA;from dedup_physical_person_consolidation d &#xD;&#xA;inner join public.norm_physical_person_name n&#xD;&#xA;using (meta_brand_source,meta_application_name,meta_id_source)&#xD;&#xA;where d.master_gid in (select master_gid from dedup_physical_person_consolidation dc&#xD;&#xA;inner join physical_person pp using (meta_brand_source, meta_application_name,meta_id_source)&#xD;&#xA;where pp.to_consume is true &#xD;&#xA;and pp.to_deduplicate is true &#xD;&#xA;and pp.to_consolidate is true&#xD;&#xA;AND pp.to_golden_constitute is true&#xD;&#xA;AND pp.to_send_to_elk is false)&#xD;&#xA;order by   d.master_gid, d.meta_brand_source&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -868,6 +868,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_application_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="gid_member"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="grp_size"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -889,6 +891,7 @@
       <column comment="" key="false" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_application_name" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="meta_id_source" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="gid_member" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="grp_size" nullable="true" pattern="" precision="-1" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="gender_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="firstname_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -933,6 +936,7 @@
         <mapperTableEntries name="meta_brand_source" type="id_String"/>
         <mapperTableEntries name="meta_application_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_id_source" type="id_String" nullable="true"/>
+        <mapperTableEntries name="gid_member" type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="gender_norm" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname_norm" type="id_String" nullable="true"/>
@@ -1226,6 +1230,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="meta_id_source"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="gid_member"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
@@ -1359,6 +1366,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="meta_id_source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="gid_member"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
