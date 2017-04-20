@@ -168,7 +168,7 @@
     <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="true"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
     <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="true"/>
-    <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/svanotti/Synaltic/Projets/PGA/TALEND/Talend-Studio-20151214_1327-V6.1.1/workspace/.metadata&quot;" show="false"/>
     <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;" show="false"/>
@@ -726,12 +726,11 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="gender" expression="dedup_physical_person_consolidation.gender_norm == null || dedup_physical_person_consolidation.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : dedup_physical_person_consolidation.gender_norm " type="id_String"/>
         <mapperTableEntries name="pros_cl_siv" expression="Synaltic_RM.getPersonType(row6.meta_application_name) " type="id_String"/>
         <mapperTableEntries name="on_off" expression="Synaltic_RM.isOnlineOrOffline(row6.meta_application_name) " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1">
-        <mapperTableEntries name="gender_norm" expression="Var.gender " type="id_String"/>
+        <mapperTableEntries name="gender_norm" expression="dedup_physical_person_consolidation.gender_norm " type="id_String"/>
         <mapperTableEntries name="firstname_norm" expression="dedup_physical_person_consolidation.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="dedup_physical_person_consolidation.lastname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="dedup_physical_person_consolidation.birth_date " type="id_Date" nullable="true"/>
@@ -919,7 +918,7 @@
       <column key="false" length="255" name="CONFLICT" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="master_physical_person">
         <mapperTableEntries name="master_gid" expression="row4.group_identifier.split(&quot;_&quot;)[1] " type="id_String" nullable="true"/>
@@ -1154,11 +1153,12 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="birth_date" expression="(row8.birth_date != null &amp;&amp; !&quot;&quot;.equals(row8.birth_date) &amp;&amp; row8.birth_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))!=0) ? row8.birth_date : null " type="id_Date"/>
+        <mapperTableEntries name="gender" expression="row8.gender_norm == null || row8.gender_norm.equals(&quot;N/A&quot;) ? &quot;&quot; : row8.gender_norm " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="copyOfout1" expressionFilter="Numeric.sequence(row8.meta_brand_source +&quot;_&quot;+  row8.meta_application_name +&quot;_&quot;+  row8.meta_id_source ,1,1)  == 1" activateExpressionFilter="true">
         <mapperTableEntries name="group_identifier" expression="row8.master_gid " type="id_String" nullable="true"/>
         <mapperTableEntries name="grp_size" expression="row8.grp_size " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="gender_norm" expression="row8.gender_norm " type="id_String"/>
+        <mapperTableEntries name="gender_norm" expression="Var.gender " type="id_String"/>
         <mapperTableEntries name="firstname_norm" expression="row8.firstname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="lastname_norm" expression="row8.lastname_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="Var.birth_date " type="id_Date" nullable="true"/>
@@ -1302,7 +1302,7 @@
       <column defaultValue="" key="false" length="0" name="SURVIVOR" nullable="true" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="copyOfmaster_physical_person" expressionFilter="row12.SURVIVOR ==true " activateExpressionFilter="true">
         <mapperTableEntries name="master_gid" expression="row12.group_identifier" type="id_String" nullable="true"/>
