@@ -420,8 +420,8 @@
       <column comment="" key="false" length="255" name="transaction_type" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="registration_number" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="first_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="current_registration_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="registration_end_date" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="registration_end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="is_definitive_registration" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata" name="REJECT">
@@ -499,6 +499,7 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="family" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -535,6 +536,7 @@
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="argus_family" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -655,6 +657,7 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="30" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Date" originalLength="30" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -675,7 +678,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vehicle" minimized="true" expressionFilter="row2.id_vehicle != null &amp;&amp; !&quot;0&quot;.equals(row2.id_vehicle.trim()) &amp;&amp; !&quot;&quot;.equals(row2.id_vehicle.trim())" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="row2.src_application_brand " type="id_String"/>
@@ -685,6 +688,7 @@
         <mapperTableEntries name="meta_consumed" expression="false" type="id_Boolean"/>
         <mapperTableEntries name="meta_id_source" expression="row2.id_vehicle " type="id_String"/>
         <mapperTableEntries name="brand" expression="row2.brand " type="id_String" nullable="true"/>
+        <mapperTableEntries name="family" expression="row2.family " type="id_String" nullable="true"/>
         <mapperTableEntries name="model" expression="row2.model " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="row2.version " type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="row2.kind " type="id_String" nullable="true"/>
@@ -697,6 +701,7 @@
         <mapperTableEntries name="origin_country_code" expression="row2.origin_country_code" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="row2.last_mileage_known" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="argus_brand" expression="row2.argus_brand" type="id_String" nullable="true"/>
+        <mapperTableEntries name="argus_family" expression="row2.argus_family " type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" expression="row2.argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" expression="row2.argus_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_kind" expression="row2.argus_kind" type="id_String" nullable="true"/>
@@ -716,7 +721,7 @@
         <mapperTableEntries name="to_send_to_elk" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="to_normalize" expression="false" type="id_Boolean" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link" expressionFilter="row2.id_vehicle != null &amp;&amp;  !&quot;0&quot;.equals(row2.id_vehicle.trim()) &amp;&amp; !&quot;&quot;.equals(row2.id_vehicle.trim())" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="vehicle_person_link" minimized="true" expressionFilter="row2.id_vehicle != null &amp;&amp;  !&quot;0&quot;.equals(row2.id_vehicle.trim()) &amp;&amp; !&quot;&quot;.equals(row2.id_vehicle.trim())" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="row2.src_application_brand " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row2.src_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="TalendDate.getCurrentDate()" type="id_Date"/>
@@ -735,7 +740,7 @@
         <mapperTableEntries name="meta_process_type" expression="row2.process_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_process_uuid" expression="row2.process_uuid " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="vehicle_registration" minimized="true" expressionFilter="row2.id_vehicle != null &amp;&amp;  !&quot;0&quot;.equals(row2.id_vehicle.trim()) &amp;&amp; !&quot;&quot;.equals(row2.id_vehicle.trim())" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="vehicle_registration" expressionFilter="row2.id_vehicle != null &amp;&amp;  !&quot;0&quot;.equals(row2.id_vehicle.trim()) &amp;&amp; !&quot;&quot;.equals(row2.id_vehicle.trim())" activateExpressionFilter="true">
         <mapperTableEntries name="meta_brand_source" expression="row2.src_application_brand " type="id_String"/>
         <mapperTableEntries name="meta_application_name" expression="row2.src_application_name " type="id_String"/>
         <mapperTableEntries name="meta_creation_date" expression="TalendDate.getCurrentDate()" type="id_Date"/>
@@ -745,7 +750,8 @@
         <mapperTableEntries name="id_vehicle" expression="row2.id_vehicle " type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_number" expression="row2.registration_number " type="id_String"/>
         <mapperTableEntries name="registration_date" expression="row2.first_registration_date " type="id_Date" nullable="true"/>
-        <mapperTableEntries name="end_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" expression="row2.current_registration_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="end_date" expression="row2.registration_end_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" expression="row2.is_definitive_registration " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="creation_date" expression="row2.src_process_moment " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row2.src_process_moment " type="id_Date" nullable="true"/>
@@ -786,8 +792,8 @@
         <mapperTableEntries name="transaction_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="registration_number" type="id_String" nullable="true"/>
         <mapperTableEntries name="first_registration_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="current_registration_date" type="id_String" nullable="true"/>
-        <mapperTableEntries name="registration_end_date" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_registration_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="registration_end_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="is_definitive_registration" type="id_Boolean" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -859,6 +865,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="family"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -915,6 +926,11 @@
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="argus_brand"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="argus_family"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -1038,6 +1054,7 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1074,6 +1091,7 @@
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="argus_family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1139,6 +1157,7 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1175,6 +1194,7 @@
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="argus_family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1288,6 +1308,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="family"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="model"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1344,6 +1369,11 @@
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="argus_brand"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="argus_family"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -1408,6 +1438,36 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_consume"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_deduplicate"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_consolidate"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_golden_constitute"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_send_to_elk"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="to_normalize"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -1437,6 +1497,7 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1473,6 +1534,7 @@
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="argus_family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1509,6 +1571,12 @@
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="to_consume" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_deduplicate" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_consolidate" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_golden_constitute" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_send_to_elk" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_normalize" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vehicle" name="REJECT">
       <column comment="" key="true" length="100" name="meta_brand_source" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -1532,6 +1600,7 @@
       <column comment="" key="false" length="255" name="brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1568,6 +1637,7 @@
       <column comment="" key="false" length="255" name="argus_brand" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="50" name="argus_family" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="50" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="argus_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1604,6 +1674,12 @@
       <column comment="" key="false" length="40" name="meta_process_uuid" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="-1" name="to_consume" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_deduplicate" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_consolidate" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_golden_constitute" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_send_to_elk" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="to_normalize" nullable="true" pattern="" precision="-1" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2135,6 +2211,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="current_registration_date"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="end_date"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -2200,6 +2281,7 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="30" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="30" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2247,6 +2329,7 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="30" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="30" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2346,6 +2429,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="current_registration_date"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="end_date"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -2411,6 +2499,7 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="30" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="30" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2458,6 +2547,7 @@
       <column comment="" key="false" length="29" name="registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="30" name="current_registration_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" originalLength="30" usefulColumn="true"/>
       <column comment="" key="false" length="29" name="end_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2568,6 +2658,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="to_normalize"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="argus_family"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="family"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle" show="false"/>
@@ -2585,6 +2681,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle_person_link" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="vehicle_registration" lineStyle="0" metaname="vehicle_registration" offsetLabelX="0" offsetLabelY="0" outputId="3" source="tMap_1" target="tPostgresqlOutput_5">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="current_registration_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vehicle_registration" show="false"/>
   </connection>
