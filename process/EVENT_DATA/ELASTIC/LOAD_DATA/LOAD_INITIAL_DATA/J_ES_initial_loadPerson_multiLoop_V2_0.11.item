@@ -1008,6 +1008,7 @@
       <column comment="" key="false" length="255" name="address_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="prospect_client_siv" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="online_offline" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1060,6 +1061,7 @@
         <mapperTableEntries name="address_type" expression="address.address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" expression="address.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" expression=" address.update_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" expression="address.norm_indicator " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" expression="out7.prospect_client_siv " type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" expression="out7.online_offline " type="id_String" nullable="true"/>
       </outputTables>
@@ -1110,6 +1112,7 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" type="id_String" nullable="true"/>
         <globalMapKeysValues name="&quot;brand_source&quot;" expression="out7.META_ID.substring(0,out7.META_ID.indexOf(&quot;_&quot;)) "/>
         <globalMapKeysValues name="&quot;application_name&quot;" expression="out7.meta_application_name "/>
         <globalMapKeysValues name="&quot;id_source&quot;" expression="out7.meta_id_source "/>
@@ -1141,7 +1144,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;ad1.meta_brand_source, &#xD;&#xA;ad1.meta_application_name, &#xD;&#xA;ad1.meta_id_source, &#xD;&#xA;ad1.id_physical_person, &#xD;&#xA;ad1.id_organization_user, &#xD;&#xA;ad1.street_number_short, &#xD;&#xA;ad1.street_number_long, &#xD;&#xA;ad1.routes_short, &#xD;&#xA;ad1.route_long, &#xD;&#xA;ad1.locality_short, &#xD;&#xA;ad1.locality_short_norm, &#xD;&#xA;ad1.locality_long, &#xD;&#xA;ad1.admarea1_short, &#xD;&#xA;ad1.admarea1_long, &#xD;&#xA;ad1.admarea2_short, &#xD;&#xA;ad1.admarea2_long, &#xD;&#xA;ad1.admarea3_short, &#xD;&#xA;ad1.admarea3_long, &#xD;&#xA;ad1.country_short, &#xD;&#xA;ad1.country_long, &#xD;&#xA;ad1.postal_code_short_norm, &#xD;&#xA;ad1.address, &#xD;&#xA;ad1.is_reachable, &#xD;&#xA;ad1.address_type,&#xD;&#xA;ad1.creation_date,&#xD;&#xA;ad1.update_date&#xD;&#xA;FROM norm_physical_person_address ad1&#xD;&#xA;where update_date = (select max(update_date) &#xD;&#xA;                   from norm_physical_person_address ad2&#xD;&#xA;                   where ad1.meta_application_name = ad2.meta_application_name&#xD;&#xA;                   and ad1.meta_brand_source = ad2.meta_brand_source&#xD;&#xA;                   and ad1.meta_id_source = ad2.meta_id_source)&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;ad1.meta_brand_source, &#xD;&#xA;ad1.meta_application_name, &#xD;&#xA;ad1.meta_id_source, &#xD;&#xA;ad1.id_physical_person, &#xD;&#xA;ad1.id_organization_user, &#xD;&#xA;ad1.street_number_short, &#xD;&#xA;ad1.street_number_long, &#xD;&#xA;ad1.routes_short, &#xD;&#xA;ad1.route_long, &#xD;&#xA;ad1.locality_short, &#xD;&#xA;ad1.locality_short_norm, &#xD;&#xA;ad1.locality_long, &#xD;&#xA;ad1.admarea1_short, &#xD;&#xA;ad1.admarea1_long, &#xD;&#xA;ad1.admarea2_short, &#xD;&#xA;ad1.admarea2_long, &#xD;&#xA;ad1.admarea3_short, &#xD;&#xA;ad1.admarea3_long, &#xD;&#xA;ad1.country_short, &#xD;&#xA;ad1.country_long, &#xD;&#xA;ad1.postal_code_short_norm, &#xD;&#xA;ad1.address, &#xD;&#xA;ad1.is_reachable, &#xD;&#xA;ad1.address_type,&#xD;&#xA;ad1.creation_date,&#xD;&#xA;ad1.update_date,&#xD;&#xA;ad1.norm_indicator&#xD;&#xA;FROM norm_physical_person_address ad1&#xD;&#xA;where update_date = (select max(update_date) &#xD;&#xA;                   from norm_physical_person_address ad2&#xD;&#xA;                   where ad1.meta_application_name = ad2.meta_application_name&#xD;&#xA;                   and ad1.meta_brand_source = ad2.meta_brand_source&#xD;&#xA;                   and ad1.meta_id_source = ad2.meta_id_source)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1203,6 +1206,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="creation_date"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="norm_indicator"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
@@ -1282,6 +1287,7 @@
       </column>
       <column comment="" key="false" length="-1" name="creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="sublocality_short" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="false">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1437,6 +1443,7 @@
       <column comment="" key="false" length="255" name="address_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="PHONE_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="phone_meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1500,6 +1507,7 @@
         <mapperTableEntries name="address_type" expression="out8.address_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" expression="out8.address_creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" expression="out8.address_update_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" expression="out8.norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" expression="&quot;1&quot;.equals(Var.test_null) ? context.ValeurFiltreDM : &quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" expression="phones.meta_application_name " type="id_String"/>
         <mapperTableEntries name="dealership" expression="out8.dealership" type="id_String" nullable="true"/>
@@ -1559,6 +1567,7 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_client_siv" type="id_String" nullable="true"/>
         <mapperTableEntries name="online_offline" type="id_String" nullable="true"/>
       </inputTables>
@@ -1702,6 +1711,7 @@
       <column comment="" key="false" length="255" name="address_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="PHONE_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="phone_meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="dealership" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1744,7 +1754,7 @@
         <mapperTableEntries name="creation_date" expression="out9.creation_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="language_code" expression="out9.language_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="ADDRESS_ID" expression="out9.ADDRESS_ID " type="id_String" nullable="true"/>
-        <mapperTableEntries name="address_meta_application_name" type="id_String"/>
+        <mapperTableEntries name="address_meta_application_name" expression="out9.address_meta_application_name " type="id_String"/>
         <mapperTableEntries name="postal_code_short_norm" expression="out9.postal_code_short_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="id_organization_user" expression="out9.id_organization_user " type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number_short" expression="out9.street_number_short " type="id_String" nullable="true"/>
@@ -1767,10 +1777,11 @@
         <mapperTableEntries name="address" expression="out9.address " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable" expression="out9.is_reachable " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="address_type" expression="out9.address_type " type="id_String" nullable="true"/>
-        <mapperTableEntries name="address_creation_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="address_creation_date" expression="out9.address_creation_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="address_update_date" expression="out9.address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" expression="out9.norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" expression="out9.PHONE_ID " type="id_String" nullable="true"/>
-        <mapperTableEntries name="phone_meta_application_name" type="id_String"/>
+        <mapperTableEntries name="phone_meta_application_name" expression="out9.phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="dealership" expression="out9.dealership" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_number_norm" expression="out9.phone_number_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" expression="out9.phone_type " type="id_String" nullable="true"/>
@@ -1779,8 +1790,8 @@
         <mapperTableEntries name="is_reachable_by_phone" expression="out9.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="hasCorrectCountryCode" expression="out9.hasCorrectCountryCode " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_valid" expression="out9.is_valid " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="phone_creation_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="phone_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="phone_creation_date" expression="out9.phone_creation_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="phone_update_date" expression="out9.phone_update_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="DIGITAL_DETAIL_ID" expression="&quot;1&quot;.equals(Var.test_null) ? context.ValeurFiltreDM : &quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="network_name" expression="row42.network_name " type="id_String"/>
         <mapperTableEntries name="id_profil" expression="row42.id_profil " type="id_String" nullable="true"/>
@@ -1831,6 +1842,7 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
@@ -1996,6 +2008,7 @@
       <column comment="" key="false" length="255" name="address_type" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="PHONE_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="phone_meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2072,6 +2085,7 @@
         <mapperTableEntries name="address_type" expression="out10.address_type " type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" expression="out10.address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" expression="out10.address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" expression="out10.norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" expression="out10.PHONE_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" expression="out10.phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="phone_number_norm" expression="out10.phone_number_norm " type="id_String" nullable="true"/>
@@ -2143,6 +2157,7 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="dealership" type="id_String" nullable="true"/>
@@ -2289,6 +2304,7 @@
       <column comment="" key="false" length="255" name="dealership_addr" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_creation_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="address_update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="norm_indicator" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="PHONE_ID" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="phone_meta_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="phone_number_norm" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2378,6 +2394,7 @@
         <mapperTableEntries name="dealership_addr" expression="out11.dealership" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" expression="out11.address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" expression="out11.address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" expression="out11.norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" expression="out11.PHONE_ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" expression="out11.phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="phone_number_norm" expression="org.apache.commons.lang3.StringEscapeUtils.escapeJson(out11.phone_number_norm)" type="id_String" nullable="true"/>
@@ -2459,6 +2476,7 @@
         <mapperTableEntries name="address_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_creation_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="address_update_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="norm_indicator" type="id_String" nullable="true"/>
         <mapperTableEntries name="PHONE_ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_meta_application_name" type="id_String"/>
         <mapperTableEntries name="phone_number_norm" type="id_String" nullable="true"/>
@@ -4546,6 +4564,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="address_update_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out8" show="false"/>
@@ -4556,6 +4577,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="update_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -4618,6 +4642,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="phone_creation_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out9" show="false"/>
@@ -4671,6 +4698,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="phone_creation_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -4751,6 +4781,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="phone_creation_date"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out11" show="false"/>
@@ -4807,6 +4840,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="phone_creation_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="norm_indicator"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
