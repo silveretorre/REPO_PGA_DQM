@@ -376,8 +376,8 @@
         <mapperTableEntries name="meta_id_source" expression="json.person_id  " type="id_String"/>
         <mapperTableEntries name="id_physical_person" expression="json.person_id  " type="id_String" nullable="true"/>
         <mapperTableEntries name="email" expression="json.email  " type="id_String" nullable="true"/>
-        <mapperTableEntries name="is_reachable" expression="( null != json.email_is_reachable &amp;&amp; !(&quot;&quot;.equals(json.email_is_reachable))) ? &#xD;&#xA;json.email_is_reachable&#xD;&#xA;: false  " type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="email_type" expression="( null != json.email_type  &amp;&amp; !(&quot;&quot;.equals(json.email_type ))) ? &#xD;&#xA;json.email_type &#xD;&#xA;: &quot;PERSO&quot;  " type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_reachable" expression="json.email_is_reachable " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="email_type" expression="( null == json.email_type || (&quot;&quot;.equals(json.email_type))) ? &quot;PERSO&quot;&#xD;&#xA;: json.email_type " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="json" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="src_application_name" type="id_String"/>
@@ -442,15 +442,15 @@
       <elementValue elementRef="UPDATABLE" value="false"/>
       <elementValue elementRef="INSERTABLE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="email"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="UPDATE_KEY" value="true"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="UPDATABLE" value="false"/>
+      <elementValue elementRef="INSERTABLE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="is_reachable"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="email_type"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
