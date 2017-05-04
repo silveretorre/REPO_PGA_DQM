@@ -303,9 +303,9 @@
       <column comment="" key="false" length="-1" name="IdVehiculeCourant4" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="code_dealership" expression="(row2.dealership_id.indexOf(&quot;[&quot;)==-1)? row2.dealership_id :  ((row1.lead_source != null &amp;&amp; !&quot;&quot;.equals(row1.lead_source)) &amp;&amp; (!&quot;AUTOLEAD&quot;.equals(row1.meta_app_name) || !&quot;Site Concession&quot;.equals(row1.lead_source)))? &quot;AFR001&quot; :  row1.CodeConcession " type="id_String"/>
+        <mapperTableEntries name="code_dealership" expression="(param_auto_campaign.dealership_id.indexOf(&quot;[&quot;)==-1)? param_auto_campaign.dealership_id :  &#xD;&#xA;((row1.lead_source != null &amp;&amp; !&quot;&quot;.equals(row1.lead_source)) &amp;&amp; (!&quot;AUTOLEAD&quot;.equals(row1.meta_app_name) || (row1.lead_source != null &amp;&amp; !&quot;Site Concession&quot;.equals(row1.lead_source))))? &quot;AFR001&quot; :  row1.CodeConcession " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter=" Numeric.sequence( row1.vehicle_uuid +&quot;_&quot;+ row1.person_uuid  ,1,1) ==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdVehiculeMaster" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
@@ -363,7 +363,7 @@
         <mapperTableEntries name="transaction_type" expression="master_vehicle.transaction_type " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="type_transaction" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="param_auto_campaign" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" expression="row1.process_type " type="id_String" operator="="/>
         <mapperTableEntries name="type_event_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="type_event_code" type="id_String" nullable="true"/>
@@ -834,9 +834,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="param_trans" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row2" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_1">
+  <connection connectorName="FLOW" label="param_auto_campaign" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="param_auto_campaign" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileDelete_1" show="false"/>
