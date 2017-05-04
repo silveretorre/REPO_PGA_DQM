@@ -1202,7 +1202,7 @@
         <mapperTableEntries name="Partenaire" expression="Partenaire.Libelle " type="id_String" nullable="true"/>
         <mapperTableEntries name="EtatVehicule" expression="EtatVehicule.Libelle " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dossier" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dossier" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="Id" type="id_String"/>
         <mapperTableEntries name="IdDossier" type="id_Integer"/>
         <mapperTableEntries name="IdConcession" type="id_Integer"/>
@@ -1252,20 +1252,21 @@
         <mapperTableEntries name="Libelle" type="id_String"/>
         <mapperTableEntries name="Description" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dossierPrestation" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dossierPrestation" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdDossier" expression="dossier.Id " type="id_String"/>
         <mapperTableEntries name="Libelle" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="TypeOffre" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="TypeOffre" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdTypeOffre" expression="dossier.IdTypeOffre " type="id_Integer"/>
         <mapperTableEntries name="Id" type="id_Integer"/>
         <mapperTableEntries name="Libelle" type="id_String"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="Partenaire" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="Id" type="id_Integer"/>
+      <inputTables sizeState="INTERMEDIATE" name="Partenaire" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="Id" expression="dossier.IdPartenaire " type="id_Integer" operator="="/>
         <mapperTableEntries name="Libelle" type="id_String"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="EtatVehicule" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="Id" type="id_Integer"/>
+      <inputTables sizeState="INTERMEDIATE" name="EtatVehicule" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="Id" expression="dossier.IdEtatVehicule " type="id_Integer" operator="="/>
         <mapperTableEntries name="Libelle" type="id_String"/>
       </inputTables>
     </nodeData>
@@ -2467,6 +2468,8 @@
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdTypeOffre"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="Id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="Libelle"/>
@@ -2475,6 +2478,7 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="Concession" name="tMSSqlInput_7">
+      <column comment="" key="true" length="10" name="IdTypeOffre" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="true" length="10" name="Id" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -2483,7 +2487,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="640" posY="608">
+  <node componentName="tMSSqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="608">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMSSqlInput_8" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMSSqlConnection_3"/>
@@ -2712,6 +2716,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="TypeOffre" lineStyle="8" metaname="tMSSqlInput_7" offsetLabelX="0" offsetLabelY="0" source="tMSSqlInput_7" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="IdTypeOffre"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="TypeOffre" show="false"/>
   </connection>
