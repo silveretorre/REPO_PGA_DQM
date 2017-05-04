@@ -189,7 +189,7 @@
     <elementParameter field="TABLE" name="TRIMSELECT">
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="CodeConcession"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vehicle_uuid"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -217,7 +217,7 @@
     <elementParameter field="TABLE" name="DECODE_COLS" show="false">
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="DECODE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="CodeConcession"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="DECODE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vehicle_uuid"/>
       <elementValue elementRef="DECODE" value="false"/>
@@ -242,7 +242,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFileInputDelimited_1">
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="CodeConcession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_category" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -254,7 +254,7 @@
     </metadata>
     <metadata connector="REJECT" name="REJECT">
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="CodeConcession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_category" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -305,7 +305,7 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
-        <mapperTableEntries name="code_dealership" expression="(param_auto_campaign.dealership_id.indexOf(&quot;[&quot;)==-1)? param_auto_campaign.dealership_id :  &#xD;&#xA;((row1.lead_source != null &amp;&amp; !&quot;&quot;.equals(row1.lead_source)) &amp;&amp; (!&quot;AUTOLEAD&quot;.equals(row1.meta_app_name) || (row1.lead_source != null &amp;&amp; !&quot;Site Concession&quot;.equals(row1.lead_source))))? &quot;AFR001&quot; :  row1.CodeConcession " type="id_String"/>
+        <mapperTableEntries name="code_dealership" expression="(param_auto_campaign.dealership_id.indexOf(&quot;[&quot;)==-1)? param_auto_campaign.dealership_id :  &#xD;&#xA;((row1.lead_source != null &amp;&amp; !&quot;&quot;.equals(row1.lead_source)) &amp;&amp; (!&quot;AUTOLEAD&quot;.equals(row1.meta_app_name) || !&quot;Site Concession&quot;.equals(row1.lead_source)))? &quot;AFR001&quot; :  row1.ref_dealership_id " type="id_String"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter=" Numeric.sequence( row1.vehicle_uuid +&quot;_&quot;+ row1.person_uuid  ,1,1) ==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdVehiculeMaster" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
@@ -333,7 +333,7 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
-        <mapperTableEntries name="CodeConcession" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ref_dealership_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_category" type="id_String" nullable="true"/>
@@ -673,7 +673,7 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileDelete_1" offsetLabelX="0" offsetLabelY="0" source="tFileDelete_1" target="tFileInputDelimited_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="50" offsetLabelY="50" source="tFileInputDelimited_1" target="tMap_1">
+  <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_1" offsetLabelX="-50" offsetLabelY="5" source="tFileInputDelimited_1" target="tMap_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="vehicle_uuid"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -697,6 +697,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="lead_source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="ref_dealership_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
