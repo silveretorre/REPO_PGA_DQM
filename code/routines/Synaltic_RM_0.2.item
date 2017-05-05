@@ -1,0 +1,130 @@
+package routines;
+
+/*
+ * user specification: the function's comment should contain keys as follows: 1. write about the function's comment.but
+ * it must be before the "{talendTypes}" key.
+ * 
+ * 2. {talendTypes} 's value must be talend Type, it is required . its value should be one of: String, char | Character,
+ * long | Long, int | Integer, boolean | Boolean, byte | Byte, Date, double | Double, float | Float, Object, short |
+ * Short
+ * 
+ * 3. {Category} define a category for the Function. it is required. its value is user-defined .
+ * 
+ * 4. {param} 's format is: {param} <type>[(<default value or closed list values>)] <name>[ : <comment>]
+ * 
+ * <type> 's value should be one of: string, int, list, double, object, boolean, long, char, date. <name>'s value is the
+ * Function's parameter name. the {param} is optional. so if you the Function without the parameters. the {param} don't
+ * added. you can have many parameters for the Function.
+ * 
+ * 5. {example} gives a example for the Function. it is optional.
+ */
+public class Synaltic_RM {
+
+    /**
+     * helloExample: not return value, only print "hello" + message.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("world") input: The string need to be printed.
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+	 /**
+     * 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} RM
+     * 
+     * {param} string("application_source")
+     * 
+     * {example} getPersonType("application_source") # client or prospect or siv
+     */
+    public static String getPersonType(String content){
+    	
+    	String content_temp=null;
+    	
+    	if (content!=null && !"".equals(content)){
+    			
+	    	if (!content.contains("AUTOSPHERE_FR") && !content.contains("SIV"))
+	    	return content_temp= "Client";
+	    	
+	    	else if (content.contains("SIV") && "".equals(content.replace(content.split(",")[0], "").replace(",", "")))
+	    		return content_temp= "SIV";
+	    	 
+	    	else if (content.contains("AUTOSPHERE_FR") && "".equals(content.replace(content.split(",")[0], "").replace(",", "")))
+	    		return content_temp= "Prospect";
+	    	
+	    	else if(!"AUTOSPHERE_FR,SIV".equals(content) || !"SIV,AUTOSPHERE_FR".equals(content)  )
+	    		return content_temp= "Client";
+	    	
+    	}
+    	return content_temp;
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} RM
+     * 
+     * {param} string("application_source")
+     * 
+     * {example} isOnlineOrOffline("application_source") # Online or Offline
+     */
+    public static String isOnlineOrOffline(String content){
+    	
+    String content_temp=null;
+    	
+    	if (content!=null && !"".equals(content)){
+    		
+	    	if (content.contains("AUTOSPHERE_FR") && "".equals(content.replace(content.split(",")[0], "").replace(",", "")))
+	          return content_temp="Online"; 
+	    	else if (!content.contains("AUTOSPHERE_FR"))
+	    	   return content_temp="Offline";
+	    	else 
+	    		return content_temp="Offline/Online";
+    	}
+    	return content_temp;
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} RM
+     * 
+     * {param} string("application_source","id_vehicle","src_application_name","master_gid")
+     * 
+     * {example} infoVcu("application_source","id_vehicle","src_application_name","master_gid") # INFO 102 or fieldnotuse
+     */
+    
+    public static String infoProcessData(String id_vehicle, String src_application_brand, String src_application_name, String master_gid){
+    	
+    	String content_temp=null;
+    	
+    	if ("".equals(id_vehicle) || "".equals(src_application_brand) || "".equals(src_application_name))
+	    	return content_temp= "INFO 101";
+	    	   else if ((!"".equals(id_vehicle) && !"".equals(src_application_brand) && !"".equals(src_application_name)) && ("".equals(master_gid) || master_gid==null))
+	   	    	   return content_temp= "INFO 102";
+	    	         else
+	    		        return content_temp= "not_use";
+    }
+    
+    public static void main(String[] args){//PLANET_VO AUTOSPHERE_FR SIV SECURYWEB
+    	
+    	//String id_vehicle = "25545";
+    	//String src_application_brand = "FORD";
+    	String src_application_name = "SIV,SIV,SIV";
+    	//String master_gid = "";
+    	System.out.println(getPersonType(src_application_name));
+    }
+}
