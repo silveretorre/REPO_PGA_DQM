@@ -1480,7 +1480,7 @@
       <column comment="" key="false" length="-1" name="R" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="S" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="T" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="U" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="U" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="V" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="W" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="X" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -1492,8 +1492,8 @@
       <column comment="" key="false" length="-1" name="AD" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="AE" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="AF" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="AG" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="AH" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="AG" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="AH" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="AI" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="AJ" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="AK" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -2161,8 +2161,8 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
-        <mapperTableEntries name="src_process_moment_vente" expression="(null != row4.AB &amp;&amp; !&quot;&quot;.equals(row4.AB)) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,row4.AB) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
-        <mapperTableEntries name="src_process_moment_achat" expression="(null != row4.AA &amp;&amp; !&quot;&quot;.equals(row4.AA)) ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,row4.AA) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment_vente" expression="(null != row4.AB &amp;&amp; !&quot;&quot;.equals(row4.AB)) ? row4.AB.substring(0, 4) + &quot;-&quot; + row4.AB.substring(5, 2) + &quot;-&quot; + row4.AB.substring(7, 2)  : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
+        <mapperTableEntries name="src_process_moment_achat" expression="(null != row4.AA &amp;&amp; !&quot;&quot;.equals(row4.AA)) ? row4.AA.substring(0, 4) + &quot;-&quot; + row4.AA.substring(5, 2) + &quot;-&quot; + row4.AA.substring(7, 2) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="hasName_fournisseur" expression="row4.CT != null " type="id_Boolean"/>
         <mapperTableEntries name="hasName_acheteur" expression="row4.DO != null " type="id_Boolean"/>
         <mapperTableEntries name="birth_date" expression="row4.EC.substring(0, 4) + &quot;-&quot; + row4.EC.substring(5, 2) + &quot;-&quot; + row4.EC.substring(7, 2) " type="id_String"/>
@@ -2177,7 +2177,7 @@
         <mapperTableEntries name="phone_type_fournisseur" expression="( null != row4.DC) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
         <mapperTableEntries name="price_evalution_date" expression="row4.AL.substring(0, 4) + &quot;-&quot; + row4.AL.substring(5, 2) + &quot;-&quot; + row4.AL.substring(7, 2) " type="id_String"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Purchase_Order" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Purchase_Order">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
@@ -2192,7 +2192,7 @@
         <mapperTableEntries name="raw_dealership_zipcode" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.hasName_acheteur " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_stage" expression="Var.hasName_acheteur ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;hasName&quot; + ( Var.hasName_acheteur  ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_id" expression="row4.DN" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.DM" type="id_String" nullable="true"/>
@@ -2301,7 +2301,7 @@
         <mapperTableEntries name="currency" expression="&quot;EURO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="row4.U" type="id_Double" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Sale_Service" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Sale_Service">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SALE_SERVICE&quot;" type="id_String"/>
@@ -2316,7 +2316,7 @@
         <mapperTableEntries name="raw_dealership_zipcode" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="Var.hasName_acheteur " type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_stage" expression="Var.hasName_acheteur ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;hasName&quot; + ( Var.hasName_acheteur  ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_id" expression="row4.DN" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.DM" type="id_String" nullable="true"/>
@@ -2442,7 +2442,7 @@
         <mapperTableEntries name="raw_dealership_zipcode" type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_label" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="status_stage" expression="hasName_fournisseur" type="id_String" nullable="true"/>
+        <mapperTableEntries name="status_stage" expression="hasName_fournisseur ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;hasName&quot; + ( Var.hasName_fournisseur  ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_id" expression="row4.CS" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.CR" type="id_String" nullable="true"/>
@@ -2472,7 +2472,7 @@
         <mapperTableEntries name="original_number" expression="Var.phone_fournisseur " type="id_String" nullable="true"/>
         <mapperTableEntries name="phone_type" expression="Var.phone_type_fournisseur " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="is_reachable_by_phone" expression="ture" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" type="id_String" nullable="true"/>
@@ -2566,7 +2566,7 @@
         <mapperTableEntries name="R" type="id_String" nullable="true"/>
         <mapperTableEntries name="S" type="id_String" nullable="true"/>
         <mapperTableEntries name="T" type="id_String" nullable="true"/>
-        <mapperTableEntries name="U" type="id_String" nullable="true"/>
+        <mapperTableEntries name="U" type="id_Double" nullable="true"/>
         <mapperTableEntries name="V" type="id_String" nullable="true"/>
         <mapperTableEntries name="W" type="id_String" nullable="true"/>
         <mapperTableEntries name="X" type="id_String" nullable="true"/>
@@ -2578,8 +2578,8 @@
         <mapperTableEntries name="AD" type="id_String" nullable="true"/>
         <mapperTableEntries name="AE" type="id_String" nullable="true"/>
         <mapperTableEntries name="AF" type="id_String" nullable="true"/>
-        <mapperTableEntries name="AG" type="id_String" nullable="true"/>
-        <mapperTableEntries name="AH" type="id_String" nullable="true"/>
+        <mapperTableEntries name="AG" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="AH" type="id_Double" nullable="true"/>
         <mapperTableEntries name="AI" type="id_String" nullable="true"/>
         <mapperTableEntries name="AJ" type="id_String" nullable="true"/>
         <mapperTableEntries name="AK" type="id_String" nullable="true"/>
