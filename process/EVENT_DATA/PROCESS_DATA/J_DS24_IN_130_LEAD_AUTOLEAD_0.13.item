@@ -711,7 +711,7 @@
         <mapperTableEntries name="lead_temperature" expression="(null != lead.l_financement_interet  &amp;&amp; !(&quot;&quot;.equals(lead.l_financement_interet)))? lead.l_financement_interet : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_brand" expression="rep_vehicule.v_marque  " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" expression="rep_vehicule.v_modele  " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_search_com" expression="null != rep_vehicule.v_commentaire ? (new String(rep_vehicule.v_commentaire, &quot;utf-8&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|&quot; , String.valueOf((char) 248)) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" expression="null != rep_vehicule.v_commentaire ? rep_vehicule.v_commentaire.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|&quot; , String.valueOf((char) 248)) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_fund_com" expression="lead.l_financement_commentaire " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
@@ -809,7 +809,7 @@
         <mapperTableEntries name="v_annee" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="v_kilometrage" type="id_Long" nullable="true"/>
         <mapperTableEntries name="v_energie" type="id_String" nullable="true"/>
-        <mapperTableEntries name="v_commentaire" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="v_commentaire" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="param_process_category" minimized="true" expressionFilter="&quot;LEAD&quot;.equals(param_process_category.process_type)" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
@@ -1445,7 +1445,7 @@
       <column comment="" defaultValue="" key="false" length="4" name="v_annee" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="v_kilometrage" nullable="true" pattern="" precision="0" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="v_energie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="5592405" name="v_commentaire" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="5592405" name="v_commentaire" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="416">
