@@ -537,7 +537,7 @@
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_Document" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_id" nullable="false" pattern="" precision="0" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -813,20 +813,20 @@
         <mapperTableEntries name="process_category" expression="Var.process_category " type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;SIV&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_brand" expression="&quot;MULTI&quot;" type="id_String"/>
-        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_Document"/>
+        <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID + &quot;_tit&quot;" type="id_String"/>
         <mapperTableEntries name="raw_dealership_id" expression="Var.dealership_id " type="id_String" nullable="true"/>
-        <mapperTableEntries name="raw_dealership_city" expression="null != Var.dealership_city  ? &#xD;&#xA;( isValidutf8.validUTF8(Var.dealership_city) ?&#xD;&#xA;(new String(Var.dealership_city)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;:&#xD;&#xA;(new String(Var.dealership_city, “latin1&quot;)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="raw_dealership_city" expression="Var.dealership_city " type="id_String" nullable="true"/>
         <mapperTableEntries name="raw_dealership_zipcode" expression="Var.dealership_zipcode " type="id_String" nullable="true"/>
-        <mapperTableEntries name="raw_dealership_label" expression="null != Var.dealership_label  ? &#xD;&#xA;( isValidutf8.validUTF8(Var.dealership_label ) ?&#xD;&#xA;(new String(Var.dealership_label )).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;:&#xD;&#xA;(new String(Var.dealership_label , “latin1&quot;)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="raw_dealership_label" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_stage" expression="( null != Var.bname || ( null != siv.b1_tit_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_tit_nom_usage) ) ) &amp;&amp; (null == siv.b1_tit_siren || &quot;&quot;.equals(siv.b1_tit_siren)) ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;lastname: &quot; + ( null != Var.bname ? &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;birth_name: &quot; + ( null != siv.b1_tit_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_tit_nom_usage) ?  &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;siren: &quot; + (null == siv.b1_tit_siren || &quot;&quot;.equals(siv.b1_tit_siren) ? &quot;NONE&quot; : &quot;HAS&quot;)" type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID + &quot;_tit&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="&quot;ND&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ? siv.b1_tit_prenom : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ? &#xD;&#xA;( isValidutf8.validUTF8(siv.b1_tit_nom_usage) ?&#xD;&#xA;(new String(siv.b1_tit_nom_usage)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;:&#xD;&#xA;(new String(siv.b1_tit_nom_usage, “latin1&quot;)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;)&#xD;&#xA;: &#xD;&#xA;( isValidutf8.validUTF8(Var.bname) ?&#xD;&#xA;(new String(Var.bname)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;:&#xD;&#xA;(new String(Var.bname, “latin1&quot;)).replaceAll(&quot;\\\\n”, “ - &quot;).replaceAll(&quot;\\\\r”, “ - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(“\\|+” , String.valueOf((char) 248)+ “ ” )&#xD;&#xA;) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom)) ? siv.b1_tit_prenom : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage)) ? siv.b1_tit_nom_usage : Var.bname " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="Var.bname " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != siv.b3_tit_date_naissance &amp;&amp; !(&quot;&quot;.equals(siv.b3_tit_date_naissance)) &amp;&amp; siv.b3_tit_date_naissance.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b3_tit_date_naissance))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -1694,7 +1694,7 @@
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_Document" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -1801,7 +1801,7 @@
       <column comment="" key="false" length="255" name="process_category" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_application_brand" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" type="id_Document" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="src_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="load_process_moment" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="src_process_id" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="raw_dealership_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3582,7 +3582,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -3593,7 +3593,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
