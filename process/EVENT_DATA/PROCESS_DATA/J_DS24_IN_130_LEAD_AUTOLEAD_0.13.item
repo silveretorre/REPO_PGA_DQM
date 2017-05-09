@@ -221,6 +221,7 @@
     <routinesParameter id="_RCEvIC1eEeaLyJhW7Qb09g" name="TalendString"/>
     <routinesParameter id="_UadFUDLyEeaEEL-tk_jd4A" name="Synaltic_DQ"/>
     <routinesParameter id="_pfnn8HBNEeaObJ-hJlHXJw" name="Synaltic_UUID"/>
+    <routinesParameter id="_PMZkYDSxEee40OYJuFmbdg" name="isValidutf8"/>
   </parameters>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
@@ -711,7 +712,7 @@
         <mapperTableEntries name="lead_temperature" expression="(null != lead.l_financement_interet  &amp;&amp; !(&quot;&quot;.equals(lead.l_financement_interet)))? lead.l_financement_interet : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_brand" expression="rep_vehicule.v_marque  " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" expression="rep_vehicule.v_modele  " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_search_com" expression="null != rep_vehicule.v_commentaire ? (new String(rep_vehicule.v_commentaire)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|&quot; , String.valueOf((char) 248)) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_search_com" expression="null != rep_vehicule.v_commentaire ? &#xD;&#xA;( isValidutf8.validUTF8(rep_vehicule.v_commentaire) ?&#xD;&#xA;(new String(rep_vehicule.v_commentaire)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|&quot; , String.valueOf((char) 248)) &#xD;&#xA;:&#xD;&#xA;(new String(rep_vehicule.v_commentaire, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|&quot; , String.valueOf((char) 248)) &#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_fund_com" expression="lead.l_financement_commentaire " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
