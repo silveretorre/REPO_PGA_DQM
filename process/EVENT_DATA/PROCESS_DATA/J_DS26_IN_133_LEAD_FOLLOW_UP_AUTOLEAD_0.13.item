@@ -480,7 +480,7 @@
       <column comment="" key="false" length="-1" name="a_objet" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="a_debut_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="a_fin_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="a_resume" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="a_resume" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="a_compte_rendu" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="t_libelle2" nullable="true" originalDbColumnName="t_libelle" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -774,7 +774,7 @@
         <mapperTableEntries name="lead_follow_up_objet" expression="lead.a_objet " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_start_date" expression="null != lead.a_debut_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_debut_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_end_date" expression="null != lead.a_fin_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_fin_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_description_1" expression="StringHandling.LEN(lead.a_resume)&lt;1048575 ? new String(lead.a_resume, &quot;latin1&quot;) : String(lead.a_resume, &quot;latin1&quot;).substring(1048574) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_description_1" expression="lead.a_resume.length &lt; 1048575 ? new String(lead.a_resume, &quot;latin1&quot;) : new String(lead.a_resume, &quot;latin1&quot;).substring(0,1048574) " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_description_2" expression="lead.a_compte_rendu " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_type" expression="lead.t_libelle2 " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
@@ -846,7 +846,7 @@
         <mapperTableEntries name="a_objet" type="id_String" nullable="true"/>
         <mapperTableEntries name="a_debut_datetime" type="id_Date" nullable="true"/>
         <mapperTableEntries name="a_fin_datetime" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="a_resume" type="id_String" nullable="true"/>
+        <mapperTableEntries name="a_resume" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="a_compte_rendu" type="id_String" nullable="true"/>
         <mapperTableEntries name="t_libelle2" type="id_String" nullable="true"/>
       </inputTables>
