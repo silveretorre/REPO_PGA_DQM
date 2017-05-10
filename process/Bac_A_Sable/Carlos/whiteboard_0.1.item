@@ -848,6 +848,7 @@
     <metadata connector="FLOW" label="hbfg" name="hbfg">
       <column comment="" key="false" length="-1" name="original" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="regexed" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="test" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -855,6 +856,7 @@
       <outputTables sizeState="INTERMEDIATE" name="hbfg">
         <mapperTableEntries name="original" expression="new String(row4.proj_comment, &quot;latin1&quot;) " type="id_String" nullable="true"/>
         <mapperTableEntries name="regexed" expression="isValidutf8.validUTF8(row4.proj_comment) ? &quot;yes&quot; : &quot;no&quot;&#xD;&#xA;&#xD;&#xA;/*String.valueOf((char) 248)*/ " type="id_String" nullable="true"/>
+        <mapperTableEntries name="test" expression="null != &quot;.&quot; ? &#xD;&#xA;( isValidutf8.validUTF8(&quot;.&quot;) ?&#xD;&#xA;(new String(&quot;.&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(&quot;.&quot;, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idpropsect" type="id_Long"/>
@@ -902,6 +904,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="regexed"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="test"/>
+      <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
@@ -909,6 +913,7 @@
     <metadata connector="FLOW" label="hbfg" name="tLogRow_1">
       <column comment="" key="false" length="-1" name="original" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="regexed" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="test" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="128">
@@ -1016,6 +1021,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="regexed"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="test"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
