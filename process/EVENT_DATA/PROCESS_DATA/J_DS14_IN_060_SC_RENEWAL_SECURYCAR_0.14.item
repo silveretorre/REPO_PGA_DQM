@@ -296,7 +296,7 @@
     <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="true"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
     <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="true"/>
-    <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/svanotti/Synaltic/Projets/PGA/TALEND/Talend-Studio-20151214_1327-V6.1.1/workspace/.metadata&quot;" show="false"/>
     <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;" show="false"/>
@@ -687,16 +687,16 @@
         <mapperTableEntries name="process_category" expression="contrats.booVN_Ct ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
         <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
         <mapperTableEntries name="dealership_id" expression="( null != concessions.CodeConcession &amp;&amp; !(&quot;&quot;.equals(concessions.CodeConcession))) ? concessions.CodeConcession : &quot;DEF_060&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? concessions.Ville_Conces : null " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? &#xD;&#xA;(new String(concessions.Ville_Conces, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != concessions.CP_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.CP_Conces))) ? String.format(&quot;%05d&quot;, concessions.CP_Conces) : null " type="id_String"/>
-        <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? concessions.Denomination_Conces : null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? &#xD;&#xA;(new String(concessions.Denomination_Conces, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="optOut" expression="( null != tiers.booOptOut &amp;&amp; !(&quot;&quot;.equals(tiers.booOptOut))) ? !tiers.booOptOut : true " type="id_Boolean"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="hasName" expression="tiers.Nom != null &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))" type="id_Boolean"/>
         <mapperTableEntries name="isPhysicalPerson" expression="null != tiers.IDCivilite ? tiers.IDCivilite != 4 : true " type="id_Boolean"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.groupePGA ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.groupePGA ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;SC_RENEWAL&quot;" type="id_String"/>
@@ -715,8 +715,8 @@
         <mapperTableEntries name="status_reason" expression="&quot;isPhysicalPerson: &quot; + ( Var.isPhysicalPerson ? &quot;YES | &quot; : &quot;NO | &quot; ) + &quot;hasName: &quot; + ( Var.hasName ? &quot;YES | &quot; : &quot;NO | &quot;) + &quot;groupePGA: &quot; + ( Var.groupePGA ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="String.valueOf(tiers.IDTiers)" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != civilites.Civilite &amp;&amp; !(&quot;&quot;.equals(civilites.Civilite))) ? civilites.Civilite : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="( null != tiers.Prenom &amp;&amp; !(&quot;&quot;.equals(tiers.Prenom))) ? tiers.Prenom : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != tiers.Nom &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))) ? tiers.Nom : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != tiers.Prenom &amp;&amp; !(&quot;&quot;.equals(tiers.Prenom))) ? &#xD;&#xA;(new String(tiers.Prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != tiers.Nom &amp;&amp; !(&quot;&quot;.equals(tiers.Nom))) ? &#xD;&#xA;(new String(tiers.Nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != tiers.DateNaissance &amp;&amp; !(&quot;&quot;.equals(tiers.DateNaissance))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tiers.DateNaissance)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -725,12 +725,12 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="( null != parametres.Valeur &amp;&amp; !(&quot;&quot;.equals(parametres.Valeur))) ? StringHandling.UPCASE(parametres.Valeur.substring(0,2)) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="( null != tiers.Adresse3 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse3))) ? tiers.Adresse3 : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != tiers.Ville &amp;&amp; !(&quot;&quot;.equals(tiers.Ville))) ? tiers.Ville : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="sublocality" expression="( null != tiers.ComplementVille &amp;&amp; !(&quot;&quot;.equals(tiers.ComplementVille))) ? tiers.ComplementVille : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea1" expression="( null != tiers.Adresse1 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse1))) ? tiers.Adresse1 : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea2" expression="( null != tiers.Adresse2 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse2))) ? tiers.Adresse2 : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea3" expression="( null != tiers.Adresse4 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse4))) ? tiers.Adresse4 : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="( null != tiers.Adresse3 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse3))) ? &#xD;&#xA;(new String(tiers.Adresse3, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ): &#xD;&#xA;null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != tiers.Ville &amp;&amp; !(&quot;&quot;.equals(tiers.Ville))) ? &#xD;&#xA;(new String(tiers.Ville, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" expression="( null != tiers.ComplementVille &amp;&amp; !(&quot;&quot;.equals(tiers.ComplementVille))) ? &#xD;&#xA;(new String(tiers.ComplementVille, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea1" expression="( null != tiers.Adresse1 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse1))) ? &#xD;&#xA;(new String(tiers.Adresse1, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ): &#xD;&#xA;null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="( null != tiers.Adresse2 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse2))) ? &#xD;&#xA;(new String(tiers.Adresse2, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ): &#xD;&#xA;null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea3" expression="( null != tiers.Adresse4 &amp;&amp; !(&quot;&quot;.equals(tiers.Adresse4))) ? &#xD;&#xA;(new String(tiers.Adresse4, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ): &#xD;&#xA;null " type="id_String" nullable="true"/>
         <mapperTableEntries name="country" expression="( null != pays.NomPays &amp;&amp; !(&quot;&quot;.equals(pays.NomPays))) ? pays.NomPays : &quot;FRANCE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="( null != tiers.CodePostal &amp;&amp; !(&quot;&quot;.equals(tiers.CodePostal))) ? String.format(&quot;%05d&quot;,tiers.CodePostal) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="" type="id_String" nullable="true"/>
@@ -744,7 +744,7 @@
         <mapperTableEntries name="is_reachable_by_sms" expression="Var.optOut " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="profession" expression="( null != csp.LibelleCSP &amp;&amp; !(&quot;&quot;.equals(csp.LibelleCSP))) ? csp.LibelleCSP : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession" expression="( null != csp.LibelleCSP &amp;&amp; !(&quot;&quot;.equals(csp.LibelleCSP))) ? &#xD;&#xA;(new String(csp.LibelleCSP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="unemployed" expression="false" type="id_Boolean" nullable="true"/>
@@ -753,7 +753,7 @@
         <mapperTableEntries name="url" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender_id" expression="String.valueOf(tiers.IDCivilite)" type="id_String" nullable="true"/>
         <mapperTableEntries name="marital_status_id" expression="String.valueOf(tiers.IdStatutMarital)" type="id_String" nullable="true"/>
-        <mapperTableEntries name="marital_status" expression="statusMaritaux.LibelleStatutMarital " type="id_String" nullable="true"/>
+        <mapperTableEntries name="marital_status" expression="null != statusMaritaux.LibelleStatutMarital ?&#xD;&#xA;(new String(statusMaritaux.LibelleStatutMarital, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="language_id" expression="String.valueOf(tiers.IDLangue)" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession_id" expression="String.valueOf(tiers.IdCSP)" type="id_String" nullable="true"/>
@@ -769,7 +769,7 @@
         <mapperTableEntries name="vehicle_id" expression="( null != contratsWEB.IDVehiculeMaster &amp;&amp; !(&quot;&quot;.equals(contratsWEB.IDVehiculeMaster))) ? String.valueOf(contratsWEB.IDVehiculeMaster) : &quot;0&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="( null != marques.Description &amp;&amp; !(&quot;&quot;.equals(marques.Description))) ? marques.Description : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="( null != modeles.Description &amp;&amp; !(&quot;&quot;.equals(modeles.Description))) ? modeles.Description : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="( null != modeles.Description &amp;&amp; !(&quot;&quot;.equals(modeles.Description))) ? &#xD;&#xA;(new String(modeles.Description, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="( null != contrats.VehiculeGenre_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeGenre_Ct))) ? contrats.VehiculeGenre_Ct : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="( null != contrats.VehiculeNumSerie_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeNumSerie_Ct))) ? contrats.VehiculeNumSerie_Ct : null " type="id_String" nullable="true"/>
@@ -862,18 +862,18 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tiers" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IDTiers" expression="titulairesContrats.IDTiers " type="id_Integer" operator="="/>
-        <mapperTableEntries name="Nom" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Prenom" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Nom" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Prenom" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="TelephonePortable" type="id_String" nullable="true"/>
         <mapperTableEntries name="IDCivilite" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="eMail" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Adresse1" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Adresse2" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Adresse3" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Adresse4" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Ville" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Adresse1" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Adresse2" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Adresse3" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Adresse4" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Ville" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="CodePostal" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="ComplementVille" type="id_String" nullable="true"/>
+        <mapperTableEntries name="ComplementVille" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="TelephoneFixe" type="id_String" nullable="true"/>
         <mapperTableEntries name="IdCSP" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="DateNaissance" type="id_Date" nullable="true"/>
@@ -884,7 +884,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="csp" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdCSP" expression="tiers.IdCSP " type="id_Integer" operator="="/>
-        <mapperTableEntries name="LibelleCSP" type="id_String"/>
+        <mapperTableEntries name="LibelleCSP" type="id_byte[]"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="marques" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdMarqueMaster" expression="contrats.IdMarqueMaster_Ct " type="id_Integer"/>
@@ -892,13 +892,13 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="modeles" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdModeleMaster" expression="contrats.IDModeleMaster_Ct" type="id_Integer"/>
-        <mapperTableEntries name="Description" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Description" type="id_byte[]" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="concessions" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CodeConcession" expression="contrats.CodeConcession_Ct " type="id_String"/>
-        <mapperTableEntries name="Denomination_Conces" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Denomination_Conces" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="CP_Conces" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="Ville_Conces" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Ville_Conces" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="Groupe_Conces" type="id_String" nullable="true"/>
         <mapperTableEntries name="IDMarque_Conces" expression="" type="id_Integer" nullable="true"/>
       </inputTables>
@@ -928,7 +928,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="statusMaritaux" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdStatutMarital" expression="tiers.IdStatutMarital " type="id_Integer"/>
-        <mapperTableEntries name="LibelleStatutMarital" type="id_String"/>
+        <mapperTableEntries name="LibelleStatutMarital" type="id_byte[]"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1158,18 +1158,18 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tMSSqlInput_4">
       <column comment="" defaultValue="" key="false" length="10" name="IDTiers" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="Nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="Prenom" nullable="true" originalDbColumnName="Prénom" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="Nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="Prenom" nullable="true" originalDbColumnName="Prénom" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="15" name="TelephonePortable" nullable="true" originalDbColumnName="TéléphonePortable" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="IDCivilite" nullable="true" originalDbColumnName="IDCivilité" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="100" name="eMail" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="250" name="Adresse1" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="250" name="Adresse2" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="250" name="Adresse3" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="250" name="Adresse4" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="Ville" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="250" name="Adresse1" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="250" name="Adresse2" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="250" name="Adresse3" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="250" name="Adresse4" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="Ville" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="CodePostal" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="50" name="ComplementVille" nullable="true" originalDbColumnName="ComplémentVille" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="50" name="ComplementVille" nullable="true" originalDbColumnName="ComplémentVille" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="15" name="TelephoneFixe" nullable="true" originalDbColumnName="TéléphoneFixe" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="10" name="IdCSP" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="23" name="DateNaissance" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
@@ -1218,7 +1218,7 @@
       <column comment="" key="true" length="10" name="IdCSP" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="LibelleCSP" nullable="false" originalDbColumnName="LibelléCSP" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="LibelleCSP" nullable="false" originalDbColumnName="LibelléCSP" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1306,7 +1306,7 @@
       <column comment="" key="true" length="10" name="IdModeleMaster" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1358,13 +1358,13 @@
       <column comment="" key="false" length="6" name="CodeConcession" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="Denomination_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="Denomination_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="CP_Conces" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="Ville_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="Ville_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="Groupe_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -1763,8 +1763,6 @@
     <elementParameter field="TEXT" name="DBNAME" value="context.DB_SECURYWEB_SQL_Prod_Database" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_SECURYWEB_SQL_Prod_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuf9PvWVS9MDTlfRETBPyHvTSPb3xheOfovYHUTSEaKQyQ==" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="__sATIIPsEeaqxOOc4AmHWA - StatutsMaritaux" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;StatutsMaritaux&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -1791,7 +1789,7 @@
       <column comment="" key="true" length="10" name="IdStatutMarital" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="25" name="LibelleStatutMarital" nullable="false" originalDbColumnName="LibelléStatutMarital" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="25" name="LibelleStatutMarital" nullable="false" originalDbColumnName="LibelléStatutMarital" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
