@@ -501,7 +501,7 @@
       <column comment="" key="false" length="20" name="TelNom_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="PropAdresse_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="PropAdresse_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="PropCP_CtSin" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
@@ -525,13 +525,13 @@
       <column comment="" key="false" length="23" name="DateCloture_CtSin" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="3" sourceType="DATETIME" type="id_Date" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="40" name="PropVille_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="40" name="PropVille_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="PropNom_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="100" name="PropNom_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="BenefNom_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="100" name="BenefNom_CtSin" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="Etat_CtSin" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
@@ -681,7 +681,7 @@
       <column comment="" key="false" length="255" name="insurance_company" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="ID" expression="String.valueOf(scrh.IdSinistre) " type="id_String"/>
         <mapperTableEntries name="contract_id" expression="String.valueOf(scrh.IdContrat_CtSin)" type="id_String"/>
@@ -691,9 +691,9 @@
         <mapperTableEntries name="process_category" expression="null != contrats.booVN_Ct &amp;&amp; contrats.booVN_Ct ? &quot;VN&quot; : &quot;VO&quot; " type="id_String"/>
         <mapperTableEntries name="groupePGA" expression="( concessions.Groupe_Conces != null &amp;&amp; !(&quot;&quot;.equals(concessions.Groupe_Conces)) ) &amp;&amp; &quot;PGA MOTORS&quot;.equals(concessions.Groupe_Conces) " type="id_Boolean"/>
         <mapperTableEntries name="dealership_id" expression="( null != concessions.CodeConcession &amp;&amp; !(&quot;&quot;.equals(concessions.CodeConcession))) ? concessions.CodeConcession : &quot;DEF_120&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? concessions.Ville_Conces : null " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != concessions.Ville_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Ville_Conces))) ? &#xD;&#xA;(new String(concessions.Ville_Conces, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != concessions.CP_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.CP_Conces))) ? String.format(&quot;%05d&quot;, concessions.CP_Conces) : null " type="id_String"/>
-        <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? concessions.Denomination_Conces : null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="( null != concessions.Denomination_Conces &amp;&amp; !(&quot;&quot;.equals(concessions.Denomination_Conces))) ? &#xD;&#xA;(new String(concessions.Denomination_Conces, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="dec_regnum" expression="( null != scrh.VehiculeImmatNum_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.VehiculeImmatNum_CtSin))) ? scrh.VehiculeImmatNum_CtSin : null " type="id_String"/>
@@ -721,7 +721,7 @@
         <mapperTableEntries name="person_id" expression="scrh.IdTypeSin_CtSin + &quot;_&quot; + Var.ID" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="( null != scrh.PropCivilite_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropCivilite_CtSin))) ? scrh.PropCivilite_CtSin : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != scrh.BenefNom_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.BenefNom_CtSin))) ? scrh.BenefNom_CtSin : (( null != scrh.PropNom_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropNom_CtSin))) ? scrh.PropNom_CtSin : null ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != scrh.BenefNom_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.BenefNom_CtSin))) ? &#xD;&#xA;(new String(scrh.BenefNom_CtSin, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: (( null != scrh.PropNom_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropNom_CtSin))) ? &#xD;&#xA;(new String(scrh.PropNom_CtSin , &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null ) " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -730,8 +730,8 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="( null != scrh.PropAdresse_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropAdresse_CtSin))) ? scrh.PropAdresse_CtSin : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != scrh.PropVille_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropVille_CtSin))) ? scrh.PropVille_CtSin : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="( null != scrh.PropAdresse_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropAdresse_CtSin))) ? &#xD;&#xA;(new String(scrh.PropAdresse_CtSin, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != scrh.PropVille_CtSin &amp;&amp; !(&quot;&quot;.equals(scrh.PropVille_CtSin))) ? &#xD;&#xA;(new String(scrh.PropVille_CtSin, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea2" expression="" type="id_String" nullable="true"/>
@@ -774,7 +774,7 @@
         <mapperTableEntries name="vehicle_id" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != contratsWEB.IDVehiculeMaster &amp;&amp; !(&quot;&quot;.equals(contratsWEB.IDVehiculeMaster))) ? String.valueOf(contratsWEB.IDVehiculeMaster) : &quot;0&quot;) : &quot;0&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="brand" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != marques.Description &amp;&amp; !(&quot;&quot;.equals(marques.Description))) ? marques.Description : null &#xD;&#xA;) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="family" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="model" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != modeles.Description &amp;&amp; !(&quot;&quot;.equals(modeles.Description))) ? modeles.Description : null &#xD;&#xA;) : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="model" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != modeles.Description &amp;&amp; !(&quot;&quot;.equals(modeles.Description))) ? &#xD;&#xA;(new String(modeles.Description, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) : null &#xD;&#xD;&#xA;) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="version" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="kind" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != contrats.VehiculeGenre_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeGenre_Ct))) ? contrats.VehiculeGenre_Ct : null &#xD;&#xA;) : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="null != Var.dec_regnum &amp;&amp; null != Var.sys_regnum &amp;&amp; Var.dec_regnum.equalsIgnoreCase(Var.sys_regnum) ? (( null != contrats.VehiculeNumSerie_Ct &amp;&amp; !(&quot;&quot;.equals(contrats.VehiculeNumSerie_Ct))) ? contrats.VehiculeNumSerie_Ct : null &#xD;&#xA;) : null " type="id_String" nullable="true"/>
@@ -832,7 +832,7 @@
         <mapperTableEntries name="IdContrat_CtSin" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="PropCivilite_CtSin" type="id_String" nullable="true"/>
         <mapperTableEntries name="TelNom_CtSin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="PropAdresse_CtSin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PropAdresse_CtSin" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="PropCP_CtSin" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="VehiculeImmatNum_CtSin" type="id_String" nullable="true"/>
         <mapperTableEntries name="VehiculeImmatDate_CtSin" type="id_Date" nullable="true"/>
@@ -840,18 +840,18 @@
         <mapperTableEntries name="Oper_CtSin" type="id_String" nullable="true"/>
         <mapperTableEntries name="CodeConcession_CtSin" type="id_String" nullable="true"/>
         <mapperTableEntries name="DateCloture_CtSin" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="PropVille_CtSin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="PropNom_CtSin" type="id_String" nullable="true"/>
-        <mapperTableEntries name="BenefNom_CtSin" type="id_String" nullable="true"/>
+        <mapperTableEntries name="PropVille_CtSin" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="PropNom_CtSin" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="BenefNom_CtSin" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="Etat_CtSin" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="IdAssureur_CtSin" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="eMail_CtSin" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="concessions" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CodeConcession" expression="scrh.CodeConcession_CtSin " type="id_String"/>
-        <mapperTableEntries name="Denomination_Conces" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Denomination_Conces" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="CP_Conces" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="Ville_Conces" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Ville_Conces" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="Groupe_Conces" type="id_String" nullable="true"/>
         <mapperTableEntries name="IDMarque_Conces" type="id_Integer" nullable="true"/>
       </inputTables>
@@ -898,7 +898,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="modeles" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdModeleMaster" expression="contrats.IDModeleMaster_Ct " type="id_Integer"/>
-        <mapperTableEntries name="Description" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Description" type="id_byte[]" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -949,13 +949,13 @@
       <column comment="" key="false" length="6" name="CodeConcession" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="Denomination_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="Denomination_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="10" name="CP_Conces" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="Ville_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="Ville_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="50" name="Groupe_Conces" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -2447,7 +2447,7 @@
       <column comment="" key="true" length="10" name="IdModeleMaster" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="255" name="Description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
