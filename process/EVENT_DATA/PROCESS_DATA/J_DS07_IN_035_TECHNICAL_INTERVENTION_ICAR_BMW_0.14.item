@@ -635,7 +635,7 @@
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="( null != tgModoPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModoPago.DESCRIP))) ? tgModoPago.DESCRIP : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_type" expression="( null != tgFormaPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgFormaPago.DESCRIP))) ? tgFormaPago.DESCRIP : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="mech_model" expression="( null != ttOTCab.DESMODELO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESMODELO))) ? ttOTCab.DESMODELO : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="mech_model" expression="( null != ttOTCab.DESMODELO &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESMODELO))) ? (new String(ttOTCab.DESMODELO, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? (new String(ttOTCab.DESVERSION, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? (new String(ttOTCab.DESCOLOR, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) &#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
@@ -686,9 +686,9 @@
         <mapperTableEntries name="FECMATRICPRIMERA" type="id_Date" nullable="true"/>
         <mapperTableEntries name="FECMATRICULTIMA" type="id_Date" nullable="true"/>
         <mapperTableEntries name="APELLIDO1" type="id_String" nullable="true"/>
-        <mapperTableEntries name="DESMODELO" type="id_String" nullable="true"/>
-        <mapperTableEntries name="DESVERSION" type="id_String" nullable="true"/>
-        <mapperTableEntries name="DESCOLOR" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESMODELO" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="DESVERSION" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="DESCOLOR" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="ULTOTKM" type="id_BigDecimal" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -2011,13 +2011,13 @@
       <column comment="" key="false" length="50" name="APELLIDO1" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="DESMODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="DESMODELO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="DESVERSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="100" name="DESVERSION" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="DESCOLOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="DESCOLOR" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="8" name="ULTOTKM" nullable="true" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
