@@ -619,7 +619,7 @@
         <mapperTableEntries name="energy_id" expression="ttOTCab.COMBUSTIBLE" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="ttOTCab.COLOR" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_techint" expressionFilter="Var.isPhysicalPerson &amp;&amp; Var.hasName &amp;&amp; Var.isClosed">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="ti_number" expression="( null != ttOTFac.FACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FACTURA))) ? &#xD;&#xA;String.valueOf(ttOTFac.FACTURA.intValue())&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_type" expression="&quot;APV&quot;" type="id_String" nullable="true"/>
@@ -629,8 +629,8 @@
         <mapperTableEntries name="taxes" expression="( null != ttOTCargo.IMPIVA &amp;&amp; !(&quot;&quot;.equals(ttOTCargo.IMPIVA))) ? &#xD;&#xA;Mathematical.ABS(ttOTCargo.IMPIVA.doubleValue())&#xD;&#xA;: 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
-        <mapperTableEntries name="description" expression="null != ttOTCargo.OBSERVACIONES &amp;&amp; !&quot;&quot;.equals(ttOTCargo.OBSERVACIONES) ? ttOTCargo.OBSERVACIONES : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="( null != tyUsuario.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tyUsuario.NOMBRE))) ? tyUsuario.NOMBRE : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="description" expression="null != ttOTCargo.OBSERVACIONES &amp;&amp; !&quot;&quot;.equals(ttOTCargo.OBSERVACIONES) ? &#xD;&#xA;( isValidutf8.validUTF8(ttOTCargo.OBSERVACIONES) ?&#xD;&#xA;(new String(ttOTCargo.OBSERVACIONES)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(ttOTCargo.OBSERVACIONES, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="( null != tyUsuario.NOMBRE &amp;&amp; !(&quot;&quot;.equals(tyUsuario.NOMBRE))) ? &#xD;&#xA;( isValidutf8.validUTF8(tyUsuario.NOMBRE) ?&#xD;&#xA;(new String(tyUsuario.NOMBRE)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(tyUsuario.NOMBRE, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_end_date" expression="( null != ttOTCab.FECHAACABADOJEFE &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAACABADOJEFE))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAACABADOJEFE)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="intervention_start_date" expression="( null != ttOTCab.FECHAAPERTURAOT &amp;&amp; !(&quot;&quot;.equals(ttOTCab.FECHAAPERTURAOT))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,ttOTCab.FECHAAPERTURAOT)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="payment_mode" expression="( null != tgModoPago.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgModoPago.DESCRIP))) ? tgModoPago.DESCRIP : null" type="id_String" nullable="true"/>
@@ -639,7 +639,7 @@
         <mapperTableEntries name="mech_version" expression="( null != ttOTCab.DESVERSION &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESVERSION))) ? ttOTCab.DESVERSION : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="mech_color" expression="( null != ttOTCab.DESCOLOR &amp;&amp; !(&quot;&quot;.equals(ttOTCab.DESCOLOR))) ? ttOTCab.DESCOLOR : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="review" expression="null != ttOTIntervencion.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTIntervencion.DESCRIP) ? ttOTIntervencion.DESCRIP : &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="review" expression="null != ttOTIntervencion.DESCRIP &amp;&amp; !&quot;&quot;.equals(ttOTIntervencion.DESCRIP) ? &#xD;&#xA;( isValidutf8.validUTF8(ttOTIntervencion.DESCRIP) ?&#xD;&#xA;(new String(ttOTIntervencion.DESCRIP)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(ttOTIntervencion.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: &quot;NON DISPONIBLE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="doc_type" expression="null != ttOTFac.ABONO &amp;&amp; !(&quot;&quot;.equals(ttOTFac.ABONO)) &amp;&amp; ttOTFac.ABONO.intValue() == 1 ? &quot;CREDIT&quot; : &quot;INVOICE&quot; " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTFac" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -661,7 +661,7 @@
         <mapperTableEntries name="IMPBRUTOMO" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="IMPBRUTOREC" type="id_BigDecimal" nullable="true"/>
         <mapperTableEntries name="IMPIVA" type="id_BigDecimal" nullable="true"/>
-        <mapperTableEntries name="OBSERVACIONES" type="id_String" nullable="true"/>
+        <mapperTableEntries name="OBSERVACIONES" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="TALLFORMAPAGO" type="id_String" nullable="true"/>
         <mapperTableEntries name="IMPFACTURA" type="id_BigDecimal" nullable="true"/>
       </inputTables>
@@ -816,7 +816,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tyUsuario" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="ttOTFac.USUARIO " type="id_String"/>
-        <mapperTableEntries name="NOMBRE" type="id_String" nullable="true"/>
+        <mapperTableEntries name="NOMBRE" type="id_byte[]" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgEmpresa" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tgTaller.EMP " type="id_String"/>
@@ -841,7 +841,7 @@
         <mapperTableEntries name="EMP" expression="ttOTCargoLinea.EMP " type="id_String" operator="="/>
         <mapperTableEntries name="NUMINTERNO" expression="ttOTCargoLinea.NUMINTOT " type="id_BigDecimal" operator="="/>
         <mapperTableEntries name="INTERVENCION" expression="ttOTCargoLinea.NUMINTINTERVENCION " type="id_BigDecimal" operator="="/>
-        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESCRIP" type="id_byte[]" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgVehCliente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VEHICULOMAESTRO" expression="ttOTCab.VEHICULO " type="id_BigDecimal"/>
@@ -1849,7 +1849,7 @@
       <column comment="" key="false" length="12" name="IMPIVA" nullable="true" pattern="" precision="2" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="750" name="OBSERVACIONES" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="750" name="OBSERVACIONES" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="3" name="TALLFORMAPAGO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
@@ -2305,7 +2305,7 @@
       <column comment="" key="false" length="25" name="CODIGO" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="60" name="NOMBRE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="60" name="NOMBRE" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -3596,7 +3596,7 @@
       <column comment="" key="true" length="10" name="INTERVENCION" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="4000" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="4000" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
