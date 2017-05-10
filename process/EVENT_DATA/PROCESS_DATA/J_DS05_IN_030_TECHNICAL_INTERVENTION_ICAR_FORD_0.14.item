@@ -502,7 +502,7 @@
         <mapperTableEntries name="src_process_moment" expression="( null != ttOTFac.FECHAFACTURA &amp;&amp; !(&quot;&quot;.equals(ttOTFac.FECHAFACTURA))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,ttOTFac.FECHAFACTURA)&#xD;&#xA;: &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;APV&quot;" type="id_String"/>
         <mapperTableEntries name="dealership_id" expression="null == (tgTaller.EMP) || (&quot;&quot;.equals(tgTaller.EMP)) ?&#xD;&#xA;(&#xD;&#xA;null == (tgTaller.ORGANIS) || (&quot;&quot;.equals(tgTaller.ORGANIS)) ?&#xD;&#xA;&quot;DEF_030&quot; : tgTaller.ORGANIS&#xD;&#xA;) : &#xD;&#xA;(&#xD;&#xA;null == (tgTaller.ORGANIS) || (&quot;&quot;.equals(tgTaller.ORGANIS)) ?&#xD;&#xA;tgTaller.EMP : (tgTaller.EMP+&quot;_&quot;+tgTaller.ORGANIS).trim()&#xD;&#xA;) " type="id_String"/>
-        <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ? &#xD;&#xA;tgPoblaEmp.DESCRIP&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="( null != tgPoblaEmp.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgPoblaEmp.DESCRIP))) ?&#xD;&#xA;( isValidutf8.validUTF8(tgPoblaEmp.DESCRIP) ?&#xD;&#xA;(new String(tgPoblaEmp.DESCRIP)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(tgPoblaEmp.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="( null != tgEmpresa.CPOSTAL &amp;&amp; !(&quot;&quot;.equals(tgEmpresa.CPOSTAL))) ? &#xD;&#xA;tgEmpresa.CPOSTAL&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="dealership_label" expression="( null != tgOrganis.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgOrganis.DESCRIP))) ?&#xD;&#xA;( isValidutf8.validUTF8(tgOrganis.DESCRIP) ?&#xD;&#xA;(new String(tgOrganis.DESCRIP)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(tgOrganis.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
@@ -826,7 +826,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tgECivil" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="CODIGO" expression="tgCliente.ECIVIL " type="id_BigDecimal"/>
-        <mapperTableEntries name="DESCRIP" type="id_String" nullable="true"/>
+        <mapperTableEntries name="DESCRIP" type="id_byte[]" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="ttOTCargoLinea" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="ttOTCargo.EMP " type="id_String"/>
@@ -2379,8 +2379,6 @@
     <elementParameter field="TEXT" name="USER" value="context.ICAR_FORD_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kucwxqh8UYQjI0GN0Vt5tIBqBX16k/ItI0Q=" show="false"/>
     <elementParameter field="TEXT" name="JDBC_URL" value="&quot;jdbc:oracle:oci:/@talend&quot;" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_QWH44DFgEeaBhsgNMgHnVg - TGECIVIL" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;TGECIVIL&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -2413,7 +2411,7 @@
       <column comment="" key="true" length="5" name="CODIGO" nullable="false" pattern="" precision="0" sourceType="DEC" type="id_BigDecimal" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
