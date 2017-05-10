@@ -250,8 +250,6 @@
     <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg=" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ - siv_current" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;siv_current&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -376,10 +374,10 @@
       <column comment="" key="false" length="250" name="b1_tit_nom_rso" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b1_tit_nom_usage" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b1_tit_nom_usage" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b1_tit_prenom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b1_tit_prenom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="9" name="b1_tit_siren" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -406,19 +404,19 @@
       <column comment="" key="false" length="250" name="b2_tit_adr_num_voie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b2_tit_adr_extension" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b2_tit_adr_extension" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b2_tit_adr_type_voie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b2_tit_adr_type_voie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b2_tit_adr_nom_voie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b2_tit_adr_nom_voie" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="5" name="b2_tit_adr_code_postal" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="250" name="b2_tit_adr_commune" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="250" name="b2_tit_adr_commune" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="250" name="b2_tit_adr_lieudit" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -825,8 +823,8 @@
         <mapperTableEntries name="status_reason" expression="&quot;lastname: &quot; + ( null != Var.bname ? &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;birth_name: &quot; + ( null != siv.b1_tit_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_tit_nom_usage) ?  &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;siren: &quot; + (null == siv.b1_tit_siren || &quot;&quot;.equals(siv.b1_tit_siren) ? &quot;NONE&quot; : &quot;HAS&quot;)" type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID + &quot;_tit&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="&quot;ND&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom)) ? siv.b1_tit_prenom : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage)) ? siv.b1_tit_nom_usage : Var.bname " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ?&#xD;&#xA;(new String(siv.b1_tit_prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ?&#xD;&#xA;(new String(siv.b1_tit_nom_usage, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="Var.bname " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != siv.b3_tit_date_naissance &amp;&amp; !(&quot;&quot;.equals(siv.b3_tit_date_naissance)) &amp;&amp; siv.b3_tit_date_naissance.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b3_tit_date_naissance))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -835,11 +833,11 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="( null != siv.b2_tit_adr_num_voie &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_num_voie))) ? siv.b2_tit_adr_num_voie : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="!(null != (siv.b2_tit_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ? null : siv.b2_tit_adr_nom_voie ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;siv.b2_tit_adr_type_voie : (siv.b2_tit_adr_type_voie+&quot; &quot;+siv.b2_tit_adr_nom_voie).trim() ) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != siv.b2_tit_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune))) ? siv.b2_tit_adr_commune : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="!(null != (siv.b2_tit_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ? null : (new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;(new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) : ((new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )+&quot; &quot;+(new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )).trim() ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != siv.b2_tit_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_commune, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="( null != siv.b2_tit_adr_lieudit &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_lieudit))) ? siv.b2_tit_adr_lieudit : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="( null != siv.b2_tit_adr_comp &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_comp))) ? siv.b2_tit_adr_comp : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea2" expression="( null != siv.b2_tit_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_extension))) ? siv.b2_tit_adr_extension : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="( null != siv.b2_tit_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_extension))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_extension, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea3" expression="( null != siv.b2_tit_adr_eea &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_eea))) ? siv.b2_tit_adr_eea : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="country" expression="( null != siv.b2_tit_adr_pays &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_pays))) ? siv.b2_tit_adr_pays : &quot;FRANCE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="( null != siv.b2_tit_adr_code_postal &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_code_postal))) ? siv.b2_tit_adr_code_postal : null" type="id_String" nullable="true"/>
@@ -913,7 +911,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_loc" minimized="true" expressionFilter="( ( null != siv.b1_loc_nom_rso &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_rso) ) || ( null != siv.b1_loc_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_usage) ) ) &amp;&amp; (null == siv.b1_loc_siren || &quot;&quot;.equals(siv.b1_loc_siren))">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv_loc" expressionFilter="( ( null != siv.b1_loc_nom_rso &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_rso) ) || ( null != siv.b1_loc_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_usage) ) ) &amp;&amp; (null == siv.b1_loc_siren || &quot;&quot;.equals(siv.b1_loc_siren))">
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;REGISTRATION&quot;" type="id_String"/>
@@ -932,8 +930,8 @@
         <mapperTableEntries name="status_reason" expression="&quot;lastname: &quot; + ( null != siv.b1_loc_nom_rso &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_rso) ? &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;birth_name: &quot; + ( null != siv.b1_loc_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_usage) ?  &quot;OK | &quot; : &quot;NOT OK | &quot; ) + &quot;siren: &quot; + (null == siv.b1_loc_siren || &quot;&quot;.equals(siv.b1_loc_siren) ? &quot;NONE&quot; : &quot;HAS&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="Var.ID + &quot;_loc&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="&quot;ND&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="( null != siv.b1_loc_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_prenom))) ? siv.b1_loc_prenom : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != siv.b1_loc_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_nom_usage))) ? siv.b1_loc_nom_usage : (( null != siv.b1_loc_nom_rso &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_nom_rso))) ? siv.b1_loc_nom_rso : null) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ?&#xD;&#xA;(new String(siv.b1_tit_prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ?&#xD;&#xA;(new String(siv.b1_tit_nom_usage, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="( null != siv.b1_loc_nom_rso &amp;&amp; !(&quot;&quot;.equals(siv.b1_loc_nom_rso))) ? siv.b1_loc_nom_rso : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="( null != siv.b3_loc_date_naissance &amp;&amp; !(&quot;&quot;.equals(siv.b3_loc_date_naissance)) &amp;&amp; siv.b3_loc_date_naissance.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b3_loc_date_naissance))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -942,14 +940,14 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="( null != siv.b2_loc_adr_num_voie &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_num_voie))) ? siv.b2_loc_adr_num_voie : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="!(null != (siv.b2_loc_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_loc_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_nom_voie)) ) ? null : siv.b2_loc_adr_nom_voie ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_loc_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;siv.b2_loc_adr_type_voie : (siv.b2_loc_adr_type_voie+&quot; &quot;+siv.b2_loc_adr_nom_voie).trim() ) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != siv.b2_loc_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_commune))) ? siv.b2_loc_adr_commune : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="!(null != (siv.b2_tit_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ? null : (new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;(new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) : ((new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )+&quot; &quot;+(new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )).trim() ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != siv.b2_tit_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_commune, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="( null != siv.b2_loc_adr_lieudit &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_lieudit))) ? siv.b2_loc_adr_lieudit : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="( null != siv.b2_loc_adr_comp &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_comp))) ? siv.b2_loc_adr_comp : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="admarea2" expression="( null != siv.b2_loc_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_extension))) ? siv.b2_loc_adr_extension : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="admarea2" expression="( null != siv.b2_tit_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_extension))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_extension, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea3" expression="( null != siv.b2_loc_adr_eea &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_eea))) ? siv.b2_loc_adr_eea : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="country" expression="( null != siv.b2_loc_adr_pays &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_pays))) ? siv.b2_loc_adr_pays : &quot;FRANCE&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="postal_code" expression="( null != siv.b2_loc_adr_code_postal &amp;&amp; !(&quot;&quot;.equals(siv.b2_loc_adr_code_postal))) ? siv.b2_loc_adr_code_postal : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" expression=" " type="id_String" nullable="true"/>
         <mapperTableEntries name="address" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="email" type="id_String" nullable="true"/>
@@ -1020,23 +1018,23 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_registration" minimized="true" expressionFilter="(( null != Var.bname || ( null != siv.b1_tit_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_tit_nom_usage) ) ) &amp;&amp; (null == siv.b1_tit_siren || &quot;&quot;.equals(siv.b1_tit_siren)))&#xA;||&#xA;(( ( null != siv.b1_loc_nom_rso &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_rso) ) || ( null != siv.b1_loc_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_usage) ) ) &amp;&amp; (null == siv.b1_loc_siren || &quot;&quot;.equals(siv.b1_loc_siren)))">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_registration" expressionFilter="(( null != Var.bname || ( null != siv.b1_tit_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_tit_nom_usage) ) ) &amp;&amp; (null == siv.b1_tit_siren || &quot;&quot;.equals(siv.b1_tit_siren)))&#xA;||&#xA;(( ( null != siv.b1_loc_nom_rso &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_rso) ) || ( null != siv.b1_loc_nom_usage &amp;&amp; !&quot;&quot;.equals(siv.b1_loc_nom_usage) ) ) &amp;&amp; (null == siv.b1_loc_siren || &quot;&quot;.equals(siv.b1_loc_siren)))">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="event_first_registration_date" expression="( null != siv.b4_date_prem_immat &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_prem_immat)) &amp;&amp; siv.b4_date_prem_immat.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_prem_immat))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="event_new_registration_date" expression="( null != siv.b4_date_immat_siv &amp;&amp; !(&quot;&quot;.equals(siv.b4_date_immat_siv)) &amp;&amp; siv.b4_date_immat_siv.length() == 10) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,TalendDate.parseDate(&quot;dd/MM/yyyy&quot;,siv.b4_date_immat_siv))&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_id" expression="Var.ID + &quot;_tit&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_firstname" expression="( null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ? siv.b1_tit_prenom : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_lastname" expression="( null != siv.b1_tit_nom_rso &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_rso))) ? siv.b1_tit_nom_rso : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_use_name" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ? siv.b1_tit_nom_usage : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_firstname" expression="( null != siv.b1_tit_prenom &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_prenom))) ?&#xD;&#xA;(new String(siv.b1_tit_prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_lastname" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ?&#xD;&#xA;(new String(siv.b1_tit_nom_usage, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_use_name" expression="( null != siv.b1_tit_nom_usage &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_nom_usage))) ?&#xD;&#xA;(new String(siv.b1_tit_nom_usage, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_siren_number" expression="( null != siv.b1_tit_siren &amp;&amp; !(&quot;&quot;.equals(siv.b1_tit_siren))) ? siv.b1_tit_siren : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_eea" expression="( null != siv.b2_tit_adr_eea &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_eea))) ? siv.b2_tit_adr_eea : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_complement" expression="( null != siv.b2_tit_adr_comp &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_comp))) ? siv.b2_tit_adr_comp : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_street_number" expression="( null != siv.b2_tit_adr_num_voie &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_num_voie))) ? siv.b2_tit_adr_num_voie : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_address_extension" expression="( null != siv.b2_tit_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_extension))) ? siv.b2_tit_adr_extension : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_address_road_type" expression="( null != siv.b2_tit_adr_type_voie &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ? siv.b2_tit_adr_type_voie : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_address_road_name" expression="( null != siv.b2_tit_adr_nom_voie &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie))) ? siv.b2_tit_adr_nom_voie : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_address_extension" expression="( null != siv.b2_tit_adr_extension &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_extension))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_extension, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_address_road_type" expression="!(null != (siv.b2_tit_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ? null : (new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;(new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) : ((new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )+&quot; &quot;+(new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )).trim() ) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_address_road_name" expression="!(null != (siv.b2_tit_adr_type_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_type_voie))) ?&#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ? null : (new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) ) &#xD;&#xA;&#x9;: &#xD;&#xA;&#x9;( !(null != (siv.b2_tit_adr_nom_voie) &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_nom_voie)) ) ?&#xD;&#xA;&#x9;&#x9;&#x9;(new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; ) : ((new String(siv.b2_tit_adr_type_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )+&quot; &quot;+(new String(siv.b2_tit_adr_nom_voie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )).trim() ) " type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_zip_code" expression="( null != siv.b2_tit_adr_code_postal &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_code_postal))) ? siv.b2_tit_adr_code_postal : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="holder_address_city" expression="( null != siv.b2_tit_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune))) ? siv.b2_tit_adr_commune : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="holder_address_city" expression="( null != siv.b2_tit_adr_commune &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_commune))) ?&#xD;&#xA;(new String(siv.b2_tit_adr_commune, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_locality" expression="( null != siv.b2_tit_adr_lieudit &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_lieudit))) ? siv.b2_tit_adr_lieudit : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_postbox" expression="( null != siv.b2_tit_adr_bp &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_bp))) ? siv.b2_tit_adr_bp : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="holder_address_country" expression="( null != siv.b2_tit_adr_pays &amp;&amp; !(&quot;&quot;.equals(siv.b2_tit_adr_pays))) ? siv.b2_tit_adr_pays : null" type="id_String" nullable="true"/>
@@ -1072,8 +1070,8 @@
       <inputTables sizeState="INTERMEDIATE" name="siv" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="id_technique" type="id_Integer"/>
         <mapperTableEntries name="b1_tit_nom_rso" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b1_tit_nom_usage" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b1_tit_prenom" type="id_String" nullable="true"/>
+        <mapperTableEntries name="b1_tit_nom_usage" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="b1_tit_prenom" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="b1_tit_siren" type="id_String" nullable="true"/>
         <mapperTableEntries name="b1_loc_nom_rso" type="id_String" nullable="true"/>
         <mapperTableEntries name="b1_loc_nom_usage" type="id_String" nullable="true"/>
@@ -1082,11 +1080,11 @@
         <mapperTableEntries name="b2_tit_adr_eea" type="id_String" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_comp" type="id_String" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_num_voie" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b2_tit_adr_extension" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b2_tit_adr_type_voie" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b2_tit_adr_nom_voie" type="id_String" nullable="true"/>
+        <mapperTableEntries name="b2_tit_adr_extension" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="b2_tit_adr_type_voie" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="b2_tit_adr_nom_voie" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_code_postal" type="id_String" nullable="true"/>
-        <mapperTableEntries name="b2_tit_adr_commune" type="id_String" nullable="true"/>
+        <mapperTableEntries name="b2_tit_adr_commune" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_lieudit" type="id_String" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_bp" type="id_String" nullable="true"/>
         <mapperTableEntries name="b2_tit_adr_pays" type="id_String" nullable="true"/>
@@ -3582,7 +3580,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -3593,7 +3591,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
