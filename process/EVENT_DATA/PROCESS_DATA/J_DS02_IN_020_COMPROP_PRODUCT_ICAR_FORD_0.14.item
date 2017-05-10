@@ -118,7 +118,7 @@
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx6G " show="false"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="10" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -567,7 +567,7 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="last_mileage_known" expression="( null != tcVeh.KM ) ? tcVeh.KM.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;COMMERCIAL_PROPOSITION_PRODUCT&quot;" type="id_String"/>
@@ -615,7 +615,7 @@
         <mapperTableEntries name="is_reachable_by_phone" expression="null != tgCliente.PROTECTNUMGSM &amp;&amp; tgCliente.PROTECTNUMGSM.intValue()==0 ? true : false " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" expression="( null != tgSectorActividad.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgSectorActividad.DESCRIP))) ?&#xD;&#xA;( isValidutf8.validUTF8(tgSectorActividad.DESCRIP) ?&#xD;&#xA;(new String(tgSectorActividad.DESCRIP)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xA;(new String(tgSectorActividad.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="profession" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="profession" expression="( null != tgProfesion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgProfesion.DESCRIP))) ?&#xD;&#xA;(new String(tgProfesion.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="unemployed" expression="( null != tgCliente.PROFESION ) ? ( &quot;16&quot;.equals(tgCliente.PROFESION) ? true : false ) : false " type="id_Boolean" nullable="true"/>
@@ -674,14 +674,14 @@
         <mapperTableEntries name="energy_id" expression="tcVeh.COMBUSTIBLE " type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" expression="tcPresupuesto.COLOR " type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_comprop" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_comprop" minimized="true" expressionFilter="Var.isPhysicalPerson &amp;&amp;  Var.hasName &amp;&amp;  Var.vehNotCancelled ">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="comprop_number" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="product_type" expression="( null != tcPresupuesto.ESVO &amp;&amp; !&quot;&quot;.equals(tcPresupuesto.ESVO)) ?&#xD;&#xA;&quot;VEHICLE &quot; + &#xD;&#xA;( tcPresupuesto.ESVO.intValue() == 0 ? &quot;(NEW)&quot; : &quot;(USED)&quot; ) : &quot;VEHICULE&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="reception_delay" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="offer_end_date" expression="( null != tcPresupuesto.FECHACADUCIDAD &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.FECHACADUCIDAD))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,tcPresupuesto.FECHACADUCIDAD)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="expected_delivery_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_info" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_info" expression="tgVendedor.EMAIL " type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_dealership" expression=" Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="buying_price" expression="( null != tcVeh.IMPORTECOMPRA &amp;&amp; !(&quot;&quot;.equals(tcVeh.IMPORTECOMPRA))) ? Mathematical.ABS(tcVeh.IMPORTECOMPRA.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
         <mapperTableEntries name="selling_price_without_taxes" expression="( null != tcPresupuesto.SUBTOTAL8 &amp;&amp; !(&quot;&quot;.equals(tcPresupuesto.SUBTOTAL8))) ? Mathematical.ABS(tcPresupuesto.SUBTOTAL8.doubleValue()) : 0.0 " type="id_Double" nullable="true"/>
@@ -806,7 +806,7 @@
         <mapperTableEntries name="CATEGORIA" expression="tcPresupuesto.CATEGORIA " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_byte[]" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="tcColor" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="tcColor" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="MARCA" expression="tcPresupuesto.MARCA " type="id_String"/>
         <mapperTableEntries name="COLOR" expression="tcPresupuesto.COLOR " type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_byte[]" nullable="true"/>
@@ -814,7 +814,7 @@
       <inputTables sizeState="INTERMEDIATE" name="tgVendedor" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
         <mapperTableEntries name="VENDEDOR" expression="tcPresupuesto.VENDEDOR " type="id_String"/>
-        <mapperTableEntries name="EMAIL" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="EMAIL" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="tcVeh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="EMP" expression="tcPresupuesto.EMP " type="id_String"/>
@@ -2521,7 +2521,7 @@
       <column comment="" key="true" length="25" name="VENDEDOR" nullable="false" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="EMAIL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="100" name="EMAIL" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="3" name="TIPO" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_String" usefulColumn="false">
@@ -5461,7 +5461,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -5472,7 +5472,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
