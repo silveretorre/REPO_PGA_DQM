@@ -314,8 +314,6 @@
     <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
     <elementParameter field="TEXT" name="USER" value="context.DB_AUTOSPHERE_FR_SUBSCRIBER_Login" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kufqKJKiv3TxDDnrUdmmYBkpsaQq5zcJa62K2ciUBY4WeNuLqeWxhOf+" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
-    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_iTKh8IPNEeaqxOOc4AmHWA - abonne" show="false"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;abonne&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -434,13 +432,13 @@
       <column comment="" key="false" length="10" name="civilite" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="prenom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="prenom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="50" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="adresse1" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="100" name="adresse1" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="100" name="adresse2" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -449,7 +447,7 @@
       <column comment="" key="false" length="6" name="cp" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="ville" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+      <column comment="" key="false" length="100" name="ville" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="20" name="user" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -652,7 +650,7 @@
       <column comment="" key="false" length="255" name="modification_date" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="process_id" expression="String.valueOf(subscriber.idabonne) " type="id_String"/>
@@ -688,8 +686,8 @@
         <mapperTableEntries name="status_reason" expression="&quot;hasName &quot; + ( Var.hasName ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;0&quot; " type="id_String"/>
         <mapperTableEntries name="gender" expression="(null != subscriber.civilite  &amp;&amp; !(&quot;&quot;.equals(subscriber.civilite))) ? (&quot;1&quot;.equalsIgnoreCase(subscriber.civilite) ? &quot;Monsieur&quot; : &quot;Madame&quot; ) : &quot;ND&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="(null != subscriber.prenom  &amp;&amp; !(&quot;&quot;.equals(subscriber.prenom)))? subscriber.prenom : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="(null != subscriber.nom   &amp;&amp; !(&quot;&quot;.equals(subscriber.nom)))? subscriber.nom : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="( null != subscriber.prenom &amp;&amp; !(&quot;&quot;.equals(subscriber.prenom))) ?&#xD;&#xA;(new String(subscriber.prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="( null != subscriber.nom &amp;&amp; !(&quot;&quot;.equals(subscriber.nom))) ?&#xD;&#xA;(new String(subscriber.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -698,8 +696,8 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="(null != subscriber.adresse1 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse1))) ? subscriber.adresse1 : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="(null != subscriber.ville  &amp;&amp; !(&quot;&quot;.equals(subscriber.ville)))? subscriber.ville : null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="( null != subscriber.adresse1 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse1))) ?&#xD;&#xA;(new String(subscriber.adresse1, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="( null != subscriber.ville &amp;&amp; !(&quot;&quot;.equals(subscriber.ville))) ?&#xD;&#xA;(new String(subscriber.ville, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="(null != subscriber.adresse2 &amp;&amp; !(&quot;&quot;.equals(subscriber.adresse2))) ? subscriber.adresse2 : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea2" expression="" type="id_String" nullable="true"/>
@@ -776,7 +774,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_subscriberafr" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_subscriberafr">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="subscriber_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="subscriber_email" expression="(null != subscriber.email &amp;&amp; !(&quot;&quot;.equals(subscriber.email)))? subscriber.email : null " type="id_String" nullable="true"/>
@@ -812,12 +810,12 @@
         <mapperTableEntries name="openid" type="id_String"/>
         <mapperTableEntries name="lastip" type="id_String"/>
         <mapperTableEntries name="civilite" type="id_String" nullable="true"/>
-        <mapperTableEntries name="prenom" type="id_String"/>
-        <mapperTableEntries name="nom" type="id_String"/>
-        <mapperTableEntries name="adresse1" type="id_String"/>
+        <mapperTableEntries name="prenom" type="id_byte[]"/>
+        <mapperTableEntries name="nom" type="id_byte[]"/>
+        <mapperTableEntries name="adresse1" type="id_byte[]"/>
         <mapperTableEntries name="adresse2" type="id_String"/>
         <mapperTableEntries name="cp" type="id_String"/>
-        <mapperTableEntries name="ville" type="id_String"/>
+        <mapperTableEntries name="ville" type="id_byte[]"/>
         <mapperTableEntries name="user" type="id_String"/>
         <mapperTableEntries name="tel" type="id_String"/>
         <mapperTableEntries name="pass" type="id_String"/>
@@ -2205,7 +2203,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -2221,7 +2219,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
