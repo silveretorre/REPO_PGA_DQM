@@ -362,7 +362,7 @@
       <column comment="" key="false" length="10" name="Km" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="Couleur" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="Couleur" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="8" name="PvTTC" nullable="true" pattern="" precision="8" sourceType="FLOAT4" type="id_Float" usefulColumn="true">
@@ -559,7 +559,7 @@
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="last_mileage_known" expression="( null != vente.Km ) ? vente.Km.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.hasName">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.hasName">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
@@ -637,7 +637,7 @@
         <mapperTableEntries name="kind" expression="( null != vente.Genre &amp;&amp; !(&quot;&quot;.equals(vente.Genre))) ?&#xD;&#xA;(new String(vente.Genre, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="( null != histo_pin.Chassis &amp;&amp; !(&quot;&quot;.equals(histo_pin.Chassis))) ? histo_pin.Chassis : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="energy" expression="( null != vente.Energie &amp;&amp; !(&quot;&quot;.equals(vente.Energie))) ?&#xD;&#xA;(new String(vente.Energie, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="color" expression="( null != vente.Couleur &amp;&amp; !(&quot;&quot;.equals(vente.Couleur))) ?&#xD;&#xA;(new String(vente.Couleur, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="color" expression="vente.Couleur" type="id_String" nullable="true"/>
         <mapperTableEntries name="national_identification_type" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_start_date" expression="( null != vente.Date1Mec &amp;&amp; !(&quot;&quot;.equals(vente.Date1Mec))) ? &#xD;&#xA;TalendDate.formatDate(&quot;yyyy-MM-dd&quot;,vente.Date1Mec)&#xD;&#xA;: &quot;1900-01-01&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="circulation_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -666,7 +666,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_po" expressionFilter="Var.hasName">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_po" minimized="true" expressionFilter="Var.hasName">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="purchase_order_number" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="retained_comprop" type="id_String" nullable="true"/>
@@ -683,7 +683,7 @@
         <mapperTableEntries name="currency" expression="&quot;EUR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="Var.last_mileage_known " type="id_Double" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="vente" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="vente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VENTE_ID" type="id_String"/>
         <mapperTableEntries name="CodePVO" type="id_String" nullable="true"/>
         <mapperTableEntries name="Nom" type="id_byte[]" nullable="true"/>
@@ -696,7 +696,7 @@
         <mapperTableEntries name="Genre" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="Date1Mec" type="id_Date" nullable="true"/>
         <mapperTableEntries name="Km" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="Couleur" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Couleur" type="id_String" nullable="true"/>
         <mapperTableEntries name="PvTTC" type="id_Float" nullable="true"/>
         <mapperTableEntries name="AcheteurCivilite" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurNom" type="id_String" nullable="true"/>
@@ -711,7 +711,7 @@
         <mapperTableEntries name="AcheteurEmail" type="id_String" nullable="true"/>
         <mapperTableEntries name="DateVente" type="id_Date" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="histo_pin" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="histo_pin" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="Numpoli" expression="vente.Numpoli " type="id_String" nullable="true"/>
         <mapperTableEntries name="Chassis" type="id_String" nullable="true"/>
         <mapperTableEntries name="Immat" expression="vente.Immatriculation " type="id_String" nullable="true"/>
@@ -1761,7 +1761,7 @@
   </connection>
   <note opaque="true" posX="544" posY="128" sizeHeight="64" sizeWidth="257" text="pas besoin pour l'historique...&#xD;&#xA;"/>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -1772,7 +1772,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
