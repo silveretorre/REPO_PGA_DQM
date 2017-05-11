@@ -852,6 +852,7 @@
       <column comment="" key="false" length="-1" name="prof" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="prof_DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="fin_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -865,6 +866,7 @@
         <mapperTableEntries name="prof" expression="( null != tgProfesion.DESCRIP &amp;&amp; !(&quot;&quot;.equals(tgProfesion.DESCRIP))) ?&#xD;&#xA;(new String(tgProfesion.DESCRIP, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="prof_DESCRIP" expression="tgProfesion.DESCRIP " type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="fin_com" expression="row4.fin_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="libstatus" expression="row5.libstatus " type="id_String"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idpropsect" type="id_Long"/>
@@ -896,6 +898,10 @@
         <mapperTableEntries name="CODIGO" expression="&quot;36&quot;" type="id_String"/>
         <mapperTableEntries name="DESCRIP" type="id_byte[]" nullable="true"/>
       </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="row5" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="idstatus" expression="12" type="id_Integer"/>
+        <mapperTableEntries name="libstatus" type="id_String"/>
+      </inputTables>
     </nodeData>
   </node>
   <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="352" posY="64">
@@ -924,6 +930,8 @@
       <elementValue elementRef="LENGTH" value="10"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="fin_com"/>
       <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="libstatus"/>
+      <elementValue elementRef="LENGTH" value="10"/>
     </elementParameter>
     <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
@@ -935,6 +943,7 @@
       <column comment="" key="false" length="-1" name="prof" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="prof_DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="fin_com" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tOracleInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="256">
@@ -988,6 +997,51 @@
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="35" name="DESCRIP" nullable="true" pattern="" precision="0" sourceType="VARCHAR2" type="id_byte[]" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="32">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_2" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_nH8cQC1tEeaqIfnqaQ1Huw" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMysqlConnection_1" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_AUTOSPHERE_FR_Server"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_AUTOSPHERE_FR_Port"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_AUTOSPHERE_FR_Database"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_AUTOSPHERE_FR_Login"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kufqKJKiv3TxDDnrUdmmYBkpeDyFHOcp9f/kPhM0Qn8q4A=="/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;status&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `status`.`idstatus`, &#xA;  `status`.`libstatus`&#xA;FROM `status`&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="mysql_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_AUTOSPHERE_FR_AdditionalParams"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="ENABLE_STREAM" value="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="idstatus"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="libstatus"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="status" name="tMysqlInput_2">
+      <column comment="" defaultValue="0" key="true" length="10" name="idstatus" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1111,6 +1165,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="fin_com"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="libstatus"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="hbfg" show="false"/>
@@ -1118,6 +1175,10 @@
   <connection connectorName="FLOW" label="tgProfesion" lineStyle="8" metaname="tOracleInput_1" offsetLabelX="0" offsetLabelY="0" source="tOracleInput_1" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tgProfesion" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row5" lineStyle="8" metaname="tMysqlInput_2" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_2" target="tMap_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_1" show="false"/>
