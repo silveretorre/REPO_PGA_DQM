@@ -332,7 +332,7 @@
       <column comment="" key="false" length="255" name="CodePVO" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="Nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="Nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="Cpostal" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -374,19 +374,19 @@
       <column comment="" key="false" length="255" name="AcheteurNom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="AcheteurNomUsage" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="AcheteurNomUsage" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="AcheteurPrenom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="AcheteurPrenom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="AcheteurAdresse" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="AcheteurAdresse" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="AcheteurCodePostal" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="AcheteurVille" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="AcheteurVille" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="AcheteurTelephone1" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
@@ -553,13 +553,13 @@
         <mapperTableEntries name="dealership_id" expression="(null != vente.CodePVO &amp;&amp; !(&quot;&quot;.equals(vente.CodePVO)))? vente.CodePVO : &quot;DEF_100&quot; " type="id_String"/>
         <mapperTableEntries name="dealership_city" expression="" type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="(null != vente.Cpostal &amp;&amp; !(&quot;&quot;.equals(vente.Cpostal)))? vente.Cpostal : null " type="id_String"/>
-        <mapperTableEntries name="dealership_label" expression="( null != vente.Nom &amp;&amp; !(&quot;&quot;.equals(vente.Nom))) ?&#xD;&#xA;(new String(vente.Nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="vente.Nom" type="id_String"/>
         <mapperTableEntries name="bname" expression="(null != vente.AcheteurNom &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurNom))) ? vente.AcheteurNom : null " type="id_String"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="last_mileage_known" expression="( null != vente.Km ) ? vente.Km.doubleValue() : 0.0 " type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" minimized="true" expressionFilter="Var.hasName">
+      <outputTables sizeState="INTERMEDIATE" name="pd_all_hpv" expressionFilter="Var.hasName">
         <mapperTableEntries name="master_key" expression="Var.master_key " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String" nullable="true"/>
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
@@ -588,8 +588,8 @@
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="street_number" expression="" type="id_String" nullable="true"/>
-        <mapperTableEntries name="route" expression="null == (vente.AcheteurAdresse) || (&quot;&quot;.equals(vente.AcheteurAdresse)) ?&#xD;&#xA;(new String(vente.AcheteurAdresse, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="locality" expression="( null != vente.AcheteurVille &amp;&amp; !(&quot;&quot;.equals(vente.AcheteurVille))) ?&#xD;&#xA;(new String(vente.AcheteurVille, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="route" expression="null == (vente.AcheteurAdresse) || (&quot;&quot;.equals(vente.AcheteurAdresse)) ?&#xD;&#xA;vente.AcheteurAdresse.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="vente.AcheteurVille" type="id_String" nullable="true"/>
         <mapperTableEntries name="sublocality" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea1" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea2" expression="" type="id_String" nullable="true"/>
@@ -686,7 +686,7 @@
       <inputTables sizeState="INTERMEDIATE" name="vente" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="VENTE_ID" type="id_String"/>
         <mapperTableEntries name="CodePVO" type="id_String" nullable="true"/>
-        <mapperTableEntries name="Nom" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="Nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="Cpostal" type="id_String" nullable="true"/>
         <mapperTableEntries name="Numpoli" type="id_String" nullable="true"/>
         <mapperTableEntries name="Immatriculation" type="id_String" nullable="true"/>
@@ -700,11 +700,11 @@
         <mapperTableEntries name="PvTTC" type="id_Float" nullable="true"/>
         <mapperTableEntries name="AcheteurCivilite" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurNom" type="id_String" nullable="true"/>
-        <mapperTableEntries name="AcheteurNomUsage" type="id_byte[]" nullable="true"/>
-        <mapperTableEntries name="AcheteurPrenom" type="id_byte[]" nullable="true"/>
-        <mapperTableEntries name="AcheteurAdresse" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="AcheteurNomUsage" type="id_String" nullable="true"/>
+        <mapperTableEntries name="AcheteurPrenom" type="id_String" nullable="true"/>
+        <mapperTableEntries name="AcheteurAdresse" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurCodePostal" type="id_String" nullable="true"/>
-        <mapperTableEntries name="AcheteurVille" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="AcheteurVille" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurTelephone1" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurTelephone2" type="id_String" nullable="true"/>
         <mapperTableEntries name="AcheteurPortable" type="id_String" nullable="true"/>
