@@ -1101,7 +1101,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_lead" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_lead" minimized="true" activateExpressionFilter="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="prospect_id" expression="(null != Var.process_id   &amp;&amp; !(&quot;&quot;.equals(Var.process_id )))? Var.process_id : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_type" expression="(null != propsect.trait_type &amp;&amp; !(&quot;&quot;.equals(propsect.trait_type)))? propsect.trait_type : null" type="id_String" nullable="true"/>
@@ -1110,7 +1110,7 @@
         <mapperTableEntries name="prospect_email" expression="(null != propsect.email &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_landline" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_status" expression="status.libstatus " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_status" expression="status.libstatus.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )" type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_dealership" expression="(null != ce_telrouge.nom  &amp;&amp; !(&quot;&quot;.equals(ce_telrouge.nom)))? &#xD;&#xA;(new String(ce_telrouge.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != propsect.objet  &amp;&amp; !(&quot;&quot;.equals(propsect.objet)))? &#xD;&#xA;(new String(propsect.objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="( null != propsect.objet &amp;&amp; !&quot;&quot;.equals(propsect.objet) )? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
@@ -1121,7 +1121,7 @@
         <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? &#xD;&#xA;(new String(propsect.proj_comment, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_fund_com" expression="propsect.fin_com" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" expression="propsect.fin_com.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
         <mapperTableEntries name="lead_src_com" type="id_String" nullable="true"/>
