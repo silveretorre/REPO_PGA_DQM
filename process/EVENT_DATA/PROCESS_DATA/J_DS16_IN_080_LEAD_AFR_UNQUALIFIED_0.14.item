@@ -734,7 +734,7 @@
       <column comment="" key="false" length="10" name="fin_pres" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="fin_com" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="fin_com" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="3" name="optout" nullable="false" pattern="" precision="0" sourceType="SMALLINT" type="id_Short" usefulColumn="true">
@@ -1137,7 +1137,7 @@
         <mapperTableEntries name="prospect_email" expression="(null != propsect.email &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_landline" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_status" expression="(null != status.libstatus  &amp;&amp; !(&quot;&quot;.equals(status.libstatus)))? &#xD;&#xA;(new String(status.libstatus, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_status" expression="status.libstatus " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_dealership" expression="(null != ce_telrouge.nom  &amp;&amp; !(&quot;&quot;.equals(ce_telrouge.nom)))? &#xD;&#xA;(new String(ce_telrouge.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != propsect.objet  &amp;&amp; !(&quot;&quot;.equals(propsect.objet)))? &#xD;&#xA;(new String(propsect.objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="( null != propsect.objet &amp;&amp; !&quot;&quot;.equals(propsect.objet) )? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
@@ -1148,7 +1148,7 @@
         <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? &#xD;&#xA;(new String(propsect.proj_comment, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_fund_com" expression="(null != propsect.fin_com  &amp;&amp; !(&quot;&quot;.equals(propsect.fin_com)))? &#xD;&#xA;(new String(propsect.fin_com, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" expression="propsect.fin_com" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
       </outputTables>
@@ -1161,7 +1161,7 @@
         <mapperTableEntries name="prospect_email" expression="(null != propsect.email &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_landline" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_status" expression="(null != status.libstatus  &amp;&amp; !(&quot;&quot;.equals(status.libstatus)))? &#xD;&#xA;(new String(status.libstatus, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_status" expression="status.libstatus " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_dealership" expression="(null != ce_telrouge.nom  &amp;&amp; !(&quot;&quot;.equals(ce_telrouge.nom)))? &#xD;&#xA;(new String(ce_telrouge.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != propsect.objet  &amp;&amp; !(&quot;&quot;.equals(propsect.objet)))? &#xD;&#xA;(new String(propsect.objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="( null != propsect.objet &amp;&amp; !&quot;&quot;.equals(propsect.objet) )? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
@@ -1172,7 +1172,7 @@
         <mapperTableEntries name="lead_veh_brand" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_search_com" expression="(null != propsect.proj_comment  &amp;&amp; !(&quot;&quot;.equals(propsect.proj_comment)))? &#xD;&#xA;(new String(propsect.proj_comment, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_fund_com" expression="(null != propsect.fin_com  &amp;&amp; !(&quot;&quot;.equals(propsect.fin_com)))? &#xD;&#xA;(new String(propsect.fin_com, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" expression="propsect.fin_com" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="!(&quot;&quot;.equals(propsect.lead_id))? String.valueOf(propsect.lead_id) : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="(null != veh_histo.V_KM &amp;&amp; !(&quot;&quot;.equals(veh_histo.V_KM)))? (double)veh_histo.V_KM : 0.0  " type="id_Double" nullable="true"/>
         <mapperTableEntries name="lead_src_com" type="id_String" nullable="true"/>
@@ -1199,7 +1199,7 @@
         <mapperTableEntries name="trait_type" type="id_String"/>
         <mapperTableEntries name="trait_interet" type="id_String"/>
         <mapperTableEntries name="fin_pres" type="id_String"/>
-        <mapperTableEntries name="fin_com" type="id_byte[]"/>
+        <mapperTableEntries name="fin_com" type="id_String"/>
         <mapperTableEntries name="optout" type="id_Short"/>
         <mapperTableEntries name="lead_id" type="id_Long"/>
       </inputTables>
@@ -1219,7 +1219,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="status" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idstatus" expression="propsect.status " type="id_Integer" operator="="/>
-        <mapperTableEntries name="libstatus" type="id_byte[]"/>
+        <mapperTableEntries name="libstatus" type="id_String"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="ce_telrouge" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="X_INITIALE" expression="concession.X_INITIALE " type="id_String" operator="="/>
@@ -1351,7 +1351,7 @@
       <column comment="" defaultValue="0" key="true" length="10" name="idstatus" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
