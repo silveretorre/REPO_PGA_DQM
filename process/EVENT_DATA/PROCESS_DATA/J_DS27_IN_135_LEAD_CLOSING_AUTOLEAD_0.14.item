@@ -470,8 +470,8 @@
       <column comment="" key="false" length="-1" name="v_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="l_covea" nullable="false" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="w_fk_workflow_statut_id" nullable="false" pattern="" precision="-1" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="s_libelle" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="w_description" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="s_libelle" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="w_description" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="256" posY="352" sizeX="320" sizeY="64">
@@ -757,8 +757,8 @@
         <mapperTableEntries name="lead_lifespan" expression="&quot;15 days&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_temperature" expression="(null != lead.l_financement_interet  &amp;&amp; !(&quot;&quot;.equals(lead.l_financement_interet)))? lead.l_financement_interet : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_statut_id" expression="String.valueOf(lead.w_fk_workflow_statut_id) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_clos_libel" expression="(null != lead.s_libelle  &amp;&amp; !(&quot;&quot;.equals(lead.s_libelle)))? &#xD;&#xA;(new String(lead.s_libelle, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_clos_description" expression="(null != lead.w_description  &amp;&amp; !(&quot;&quot;.equals(lead.w_description)))? &#xD;&#xA;(new String(lead.w_description, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_clos_libel" expression="lead.s_libelle" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_clos_description" expression="lead.w_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_clos_statut_datetime" expression="Var.src_process_moment " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
       </outputTables>
@@ -826,8 +826,8 @@
         <mapperTableEntries name="v_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_covea" type="id_Byte"/>
         <mapperTableEntries name="w_fk_workflow_statut_id" type="id_Long"/>
-        <mapperTableEntries name="s_libelle" type="id_byte[]" nullable="true"/>
-        <mapperTableEntries name="w_description" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="s_libelle" type="id_String" nullable="true"/>
+        <mapperTableEntries name="w_description" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="lm_veh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vehicule_id" expression="lead.l_fk_vehicule_id" type="id_Long"/>
