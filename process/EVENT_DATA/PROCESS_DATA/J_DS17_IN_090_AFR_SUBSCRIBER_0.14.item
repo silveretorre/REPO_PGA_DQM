@@ -432,10 +432,10 @@
       <column comment="" key="false" length="10" name="civilite" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="prenom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="50" name="prenom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="50" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="50" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="100" name="adresse1" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
@@ -686,8 +686,8 @@
         <mapperTableEntries name="status_reason" expression="&quot;hasName &quot; + ( Var.hasName ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String"/>
         <mapperTableEntries name="person_id" expression="(null != Var.process_id  &amp;&amp; !(&quot;&quot;.equals(Var.process_id)))? Var.process_id : &quot;0&quot; " type="id_String"/>
         <mapperTableEntries name="gender" expression="(null != subscriber.civilite  &amp;&amp; !(&quot;&quot;.equals(subscriber.civilite))) ? (&quot;1&quot;.equalsIgnoreCase(subscriber.civilite) ? &quot;Monsieur&quot; : &quot;Madame&quot; ) : &quot;ND&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="firstname" expression="( null != subscriber.prenom &amp;&amp; !(&quot;&quot;.equals(subscriber.prenom))) ?&#xD;&#xA;(new String(subscriber.prenom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="( null != subscriber.nom &amp;&amp; !(&quot;&quot;.equals(subscriber.nom))) ?&#xD;&#xA;(new String(subscriber.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="firstname" expression="subscriber.prenom" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="subscriber.nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
@@ -774,7 +774,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_subscriberafr">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_subscriberafr" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="subscriber_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="subscriber_email" expression="(null != subscriber.email &amp;&amp; !(&quot;&quot;.equals(subscriber.email)))? subscriber.email : null " type="id_String" nullable="true"/>
@@ -799,7 +799,7 @@
         <mapperTableEntries name="token" expression="(null != subscriber.token &amp;&amp; !(&quot;&quot;.equals(subscriber.token)))? subscriber.token : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="modification_date" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,subscriber.date_modif) " type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="subscriber" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="subscriber" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idabonne" type="id_Integer"/>
         <mapperTableEntries name="email" type="id_String"/>
         <mapperTableEntries name="email_valide" type="id_Byte"/>
@@ -810,8 +810,8 @@
         <mapperTableEntries name="openid" type="id_String"/>
         <mapperTableEntries name="lastip" type="id_String"/>
         <mapperTableEntries name="civilite" type="id_String" nullable="true"/>
-        <mapperTableEntries name="prenom" type="id_byte[]"/>
-        <mapperTableEntries name="nom" type="id_byte[]"/>
+        <mapperTableEntries name="prenom" type="id_String"/>
+        <mapperTableEntries name="nom" type="id_String"/>
         <mapperTableEntries name="adresse1" type="id_byte[]"/>
         <mapperTableEntries name="adresse2" type="id_String"/>
         <mapperTableEntries name="cp" type="id_String"/>
