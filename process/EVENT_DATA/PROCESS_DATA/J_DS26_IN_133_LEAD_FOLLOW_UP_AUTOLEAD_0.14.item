@@ -478,12 +478,12 @@
       <column comment="" key="false" length="-1" name="v_type" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="l_covea" nullable="true" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="user_activite_id" nullable="true" pattern="" precision="-1" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="a_objet" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="a_objet" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="a_debut_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="a_fin_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="-1" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="a_resume" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="a_compte_rendu" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="t_libelle2" nullable="true" originalDbColumnName="t_libelle" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="a_resume" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="a_compte_rendu" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="t_libelle2" nullable="true" originalDbColumnName="t_libelle" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="224" posY="384" sizeX="448" sizeY="64">
@@ -772,12 +772,12 @@
         <mapperTableEntries name="lead_lifespan" expression="&quot;15 days&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_temperature" expression="(null != lead.l_financement_interet  &amp;&amp; !(&quot;&quot;.equals(lead.l_financement_interet)))? lead.l_financement_interet : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_id" expression="null != lead.user_activite_id ? String.valueOf(lead.user_activite_id) : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_objet" expression="(null != lead.a_objet  &amp;&amp; !(&quot;&quot;.equals(lead.a_objet)))? &#xD;&#xA;(new String(lead.a_objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_objet" expression="lead.a_objet" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_start_date" expression="null != lead.a_debut_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_debut_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_follow_up_end_date" expression="null != lead.a_fin_datetime ? TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,lead.a_fin_datetime) : &quot;1900-01-01 00:00:00&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_description_1" expression="(null != lead.a_resume  &amp;&amp; !(&quot;&quot;.equals(lead.a_resume)))? &#xD;&#xA;( StringHandling.LEN((new String(lead.a_resume, &quot;latin1&quot;))) &lt;= 1048575 ?&#xD;&#xA;(new String(lead.a_resume, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;&#xD;&#xA;((new String(lead.a_resume, &quot;latin1&quot;)).substring(0,1048574)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xD;&#xA;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_description_2" expression="(null != lead.a_compte_rendu  &amp;&amp; !(&quot;&quot;.equals(lead.a_compte_rendu)))? &#xD;&#xA;(new String(lead.a_compte_rendu, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_follow_up_type" expression="(null != lead.t_libelle2  &amp;&amp; !(&quot;&quot;.equals(lead.t_libelle2)))? &#xD;&#xA;(new String(lead.t_libelle2, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_description_1" expression="(null != lead.a_resume  &amp;&amp; !(&quot;&quot;.equals(lead.a_resume)))? &#xD;&#xA;( StringHandling.LEN(lead.a_resume) &lt;= 1048575 ? lead.a_resume : lead.a_resume.substring(0,1048574) )&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_description_2" expression="lead.a_compte_rendu " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_follow_up_type" expression="lead.t_libelle2 " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="lead" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -844,12 +844,12 @@
         <mapperTableEntries name="v_type" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_covea" type="id_Byte" nullable="true"/>
         <mapperTableEntries name="user_activite_id" type="id_Long" nullable="true"/>
-        <mapperTableEntries name="a_objet" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="a_objet" type="id_String" nullable="true"/>
         <mapperTableEntries name="a_debut_datetime" type="id_Date" nullable="true"/>
         <mapperTableEntries name="a_fin_datetime" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="a_resume" type="id_byte[]" nullable="true"/>
-        <mapperTableEntries name="a_compte_rendu" type="id_byte[]" nullable="true"/>
-        <mapperTableEntries name="t_libelle2" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="a_resume" type="id_String" nullable="true"/>
+        <mapperTableEntries name="a_compte_rendu" type="id_String" nullable="true"/>
+        <mapperTableEntries name="t_libelle2" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="lm_veh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vehicule_id" expression="lead.l_fk_vehicule_id " type="id_Long"/>
