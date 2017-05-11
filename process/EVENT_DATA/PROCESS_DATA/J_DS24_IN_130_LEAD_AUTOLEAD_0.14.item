@@ -414,7 +414,7 @@
       <column comment="" key="false" length="-1" name="l_projet_detail" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="l_financement_presente" nullable="true" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="l_financement_interet" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="l_financement_commentaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="l_financement_commentaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="l_marque" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="p_ne_pas_email" nullable="true" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="p_ne_pas_courrier" nullable="true" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
@@ -424,7 +424,7 @@
       <column comment="" key="false" length="-1" name="codepostal" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="ville" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="l_covea" nullable="false" pattern="" precision="-1" sourceType="TINYINT" type="id_Byte" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="l_source_commentaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="l_source_commentaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="-1" name="l_fk_reprise_vehicule_id" nullable="true" pattern="" precision="-1" sourceType="BIGINT" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
@@ -702,7 +702,7 @@
         <mapperTableEntries name="prospect_email" expression="(null != lead.p_email &amp;&amp; !(&quot;&quot;.equals(lead.p_email)))? lead.p_email : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_landline" expression="(null != lead.p_telephone  &amp;&amp; !(&quot;&quot;.equals(lead.p_telephone)))? lead.p_telephone : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != lead.p_portable  &amp;&amp; !(&quot;&quot;.equals(lead.p_portable)))? lead.p_portable : null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_status" expression="(null != status.libstatus  &amp;&amp; !(&quot;&quot;.equals(status.libstatus)))? &#xD;&#xA;(new String(status.libstatus, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_status" expression="status.libstatus" type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_dealership" expression="Var.dealership_label " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != lead.t_libelle  &amp;&amp; !(&quot;&quot;.equals(lead.t_libelle)))? &#xD;&#xA;(new String(lead.t_libelle, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="((&quot;&quot;.equals(lead.t_libelle)) &amp;&amp; (null != lead.t_libelle))? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
@@ -713,10 +713,10 @@
         <mapperTableEntries name="lead_veh_brand" expression="rep_vehicule.v_marque  " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_veh_model" expression="rep_vehicule.v_modele  " type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_search_com" expression="(null != rep_vehicule.v_commentaire  &amp;&amp; !(&quot;&quot;.equals(rep_vehicule.v_commentaire)))? &#xD;&#xA;(new String(rep_vehicule.v_commentaire, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_fund_com" expression="(null != lead.l_financement_commentaire   &amp;&amp; !(&quot;&quot;.equals(lead.l_financement_commentaire )))? &#xD;&#xA;(new String(lead.l_financement_commentaire , &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_fund_com" expression="lead.l_financement_commentaire" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_id" expression="Var.process_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="last_mileage_known" expression="null != lm_veh.v_kilometrage ? (double)lm_veh.v_kilometrage : 0.0  " type="id_Double" nullable="true"/>
-        <mapperTableEntries name="lead_src_com" expression="(null != lead.l_source_commentaire &amp;&amp; !(&quot;&quot;.equals(lead.l_source_commentaire )))? &#xD;&#xA;(new String(lead.l_source_commentaire , &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_src_com" expression="lead.l_source_commentaire" type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="lead" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="lead_id" type="id_Long"/>
@@ -747,7 +747,7 @@
         <mapperTableEntries name="l_projet_detail" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_financement_presente" type="id_Byte" nullable="true"/>
         <mapperTableEntries name="l_financement_interet" type="id_String" nullable="true"/>
-        <mapperTableEntries name="l_financement_commentaire" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="l_financement_commentaire" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_marque" type="id_String" nullable="true"/>
         <mapperTableEntries name="p_ne_pas_email" type="id_Byte" nullable="true"/>
         <mapperTableEntries name="p_ne_pas_courrier" type="id_Byte" nullable="true"/>
@@ -757,13 +757,13 @@
         <mapperTableEntries name="codepostal" type="id_String" nullable="true"/>
         <mapperTableEntries name="ville" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="l_covea" type="id_Byte"/>
-        <mapperTableEntries name="l_source_commentaire" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="l_source_commentaire" type="id_String" nullable="true"/>
         <mapperTableEntries name="l_fk_reprise_vehicule_id" type="id_Long" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="status" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idstatus" expression="20" type="id_Integer" operator="="/>
         <mapperTableEntries name="idlevel" type="id_Integer"/>
-        <mapperTableEntries name="libstatus" type="id_byte[]"/>
+        <mapperTableEntries name="libstatus" type="id_String"/>
         <mapperTableEntries name="commentaire" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="lm_veh" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -866,7 +866,7 @@
       <column comment="" defaultValue="0" key="false" length="10" name="idlevel" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="255" name="commentaire" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
