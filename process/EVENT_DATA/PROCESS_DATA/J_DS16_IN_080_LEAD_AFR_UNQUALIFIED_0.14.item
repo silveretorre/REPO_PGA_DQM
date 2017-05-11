@@ -988,9 +988,9 @@
         <mapperTableEntries name="hasName" expression="null != propsect.nom &amp;&amp; !(&quot;&quot;.equals(propsect.nom)) " type="id_Boolean"/>
         <mapperTableEntries name="isPGA" expression="plaque_grp.externe == 0" type="id_Boolean"/>
         <mapperTableEntries name="dealership_id" expression="(null != propsect.concession   &amp;&amp; !(&quot;&quot;.equals(propsect.concession))) ? propsect.concession : &quot;DEF_080&quot; " type="id_String"/>
-        <mapperTableEntries name="dealership_city" expression="(null != concession.ville   &amp;&amp; !(&quot;&quot;.equals(concession.ville)))? &#xD;&#xA;( isValidutf8.validUTF8(concession.ville) ?&#xA;(new String(concession.ville)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xA;:&#xA;(new String(concession.ville, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xA;) &#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_city" expression="concession.ville " type="id_String"/>
         <mapperTableEntries name="dealership_zipcode" expression="(null != concession.codepostal   &amp;&amp; !(&quot;&quot;.equals(concession.codepostal)))? concession.codepostal : null" type="id_String"/>
-        <mapperTableEntries name="dealership_label" expression="(null != concession.nom   &amp;&amp; !(&quot;&quot;.equals(concession.nom)))? &#xD;&#xA;( isValidutf8.validUTF8(concession.nom) ?&#xA;(new String(concession.nom)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xA;:&#xA;(new String(concession.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xA;)&#xD;&#xA;: null " type="id_String"/>
+        <mapperTableEntries name="dealership_label" expression="concession.nom" type="id_String"/>
         <mapperTableEntries name="optOut" expression="(1 == propsect.optout)? false : true " type="id_Boolean"/>
         <mapperTableEntries name="master_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="join_key" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
@@ -1103,7 +1103,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_leadunq" expressionFilter="Var.boolUnqualified " activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_leadunq" minimized="true" expressionFilter="Var.boolUnqualified " activateExpressionFilter="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="prospect_id" expression="(null != Var.process_id   &amp;&amp; !(&quot;&quot;.equals(Var.process_id )))? Var.process_id : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_type" expression="(null != propsect.trait_type &amp;&amp; !(&quot;&quot;.equals(propsect.trait_type)))? propsect.trait_type : null" type="id_String" nullable="true"/>
@@ -1113,7 +1113,7 @@
         <mapperTableEntries name="prospect_landline" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_status" expression="null != status.libstatus ?&#xD;&#xA;status.libstatus.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
-        <mapperTableEntries name="linked_dealership" expression="(null != ce_telrouge.nom  &amp;&amp; !(&quot;&quot;.equals(ce_telrouge.nom)))? &#xD;&#xA;(new String(ce_telrouge.nom, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="linked_dealership" expression="ce_telrouge.nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != propsect.objet  &amp;&amp; !(&quot;&quot;.equals(propsect.objet)))? &#xD;&#xA;(new String(propsect.objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="( null != propsect.objet &amp;&amp; !&quot;&quot;.equals(propsect.objet) )? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_service" expression="(null != propsect.fin_pres &amp;&amp; &quot;oui&quot;.equalsIgnoreCase(propsect.fin_pres)) ? &quot;Financement&quot; : null " type="id_String" nullable="true"/>
@@ -1163,9 +1163,9 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="concession" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="X_INITIALE" expression="propsect.concession " type="id_String"/>
-        <mapperTableEntries name="nom" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="codepostal" type="id_String" nullable="true"/>
-        <mapperTableEntries name="ville" type="id_byte[]" nullable="true"/>
+        <mapperTableEntries name="ville" type="id_String" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="status" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="idstatus" expression="propsect.status " type="id_Integer" operator="="/>
@@ -1173,7 +1173,7 @@
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="ce_telrouge" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="X_INITIALE" expression="concession.X_INITIALE " type="id_String" operator="="/>
-        <mapperTableEntries name="nom" type="id_byte[]"/>
+        <mapperTableEntries name="nom" type="id_String"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="plaque_rap_ce" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="plaque_rapport_det_id" expression="" type="id_Long"/>
@@ -1250,13 +1250,13 @@
       <column comment="" key="true" length="7" name="X_INITIALE" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="nom" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
       <column comment="" key="false" length="6" name="codepostal" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="ville" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="ville" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
@@ -1346,7 +1346,7 @@
       <column comment="" key="true" length="7" name="X_INITIALE" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
-      <column comment="" key="false" length="255" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_byte[]" usefulColumn="true">
+      <column comment="" key="false" length="255" name="nom" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
     </metadata>
