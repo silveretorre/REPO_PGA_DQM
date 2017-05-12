@@ -606,7 +606,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`date_insc`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`proj_comment`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`fin_com`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`lead_id`&#xA;FROM `propsect`&#xD;&#xA;WHERE &#xD;&#xA;((date_insc BETWEEN '2007-01-01 00:00:00'&#xD;&#xA;AND '2016-09-06 14:15:15' )&#xD;&#xA;and '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;' &lt;= '2016-09-06 14:15:15')&#xD;&#xA;AND (`propsect`.`status` = 20 OR `propsect`.`status` = 30 OR `propsect`.`status` = 5 OR `propsect`.`status` = 10)&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`date_insc`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xD;&#xA;  `propsect`.`status_pdv`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`proj_comment`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`fin_com`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`lead_id`&#xA;FROM `propsect`&#xD;&#xA;WHERE &#xD;&#xA;((date_insc BETWEEN '2007-01-01 00:00:00'&#xD;&#xA;AND '2016-09-06 14:15:15' )&#xD;&#xA;and '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;' &lt;= '2016-09-06 14:15:15')&#xD;&#xA;AND (`propsect`.`status` = 20 OR `propsect`.`status` = 30 OR `propsect`.`status` = 5 OR `propsect`.`status` = 10)&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -644,6 +644,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="ville"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status_pdv"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="concession"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -711,6 +713,7 @@
       <column comment="" defaultValue="0" key="false" length="10" name="status" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="10" name="status_pdv" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="concession" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -1101,7 +1104,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_lead">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_lead" minimized="true">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="prospect_id" expression="(null != Var.process_id   &amp;&amp; !(&quot;&quot;.equals(Var.process_id )))? Var.process_id : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_type" expression="(null != propsect.trait_type &amp;&amp; !(&quot;&quot;.equals(propsect.trait_type)))? propsect.trait_type : null" type="id_String" nullable="true"/>
@@ -1141,6 +1144,7 @@
         <mapperTableEntries name="cp" type="id_String" nullable="true"/>
         <mapperTableEntries name="ville" type="id_String" nullable="true"/>
         <mapperTableEntries name="status" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="status_pdv" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="concession" type="id_String" nullable="true"/>
         <mapperTableEntries name="objet" type="id_byte[]"/>
         <mapperTableEntries name="provenance" type="id_String"/>
@@ -1203,8 +1207,8 @@
         <mapperTableEntries name="V_KM" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="V_COULEUR" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="statusPDV" matchingMode="ALL_ROWS" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="idstatus" expression="" type="id_Integer"/>
+      <inputTables sizeState="INTERMEDIATE" name="statusPDV" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="idstatus" expression="propsect.status_pdv " type="id_Integer"/>
         <mapperTableEntries name="libstatus" type="id_String"/>
       </inputTables>
     </nodeData>
@@ -2695,6 +2699,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="propsect" lineStyle="0" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="status_pdv"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="propsect" show="false"/>
   </connection>
