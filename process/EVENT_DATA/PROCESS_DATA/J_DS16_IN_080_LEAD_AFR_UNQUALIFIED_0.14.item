@@ -607,7 +607,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`date_insc`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`proj_comment`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`fin_com`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`lead_id`&#xA;FROM `propsect`&#xD;&#xA;WHERE&#xD;&#xA;(( date_insc BETWEEN '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;'&#xD;&#xA;AND '&quot;+String.valueOf(globalMap.get(&quot;currDate&quot;))+&quot;' )&#xD;&#xA;and `propsect`.`status` IN (12,15,70,80))&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `propsect`.`idpropsect`, &#xA;  `propsect`.`email`, &#xA;  `propsect`.`date_insc`, &#xA;  `propsect`.`civil`, &#xA;  `propsect`.`nom`, &#xA;  `propsect`.`prenom`, &#xA;  `propsect`.`tel`, &#xA;  `propsect`.`portable`, &#xA;  `propsect`.`lastseen`, &#xA;  `propsect`.`adresse`, &#xA;  `propsect`.`comple`, &#xA;  `propsect`.`cp`, &#xA;  `propsect`.`ville`, &#xA;  `propsect`.`status`, &#xD;&#xA;  `propsect`.`status_pdv`, &#xA;  `propsect`.`concession`, &#xA;  `propsect`.`objet`, &#xA;  `propsect`.`provenance`, &#xA;  `propsect`.`proj_comment`, &#xA;  `propsect`.`trait_type`, &#xA;  `propsect`.`trait_interet`, &#xA;  `propsect`.`fin_pres`, &#xA;  `propsect`.`fin_com`, &#xA;  `propsect`.`optout`, &#xA;  `propsect`.`lead_id`&#xA;FROM `propsect`&#xD;&#xA;WHERE&#xD;&#xA;(( date_insc BETWEEN '&quot;+String.valueOf(globalMap.get(&quot;lpd&quot;))+&quot;'&#xD;&#xA;AND '&quot;+String.valueOf(globalMap.get(&quot;currDate&quot;))+&quot;' )&#xD;&#xA;and `propsect`.`status` IN (12,15,70,80))&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -645,6 +645,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="ville"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="status"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="status_pdv"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="concession"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -713,6 +715,7 @@
       <column comment="" defaultValue="0" key="false" length="10" name="status" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
+      <column comment="" key="false" length="10" name="status_pdv" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="concession" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
         <additionalField key="Comment" value=""/>
       </column>
@@ -835,7 +838,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="448" sizeX="288" sizeY="96">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="448" sizeX="352" sizeY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -1112,7 +1115,7 @@
         <mapperTableEntries name="prospect_email" expression="(null != propsect.email &amp;&amp; !(&quot;&quot;.equals(propsect.email)))? propsect.email : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_landline" expression="(null != propsect.tel  &amp;&amp; !(&quot;&quot;.equals(propsect.tel)))? propsect.tel : null" type="id_String" nullable="true"/>
         <mapperTableEntries name="prospect_mobile" expression="(null != propsect.portable  &amp;&amp; !(&quot;&quot;.equals(propsect.portable)))? propsect.portable : null" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lead_status" expression="null != status.libstatus ?&#xD;&#xA;status.libstatus.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_status" expression="null != status.libstatus ?&#xD;&#xA;(propsect.status == 20 ?&#xD;&#xA;(status.libstatus + &quot;_&quot; + statusPDV.libstatus ).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;:&#xD;status.libstatus.replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;)&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_dealership" expression="ce_telrouge.nom" type="id_String" nullable="true"/>
         <mapperTableEntries name="lead_subject" expression="(null != propsect.objet  &amp;&amp; !(&quot;&quot;.equals(propsect.objet)))? &#xD;&#xA;(new String(propsect.objet, &quot;latin1&quot;)).replaceAll(&quot;\\\\n&quot;, &quot; - &quot;).replaceAll(&quot;\\\\r&quot;, &quot; - &quot;).replace((char)10,(char)0x7C).replace((char)13,(char)0x7C).replaceAll(&quot;\\|+&quot; , String.valueOf((char) 248)+ &quot; &quot; )&#xD;&#xA;: null " type="id_String" nullable="true"/>
         <mapperTableEntries name="linked_product" expression="( null != propsect.objet &amp;&amp; !&quot;&quot;.equals(propsect.objet) )? &quot;Véhicule&quot; : null " type="id_String" nullable="true"/>
@@ -1142,6 +1145,7 @@
         <mapperTableEntries name="cp" type="id_String" nullable="true"/>
         <mapperTableEntries name="ville" type="id_byte[]" nullable="true"/>
         <mapperTableEntries name="status" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="status_pdv" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="concession" type="id_String" nullable="true"/>
         <mapperTableEntries name="objet" type="id_byte[]"/>
         <mapperTableEntries name="provenance" type="id_String"/>
@@ -1203,6 +1207,10 @@
         <mapperTableEntries name="V_DA1MEC" type="id_Date" nullable="true"/>
         <mapperTableEntries name="V_KM" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="V_COULEUR" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="statusPDV" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="idstatus" expression="propsect.status_pdv " type="id_Integer"/>
+        <mapperTableEntries name="libstatus" type="id_String"/>
       </inputTables>
     </nodeData>
   </node>
@@ -1599,7 +1607,7 @@
       <column comment="" key="false" length="45" name="V_COULEUR" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="416">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -2381,7 +2389,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="576">
+  <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="576">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_3" show="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
@@ -2582,6 +2590,51 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_12" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_nH8cQC1tEeaqIfnqaQ1Huw" show="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="MYSQL_5" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMysqlConnection_1"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_AUTOSPHERE_FR_Server" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_AUTOSPHERE_FR_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_AUTOSPHERE_FR_Database" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="MYSQL" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_AUTOSPHERE_FR_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kufqKJKiv3TxDDnrUdmmYBkpeDyFHOcp9f/kPhM0Qn8q4A==" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;status&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  `status`.`idstatus`, &#xA;  `status`.`libstatus`&#xA;FROM `status`&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="mysql_id" show="false"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="context.DB_AUTOSPHERE_FR_AdditionalParams" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="ENABLE_STREAM" value="false"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="idstatus"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="libstatus"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="status" name="tMysqlInput_12">
+      <column comment="" defaultValue="0" key="true" length="10" name="idstatus" nullable="false" pattern="" precision="0" sourceType="INT" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="100" name="libstatus" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tMysqlConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
@@ -2640,6 +2693,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="propsect" lineStyle="0" metaname="tMysqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_1" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="status_pdv"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="propsect" show="false"/>
   </connection>
@@ -2724,6 +2782,10 @@
   <connection connectorName="FLOW" label="veh_histo" lineStyle="8" metaname="tMysqlInput_11" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_11" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="veh_histo" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="statusPDV" lineStyle="8" metaname="tMysqlInput_12" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_12" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="statusPDV" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
