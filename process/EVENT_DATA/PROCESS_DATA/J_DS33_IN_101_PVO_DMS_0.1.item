@@ -437,7 +437,7 @@
       <column comment="" key="false" length="255" name="src_dealership_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="In_src_dealership_id">
         <mapperTableEntries name="src_dealership_id" expression="row2.src_dealership_id  " type="id_String" nullable="true"/>
@@ -2163,7 +2163,7 @@
       </column>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="master_key_po" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
         <mapperTableEntries name="master_key_ss" expression="java.util.UUID.randomUUID().toString()" type="id_String"/>
@@ -2174,12 +2174,12 @@
         <mapperTableEntries name="hasName_fournisseur" expression="row4.CT != null " type="id_Boolean"/>
         <mapperTableEntries name="hasName_acheteur" expression="row4.DO != null " type="id_Boolean"/>
         <mapperTableEntries name="birth_date" expression="(null != row4.EC &amp;&amp; !&quot;&quot;.equals(row4.EC) &amp;&amp; row4.EC.length() == 8) ? row4.EC.substring(0, 4) + &quot;-&quot; + row4.EC.substring(4, 6) + &quot;-&quot; + row4.EC.substring(6, 8) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
-        <mapperTableEntries name="phone_acheteur" expression="( null != row4.DV) ? row4.DV : row4.DW " type="id_String"/>
-        <mapperTableEntries name="phone_type_acheteur" expression="( null != row4.DV) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
+        <mapperTableEntries name="phone_acheteur" expression="( null != row4.DV &amp;&amp; &quot;&quot;.equalsIgnoreCase(row4.DV)) ? row4.DV : row4.DW " type="id_String"/>
+        <mapperTableEntries name="phone_type_acheteur" expression="( null != row4.DV &amp;&amp; &quot;&quot;.equalsIgnoreCase(row4.DV)) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
         <mapperTableEntries name="circulation_start_date" expression="(null != row4.H &amp;&amp; !&quot;&quot;.equals(row4.H) &amp;&amp; row4.H.length() == 8) ? row4.H.substring(0, 4) + &quot;-&quot; + row4.H.substring(4, 6) + &quot;-&quot; + row4.H.substring(6, 8) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="carte_grise_date" expression="(null != row4.G &amp;&amp; !&quot;&quot;.equals(row4.G) &amp;&amp; row4.G.length() == 8) ? row4.G.substring(0, 4) + &quot;-&quot; + row4.G.substring(4, 6) + &quot;-&quot; + row4.G.substring(6, 8)  : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="delivery_date" expression="(null != row4.BQ &amp;&amp; !&quot;&quot;.equals(row4.BQ) &amp;&amp; row4.BQ.length() == 8) ? row4.BQ.substring(0, 4) + &quot;-&quot; + row4.BQ.substring(4, 6) + &quot;-&quot; + row4.BQ.substring(6, 8) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
-        <mapperTableEntries name="ID" expression="row4.FG + &quot;_&quot; + row4.A" type="id_String"/>
+        <mapperTableEntries name="ID" expression="row4.A" type="id_String"/>
         <mapperTableEntries name="contrat_entretien_end_date" expression="(null != row4.BR &amp;&amp; !&quot;&quot;.equals(row4.BR) &amp;&amp; row4.BR.length() == 8) ? row4.BR.substring(0, 4) + &quot;-&quot; + row4.BR.substring(4, 6) + &quot;-&quot; + row4.BR.substring(6, 8) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="phone_fournisseur" expression="( null != row4.DA) ? row4.DA : row4.DB " type="id_String"/>
         <mapperTableEntries name="phone_type_fournisseur" expression="( null != row4.DC) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
@@ -2190,13 +2190,13 @@
         <mapperTableEntries name="argus_buying_price" expression="row4.AJ / 100" type="id_Double"/>
         <mapperTableEntries name="buying_price_adaptated" expression="row4.AK / 100" type="id_Double"/>
       </varTables>
-      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Purchase_Order" minimized="true">
+      <outputTables sizeState="INTERMEDIATE" name="In_All_HPV_Purchase_Order">
         <mapperTableEntries name="master_key" expression="Var.master_key_po " type="id_String"/>
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="&quot;PURCHASE_ORDER_PRODUCT&quot;" type="id_String"/>
         <mapperTableEntries name="process_category" expression="&quot;VO&quot;" type="id_String"/>
         <mapperTableEntries name="src_application_name" expression="&quot;PLANET_VO&quot;" type="id_String"/>
-        <mapperTableEntries name="src_application_brand" expression="&quot;&quot;" type="id_String"/>
+        <mapperTableEntries name="src_application_brand" expression="row4.FG" type="id_String"/>
         <mapperTableEntries name="src_process_moment" expression="Var.src_process_moment_vente " type="id_String"/>
         <mapperTableEntries name="load_process_moment" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,TalendDate.getCurrentDate()) " type="id_String"/>
         <mapperTableEntries name="src_process_id" expression="Var.ID " type="id_String"/>
@@ -6650,7 +6650,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
@@ -6661,7 +6661,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
