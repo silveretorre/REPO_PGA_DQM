@@ -2175,7 +2175,7 @@
         <mapperTableEntries name="hasName_acheteur" expression="null != row4.DO &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DO) " type="id_Boolean"/>
         <mapperTableEntries name="birth_date" expression="(null != row4.EC &amp;&amp; !&quot;&quot;.equals(row4.EC) &amp;&amp; row4.EC.length() == 8) ? row4.EC.substring(0, 4) + &quot;-&quot; + row4.EC.substring(4, 6) + &quot;-&quot; + row4.EC.substring(6, 8) : &quot;1900-01-01 00:00:00&quot; " type="id_String"/>
         <mapperTableEntries name="phone_acheteur" expression="( null != row4.DV &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DV)) ? row4.DV : row4.DW " type="id_String"/>
-        <mapperTableEntries name="phone_type_acheteur" expression="( null != row4.DV &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DV)) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
+        <mapperTableEntries name="phone_type_acheteur" expression="( null != row4.DV &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DV)) &amp;&amp; !(row4.DV.substring(0,2) == &quot;06&quot; || row4.DV.substring(0,2) == &quot;07&quot;) ? &quot;FIXE&quot; : &quot;MOBILE&quot; " type="id_String"/>
         <mapperTableEntries name="circulation_start_date" expression="(null != row4.H &amp;&amp; !&quot;&quot;.equals(row4.H) &amp;&amp; row4.H.length() == 8) ? row4.H.substring(0, 4) + &quot;-&quot; + row4.H.substring(4, 6) + &quot;-&quot; + row4.H.substring(6, 8) : &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="carte_grise_date" expression="(null != row4.G &amp;&amp; !&quot;&quot;.equals(row4.G) &amp;&amp; row4.G.length() == 8) ? row4.G.substring(0, 4) + &quot;-&quot; + row4.G.substring(4, 6) + &quot;-&quot; + row4.G.substring(6, 8)  : &quot;1900-01-01&quot; " type="id_String"/>
         <mapperTableEntries name="delivery_date" expression="(null != row4.BQ &amp;&amp; !&quot;&quot;.equals(row4.BQ) &amp;&amp; row4.BQ.length() == 8) ? row4.BQ.substring(0, 4) + &quot;-&quot; + row4.BQ.substring(4, 6) + &quot;-&quot; + row4.BQ.substring(6, 8) : &quot;1900-01-01&quot; " type="id_String"/>
@@ -2209,14 +2209,14 @@
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_stage" expression="Var.hasName_acheteur ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;hasName&quot; + ( Var.hasName_acheteur  ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_id" expression="row4.DN" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.DM" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="row4.DP" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="row4.DO" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="null != row4.DQ &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DQ) ? row4.DQ : row4.DO " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="row4.DO" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="Var.birth_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_license" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_license" expression="&quot;France&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="deceased" expression="false" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="death_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="language_code" expression="&quot;FR&quot;" type="id_String" nullable="true"/>
@@ -2238,7 +2238,7 @@
         <mapperTableEntries name="phone_type" expression="Var.phone_type_acheteur " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -2280,8 +2280,8 @@
         <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="row4.DN" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="Var.ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="Var.procmom_sale " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -2336,8 +2336,8 @@
         <mapperTableEntries name="person_id" expression="row4.DN" type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.DM" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="row4.DP" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="row4.DO" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="null != row4.DQ &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.DQ) ? row4.DQ : row4.DO " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="row4.DO" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="Var.birth_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" type="id_String" nullable="true"/>
@@ -2362,7 +2362,7 @@
         <mapperTableEntries name="phone_type" expression="Var.phone_type_acheteur" type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -2404,8 +2404,8 @@
         <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="row4.DN" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="Var.ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="Var.procmom_sale " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -2459,11 +2459,11 @@
         <mapperTableEntries name="status_type" expression="&quot;LEGACY&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_stage" expression="Var.hasName_fournisseur ? &quot;INT_OK&quot; : &quot;INT_REJECTED&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="status_reason" expression="&quot;hasName&quot; + ( Var.hasName_fournisseur  ? &quot;YES&quot; : &quot;NO&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_id" expression="row4.CS" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_id" expression="Var.ID " type="id_String" nullable="true"/>
         <mapperTableEntries name="gender" expression="row4.CR" type="id_String" nullable="true"/>
         <mapperTableEntries name="firstname" expression="row4.CU" type="id_String" nullable="true"/>
-        <mapperTableEntries name="lastname" expression="row4.CT" type="id_String" nullable="true"/>
-        <mapperTableEntries name="birth_name" expression="" type="id_String" nullable="true"/>
+        <mapperTableEntries name="lastname" expression="null != row4.CV &amp;&amp; !&quot;&quot;.equalsIgnoreCase(row4.CV) ? row4.CV : row4.CT " type="id_String" nullable="true"/>
+        <mapperTableEntries name="birth_name" expression="row4.CT" type="id_String" nullable="true"/>
         <mapperTableEntries name="birth_date" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="license_number" expression="" type="id_String" nullable="true"/>
         <mapperTableEntries name="country_license" type="id_String" nullable="true"/>
@@ -2488,7 +2488,7 @@
         <mapperTableEntries name="phone_type" expression="Var.phone_type_fournisseur " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_sms" expression="true" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_reachable_by_phone" expression="true" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="line_type" type="id_String" nullable="true"/>
+        <mapperTableEntries name="line_type" expression="&quot;PERSO&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="activity_area" type="id_String" nullable="true"/>
         <mapperTableEntries name="profession" type="id_String" nullable="true"/>
         <mapperTableEntries name="start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
@@ -2530,8 +2530,8 @@
         <mapperTableEntries name="argus_family" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="argus_version" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_person_id" expression="row4.CS" type="id_String" nullable="true"/>
-        <mapperTableEntries name="person_link_start_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_person_id" expression="Var.ID " type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_link_start_date" expression="Var.procmom_sale " type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_end_date" expression="&quot;1900-01-01&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_organization_user_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_link_type" expression="&quot;OWNER&quot;" type="id_String" nullable="true"/>
