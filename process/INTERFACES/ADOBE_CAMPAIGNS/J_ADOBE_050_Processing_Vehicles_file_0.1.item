@@ -273,11 +273,25 @@
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
     <elementParameter field="IMAGE" name="PREVIEW" value="__dQ3QPHvEeaFlc7Gv3kJ6w-tMap_1-PREVIEW.bmp"/>
-    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true" show="false"/>
+    <elementParameter field="CHECK" name="DIE_ON_ERROR" value="false" show="false"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="true" show="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="ErrorReject">
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorStackTrace" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_category" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="src_process_moment" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="file_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_app_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="lead_source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
     <metadata connector="FLOW" name="out1">
       <column comment="" key="true" length="255" name="IdVehiculeMaster" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="true" length="255" name="IdIndividuSource" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -307,6 +321,20 @@
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="code_dealership" expression="(param_auto_campaign.dealership_id != null &amp;&amp; param_auto_campaign.dealership_id.indexOf(&quot;[&quot;)==-1)? param_auto_campaign.dealership_id :  &#xD;&#xA;(&quot;AUTOSPHERE_FR&quot;.equals(row1.meta_app_name) || !&quot;AUTOLEAD&quot;.equals(row1.meta_app_name) || (row1.lead_source != null &amp;&amp; !&quot;&quot;.equals(row1.lead_source) &amp;&amp; !&quot;Site Concession&quot;.equals(row1.lead_source)))? &quot;AFR001&quot; : &#xD;&#xA; (&quot;DEF_130,DEF_133,DEF_135&quot;.contains(out1.CodeConcession))?  &quot;AFR002&quot; : row1.ref_dealership_id " type="id_String" nullable="true"/>
       </varTables>
+      <outputTables sizeState="INTERMEDIATE" name="ErrorReject" isErrorRejectTable="true">
+        <mapperTableEntries name="errorMessage" type="id_String" nullable="true"/>
+        <mapperTableEntries name="errorStackTrace" type="id_String" nullable="true"/>
+        <mapperTableEntries name="person_uuid" expression="row1.person_uuid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="ref_dealership_id" expression="row1.ref_dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="vehicle_uuid" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_uuid" expression="row1.process_uuid " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_category" expression="row1.process_category " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_moment" expression="row1.src_process_moment " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_type" expression="row1.process_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="file_name" expression="row1.file_name " type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_app_name" expression="row1.meta_app_name " type="id_String" nullable="true"/>
+        <mapperTableEntries name="lead_source" expression="row1.lead_source " type="id_String" nullable="true"/>
+      </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter="row1.vehicle_uuid != null &amp;&amp; !&quot;&quot;.equals(row1.vehicle_uuid) &amp;&amp; Numeric.sequence( row1.vehicle_uuid +&quot;_&quot;+ row1.person_uuid  ,1,1) ==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdVehiculeMaster" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
         <mapperTableEntries name="IdIndividuSource" expression="row1.person_uuid " type="id_String" nullable="true"/>
@@ -656,6 +684,63 @@
       </column>
     </metadata>
   </node>
+  <node componentName="tLogRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLogRow_1" show="false"/>
+    <elementParameter field="RADIO" name="BASIC_MODE" value="false"/>
+    <elementParameter field="RADIO" name="TABLE_PRINT" value="true"/>
+    <elementParameter field="RADIO" name="VERTICAL" value="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE" value="true" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_LABEL" value="false" show="false"/>
+    <elementParameter field="RADIO" name="PRINT_UNIQUE_LABEL" value="false" show="false"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_HEADER" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_UNIQUE_NAME" value="false" show="false"/>
+    <elementParameter field="CHECK" name="PRINT_COLNAMES" value="false" show="false"/>
+    <elementParameter field="CHECK" name="USE_FIXED_LENGTH" value="false" show="false"/>
+    <elementParameter field="TABLE" name="LENGTHS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="errorMessage"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="errorStackTrace"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vehicle_uuid"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="process_uuid"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="process_category"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="src_process_moment"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="process_type"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="file_name"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="meta_app_name"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="lead_source"/>
+      <elementValue elementRef="LENGTH" value="10"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="true"/>
+    <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tLogRow_1">
+      <column comment="" key="false" length="-1" name="errorMessage" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="errorStackTrace" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_category" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="src_process_moment" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_type" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="file_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="meta_app_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="lead_source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
   <node componentName="Connection_OpenClose_DB_ODS" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="128" posY="-96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Connection_OpenClose_DB_ODS_1"/>
     <elementParameter field="TEXT" name="FAMILY" value="Joblets"/>
@@ -707,7 +792,11 @@
     <elementParameter field="TEXT" name="NUM_PARTITIONS" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tFileOutputDelimited_1">
+  <connection connectorName="FLOW" label="ErrorReject" lineStyle="0" metaname="ErrorReject" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tLogRow_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="ErrorReject" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="out1" lineStyle="0" metaname="out1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tFileOutputDelimited_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="IdIndividu_Source"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
