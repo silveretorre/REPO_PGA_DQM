@@ -322,7 +322,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;description\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;lastdate\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;&#xD;&#xA;/*WHERE  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;id\&quot; = 38*/&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;id\&quot; = 25&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;description\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;lastdate\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;&#xD;&#xA;WHERE  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;processeddata\&quot;.\&quot;id\&quot; = 38&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -430,7 +430,7 @@
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="cdpo" expressionFilter="(Integer)globalMap.get(&quot;exitcode&quot;) == 44" activateExpressionFilter="true">
+      <outputTables sizeState="INTERMEDIATE" name="cdpo" expressionFilter="(Integer)globalMap.get(&quot;exitcode&quot;) == 0" activateExpressionFilter="true">
         <mapperTableEntries name="id" expression="row4.id " type="id_Integer"/>
         <mapperTableEntries name="lastdate" expression="String.valueOf(globalMap.get(&quot;currDate&quot;))" type="id_String" nullable="true"/>
       </outputTables>
@@ -1861,7 +1861,6 @@
   </node>
   <node componentName="tPostgresqlOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="800" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="TEXT" name="PARALLELIZE_NUMBER" value="12" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_uatx4KZkEeaBqvCP9ASYzQ" show="false"/>
@@ -2716,7 +2715,16 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="ce_marque" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="pd_all_hpv" lineStyle="0" metaname="pd_all_hpv" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_2">
+  <connection connectorName="FLOW" label="pd_event_lead" lineStyle="0" metaname="pd_event_lead" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tPostgresqlOutput_4">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="lead_src_com"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_lead" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="pd_all_hpv" lineStyle="0" metaname="pd_all_hpv" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_2">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="raw_dealership_zipcode"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -2747,17 +2755,7 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_all_hpv" show="false"/>
-  </connection>
-  <connection connectorName="FLOW" label="pd_event_lead" lineStyle="0" metaname="pd_event_lead" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tPostgresqlOutput_4">
-    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
-      <elementValue elementRef="TRACE_COLUMN" value="lead_src_com"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-    </elementParameter>
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="pd_event_lead" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="concession" lineStyle="8" metaname="tMysqlInput_5" offsetLabelX="0" offsetLabelY="0" source="tMysqlInput_5" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -2844,11 +2842,6 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMysqlInput_1" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
-    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
-  </subjob>
-  <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlOutput_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
