@@ -343,9 +343,10 @@
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="code_dealership" expression="(row1.meta_app_name != null &amp;&amp; &quot;SECURYCAR&quot;.equals(row1.meta_app_name)) ?&#xD;&#xA;&quot;SEC001&quot; :&#xD;(row1.meta_app_name != null &amp;&amp; &quot;SIV&quot;.equals(row1.meta_app_name)) ?&#xA;&quot;SIV001&quot; :&#xA;((row1.meta_app_name != null &amp;&amp; &quot;AUTOSPHERE_FR&quot;.equals(row1.meta_app_name))) ?&#xA;&quot;AFR001&quot; :&#xA;(row1.meta_app_name != null &amp;&amp; &quot;AUTOLEAD&quot;.equals(row1.meta_app_name) &amp;&amp; row1.lead_source != null &amp;&amp; !&quot;Site Concession&quot;.equals(row1.lead_source)) ?&#xA;&quot;AFR001&quot; : &#xA;(row1.ref_dealership_id != null &amp;&amp; &quot;DEF_130,DEF_133,DEF_135&quot;.contains(row1.ref_dealership_id))? &#xA;&quot;AFR002&quot; : &#xA;row1.ref_dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="var_circulation_start_date" expression="(master_vehicle.circulation_start_date != null &amp;&amp; master_vehicle.circulation_start_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))==0)? null : master_vehicle.circulation_start_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="var_circulation_end_date" expression="(master_vehicle.circulation_end_date != null &amp;&amp; master_vehicle.circulation_end_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))==0)? null : master_vehicle.circulation_end_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="var_start_date" expression="(&quot;1900-01-01 00:00:00&quot;.equals(master_vehicle.start_date))? &quot;&quot; : master_vehicle.start_date " type="id_String" nullable="true"/>
-        <mapperTableEntries name="var_end_date" expression="(&quot;1900-01-01 00:00:00&quot;.equals(master_vehicle.end_date))? &quot;&quot; : master_vehicle.end_date " type="id_String"/>
-        <mapperTableEntries name="var3" expression=" (&quot;1900-01-01 00:00:00&quot;.equals(master_vehicle.start_date))? &quot;&quot; : master_vehicle.start_date" type="id_String"/>
+        <mapperTableEntries name="var_end_date" expression="(&quot;1900-01-01 00:00:00&quot;.equals(master_vehicle.end_date))? &quot;&quot; : master_vehicle.end_date " type="id_String" nullable="true"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter="row1.vehicle_uuid != null &amp;&amp; !&quot;&quot;.equals(row1.vehicle_uuid) &amp;&amp; Numeric.sequence( row1.vehicle_uuid +&quot;_&quot;+ row1.person_uuid  ,1,1) ==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdVehiculeMaster" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
@@ -357,8 +358,8 @@
         <mapperTableEntries name="kind" expression="master_vehicle.kind " type="id_String" nullable="true"/>
         <mapperTableEntries name="vin" expression="master_vehicle.vin_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="color" expression="master_vehicle.color " type="id_String" nullable="true"/>
-        <mapperTableEntries name="CirculationStartDate" expression="master_vehicle.circulation_start_date " type="id_Date" nullable="true"/>
-        <mapperTableEntries name="CirculationEndDate" expression="master_vehicle.circulation_end_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CirculationStartDate" expression="Var.var_circulation_start_date " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="CirculationEndDate" expression="Var.var_circulation_end_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="LinkType" expression="param_trans.type_transaction " type="id_String" nullable="true"/>
         <mapperTableEntries name="LinkStartDate" expression="Var.var_start_date " type="id_String" nullable="true"/>
         <mapperTableEntries name="LinkEndDate" expression=" Var.var_end_date " type="id_String" nullable="true"/>
