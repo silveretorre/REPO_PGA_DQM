@@ -1414,7 +1414,7 @@
       <column comment="" key="false" length="1" name="extract_json" nullable="true" pattern="" precision="0" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="json">
         <mapperTableEntries name="master_key" expression="row1.master_key" type="id_String"/>
@@ -1451,7 +1451,7 @@
         <mapperTableEntries name="admarea2" expression="row1.admarea2" type="id_String" nullable="true"/>
         <mapperTableEntries name="admarea3" expression="row1.admarea3" type="id_String" nullable="true"/>
         <mapperTableEntries name="country" expression="row1.country" type="id_String" nullable="true"/>
-        <mapperTableEntries name="country_code" expression="&quot;FRANCE&quot;.equalsIgnoreCase(row1.country) ? &quot;FR&quot; : null" type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_code" expression="null != country.iso3166_alpha2 ? country.iso3166_alpha2 : &quot;FR&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="postal_code" expression="row1.postal_code" type="id_String" nullable="true"/>
         <mapperTableEntries name="address" expression="row1.address" type="id_String" nullable="true"/>
         <mapperTableEntries name="address_is_reachable" expression="row1.address_is_reachable" type="id_Boolean" nullable="true"/>
@@ -1524,7 +1524,7 @@
         <mapperTableEntries name="color_id" expression="row1.color_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="extract_json" expression="false" type="id_Boolean" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row1" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_key" type="id_String"/>
         <mapperTableEntries name="join_key" type="id_String"/>
         <mapperTableEntries name="process_type" type="id_String"/>
@@ -1629,6 +1629,15 @@
         <mapperTableEntries name="kind_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
+      </inputTables>
+      <inputTables sizeState="INTERMEDIATE" name="country" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="id" type="id_Integer"/>
+        <mapperTableEntries name="country_fr" expression="null == row1.country || row1.country_license.length() &lt; 2 ? row1.country : row1.country.substring(0,1).toUpperCase() + row1.country.substring(1).toLowerCase() " type="id_String" nullable="true"/>
+        <mapperTableEntries name="country_en" type="id_String" nullable="true"/>
+        <mapperTableEntries name="iso3166_alpha2" type="id_String" nullable="true"/>
+        <mapperTableEntries name="iso3166_alpha3" type="id_String" nullable="true"/>
+        <mapperTableEntries name="iso3166_alpha1_num" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -2836,6 +2845,79 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tPostgresqlInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="224">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlInput_1" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_eY0CADSiEeeg69f2UuIi0Q" show="false"/>
+    <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tPostgresqlConnection_1"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="PRIOR_TO_V9" show="false"/>
+    <elementParameter field="TEXT" name="HOST" value="context.DB_DataSources_Server" show="false"/>
+    <elementParameter field="TEXT" name="TYPE" value="POSTGRESQL" show="false"/>
+    <elementParameter field="TEXT" name="PORT" value="context.DB_DataSources_Port" show="false"/>
+    <elementParameter field="TEXT" name="DBNAME" value="context.DB_DataSources_Database" show="false"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="context.DB_DataSources_Schema" show="false"/>
+    <elementParameter field="TEXT" name="USER" value="context.DB_DataSources_Login" show="false"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuent+fd0tgUCCpN4ng03uVqC2A1ucdb8xg=" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:SCHEMA_TYPE" value="REPOSITORY" show="false"/>
+    <elementParameter field="TECHNICAL" name="SCHEMA:REPOSITORY_SCHEMA_TYPE" value="_eY0CADSiEeeg69f2UuIi0Q - pd_filters_country" show="false"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;pd_filters_country&quot;"/>
+    <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
+    <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
+    <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;id\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;country_fr\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;country_en\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;iso3166_alpha2\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;iso3166_alpha3\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;iso3166_alpha1_num\&quot;, &#xA;  \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;.\&quot;keep\&quot;&#xA;FROM \&quot;&quot;+context.DB_DataSources_Database+&quot;\&quot;.\&quot;&quot;+context.DB_DataSources_Schema+&quot;\&quot;.\&quot;pd_filters_country\&quot;&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
+    <elementParameter field="MAPPING_TYPE" name="MAPPING" value="postgres_id" show="false"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;" show="false"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_CURSOR" value="true"/>
+    <elementParameter field="TEXT" name="CURSOR_SIZE" value="1000"/>
+    <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="true"/>
+    <elementParameter field="TABLE" name="TRIM_COLUMN" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="country_fr"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="country_en"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="iso3166_alpha2"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="iso3166_alpha3"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="iso3166_alpha1_num"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="keep"/>
+      <elementValue elementRef="TRIM" value="false"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="pd_filters_country" name="tPostgresqlInput_1">
+      <column comment="" key="true" length="10" name="id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="country_fr" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="255" name="country_en" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="2" name="iso3166_alpha2" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="3" name="iso3166_alpha3" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="10" name="iso3166_alpha1_num" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+      <column comment="" key="false" length="1" name="keep" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true">
+        <additionalField key="Comment" value=""/>
+      </column>
+    </metadata>
+  </node>
   <node componentName="tSendMail" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1344" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSendMail_1" show="false"/>
     <elementParameter field="TEXT" name="TO" value="&quot;ccarvajal@pgamotors.com&quot;"/>
@@ -2941,6 +3023,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="json" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="country" lineStyle="8" metaname="tPostgresqlInput_1" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_1" target="tMap_1">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="country" show="false"/>
   </connection>
   <subjob>
     <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
