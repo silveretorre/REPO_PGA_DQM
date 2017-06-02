@@ -1062,9 +1062,11 @@
       <column comment="" key="false" length="4096" name="cluster_label" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
-      <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="techint" minimized="true" expressionFilter="&quot;TECHNICAL_INTERVENTION&quot;.equals(refd.process_type)">
+      <uiProperties shellMaximized="true"/>
+      <varTables sizeState="INTERMEDIATE" name="Var">
+        <mapperTableEntries name="keep" expression="null != cluster_labels.cluster_labels ? cluster_labels.cluster_labels.matches(&quot;.*\\bexpurger\\b.*&quot;) : true " type="id_Boolean"/>
+      </varTables>
+      <outputTables sizeState="INTERMEDIATE" name="techint" minimized="true" expressionFilter="Var.keep &#xD;&#xA;/*&quot;TECHNICAL_INTERVENTION&quot;.equals(refd.process_type)*/  " activateExpressionFilter="true">
         <mapperTableEntries name="master_key" expression="refd.master_key " type="id_String"/>
         <mapperTableEntries name="process_type" expression="refd.process_type" type="id_String"/>
         <mapperTableEntries name="process_category" expression="refd.process_category" type="id_String"/>
