@@ -1061,6 +1061,7 @@
       <column comment="" key="false" length="250" name="TypeOffre" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="Partenaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="EtatVehicule" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="montantCalculeLaurent" nullable="true" pattern="" precision="-1" sourceType="" type="id_Double" originalLength="12" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1186,7 +1187,7 @@
         <mapperTableEntries name="energy_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="color_id" type="id_String" nullable="true"/>
       </outputTables>
-      <outputTables sizeState="INTERMEDIATE" name="pd_event_funding" minimized="true" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)">
+      <outputTables sizeState="INTERMEDIATE" name="pd_event_funding" expressionFilter="Var.hasName &amp;&amp; Var.groupePGA &amp;&amp; Var.isPhysicalPerson &amp;&amp; !&quot;0&quot;.equals(Var.ID)">
         <mapperTableEntries name="join_key" expression="Var.join_key " type="id_String"/>
         <mapperTableEntries name="NumeroContrat" expression="dossier.NumeroContrat " type="id_String" nullable="true"/>
         <mapperTableEntries name="IdTypeOffre" expression="dossier.IdTypeOffre " type="id_Integer"/>
@@ -1201,8 +1202,9 @@
         <mapperTableEntries name="TypeOffre" expression="TypeOffre.Libelle " type="id_String" nullable="true"/>
         <mapperTableEntries name="Partenaire" expression="Partenaire.Libelle " type="id_String" nullable="true"/>
         <mapperTableEntries name="EtatVehicule" expression="EtatVehicule.Libelle " type="id_String" nullable="true"/>
+        <mapperTableEntries name="montantCalculeLaurent" expression="null != dossier.Taux &amp;&amp; null != dossier.DureeContrat &amp;&amp; null != dossier.ProductionTotale ?&#xD;&#xA;Double.valueOf(dossier.Taux.replaceAll(&quot;[\\,]&quot;, &quot;.&quot;)) * dossier.DureeContrat * Double.valueOf(dossier.ProductionTotale.replaceAll(&quot;[\\,]&quot;, &quot;.&quot;)) / 100.0 : -1.0 " type="id_Double" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="dossier" minimized="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dossier" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="Id" type="id_String"/>
         <mapperTableEntries name="IdDossier" type="id_Integer"/>
         <mapperTableEntries name="IdConcession" type="id_Integer"/>
@@ -1373,6 +1375,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="montantCalculeLaurent"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="SUPPORT_NULL_WHERE" value="false"/>
@@ -1395,6 +1402,7 @@
       <column comment="" key="false" length="250" name="TypeOffre" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="Partenaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="EtatVehicule" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="montantCalculeLaurent" nullable="true" pattern="" precision="-1" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata" name="REJECT">
       <column comment="" key="true" length="255" name="join_key" nullable="false" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -1411,6 +1419,7 @@
       <column comment="" key="false" length="250" name="TypeOffre" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="Partenaire" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="EtatVehicule" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" originalLength="250" usefulColumn="true"/>
+      <column comment="" key="false" length="12" name="montantCalculeLaurent" nullable="true" pattern="" precision="-1" sourceType="FLOAT8" type="id_Double" originalLength="12" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2681,6 +2690,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="EtatVehicule"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="montantCalculeLaurent"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
