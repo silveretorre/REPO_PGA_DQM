@@ -510,7 +510,7 @@
       <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Numeric.sequence(row1.person_uuid +&quot;_&quot;+ row1.ref_dealership_id ,1,1)  ==1" activateExpressionFilter="true">
         <mapperTableEntries name="person_uuid" expression="row1.person_uuid " type="id_String" nullable="true"/>
@@ -543,11 +543,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="&quot;C:/talend/6.6.1/Talend-Studio-20151214_1327-V6.1.1/workspace/out.csv&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/Working/out.csv&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;|&quot;"/>
     <elementParameter field="CHECK" name="APPEND" value="false"/>
     <elementParameter field="CHECK" name="INCLUDEHEADER" value="false"/>
     <elementParameter field="CHECK" name="COMPRESS" value="false"/>
@@ -578,7 +578,7 @@
   <node componentName="Connection_OpenClose_DB_ODS" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="-288" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Connection_OpenClose_DB_ODS_1"/>
     <elementParameter field="TEXT" name="FAMILY" value="Joblets"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="DUMMY" value="false" show="false"/>
     <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
     <elementParameter field="CHECK" name="START" value="true" show="false"/>
@@ -591,14 +591,16 @@
   </node>
   <node componentName="tPostgresqlRollback" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-128" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlRollback_1" show="false"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="Connection_OpenClose_DB_ODS_1_tPostgresqlConnection_1"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="connectionStatsLogs"/>
     <elementParameter field="CHECK" name="CLOSE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlRollback_1"/>
   </node>
   <node componentName="tPostgresqlCommit" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-320" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostgresqlCommit_1" show="false"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="Connection_OpenClose_DB_ODS_1_tPostgresqlConnection_1"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="connectionStatsLogs"/>
     <elementParameter field="CHECK" name="CLOSE" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tPostgresqlCommit_1"/>
@@ -613,11 +615,13 @@
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlCommit_1">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
-  </connection>
   <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlRollback_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlCommit_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_2" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
