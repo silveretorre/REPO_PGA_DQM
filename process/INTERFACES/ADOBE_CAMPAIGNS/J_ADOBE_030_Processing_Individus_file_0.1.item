@@ -608,6 +608,11 @@
         <mapperTableEntries name="concession" expression="(&quot;COMMERCIAL_PROPOSITION_SERVICE, SALE_SERVICE, SC_DISASTER, SC_RENEWAL, SC_TERMINATION&quot;.contains(row1.process_type)) ? &quot;SEC001&quot; :  &#xD;&#xA;(&quot;LEAD_UNQUALIFIED&quot;.equals(row1.process_type) || &quot;AFR_SUBSCRIBER&quot;.equals(row1.process_type)) ? &quot;AFR001&quot; :&#xD;&#xA;(&quot;REGISTRATION&quot;.equalsIgnoreCase(row1.process_type)) ? &quot;SIV001&quot; :&#xD;&#xA;(&quot;LEAD, LEAD_CLOSING, LEAD_FOLLOWUP&quot;.contains(row1.process_type) &amp;&amp; row1.lead_source != null &amp;&amp; !&quot;Site Concession&quot;.equalsIgnoreCase(row1.lead_source)) ?  &quot;AFR002&quot; : row1.CodeConcession " type="id_String" nullable="true"/>
         <mapperTableEntries name="optain_email" expression="(emails.is_reachable != null &amp;&amp; emails.is_reachable == true) ? emails.is_reachable : true " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="optainpostal" expression="(addresses.is_reachable != null &amp;&amp; addresses.is_reachable == true)? addresses.is_reachable : true " type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="routes" expression="(addresses.routes_short != null) ? addresses.routes_short.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="locality" expression="(addresses.locality_short_norm != null) ? addresses.locality_short_norm.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="sublocality" expression="(addresses.sublocality_short != null)?addresses.sublocality_short.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="country" expression="(addresses.country_long != null) ? addresses.country_long.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) : &quot;&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="postal_code" expression="(addresses.postal_code_short_std != null) ? addresses.postal_code_short_std.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) : &quot;&quot; " type="id_String" nullable="true"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out2" expressionFilter="((!&quot;&quot;.equals(emails.email_norm) &amp;&amp; emails.email_norm !=null) || (!&quot;&quot;.equals(Mobile_Phone.phone_number_norm) &amp;&amp; Mobile_Phone.phone_number_norm !=null) || (!&quot;&quot;.equals(Fixed_Phone.phone_number_norm) &amp;&amp; Fixed_Phone.phone_number_norm != null)) &amp;&amp; Numeric.sequence(row1.IdIndividu_Source  +&quot;_&quot;+ Var.concession,1,1)==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdIndividu_Source" expression="row1.IdIndividu_Source" type="id_String" nullable="true"/>
@@ -624,11 +629,11 @@
         <mapperTableEntries name="Phone" expression="Fixed_Phone.phone_number_norm " type="id_String" nullable="true"/>
         <mapperTableEntries name="OptinPhone" expression="Fixed_Phone.is_reachable_by_phone " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="StreetNumber" expression="addresses.street_number_short " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Route" expression="addresses.routes_short.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Locality" expression="addresses.locality_short_norm.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Sublocality" expression="addresses.sublocality_short.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="Country" expression="addresses.country_long.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) " type="id_String" nullable="true"/>
-        <mapperTableEntries name="PostalCode" expression="addresses.postal_code_short_std.replaceAll(&quot;[\r\n]+&quot;, &quot;&quot;) " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Route" expression="Var.routes " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Locality" expression="Var.locality " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Sublocality" expression="Var.sublocality " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Country" expression="Var.country " type="id_String" nullable="true"/>
+        <mapperTableEntries name="PostalCode" expression="Var.postal_code " type="id_String" nullable="true"/>
         <mapperTableEntries name="PostalAdressReachable" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="OptinPostal" expression="Var.optainpostal " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="OptainGlobal" expression="&quot;&quot;" type="id_String" nullable="true"/>
