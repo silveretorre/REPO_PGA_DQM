@@ -610,6 +610,7 @@
       <column comment="" key="false" length="-1" name="DeceasedDate" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="Deceased" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="ID_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="Concession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
@@ -652,6 +653,7 @@
         <mapperTableEntries name="DeceasedDate" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="Deceased" expression="&quot;&quot;" type="id_String" nullable="true"/>
         <mapperTableEntries name="ID_Source" expression="row1.meta_id_source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Concession" expression="row1.CodeConcession " type="id_String" nullable="true"/>
         <mapperTableEntries name="process_uuid" expression="row1.process_uuid " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
@@ -1252,8 +1254,9 @@
       <column comment="" key="false" length="-1" name="ID_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" name="Rejets">
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="Concession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
@@ -1287,8 +1290,9 @@
         <mapperTableEntries name="ID_Source" expression="out2.ID_Source " type="id_String" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="Rejets" activateCondensedTool="true" reject="true">
-        <mapperTableEntries name="process_uuid" expression="out2.process_uuid " type="id_String" nullable="true"/>
         <mapperTableEntries name="IdIndividu_Source" expression="out2.IdIndividu_Source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="Concession" expression="out2.Concession " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_uuid" expression="out2.process_uuid " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="out2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="IdIndividu_Source" type="id_String" nullable="true"/>
@@ -1317,6 +1321,7 @@
         <mapperTableEntries name="DeceasedDate" type="id_String" nullable="true"/>
         <mapperTableEntries name="Deceased" type="id_String" nullable="true"/>
         <mapperTableEntries name="ID_Source" type="id_String" nullable="true"/>
+        <mapperTableEntries name="Concession" type="id_String" nullable="true"/>
         <mapperTableEntries name="process_uuid" type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
@@ -1411,8 +1416,9 @@
     <elementParameter field="TEXT" name="LABEL" value="__FILENAME__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFileOutputDelimited_2">
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="Concession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileDelete_1" offsetLabelX="0" offsetLabelY="0" source="tFileDelete_1" target="tFileList_1">
@@ -1553,6 +1559,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="process_uuid"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="Concession"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out2" show="false"/>
@@ -1578,6 +1587,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="Rejets" lineStyle="0" metaname="Rejets" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_3" target="tFileOutputDelimited_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="Concession"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="Rejets" show="false"/>
   </connection>
