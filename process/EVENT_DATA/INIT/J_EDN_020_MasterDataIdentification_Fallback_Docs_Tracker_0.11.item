@@ -248,8 +248,8 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="416" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="/*DETAIL DES MODIFICATIONS EFFECTUEES :&#xA;  - Remplacer la chaine null par &quot;&quot;&#xA;  - Remplacer &quot;true&quot; par true&#xA;  - Remplacer &quot;false&quot; par false&#xA;*/&#xA;&#xA;if (input_row.payload.contains(&quot;\&quot;: \&quot;&quot;)){&#xA;&#x9;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;: \&quot;&quot;, &quot;\&quot;:\&quot;&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;null&quot;)){ &#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;null&quot;, &quot;\&quot;\&quot;&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;\&quot;true\&quot;&quot;)) {&#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;true\&quot;&quot;, &quot;true&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;\&quot;false\&quot;&quot;)) {&#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;false\&quot;&quot;, &quot;false&quot;);&#xA;}&#xA;&#xA;output_row.payload = input_row.payload;&#xA;&#xA;&#xA;//&quot;last_mileage_known&quot;: &quot;73220&quot;,"/>
-    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="/*DETAIL DES MODIFICATIONS EFFECTUEES :&#xA;  - Remplacer la chaine null par &quot;&quot;&#xA;  - Remplacer &quot;true&quot; par true&#xA;  - Remplacer &quot;false&quot; par false&#xA;*/&#xA;&#xA;if (input_row.payload.contains(&quot;\&quot;: \&quot;&quot;)){&#xA;&#x9;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;: \&quot;&quot;, &quot;\&quot;:\&quot;&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;null&quot;)){ &#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;null&quot;, &quot;\&quot;\&quot;&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;\&quot;true\&quot;&quot;)) {&#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;true\&quot;&quot;, &quot;true&quot;);&#xA;}&#xA;if (input_row.payload.contains(&quot;\&quot;false\&quot;&quot;)) {&#xA;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;false\&quot;&quot;, &quot;false&quot;);&#xA;}&#xA;if (org.apache.commons.lang.StringUtils.substringBetween(input_row.payload, &quot;\&quot;last_mileage_known\&quot;:&quot;, &quot;,&quot;).contains(&quot;\&quot;&quot;)){&#xA;&#x9;&#xA;&#x9;input_row.payload = input_row.payload.replaceAll(&quot;\&quot;last_mileage_known\&quot;[:\&quot; 1-9]*,&quot;,&quot;\&quot;last_mileage_known\&quot; : &quot;+org.apache.commons.lang.StringUtils.substringBetween(input_row.payload, &quot;\&quot;last_mileage_known\&quot;&quot;, &quot;,&quot;).replace(&quot;\&quot;&quot;,&quot;&quot;).replace(&quot; &quot;,&quot;&quot;).replace(&quot;:&quot;,&quot;&quot;)+&quot;,&quot;);&#xA;}&#xA;&#xA;output_row.payload = input_row.payload;&#xA;&#xA;&#xA;//&quot;last_mileage_known&quot;: &quot;73220&quot;,"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;&#xA;//import org.apache.commons.StringUtils;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1">
       <column key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -278,6 +278,13 @@
     <metadata connector="FLOW" name="tLogRow_1">
       <column key="false" length="0" name="payload" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
+  </node>
+  <node componentName="tLibraryLoad" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="64" posY="192">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_1" show="false"/>
+    <elementParameter field="MODULE_LIST" name="LIBRARY" value="&quot;org.apache.commons.lang_2.6.0.v201404270220.jar&quot;"/>
+    <elementParameter field="TABLE" name="HOTLIBS"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tKafkaConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
@@ -322,6 +329,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFixedFlowInput_1" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLibraryLoad_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
