@@ -325,7 +325,7 @@
   </node>
   <node componentName="tFileList" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-320" posY="224">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileList_2" show="false"/>
-    <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/Working/&quot;"/>
+    <elementParameter field="DIRECTORY" name="DIRECTORY" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/toSend_Files/&quot;"/>
     <elementParameter field="CLOSED_LIST" name="LIST_MODE" value="FILES"/>
     <elementParameter field="CHECK" name="INCLUDSUBDIR" value="false"/>
     <elementParameter field="CLOSED_LIST" name="CASE_SENSITIVE" value="YES"/>
@@ -370,6 +370,8 @@
     <elementParameter field="TEXT" name="NB_RANDOM" value="10" show="false"/>
     <elementParameter field="CHECK" name="TRIMALL" value="false"/>
     <elementParameter field="TABLE" name="TRIMSELECT">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdIndividu_Source"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
@@ -412,6 +414,8 @@
     <elementParameter field="CHECK" name="SPLITRECORD" value="false"/>
     <elementParameter field="CHECK" name="ENABLE_DECODE" value="false"/>
     <elementParameter field="TABLE" name="DECODE_COLS" show="false">
+      <elementValue elementRef="SCHEMA_COLUMN" value="IdIndividu_Source"/>
+      <elementValue elementRef="DECODE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="person_uuid"/>
       <elementValue elementRef="DECODE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="ref_dealership_id"/>
@@ -452,6 +456,7 @@
     <elementParameter field="TEXT" name="LABEL" value="working_file.csv"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tFileInputDelimited_2">
+      <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -471,6 +476,7 @@
       <column comment="" key="false" length="-1" name="selling_price_with_taxes" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" name="REJECT">
+      <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -504,21 +510,16 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out" name="out">
-      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Numeric.sequence(row1.person_uuid +&quot;_&quot;+ row1.ref_dealership_id ,1,1)  ==1" activateExpressionFilter="true">
-        <mapperTableEntries name="person_uuid" expression="row1.person_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="ref_dealership_id" expression="row1.ref_dealership_id " type="id_String" nullable="true"/>
-        <mapperTableEntries name="vehicle_uuid" expression="row1.vehicle_uuid " type="id_String" nullable="true"/>
-        <mapperTableEntries name="process_uuid" expression="row1.process_uuid " type="id_String" nullable="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="out" expressionFilter="Numeric.sequence( row1.IdIndividu_Source  ,1,1)  ==1 " activateExpressionFilter="true">
+        <mapperTableEntries name="IdIndividu_Source" expression="row1.IdIndividu_Source " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+        <mapperTableEntries name="IdIndividu_Source" type="id_String" nullable="true"/>
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
         <mapperTableEntries name="ref_dealership_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="vehicle_uuid" type="id_String" nullable="true"/>
@@ -543,7 +544,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_1" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
-    <elementParameter field="FILE" name="FILENAME" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/out.csv&quot;"/>
+    <elementParameter field="FILE" name="FILENAME" value="context.rootFull_JsonPath +&quot;/Interfaces/Adobe_campaigns/toSend_Files/ind.csv&quot;"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="CHECK" name="OS_LINE_SEPARATOR_AS_ROW_SEPARATOR" value="true" show="false"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
@@ -569,10 +570,7 @@
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="90" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="out" name="tFileOutputDelimited_1">
-      <column comment="" key="false" length="-1" name="person_uuid" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="ref_dealership_id" nullable="true" pattern="" precision="-1" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="vehicle_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="Connection_OpenClose_DB_ODS" componentVersion="0.1" offsetLabelX="0" offsetLabelY="0" posX="-288" posY="32">
@@ -581,7 +579,7 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="false"/>
     <elementParameter field="CHECK" name="DUMMY" value="false" show="false"/>
     <elementParameter field="CHECK" name="STARTABLE" value="true" show="false"/>
-    <elementParameter field="CHECK" name="START" value="true" show="false"/>
+    <elementParameter field="CHECK" name="START" value="false" show="false"/>
     <elementParameter field="CLOSED_LIST" name="PROCESS_TYPE_VERSION" value="Latest"/>
     <elementParameter field="TEXT" name="LABEL" value="Connection_OpenClose_DB_ODS"/>
     <elementParameter field="TEXT" name="HINT" value="&lt;b>__UNIQUE_NAME__&lt;/b>&lt;br>__COMMENT__"/>
@@ -615,19 +613,29 @@
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlRollback_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
-  </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlCommit_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1" show="false"/>
   </connection>
+  <connection connectorName="SUBJOB_ERROR" label="OnSubjobError" lineStyle="4" metaname="tFileList_2" offsetLabelX="0" offsetLabelY="0" source="tFileList_2" target="tPostgresqlRollback_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobError1" show="false"/>
+  </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tFileInputDelimited_2" offsetLabelX="0" offsetLabelY="0" source="tFileInputDelimited_2" target="tMap_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="IdIndividu_Source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="out" lineStyle="0" metaname="out" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tFileOutputDelimited_1">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
+      <elementValue elementRef="TRACE_COLUMN" value="IdIndividu_Source"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="out" show="false"/>
   </connection>
