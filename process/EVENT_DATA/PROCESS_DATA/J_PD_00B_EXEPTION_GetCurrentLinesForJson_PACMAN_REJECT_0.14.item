@@ -1382,14 +1382,14 @@
         <mapperTableEntries name="iso3166_alpha1_num" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="keep" type="id_Boolean" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="rejects" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="process_type" type="id_String" nullable="true"/>
-        <mapperTableEntries name="process_category" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_application_brand" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_application_name" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_process_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_dealership_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="src_process_moment" type="id_String" nullable="true"/>
+      <inputTables sizeState="INTERMEDIATE" name="rejects" activateCondensedTool="true" matchingMode="FIRST_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+        <mapperTableEntries name="process_type" expression="row1.process_type " type="id_String" nullable="true"/>
+        <mapperTableEntries name="process_category" expression="row1.process_category " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_application_brand" expression="row1.src_application_brand " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_application_name" expression="row1.src_application_name " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_id" expression="row1.src_process_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_dealership_id" expression="row1.src_dealership_id " type="id_String" nullable="true"/>
+        <mapperTableEntries name="src_process_moment" expression="row1.src_process_moment " type="id_String" nullable="true"/>
       </inputTables>
     </nodeData>
   </node>
@@ -2689,7 +2689,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select process_type,&#xD;&#xA;process_category,&#xD;&#xA;src_application_brand,&#xD;&#xA;src_application_name,&#xD;&#xA;src_process_id,&#xD;&#xA;src_dealership_id,&#xD;&#xA;src_process_moment&#xD;&#xA;from \&quot;PACMAN_REJECTS\&quot;&#xD;&#xA;group by process_type,&#xD;&#xA;process_category,&#xD;&#xA;src_application_brand,&#xD;&#xA;src_application_name,&#xD;&#xA;src_process_id,&#xD;&#xA;src_dealership_id,&#xD;&#xA;src_process_moment&#xD;&#xA;order by src_process_moment&#xD;&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select process_type,&#xD;&#xA;process_category,&#xD;&#xA;src_application_brand,&#xD;&#xA;src_application_name,&#xD;&#xA;src_process_id,&#xD;&#xA;src_dealership_id,&#xD;&#xA;src_process_moment&#xD;&#xA;from \&quot;PACMAN_REJECTS\&quot;&#xD;&#xA;group by process_type,&#xD;&#xA;process_category,&#xD;&#xA;src_application_brand,&#xD;&#xA;src_application_name,&#xD;&#xA;src_process_id,&#xD;&#xA;src_dealership_id,&#xD;&#xA;src_process_moment,&#xD;&#xA;load_process_moment&#xD;&#xA;order by load_process_moment desc&#xD;&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
