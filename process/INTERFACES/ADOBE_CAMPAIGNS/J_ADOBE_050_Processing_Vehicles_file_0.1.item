@@ -417,10 +417,9 @@
         <mapperTableEntries name="intervention_price_with_taxes" type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_price_with_taxes" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row2" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="row2" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="IdIndividu_Source" expression="row3.person_uuid " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="Concession" expression="row3.ref_dealership_id " type="id_String" nullable="true" operator="="/>
-        <mapperTableEntries name="process_uuid" expression="row3.process_uuid " type="id_String" nullable="true" operator="="/>
       </inputTables>
     </nodeData>
   </node>
@@ -460,7 +459,7 @@
       <column comment="" key="false" length="-1" name="IdVehiculeCourant4" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var">
         <mapperTableEntries name="code_dealership" expression="(&quot;COMMERCIAL_PROPOSITION_SERVICE, SALE_SERVICE, SC_DISASTER, SC_RENEWAL, SC_TERMINATION&quot;.contains(row1.process_type)) ? &quot;SEC001&quot; :  &#xD;&#xA;(&quot;LEAD_UNQUALIFIED&quot;.equals(row1.process_type) || &quot;AFR_SUBSCRIBER&quot;.equals(row1.process_type)) ? &quot;AFR001&quot; :&#xD;&#xA;(&quot;REGISTRATION&quot;.equalsIgnoreCase(row1.process_type)) ? &quot;SIV001&quot; :&#xD;&#xA;(&quot;LEAD, LEAD_CLOSING, LEAD_FOLLOWUP&quot;.contains(row1.process_type) &amp;&amp; row1.lead_source != null &amp;&amp; !&quot;Site Concession&quot;.equalsIgnoreCase(row1.lead_source)) ?  &quot;AFR002&quot; :  row1.ref_dealership_id " type="id_String" nullable="true"/>
         <mapperTableEntries name="var_circulation_start_date" expression="(master_vehicle.circulation_start_date != null &amp;&amp; master_vehicle.circulation_start_date.compareTo(TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;1900-01-01 00:00:00&quot;))==0)? null : master_vehicle.circulation_start_date " type="id_Date" nullable="true"/>
@@ -772,8 +771,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="Concession"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="process_uuid"/>
-      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="CHECK_FIELDS_NUM" value="false"/>
     <elementParameter field="CHECK" name="CHECK_DATE" value="false"/>
@@ -786,8 +783,6 @@
       <elementValue elementRef="DECODE" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="Concession"/>
       <elementValue elementRef="DECODE" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="process_uuid"/>
-      <elementValue elementRef="DECODE" value="false"/>
     </elementParameter>
     <elementParameter field="TEXT" name="DESTINATION" value="" show="false"/>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100" show="false"/>
@@ -796,12 +791,10 @@
     <metadata connector="FLOW" label="metadata_ce_afr_contact" name="tFileInputDelimited_2">
       <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="Concession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="metadata_ce_afr_contact" name="REJECT">
       <column comment="" key="false" length="-1" name="IdIndividu_Source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="Concession" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="process_uuid" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
