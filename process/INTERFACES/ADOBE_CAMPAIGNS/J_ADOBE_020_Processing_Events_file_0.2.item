@@ -474,7 +474,7 @@
         <mapperTableEntries name="meta_id_source" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row1" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
+      <inputTables sizeState="INTERMEDIATE" name="row1" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="IdIndividu_Source" expression="row2.person_uuid " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="Concession" expression="row2.ref_dealership_id " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="process_uuid" expression="row2.process_uuid " type="id_String" nullable="true"/>
@@ -577,7 +577,7 @@
         <mapperTableEntries name="eventdate" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;, row5.src_process_moment) " type="id_Date" nullable="true"/>
         <mapperTableEntries name="event_amount" expression="(&quot;PURCHASE_ORDER_PRODUCT, COMMERCIAL_PROPOSITION_PRODUCT&quot;.contains(row5.process_type)) ? row5.selling_price_with_taxes :&#xD;&#xA;(&quot;TECHNICAL_INTERVENTION&quot;.equals(row5.process_type)) ? row5.intervention_price_with_taxes :&#xA;(&quot;SALE_PRODUCT&quot;.equals(row5.process_type)) ? row5.total_to_be_payed :&#xA;&quot;0.0&quot; " type="id_String" nullable="true"/>
         <mapperTableEntries name="sub_type_code" expression="(&quot;SALE_SERVICE, COMMERCIAL_PROPOSITION_SERVICE, SC_RENEWAL, SC_TERMINATION&quot;.contains(row5.process_type)) ? row5.service_type :&#xD;&#xA;(&quot;SALE_PRODUCT, COMMERCIAL_PROPOSITION_PRODUCT, PURCHASE_ORDER_PRODUCT&quot;.contains(row5.process_type)) ? row5.process_category :&#xD;&#xA;(&quot;AFR_SUBSCRIBER, REGISTRATION&quot;.contains(row5.process_type)) ? &quot;&quot; :&#xD;&#xA;(&quot;LEAD&quot;.equals(row5.process_type)) ? &quot;CREATE&quot; : &#xD;&#xA;(&quot;LEAD_CLOSING&quot;.equals(row5.process_type)) ? row5.lead_clos_libel :&#xD;&#xA;(&quot;LEAD_FOLLOWUP&quot;.equals(row5.process_type)) ? row5.lead_follow_up_type :&#xD;&#xA;(&quot;LEAD_UNQUALIFIED&quot;.equals(row5.process_type)) ? &quot;UNQUALIFIED&quot; : &#xD;&#xA;(&quot;SC_DISASTER&quot;.equals(row5.process_type)) ? row5.disaster_type :&#xD;&#xA;(&quot;TECHNICAL_INTERVENTION&quot;.equals(row5.process_type)) ? row5.cluster_label : &quot;NR&quot; " type="id_String" nullable="true"/>
-        <mapperTableEntries name="filter_or_not" expression="(&quot;LEAD&quot;.equals(row5.process_type) &amp;&amp; (row5.vehicle_uuid == null || (row5.vehicle_uuid != null &amp;&amp; &quot;&quot;.equals(row5.vehicle_uuid.trim()))) &amp;&amp; id_dealership.is_valid != null &amp;&amp; id_dealership.is_valid != true) ? &quot;filter&quot; :&#xD;&#xA;&quot;not_filter&quot; " type="id_String" nullable="true"/>
+        <mapperTableEntries name="filter_or_not" expression="(&quot;LEAD&quot;.equals(row5.process_type) &amp;&amp; (row5.vehicle_uuid == null || (row5.vehicle_uuid != null &amp;&amp; &quot;&quot;.equals(row5.vehicle_uuid.trim()))) &amp;&amp; emails.is_valid != null &amp;&amp; emails.is_valid != true) ? &quot;filter&quot; :&#xD;&#xA;&quot;not_filter&quot; " type="id_String" nullable="true"/>
       </varTables>
       <outputTables sizeState="INTERMEDIATE" name="out1" expressionFilter="(&quot;not_filter&quot;.equals(Var.filter_or_not)) &amp;&amp; Numeric.sequence(Var.uuid_pers +&quot;_&quot;+ Var.dealership +&quot;_&quot;+ Var.process_uuid,1,1)==1" activateExpressionFilter="true">
         <mapperTableEntries name="IdIndividuSource" expression="Var.uuid_pers " type="id_String"/>
@@ -616,7 +616,7 @@
         <mapperTableEntries name="process_type" expression="row5.process_type " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="type_event_code" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="id_dealership" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="emails" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" expression="row5.person_uuid " type="id_String" nullable="true"/>
         <mapperTableEntries name="is_valid" type="id_Boolean" nullable="true"/>
       </inputTables>
@@ -927,9 +927,9 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row6" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="id_dealership" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="2" offsetLabelY="-50" source="tPostgresqlInput_2" target="tMap_1">
+  <connection connectorName="FLOW" label="emails" lineStyle="8" metaname="tPostgresqlInput_2" offsetLabelX="2" offsetLabelY="-50" source="tPostgresqlInput_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="id_dealership" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="emails" show="false"/>
   </connection>
   <note opaque="false" posX="832" posY="-32" sizeHeight="97" sizeWidth="449" text="07/06/2017 FAM: Ajout d'un filtre sur les personnes n'ayant ni &#xD;&#xA;adresse email ni numéro de télephone"/>
   <subjob>
