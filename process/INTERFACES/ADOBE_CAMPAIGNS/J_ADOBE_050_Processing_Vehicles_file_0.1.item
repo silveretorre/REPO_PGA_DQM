@@ -412,7 +412,7 @@
         <mapperTableEntries name="intervention_price_with_taxes" expression="row4.intervention_price_with_taxes" type="id_String" nullable="true"/>
         <mapperTableEntries name="selling_price_with_taxes" expression="row4.selling_price_with_taxes" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" expression="row4.meta_brand_source " type="id_String" nullable="true"/>
-        <mapperTableEntries name="meta_id_source" expression="emails.meta_id_source " type="id_String" nullable="true"/>
+        <mapperTableEntries name="meta_id_source" expression="dedup.meta_id_source " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="person_uuid" type="id_String" nullable="true"/>
@@ -435,7 +435,7 @@
         <mapperTableEntries name="meta_id_source" type="id_String" nullable="true"/>
         <mapperTableEntries name="meta_brand_source" type="id_String" nullable="true"/>
       </inputTables>
-      <inputTables sizeState="INTERMEDIATE" name="emails" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="dedup" activateCondensedTool="true" matchingMode="ALL_MATCHES" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="master_gid" expression="row4.person_uuid " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="id_dealership" expression="row4.ref_dealership_id " type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="meta_application_name" expression="row4.meta_app_name " type="id_String" nullable="true" operator="="/>
@@ -533,7 +533,7 @@
       <column comment="" key="false" length="-1" name="lead_source" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="row1" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="person_uuid" expression="row3.person_uuid " type="id_String" nullable="true"/>
@@ -1040,14 +1040,14 @@
     <elementParameter field="TEXT" name="NUM_PARTITIONS" value="2" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="emails" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_3">
+  <connection connectorName="FLOW" label="dedup" lineStyle="8" metaname="tPostgresqlInput_3" offsetLabelX="0" offsetLabelY="0" source="tPostgresqlInput_3" target="tMap_3">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
       <elementValue elementRef="TRACE_COLUMN" value="id_dealership"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="emails" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="dedup" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="row1" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
